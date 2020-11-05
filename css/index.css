@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: serif;
 }
 
 body {
@@ -14,33 +15,76 @@ header {
     flex-direction: row;
     align-items: center;
     padding: 30px 30px;
-    border-bottom: 1px solid black;
 }
 
 .buttonBaseline {
   background: none;
   color: black;
   border: 1px solid black;
+  border-radius: 7px;
   padding: 10px 15px;
   margin: 0px 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 1rem;
+  cursor: pointer;
 }
 .buttonBaseline:focus {outline:none;} 
 .buttonBaseline::-moz-focus-inner {border:0;}
+.buttonBaseline:hover{
+    background: #52C41A;
+    border: 1px solid white;
+}
 
 .noBorder {
-    border: none;
+    border: 1px solid white;
 }
 
 .flexPushRight {
     margin-left:auto;
 }
 
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex {
+    display: flex;
+}
+
+
+main {
+    height: 80vh;
+    margin: 0 auto;
+    background: #D7DDE8; 
+}
+
+#heroContainerTextContainer{
+    width: 50%;
+    justify-content: center; 
+    padding: 0px 80px 0 100px;
+}
+
+#heroTitle{
+    font-family: Sansita+Swashed;
+    font-weight: bold;
+    padding-bottom: 30px;
+}
+
+#heroContainerImageContainer{
+    width: 50%;
+}
+#heroContainerImageContainer>img {
+    max-height: 600px;
+    margin: auto;
+}
+
+
+
 #headerLogoImg {
-    max-height: 40px;
+    max-height: 80px;
 }
 
 
