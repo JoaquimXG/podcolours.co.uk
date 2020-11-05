@@ -1,0 +1,21 @@
+@media screen and (max-width: 1200px){
+    main{
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    #heroContainerImageContainer{
+        margin: 50px auto;
+        width: unset;
+    }
+    #heroContainerImageContainer>img {
+        max-width: 80vw;
+    }
+    #heroContainerTextContainer{
+        width: 80%;
+        text-align: center;
+    }
+    #spacer {
+        height: 150px;
+        background: #E6ECF6; 
+    }
+}
