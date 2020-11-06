@@ -97,8 +97,7 @@ main {
     padding: 0px 80px 0 100px;
 }
 
-#heroContainerTextContainer > h1,
-h3 {
+#heroContainerTextContainer > h1, #heroContainerTextContainer> h3 {
     margin-bottom: 50px;
 }
 
@@ -171,11 +170,23 @@ h3 {
 #teamPhoto {
     height: 300px;
     width: 300px;
-
     background: white;
     border-radius: 50%;
 }
 
 #testimonial {
     height: 300px;
+    padding: 50px 150px;
+    text-align:center;
+    justify-content: space-evenly;
+}
+
+#testimonialCircle {
+    background: black;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: block;
+    margin-left: auto; 
+    margin-right: auto;
 }
