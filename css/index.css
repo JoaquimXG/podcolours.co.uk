@@ -39,17 +39,23 @@ header {
     border: 0;
 }
 .buttonBaseline:hover {
-    background: #52c41a;
+    color: #52c41a;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-color: #52c41a;
 }
 
 .buttonSuccess {
     background: #52c41a;
     align-self: center;
     padding: 15px 40px;
+    font-weight: 900;
+    color:white;
 }
 
 .buttonSuccess:hover {
-    color: white;
+    color: #52c41a;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .noBorder {
@@ -156,7 +162,7 @@ main {
 }
 
 #quoteAuthor:before {
-    background: white;
+    background: #2F9BFF;
     border-radius: 50%;
     width: 12px;
     height: 12px;
@@ -176,17 +182,29 @@ main {
 
 #testimonial {
     height: 300px;
-    padding: 50px 150px;
+    padding: 3vw 150px;
     text-align:center;
     justify-content: space-evenly;
 }
 
 #testimonialCircle {
-    background: black;
+    background: #FBB52B;
     border-radius: 50%;
     width: 30px;
     height: 30px;
     display: block;
     margin-left: auto; 
     margin-right: auto;
+}
+
+#callToAction {
+    background: #e6ecf6;
+    height: 400px;
+    justify-content: space-around;
+    padding: 100px 150px;
+    text-align: center;
+}
+
+#callToAction>h1 {
+    font-weight: bold;
 }

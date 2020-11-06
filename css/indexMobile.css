@@ -1,21 +1,34 @@
-@media screen and (max-width: 1200px){
-    main{
+@media screen and (max-width: 1200px) {
+    main {
         flex-direction: column-reverse;
         align-items: center;
     }
-    #heroContainerImageContainer{
+    #heroContainerImageContainer {
         margin: 50px auto;
         width: unset;
     }
-    #heroContainerImageContainer>img {
+    #heroContainerImageContainer > img {
         max-width: 80vw;
     }
-    #heroContainerTextContainer{
+    #heroContainerTextContainer {
         width: 80%;
         text-align: center;
     }
     #spacer {
         height: 150px;
-        background: #E6ECF6; 
+        background: #e6ecf6;
+    }
+
+    #teamQuoteContainer {
+        margin: -100px auto 0px;
+        height: 1300px;
+        background: #333;
+        width: 95vw;
+        position: relative;
+        color: white;
+        padding: 200px 100px;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: column-reverse;
     }
 }
