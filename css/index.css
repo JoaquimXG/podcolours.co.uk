@@ -19,41 +19,46 @@ header {
 }
 
 .buttonBaseline {
-  background: none;
-  color: black;
-  border: 1px solid black;
-  border-radius: 7px;
-  padding: 10px 15px;
-  margin: 0px 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1rem;
-  cursor: pointer;
+    background: none;
+    color: black;
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 10px 15px;
+    margin: 0px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    cursor: pointer;
 }
 
-.buttonBaseline:focus {outline:none;} 
-.buttonBaseline::-moz-focus-inner {border:0;}
-.buttonBaseline:hover{
-    background: #52C41A;
+.buttonBaseline:focus {
+    outline: none;
+}
+.buttonBaseline::-moz-focus-inner {
+    border: 0;
+}
+.buttonBaseline:hover {
+    background: #52c41a;
 }
 
 .buttonSuccess {
-    background: #52C41A;
+    background: #52c41a;
     align-self: center;
     padding: 15px 40px;
 }
 
-.buttonSuccess:hover{
-    color:white;
+.buttonSuccess:hover {
+    color: white;
 }
 
 .noBorder {
     border: none;
 }
 
+/* Flex utility classes */
 .flexPushRight {
-    margin-left:auto;
+    margin-left: auto;
 }
 
 .flexColumn {
@@ -63,6 +68,14 @@ header {
 
 .flex {
     display: flex;
+}
+
+.width50 {
+    width: 50%;
+}
+
+.justifyCenter {
+    justify-content: center;
 }
 
 header {
@@ -75,65 +88,92 @@ header {
 
 main {
     margin: 0 auto;
-    background: #E6ECF6; 
-    justify-content: center;
+    background: #e6ecf6;
     min-height: 90vh;
     padding: 50px 0px 200px;
 }
 
-
-#heroContainerTextContainer{
-    width: 50%;
-    justify-content: center; 
+#heroContainerTextContainer {
     padding: 0px 80px 0 100px;
 }
 
-#heroContainerTextContainer>h1,h3{
+#heroContainerTextContainer > h1,
+h3 {
     margin-bottom: 50px;
 }
 
-#heroTitle{
-    font-family: Sansita+Swashed;
+#heroTitle {
+    font-family: Sansita + Swashed;
     font-weight: bold;
     margin-bottom: 30px;
 }
 
-#heroContainerImageContainer{
+#heroContainerImageContainer {
     width: 50%;
 }
-#heroContainerImageContainer>img {
+#heroContainerImageContainer > img {
     max-height: 60vh;
     margin: auto;
 }
-#spacer{
+#spacer {
     height: 100px;
-    background: #E6ECF6; 
+    background: #e6ecf6;
 }
 
 #explanation {
+    position: relative;
     margin: -100px auto 0px;
     height: 400px;
     padding: 0px 50px;
-    width:60vw;
-    background: #FF5F61;
+    width: 60vw;
+    z-index: 500;
+    background: #ff5f61;
     text-align: center;
-    color:white;
+    color: white;
     overflow: visible;
-    justify-content: center;
 }
 
-#explanation>h2{
+#explanation > h1 {
     font-family: Ubuntu;
     margin-bottom: 50px;
 }
 
-#teamQuote {
+#teamQuoteContainer {
     margin: -100px auto 0px;
     height: 700px;
     background: #333;
     width: 95vw;
-    position:relative;
-    z-index: -100;
+    position: relative;
+    color: white;
+    padding: 200px 100px;
+    justify-content: space-around;
+}
+#teamQuote {
+    justify-content: space-evenly;
+}
+
+#quoteAuthor {
+    padding-left: 10px;
+}
+
+#quoteAuthor:before {
+    background: white;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    content: "";
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    right: 10px;
+}
+
+#teamPhoto {
+    height: 300px;
+    width: 300px;
+
+    background: white;
+    border-radius: 50%;
 }
 
 #testimonial {

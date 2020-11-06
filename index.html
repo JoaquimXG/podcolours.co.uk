@@ -1,49 +1,105 @@
 <!DOCTYPE html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="POD Colours Landing Page">
-    <meta name="author" content="Joaquim Gomez">
+    <meta charset="UTF-8" />
+    <meta name="description" content="POD Colours Landing Page" />
+    <meta name="author" content="Joaquim Gomez" />
     <title>POD Colours</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
-    <link rel="manifest" href="img/favicon/site.webmanifest">
-    <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="shortcut icon" href="img/favicon/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="img/favicon/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
+    <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="img/favicon/apple-touch-icon.png"
+    />
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="img/favicon/favicon-32x32.png"
+    />
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="img/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="img/favicon/site.webmanifest" />
+    <link
+        rel="mask-icon"
+        href="img/favicon/safari-pinned-tab.svg"
+        color="#5bbad5"
+    />
+    <link rel="shortcut icon" href="img/favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="msapplication-config" content="img/favicon/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/indexMobile.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+        rel="stylesheet"
+    />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500;700&display=swap"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/indexMobile.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 </head>
 <body>
-    <header id='header' class="flex"></header>
-    <main class="flex">
-            <div id="heroContainerTextContainer" class="flexColumn">
-                <h1 id="heroTitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1>
-                <h3>Ut enim ad minim veniam, quis nfostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h5>
-                <button class="buttonBaseline buttonSuccess noBorder">Take the Test!</button>
-            </div>
-            <div id="heroContainerImageContainer" class="flex ">
-                <img src='img/logo.png'>
-            </div>
+    <header id="header" class="flex"></header>
+    <main class="flex justifyCenter">
+        <div
+            id="heroContainerTextContainer"
+            class="flexColumn width50 justifyCenter"
+        >
+            <h1 id="heroTitle">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit
+            </h1>
+            <h3>
+                Ut enim ad minim veniam, quis nfostrud exercitation ullamco
+                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum
+            </h3>
+            <button class="buttonBaseline buttonSuccess noBorder">
+                Take the Test!
+            </button>
+        </div>
+        <div id="heroContainerImageContainer" class="flex ">
+            <img src="img/logo.png" />
+        </div>
     </main>
-    <section id="explanation" class="flexColumn">
-        <h2>What is POD Colours?</h2>
-        <h4>
-            Ut enim ad minim veniam, quis nfostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </h4>
+    <section id="explanation" class="flexColumn justifyCenter">
+        <h1>What is POD Colours?</h1>
+        <h3>
+            POD Colours is a tool which supports individuals and teams, helping
+            them to appreciate differences in personality by en-hancing
+            self-awareness, leading to a deeper understanding of oneself and
+            other people.
+        </h3>
     </section>
-    <section id="teamQuote">
+    <section id="teamQuoteContainer" class="flex">
+        <div id="teamPhoto"></div>
+        <div id="teamQuote" class="flexColumn width50">
+            <h2>We believe in POD Colours!</h2>
+            <h4>
+                Understanding the key personality differences between ourselves
+                and the people we interact with helps us to realise how they see
+                us; why they act the way they do; the impact that we have on
+                them and how to get the most out of our interactions by
+                capitalising on strengths.
+            </h4>
+            <h4>
+                The POD Colours tool is based on psychological research, and
+                provide genuine insight into your key areas of strength and potential
+                barriers to success.
+            </h4>
+            <h5 id="quoteAuthor">Tina McGregor, Leadership Development Specialist</h5>
+        </div>
     </section>
-    <section id="testimonial">
-    </section>
-    <section id="callToAction">
-    </section>
-    <script src='js/index.js'></script>
+    <section id="testimonial"></section>
+    <section id="callToAction"></section>
+    <script src="js/index.js"></script>
 </body>
