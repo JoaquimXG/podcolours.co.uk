@@ -41,42 +41,44 @@
         href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500;700&display=swap"
         rel="stylesheet"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/indexMobile.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 </head>
 <body>
     <header id="header" class="flex"></header>
-    <main class="flex justifyCenter">
-        <div
-            id="heroContainerTextContainer"
-            class="flexColumn width50 justifyCenter"
-        >
-            <h1 id="heroTitle">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-            </h1>
-            <h3>
-                Ut enim ad minim veniam, quis nfostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est
-                laborum
-            </h3>
-            <button class="buttonBaseline buttonSuccess noBorder">
-                Take the Test!
-            </button>
-        </div>
-        <div id="heroContainerImageContainer" class="flex ">
-            <img src="img/logo.png" />
+    <main class="blackOnPaleBlue">
+        <div class="mainContainer tallBlock flex wrap alignCenter smallFlexReverse">
+            <div class="col col6 colPost1 smallCol10 smallColCenter smallMarginBottom smallTextCenter">
+                <div>
+                <h1 id="heroTitle" class="SansitaTitle">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                    </h1>
+                    <h3>
+                        Ut enim ad minim veniam, quis nfostrud exercitation
+                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Duis aute irure dolor in reprehenderit in voluptate
+                        velit esse cillum dolore eu fugiat nulla pariatur.
+                        Excepteur sint occaecat cupidatat non proident, sunt in
+                        culpa qui officia deserunt mollit anim id est laborum
+                    </h3>
+                    <button class="buttonBaseline buttonSuccess noBorder colCenter smallColCenter">
+                        Take the Test!
+                    </button>
+                </div>
+            </div>
+            <div id="heroContainerImageContainer" class="col col5 smallCol6 smallColCenter smallMarginBottom">
+                <img class="col12 smallCol12" src="img/logo.png" />
+            </div>
         </div>
     </main>
     <section id="explanation" class="pullUp150 mainContainer z100">
         <div class="shortBlock whiteOnPeach textCenter">
-            <div class="col10 colCenter">
+            <div class="col10 colCenter smallCol10 smallColCenter">
                 <h1 class="ubuntu">What is POD Colours?</h1>
             </div>
-            <div class="col10 colCenter">
+            <div class="col10 colCenter smallCol10 smallColCenter">
                 <h3>
                     POD Colours is a tool which supports individuals and teams,
                     helping them to appreciate differences in personality by
@@ -86,13 +88,16 @@
             </div>
         </div>
     </section>
-    <section id="teamQuoteContainer" class="whiteOnBlack maxWidth95 pullUp150 topPadding150">
+    <section
+        id="teamQuoteContainer"
+        class="whiteOnBlack width95 pullUp150 topPadding150"
+    >
         <div class="mainContainer tallBlock">
-            <div class="col col4">
+            <div class="col col4 smallCol8 smallColCenter smallMarginBottom">
                 <div id="teamPhoto"></div>
             </div>
-            <div class="col col7 colPre1">
-                <div id="teamQuote">
+            <div class="col col7 colPre1 smallCol10 smallColCenter">
+                <div id="teamQuote" >
                     <h2>We believe in POD Colours!</h2>
                     <h3>
                         Understanding the key personality differences between
@@ -115,7 +120,7 @@
     </section>
     <section id="testimonial">
         <div class="mainContainer shortBlock textCenter">
-            <div class="col10 colCenter">
+            <div class="col10 smallCol10 smallColCenter colCenter">
                 <h2>
                     Wow! More accurate than I ever could have hoped for, the
                     test has brought our team together over issues that
@@ -126,15 +131,14 @@
             </div>
         </div>
     </section>
-    <section id="callToAction" class="blackOnPaleBlue">
-        <div class="mainContainer shortBlock textCenter">
-            <div class="col10 colCenter">
+    <section id="callToAction" class="blackOnPaleBlue"> <div class="mainContainer shortBlock textCenter">
+            <div class="col10 smallCol10 colCenter smallColCenter">
                 <h1 class="bold">Ready to get started?</h1>
                 <h2>
                     We'll guide you every step of the way towards your self
                     improvement.
                 </h2>
-                <button class="buttonBaseline buttonSuccess noBorder">
+                <button class="buttonBaseline buttonSuccess noBorder colCenter smallColCenter">
                     Take the Test!
                 </button>
             </div>

@@ -4,7 +4,7 @@
     margin: 0;
     border: 0px;
     box-sizing: border-box;
-    font-family: serif;
+    font-family: Roboto;
     vertical-align: baseline;
     overflow-x: hidden;
 }
@@ -14,7 +14,9 @@ body {
 }
 
 header {
-    height: 130px;
+    height: 12vw;
+    max-height: 130px;
+    min-height: 100px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -25,22 +27,24 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 30px;
 }
 
+/* Baselines */
+.buttonBaseline {
+    background: none;
+    color: black;
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 10px 15px;
+    margin: 0px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    cursor: pointer;
+    display: block;
+}
+
+
 /* Layout classes */
-.mainContainer {
-    max-width: 1020px;
-    margin-right: auto;
-    margin-left: auto
-}
-
-.shortBlock {
-    padding-top: 100px;
-    padding-bottom: 100px;
-}
-
-.tallBlock {
-    padding-top: 150px;
-    padding-bottom: 150px;
-}
 
 .pullUp150 {
     margin-top: -150px;
@@ -54,10 +58,18 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 150px;
 }
 
+.bottomMargin100{
+    margin-bottom: 100px;
+}
+
 .z100 {
     z-index: 100;
 }
 
+.rowCenter {
+    margin-top: auto;
+    margin-bottom: auto;
+}
 
 /* Color Schemes */
 .whiteOnBlack {
@@ -71,7 +83,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .blackOnPaleBlue {
     background: #e6ecf6;
-    color: white;
+    color: black;
 }
 
 /* Font Styles */
@@ -79,9 +91,18 @@ h1, h2, h3, h4, h5, h6 {
     font-family: ubuntu;
 }
 
+.SansitaTitle {
+    font-family: Sansita + Swashed;
+    font-weight: bold;
+}
+
 /* Flex utility classes */
 .flexPushRight {
     margin-left: auto;
+}
+
+.flex {
+    display: flex;
 }
 
 .flexColumn {
@@ -89,8 +110,8 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
 }
 
-.flex {
-    display: flex;
+.wrap {
+    flex-wrap: wrap;
 }
 
 .justifyCenter {
@@ -101,21 +122,11 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-evenly;
 }
 
-/* Button Classes */
-.buttonBaseline {
-    background: none;
-    color: black;
-    border: 1px solid black;
-    border-radius: 7px;
-    padding: 10px 15px;
-    margin: 0px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1rem;
-    cursor: pointer;
+.alignCenter {
+    align-items: center;
 }
 
+/* Button Classes */
 .buttonBaseline:focus {
     outline: none;
 }
@@ -146,41 +157,9 @@ h1, h2, h3, h4, h5, h6 {
     border: none;
 }
 
-header {
-    overflow: hidden;
-}
-
+/* Individual tag Styles */
 #headerLogoImg {
-    max-height: 90px;
-}
-
-main {
-    margin: 0 auto;
-    background: #e6ecf6;
-    min-height: 90vh;
-    padding: 50px 0px 200px;
-}
-
-#heroContainerTextContainer {
-    padding: 0px 80px 0 100px;
-}
-
-#heroContainerTextContainer > h1, #heroContainerTextContainer> h3 {
-    margin-bottom: 50px;
-}
-
-#heroTitle {
-    font-family: Sansita + Swashed;
-    font-weight: bold;
-    margin-bottom: 30px;
-}
-
-#heroContainerImageContainer {
-    width: 50%;
-}
-#heroContainerImageContainer > img {
-    max-height: 60vh;
-    margin: auto;
+    height:90px;
 }
 
 #quoteAuthor {
