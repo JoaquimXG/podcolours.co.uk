@@ -32,3 +32,162 @@
         flex-direction: column-reverse;
     }
 }
+
+@media screen and (min-width: 640px) {
+    .col {
+        float: left;
+    }
+
+    .colRight {
+        float: right;
+    }
+
+    .colCenter {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .col1 {
+        width: 8.3333333333%;
+    }
+
+    .colPre1 {
+        margin-left: 8.3333333333%;
+    }
+
+    .colPost1 {
+        margin-right: 8.3333333333%;
+    }
+
+    .col2 {
+        width: 16.6666666667%;
+    }
+
+    .colPre2 {
+        margin-left: 16.6666666667%;
+    }
+
+    .colPost2 {
+        margin-right: 16.6666666667%;
+    }
+
+    .col3 {
+        width: 25%;
+    }
+
+    .colPre3 {
+        margin-left: 25%;
+    }
+
+    .colPost3 {
+        margin-right: 25%;
+    }
+
+    .col4 {
+        width: 33.3333333333%;
+    }
+
+    .colPre4 {
+        margin-left: 33.3333333333%;
+    }
+
+    .colPost4 {
+        margin-right: 33.3333333333%;
+    }
+
+    .col5 {
+        width: 41.6666666667%;
+    }
+
+    .colPre5 {
+        margin-left: 41.6666666667%;
+    }
+
+    .colPost5 {
+        margin-right: 41.6666666667%;
+    }
+
+    .col6 {
+        width: 50%;
+    }
+
+    .colPre6 {
+        margin-left: 50%;
+    }
+
+    .colPost6 {
+        margin-right: 50%;
+    }
+
+    .col7 {
+        width: 58.3333333333%;
+    }
+
+    .colPre7 {
+        margin-left: 58.3333333333%;
+    }
+
+    .colPost7 {
+        margin-right: 58.3333333333%;
+    }
+
+    .col8 {
+        width: 66.6666666667%;
+    }
+
+    .colPre8 {
+        margin-left: 66.6666666667%;
+    }
+
+    .colPost8 {
+        margin-right: 66.6666666667%;
+    }
+
+    .col9 {
+        width: 75%;
+    }
+
+    .colPre9 {
+        margin-left: 75%;
+    }
+
+    .colPost9 {
+        margin-right: 75%;
+    }
+
+    .col10 {
+        width: 83.3333333333%;
+    }
+
+    .colPre10 {
+        margin-left: 83.3333333333%;
+    }
+
+    .colPost10 {
+        margin-right: 83.3333333333%;
+    }
+
+    .col11 {
+        width: 91.6666666667%;
+    }
+
+    .colPre11 {
+        margin-left: 91.6666666667%;
+    }
+
+    .colPost11 {
+        margin-right: 91.6666666667%;
+    }
+
+    .col12 {
+        width: 100%;
+    }
+
+    .colPre12 {
+        margin-left: 100%;
+    }
+
+    .colPost12 {
+        margin-right: 100%;
+    }
+}

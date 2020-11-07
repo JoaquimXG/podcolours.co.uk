@@ -1,8 +1,10 @@
+/* Global styles for all tags */ 
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: serif;
+    vertical-align: baseline;
     overflow-x: hidden;
 }
 
@@ -18,6 +20,33 @@ header {
     padding: 30px 30px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 30px;
+}
+
+
+/* Layout classes */
+.mainContainer {
+    max-width: 1020px;
+    margin-right: auto;
+    margin-left: auto
+}
+
+.shortBlock {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.tallBlock {
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+/* Button Classes */
 .buttonBaseline {
     background: none;
     color: black;
@@ -180,18 +209,12 @@ main {
     border-radius: 50%;
 }
 
-#testimonial {
-    height: 300px;
-    padding: 3vw 150px;
-    text-align:center;
-    justify-content: space-evenly;
-}
-
 #testimonialCircle {
     background: #FBB52B;
     border-radius: 50%;
     width: 30px;
     height: 30px;
+    margin-bottom: 20px;
     display: block;
     margin-left: auto; 
     margin-right: auto;
@@ -199,12 +222,5 @@ main {
 
 #callToAction {
     background: #e6ecf6;
-    height: 400px;
-    justify-content: space-around;
-    padding: 100px 150px;
-    text-align: center;
 }
 
-#callToAction>h1 {
-    font-weight: bold;
-}
