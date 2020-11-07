@@ -19,21 +19,15 @@
         background: #e6ecf6;
     }
 
-    #teamQuoteContainer {
-        margin: -100px auto 0px;
-        height: 1300px;
-        background: #333;
-        width: 95vw;
-        position: relative;
-        color: white;
-        padding: 200px 100px;
-        justify-content: space-around;
-        align-items: center;
-        flex-direction: column-reverse;
-    }
 }
 
 @media screen and (min-width: 640px) {
+    .maxWidth95 {
+        max-width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .col {
         float: left;
     }

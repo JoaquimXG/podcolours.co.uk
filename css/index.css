@@ -2,6 +2,7 @@
 * {
     padding: 0;
     margin: 0;
+    border: 0px;
     box-sizing: border-box;
     font-family: serif;
     vertical-align: baseline;
@@ -13,17 +14,16 @@ body {
 }
 
 header {
-    height: 100px;
+    height: 130px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 30px 30px;
+    padding: 20px 30px;
 }
 
 h1, h2, h3, h4, h5, h6 {
     margin-bottom: 30px;
 }
-
 
 /* Layout classes */
 .mainContainer {
@@ -42,8 +42,63 @@ h1, h2, h3, h4, h5, h6 {
     padding-bottom: 150px;
 }
 
+.pullUp150 {
+    margin-top: -150px;
+    position: relative;
+}
 .textCenter {
     text-align: center;
+}
+
+.topPadding150 {
+    padding-top: 150px;
+}
+
+.z100 {
+    z-index: 100;
+}
+
+
+/* Color Schemes */
+.whiteOnBlack {
+    background: #333;
+    color: white;
+}
+.whiteOnPeach {
+    background: #ff5f61;
+    color: white;
+}
+
+.blackOnPaleBlue {
+    background: #e6ecf6;
+    color: white;
+}
+
+/* Font Styles */
+.ubuntu {
+    font-family: ubuntu;
+}
+
+/* Flex utility classes */
+.flexPushRight {
+    margin-left: auto;
+}
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex {
+    display: flex;
+}
+
+.justifyCenter {
+    justify-content: center;
+}
+
+.spaceEvenly {
+    justify-content: space-evenly;
 }
 
 /* Button Classes */
@@ -91,34 +146,12 @@ h1, h2, h3, h4, h5, h6 {
     border: none;
 }
 
-/* Flex utility classes */
-.flexPushRight {
-    margin-left: auto;
-}
-
-.flexColumn {
-    display: flex;
-    flex-direction: column;
-}
-
-.flex {
-    display: flex;
-}
-
-.width50 {
-    width: 50%;
-}
-
-.justifyCenter {
-    justify-content: center;
-}
-
 header {
     overflow: hidden;
 }
 
 #headerLogoImg {
-    max-height: 80px;
+    max-height: 90px;
 }
 
 main {
@@ -149,42 +182,6 @@ main {
     max-height: 60vh;
     margin: auto;
 }
-#spacer {
-    height: 100px;
-    background: #e6ecf6;
-}
-
-#explanation {
-    position: relative;
-    margin: -100px auto 0px;
-    height: 400px;
-    padding: 0px 50px;
-    width: 60vw;
-    z-index: 500;
-    background: #ff5f61;
-    text-align: center;
-    color: white;
-    overflow: visible;
-}
-
-#explanation > h1 {
-    font-family: Ubuntu;
-    margin-bottom: 50px;
-}
-
-#teamQuoteContainer {
-    margin: -100px auto 0px;
-    height: 700px;
-    background: #333;
-    width: 95vw;
-    position: relative;
-    color: white;
-    padding: 200px 100px;
-    justify-content: space-around;
-}
-#teamQuote {
-    justify-content: space-evenly;
-}
 
 #quoteAuthor {
     padding-left: 10px;
@@ -207,6 +204,7 @@ main {
     width: 300px;
     background: white;
     border-radius: 50%;
+    margin: auto;
 }
 
 #testimonialCircle {
@@ -220,7 +218,4 @@ main {
     margin-right: auto;
 }
 
-#callToAction {
-    background: #e6ecf6;
-}
 
