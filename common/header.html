@@ -1,3 +1,11 @@
-<img id="headerLogoImg" src='img/paintSplashLogoTextToRight.png'></div>
-<button onclick="loginPopup()" class="flexPushRight buttonBaseline noBorder">Login</button>
+<img id="headerLogoImg" src="img/paintSplashLogoTextToRight.png" />
+<button id="headerLoginButton" class="flexPushRight buttonBaseline noBorder">
+    Login
+</button>
 <button class="buttonBaseline buttonSuccess noBorder">Take the Test</button>
+
+<script>
+    $("#headerLoginButton").click(function() {
+            $("#loginModalContainer").css("visibility", "visible");
+    });
+</script>
