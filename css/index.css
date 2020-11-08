@@ -1,4 +1,4 @@
-/* Global styles for all tags */ 
+/* Global styles for all tags */
 * {
     padding: 0;
     margin: 0;
@@ -15,16 +15,26 @@ body {
 }
 
 header {
+    position: -webkit-sticky;
+    position: sticky;
+    background: white;
+    top: -1px;
+    z-index: 1000;
     height: 12vw;
-    max-height: 130px;
-    min-height: 100px;
+    max-height: 100px;
+    min-height: 85px;
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 20px 30px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     margin-bottom: 50px;
 }
 
@@ -59,7 +69,7 @@ h5 {
     color: black;
     border: 1px solid black;
     border-radius: 7px;
-    padding: 10px 15px;
+    padding: 15px 40px;
     margin: 0px 15px;
     text-align: center;
     text-decoration: none;
@@ -72,7 +82,7 @@ h5 {
 
 .buttonBaseline:hover {
     color: #52c41a;
-    box-shadow: rgba(0, 0, 0, 0.30) 0px 1px 4px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
     border-color: #52c41a;
 }
 
@@ -84,7 +94,6 @@ h5 {
 }
 
 /* Layout classes */
-
 .pullUp150 {
     margin-top: -150px;
     position: relative;
@@ -97,7 +106,7 @@ h5 {
     padding-top: 150px;
 }
 
-.bottomMargin100{
+.bottomMargin100 {
     margin-bottom: 100px;
 }
 
@@ -108,6 +117,111 @@ h5 {
 .rowCenter {
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.divider {
+    height: 2px;
+    background: #aaa;
+    width: 100%;
+    margin: 0 auto 30px;
+}
+
+.verticalDivider {
+    width: 2px;
+    background: #aaa;
+}
+
+.modalContainer {
+    display: flex;
+    background: rgba(131, 138, 150, 0.80);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    background: white;
+    border-radius: 7px;
+    min-width: 500px;
+}
+
+/* Form Styles */
+.modalFormContainer {
+    padding: 40px 50px;
+}
+
+.formGroup {
+    position: relative;
+    padding: 15px 0 0;
+    margin: auto;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.formField {
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid grey;
+    outline: 0;
+    font-size: 20px;
+    color: black;
+    padding: 12px 0 10px;
+    background: transparent;
+    transition: border-color 0.2s;
+    margin-bottom: 10px;
+}
+
+/* remove standard placeholder */
+.formField::placeholder {
+    color: transparent;
+}
+
+.formField:focus {
+    padding-bottom: 9px;
+    font-weight: 700;
+    border-width: 3px;
+    border-bottom: 3px solid #2f9bff;
+}
+
+/* Keep label in default position when placeholder is not showing */
+.formLabel {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.25s;
+    font-size: 20px;
+    color: grey;
+}
+
+/* If the form field is empty (placeholder would be shown)
+ * lower the label into formField
+ * */
+.formField:placeholder-shown ~ .formLabel {
+    font-size: 20px;
+    cursor: text;
+    top: 20px;
+}
+
+/* Highlight label and return to top posiition when form is focused */
+.formField:focus ~ .formLabel {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.25s;
+    font-size: 20px;
+    color: #2f9bff;
+    font-weight: 700;
+}
+
+/* reset input */
+.formField:required,
+.formField:invalid {
+    box-shadow: none;
 }
 
 /* Color Schemes */
@@ -159,21 +273,67 @@ h5 {
 .alignCenter {
     align-items: center;
 }
+.alignEnd {
+    align-items: flex-end;
+}
 
 /* Button Classes */
 
 .buttonSuccess {
     background: #52c41a;
-    align-self: center;
     padding: 15px 40px;
     font-weight: 900;
-    color:white;
+    color: white;
 }
 
 .buttonSuccess:hover {
     color: #52c41a;
     background: white;
-    box-shadow: rgba(0, 0, 0, 0.30) 0px 1px 4px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.buttonSuccess:focus {
+    color: #52c41a;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.buttonBlue {
+    background: #2F9BFF;
+    padding: 15px 40px;
+    font-weight: 900;
+    color: white;
+}
+
+.buttonBlue:hover {
+    color: #2F9BFF;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.buttonBlue:focus {
+    color: #2F9BFF;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.buttonError {
+    background: #FF5F61;
+    padding: 15px 40px;
+    font-weight: 900;
+    color: white;
+}
+
+.buttonError:hover {
+    color: #FF5F61;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.buttonError:focus {
+    color: #FF5F61;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
 }
 
 .noBorder {
@@ -182,7 +342,7 @@ h5 {
 
 /* Individual tag Styles */
 #headerLogoImg {
-    height:90px;
+    height: 100%;
 }
 
 #quoteAuthor {
@@ -190,7 +350,7 @@ h5 {
 }
 
 #quoteAuthor:before {
-    background: #2F9BFF;
+    background: #2f9bff;
     border-radius: 50%;
     width: 12px;
     height: 12px;
@@ -210,14 +370,17 @@ h5 {
 }
 
 #testimonialCircle {
-    background: #FBB52B;
+    background: #fbb52b;
     border-radius: 50%;
     width: 30px;
     height: 30px;
     margin-bottom: 50px;
     display: block;
-    margin-left: auto; 
+    margin-left: auto;
     margin-right: auto;
 }
 
+#loginButton {
+    margin: 40px auto 25px;
+}
 

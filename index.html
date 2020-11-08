@@ -33,18 +33,67 @@
     <meta name="msapplication-config" content="img/favicon/browserconfig.xml" />
     <meta name="theme-color" content="#ffffff" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+        rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/indexMobile.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 </head>
 <body>
+    <div id="loginModalContainer" class="modalContainer">
+        <div id="loginModal" class="modal">
+            <div class="modalFormContainer">
+                <div class="formGroup field">
+                    <input
+                        name="email"
+                        placeholder="Email Address"
+                        class="formField"
+                        type="input"
+                        id="email"
+                        required
+                    />
+                    <label for="email" class="formLabel">Email Address</label>
+                </div>
+                <div class="formGroup field">
+                    <input
+                        name="password"
+                        placeholder="Password"
+                        class="formField"
+                        id="password"
+                        type="password"
+                    />
+                    <label for="password" class="formLabel">Password</label>
+                </div>
+                <button
+                    id="loginButton"
+                    class="buttonBaseline buttonBlue noBorder colCenter "
+                >
+                    Login
+                </button>
+            </div>
+            <div class="divider"></div>
+            <div class="modalFormContainer">
+                <h4 class="textCenter">Don't have an account?<br>One will be created at the end of your first test.</h4>
+                <button
+                    class="buttonBaseline buttonSuccess noBorder colCenter "
+                >
+                    Take the Test!
+                </button>
+            </div>
+        </div>
+    </div>
     <header id="header" class="flex"></header>
     <main class="blackOnPaleBlue">
-        <div class="mainContainer tallBlock flex wrap alignCenter smallFlexReverse">
-            <div class="col col6 colPost1 smallCol10 smallColCenter smallMarginBottom smallTextCenter">
+        <div
+            class="mainContainer tallBlock flex wrap alignCenter smallFlexReverse"
+        >
+            <div
+                class="col col6 colPost1 smallCol10 smallColCenter smallMarginBottom smallTextCenter"
+            >
                 <div>
-                <h1 id="heroTitle" class="bold">
+                    <h1 id="heroTitle" class="bold">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                     </h1>
                     <h4>
@@ -55,12 +104,17 @@
                         Excepteur sint occaecat cupidatat non proident, sunt in
                         culpa qui officia deserunt mollit anim id est laborum
                     </h4>
-                    <button class="buttonBaseline buttonSuccess noBorder colCenter smallColCenter">
+                    <button
+                        class="buttonBaseline buttonSuccess noBorder colCenter smallColCenter"
+                    >
                         Take the Test!
                     </button>
                 </div>
             </div>
-            <div id="heroContainerImageContainer" class="col col5 smallCol6 smallColCenter smallMarginBottom">
+            <div
+                id="heroContainerImageContainer"
+                class="col col5 smallCol6 smallColCenter smallMarginBottom"
+            >
                 <img class="col12 smallCol12" src="img/logo.png" />
             </div>
         </div>
@@ -84,14 +138,22 @@
         id="teamQuoteContainer"
         class="whiteOnBlack width95 pullUp150 topPadding150"
     >
-        <div class="mainContainer tallBlock flex wrap alignCenter smallFlexReverse">
+        <div
+            class="mainContainer tallBlock flex wrap alignCenter smallFlexReverse"
+        >
             <div class="col4 smallCol8 smallColCenter smallMarginBottom">
                 <div id="teamPhoto">
-                    <h4 style="color:black; text-align:center; line-height: 300px;">Your Photo here</h4>
+                    <h4
+                        style="color:black; text-align:center; line-height: 300px;"
+                    >
+                        Your Photo here
+                    </h4>
                 </div>
             </div>
-            <div class="col7 colPre1 smallCol10 smallColCenter smallTextRight smallMarginBottom">
-                <div id="teamQuote" >
+            <div
+                class="col7 colPre1 smallCol10 smallColCenter smallTextRight smallMarginBottom"
+            >
+                <div id="teamQuote">
                     <h2 class="bold">We believe in POD Colours!</h2>
                     <h3>
                         Understanding the key personality differences between
@@ -116,23 +178,26 @@
         <div class="mainContainer shortBlock textCenter">
             <div class="col10 smallCol10 smallColCenter colCenter">
                 <h2>
-                    Wow! More accurate than I ever could have hoped for, the
+                    "Wow! More accurate than I ever could have hoped for, the
                     test has brought our team together over issues that
-                    previously would have pushed us apart.
+                    previously would have pushed us apart."
                 </h2>
                 <div id="testimonialCircle"></div>
                 <h3>A. Very happy customer.</h3>
             </div>
         </div>
     </section>
-    <section id="callToAction" class="blackOnPaleBlue"> <div class="mainContainer shortBlock textCenter">
+    <section id="callToAction" class="blackOnPaleBlue">
+        <div class="mainContainer shortBlock textCenter">
             <div class="col10 smallCol10 colCenter smallColCenter">
                 <h1 class="bold">Ready to get started?</h1>
                 <h2>
                     We'll guide you every step of the way towards your self
                     improvement.
                 </h2>
-                <button class="buttonBaseline buttonSuccess noBorder colCenter smallColCenter">
+                <button
+                    class="buttonBaseline buttonSuccess noBorder colCenter smallColCenter"
+                >
                     Take the Test!
                 </button>
             </div>
