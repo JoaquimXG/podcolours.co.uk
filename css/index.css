@@ -6,11 +6,12 @@
     box-sizing: border-box;
     font-family: Roboto;
     vertical-align: baseline;
-    overflow-x: hidden;
+    position: relative;
 }
 
 body {
     width: 100vw;
+    font-size: 16px;
 }
 
 header {
@@ -24,7 +25,32 @@ header {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 100;
+}
+
+h2 {
+    font-size: 40px;
+    font-weight: 100;
+}
+
+h3 {
+    font-size: 30px;
+    font-weight: 100;
+}
+
+h4 {
+    font-size: 25px;
+    font-weight: 100;
+}
+
+h5 {
+    font-size: 16px;
+    font-weight: 100;
 }
 
 /* Baselines */
@@ -38,11 +64,24 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 1rem;
+    font-size: 20px;
     cursor: pointer;
     display: block;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px;
 }
 
+.buttonBaseline:hover {
+    color: #52c41a;
+    box-shadow: rgba(0, 0, 0, 0.30) 0px 1px 4px;
+    border-color: #52c41a;
+}
+
+.buttonBaseline:focus {
+    outline: none;
+}
+.buttonBaseline::-moz-focus-inner {
+    border: 0;
+}
 
 /* Layout classes */
 
@@ -87,12 +126,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Font Styles */
-.ubuntu {
-    font-family: ubuntu;
-}
-
-.SansitaTitle {
-    font-family: Sansita + Swashed;
+.bold {
     font-weight: bold;
 }
 
@@ -127,17 +161,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Button Classes */
-.buttonBaseline:focus {
-    outline: none;
-}
-.buttonBaseline::-moz-focus-inner {
-    border: 0;
-}
-.buttonBaseline:hover {
-    color: #52c41a;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    border-color: #52c41a;
-}
 
 .buttonSuccess {
     background: #52c41a;
@@ -150,7 +173,7 @@ h1, h2, h3, h4, h5, h6 {
 .buttonSuccess:hover {
     color: #52c41a;
     background: white;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: rgba(0, 0, 0, 0.30) 0px 1px 4px;
 }
 
 .noBorder {
@@ -191,7 +214,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     display: block;
     margin-left: auto; 
     margin-right: auto;

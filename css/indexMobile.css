@@ -13,6 +13,14 @@
         text-align:center;
     }
 
+    .smallTextRight {
+        text-align: right;
+    }
+
+    .smallTextLeft {
+        text-align: left;
+    }
+
     main{ 
         padding-bottom: 100px;
     }
