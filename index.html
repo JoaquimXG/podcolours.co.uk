@@ -39,7 +39,10 @@
     />
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/indexMobile.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script
+          src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+            crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="loginModalContainer" class="modalContainer">
@@ -75,16 +78,38 @@
             </div>
             <div class="divider"></div>
             <div class="modalFormContainer">
-                <h4 class="textCenter">Don't have an account?<br>One will be created at the end of your first test.</h4>
+                <h4 class="textCenter">
+                    Don't have an account?<br />We will create on after your
+                    personality test.
+                </h4>
                 <button
                     class="buttonBaseline buttonSuccess noBorder colCenter "
                 >
                     Take the Test!
                 </button>
             </div>
+            <svg 
+                id="closeLoginModal"
+                class="closeModalIcon"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+            >
+                <path
+                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                />
+                <path d="M0 0h24v24H0z" fill="none" />
+            </svg>
         </div>
     </div>
-    <header id="header" class="flex"></header>
+    <header id="header" class="flex">
+        <img id="headerLogoImg" src="img/paintSplashLogoTextToRight.png" />
+        <button id="headerLoginButton" class="flexPushRight buttonBaseline noBorder">
+            Login
+        </button>
+        <button class="buttonBaseline buttonSuccess noBorder">Take the Test</button>
+    </header>
     <main class="blackOnPaleBlue">
         <div
             class="mainContainer tallBlock flex wrap alignCenter smallFlexReverse"
@@ -178,7 +203,8 @@
         <div class="mainContainer shortBlock textCenter">
             <div class="col10 smallCol10 smallColCenter colCenter">
                 <h2>
-                    "Wow! More accurate than I ever could have hoped for"</h2>
+                    "Wow! More accurate than I ever could have hoped for"
+                </h2>
                 <div id="testimonialCircle"></div>
                 <h3>A. Very happy customer.</h3>
             </div>

@@ -134,7 +134,7 @@ h5 {
 .modalContainer {
     display: flex;
     visibility: hidden;
-    background: rgba(131, 138, 150, 0.80);
+    background: rgba(131, 138, 150, 0.8);
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -151,9 +151,20 @@ h5 {
     min-width: 500px;
 }
 
+.closeModalIcon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 28px;
+    width: 28px;
+}
+.closeModalIcon:hover {
+    fill:red;
+}
+
 /* Form Styles */
 .modalFormContainer {
-    padding: 40px 50px;
+    padding: 50px 50px;
 }
 
 .formGroup {
@@ -180,6 +191,7 @@ h5 {
 /* remove standard placeholder */
 .formField::placeholder {
     color: transparent;
+    visibility: hidden;
 }
 
 .formField:focus {
@@ -300,39 +312,39 @@ h5 {
 }
 
 .buttonBlue {
-    background: #2F9BFF;
+    background: #2f9bff;
     padding: 15px 40px;
     font-weight: 900;
     color: white;
 }
 
 .buttonBlue:hover {
-    color: #2F9BFF;
+    color: #2f9bff;
     background: white;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
 }
 
 .buttonBlue:focus {
-    color: #2F9BFF;
+    color: #2f9bff;
     background: white;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
 }
 
 .buttonError {
-    background: #FF5F61;
+    background: #ff5f61;
     padding: 15px 40px;
     font-weight: 900;
     color: white;
 }
 
 .buttonError:hover {
-    color: #FF5F61;
+    color: #ff5f61;
     background: white;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
 }
 
 .buttonError:focus {
-    color: #FF5F61;
+    color: #ff5f61;
     background: white;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
 }
@@ -384,4 +396,3 @@ h5 {
 #loginButton {
     margin: 40px auto 25px;
 }
-
