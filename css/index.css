@@ -134,6 +134,7 @@ h5 {
 .modalContainer {
     display: flex;
     visibility: hidden;
+    transition:visibility 0.2s linear;
     background: rgba(131, 138, 150, 0.8);
     width: 100vw;
     height: 100vh;
@@ -148,6 +149,8 @@ h5 {
 .modal {
     background: white;
     border-radius: 7px;
+    opacity: 0;
+    transition: opacity 0.2s linear;
     min-width: 500px;
 }
 
