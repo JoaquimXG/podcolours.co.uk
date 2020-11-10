@@ -1,20 +1,36 @@
 $(document).ready(function() {
+    //Add click event for login button in the header to open the login modal
     $("#headerLoginButton").click(function() {
         $("#loginModalContainer").css("visibility", "visible");
         $("#loginModal").css("opacity", "1");
     });
 
+    //Add click event for close button in the login modal to close the modal
     $("#closeLoginModal").click(function() {
         $("#loginModal").css("opacity", "0");
         $("#loginModalContainer").css("visibility", "hidden");
     });
 
-    $('#loginModalContainer').click(function() {
+    //Add click event for outside of the login modal to close the modal
+    //A side effect of this is that clicking on the modal itself will 
+    //cause the modal to close as it is a child of loginModalContainer 
+    //This is resolved below
+    $("#loginModalContainer").click(function() {
         $("#loginModal").css("opacity", "0");
         $("#loginModalContainer").css("visibility", "hidden");
-    })
-
-    $('#loginModal').click(function(e){
+    });
+    //Stop click events on the login modal from propogating to is parent and closing the modal
+    $("#loginModal").click(function(e) {
         e.stopPropagation();
+    });
+
+    $('.takeTheTest').click(function(e){
+        e.preventDefault();
+
+        var url = "/app.html"
+
+        $.get(url, function(data){
+            alert(data);
+        });
     })
 });
