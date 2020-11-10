@@ -24,16 +24,21 @@ $(document).ready(function() {
         e.stopPropagation();
     });
 
+    //This can be used to change to the app.html page without having to reload the page
+    //I am not sure exactly how to make it so that all of the related, css and js files load correctly
+    //Currently I am performing testing on appTesting.html
+    //TODO
     $(".takeTheTest").each(function() {
         $(this).click(function(e) {
             e.preventDefault();
-
-            var url = "/app.html";
-
-            jQuery.get(url, function(data) {
-                alert(data);
+            var href = "/app.html";
+            jQuery.get(href, function(data) {
+                //alert(data);
+                $('body').html(data)
+                window.history.pushState({href: href}, '', href);
             });
         });
     });
+    
 
 });

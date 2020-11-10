@@ -1,0 +1,14 @@
+$(function(){
+    $('.card').each(function(){
+        $(this).mousedown(function(){
+            $(this).addClass("cardFocused")
+        })
+        $(this).mouseup(function(){
+            $(this).removeClass("cardFocused")
+        })
+        $(this).mouseout(function(){
+            $(this).removeClass("cardFocused")
+        })
+        $(this).draggable()
+    })
+})
