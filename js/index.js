@@ -12,8 +12,8 @@ $(document).ready(function() {
     });
 
     //Add click event for outside of the login modal to close the modal
-    //A side effect of this is that clicking on the modal itself will 
-    //cause the modal to close as it is a child of loginModalContainer 
+    //A side effect of this is that clicking on the modal itself will
+    //cause the modal to close as it is a child of loginModalContainer
     //This is resolved below
     $("#loginModalContainer").click(function() {
         $("#loginModal").css("opacity", "0");
@@ -24,13 +24,16 @@ $(document).ready(function() {
         e.stopPropagation();
     });
 
-    $('.takeTheTest').click(function(e){
-        e.preventDefault();
+    $(".takeTheTest").each(function() {
+        $(this).click(function(e) {
+            e.preventDefault();
 
-        var url = "/app.html"
+            var url = "/app.html";
 
-        $.get(url, function(data){
-            alert(data);
+            jQuery.get(url, function(data) {
+                alert(data);
+            });
         });
-    })
+    });
+
 });
