@@ -63,6 +63,13 @@ const resultsText = {
     }
 };
 
+const colourGenreList = {
+    red: ["Thriller", "Horror"],
+    blue: ["Comedy", "Documentary"],
+    yellow: ["Action", "Drama"],
+    green: ["Romance", "Mystery"]
+}
+
 $(function() {
     $(".card").each(function() {
         $(this).mousedown(function() {
@@ -137,4 +144,42 @@ $(document).ready(function() {
     $("#loginModal").click(function(e) {
         e.stopPropagation();
     });
+    $("#omdbButton").click(function() {
+        console.log("test");
+        var url = "https://www.omdbapi.com/?apikey=d9aa0252&s=in the";
+
+        $.getJSON(url, function(data){
+            console.log(data);
+            for (var i=0; i<data.Search.length; i++) {
+                var id = data.Search[i].imdbID;
+                var urlTwo = `https://www.omdbapi.com/?apikey=d9aa0252&i=${id}`;
+                //console.log(urlTwo);
+                var title = findGenre(colourGenreList.red, urlTwo)    
+                
+            };
+
+        });
+
+    })
 });
+
+function findGenre (genres, url) {
+    var title = ""
+    $.getJSON(url, function(data){
+        var genreArray = (data.Genre).replace(/ /g,"").split(",")
+        //console.log(genreArray)
+        genres.forEach(genre =>{
+            genreArray.forEach(genreToFind =>{
+                if (genre == genreToFind){
+                    console.log("success")
+                    title = data.Title;
+                }
+            })
+        })
+        if (title === ""){
+            //TODO
+        } else {
+            console.log(title)
+        }
+    })
+}
