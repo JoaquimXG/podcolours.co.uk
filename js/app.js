@@ -19,7 +19,6 @@ $(function() {
 });
 
 $(function() {
-    //Add click event for login button in the header to open the login modal
     $("#temporaryRed").click(function() {
         localStorage.setItem("resultColor","red");
         displayResultsModal("red");
@@ -37,22 +36,22 @@ $(function() {
         displayResultsModal("yellow");
     });
 
-    //Add click event for close button in the login modal to close the modal
-    $("#closeLoginModal").click(function() {
-        $("#loginModal").css("opacity", "0");
-        $("#loginModalContainer").css("visibility", "hidden");
+    //Add click event for close button in the app modal to close the modal
+    $("#closeAppModal").click(function() {
+        $("#appModal").css("opacity", "0");
+        $("#appModalContainer").css("visibility", "hidden");
     });
 
-    //Add click event for outside of the login modal to close the modal
+    //Add click event for outside of the app modal to close the modal
     //A side effect of this is that clicking on the modal itself will
-    //cause the modal to close as it is a child of loginModalContainer
+    //cause the modal to close as it is a child of appModalContainer
     //This is resolved below
-    $("#loginModalContainer").click(function() {
-        $("#loginModal").css("opacity", "0");
-        $("#loginModalContainer").css("visibility", "hidden");
+    $("#appModalContainer").click(function() {
+        $("#appModal").css("opacity", "0");
+        $("#appModalContainer").css("visibility", "hidden");
     });
-    //Stop click events on the login modal from propogating to is parent and closing the modal
-    $("#loginModal").click(function(e) {
+    //Stop click events on the app modal from propogating to is parent and closing the modal
+    $("#appModal").click(function(e) {
         e.stopPropagation();
     });
 
@@ -64,8 +63,8 @@ function displayResultsModal(color) {
     $("#modalTitle").append(resultsText[color].color);
     $("#modalTitle").append(resultsText[color].title);
     $("#modalBlurb").text(resultsText[color].blurb);
-    $("#loginModalContainer").css("visibility", "visible");
-    $("#loginModal").css("opacity", "1");
+    $("#appModalContainer").css("visibility", "visible");
+    $("#appModal").css("opacity", "1");
 }
 
 //Calls the OMDB movie API searching for movies with "in the" contained in the title
@@ -110,8 +109,12 @@ const checkForMatchingGenres = (colorGenres, url) =>
     });
 
 const displayMovieModal = (movieData) => {
-    console.log(movieData)
     $("#modalTitle").text("Your results suggest you would like: ");
     $("#modalTitle").append(movieData.Title);
     $("#modalBlurb").text(movieData.Plot);
+    var movieButton = $('<button>')
+        .text("More Info")
+        .addClass("buttonBaseline buttonBlue noBorder colCenter")
+    $("#modalButtonContainer").html(movieButton)
+
 }

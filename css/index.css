@@ -150,6 +150,7 @@ h5 {
 .modal {
     background: white;
     border-radius: 7px;
+    max-width: 45%; 
     opacity: 0;
     transition: opacity 0.2s linear;
     min-width: 500px;
