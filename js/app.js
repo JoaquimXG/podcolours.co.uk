@@ -1,78 +1,4 @@
-const wordList = [
-    "Achiever",
-    "Assertive",
-    "Candid",
-    "Competitive",
-    "Decisive",
-    "Direct",
-    "Dislikes Detail",
-    "Driving",
-    "Easily bored",
-    "Fast paced",
-    "Focussed",
-    "Forceful",
-    "Gets results",
-    "Impatient",
-    "Impulsive",
-    "Independent",
-    "Inquisitive",
-    "Self-Starter",
-    "Strong Willed",
-    "Takes Charge",
-    "Accommodating",
-    "Agreeable",
-    "Calm",
-    "Caring",
-    "Considerate",
-    "Deliberate",
-    "Dependable",
-    "Dislike change",
-    "Good Listener",
-    "Harmonious",
-    "Helpful",
-    "Kind",
-    "Level Headed",
-    "Loyal",
-    "Methodical",
-    "Patient",
-    "Possessive",
-    "Stubborn",
-    "Supportive"
-];
-
-const resultsText = {
-    red: {
-        color: "<span style='color:red;'>Red </span>",
-        title: "The Fast Paced Achiever",
-        blurb:
-            "Reds are very action oriented and always in motion. They will approach others in a direct, authorita-tive manner and have a preference for big picture thinking.  When communicating with a red you should ensure that you are clear, specific and brief.  Ask questions to help them think through the de-tails and define their big picture ideas."
-    },
-    blue: {
-        color: "<span style='color:blue;'>Blue </span>",
-        title: "The Prepared Planner",
-        blurb:
-            "People with a preference for Blue are usually very detail oriented and careful, blues ask hard ques-tions to ensure the job is done right.  They may tend toward perfectionism and like to work within clearly defined processes and procedures. To communicate with your blues, organiseyour thoughts and stick to business. "
-    },
-    green: {
-        color: "<span style='color:green;'>Green </span>",
-        title: "The Level Headed Helper",
-        blurb:
-            "People with a preference for green tend to be intensely loyal and patient, theyare steady workers and make terrific friends. They prefer democratic relations and they are very accommodating when dealing with others.  Maximize their contribution by creating an environment where they feel safe and valued so you can hear their insightful feedback. To communicate with greens be gentle, friendly, and curi-ous."
-    },
-    yellow: {
-        color: "<span style='color:yellow;'>Yellow </span>",
-        title: "The Animated Optimist",
-        blurb:
-            "People with a preference for yellow tend to be personable and trusting with a positive demeanor.  They usually approach others in a collaborative and democratic manner and have a genuine desire to help.  Yellows’dislike details and prefer looking at the bigger picture.  When communicating with a yellow you should be warm and friendly, but make sure you follow with specifics in writing.  "
-    }
-};
-
-const colourGenreLists = {
-    red: ["Thriller", "Horror"],
-    blue: ["Comedy", "Documentary"],
-    yellow: ["Action", "Drama"],
-    green: ["Romance", "Mystery"]
-};
+import { wordList, resultsText, colourGenreLists } from './appGlobals.js';
 
 $(function() {
     $(".card").each(function() {
@@ -91,14 +17,6 @@ $(function() {
         $(this).draggable();
     })
 });
-
-function displayResultsModal(color) {
-    $("#modalTitle").append(resultsText[color].color);
-    $("#modalTitle").append(resultsText[color].title);
-    $("#modalBlurb").text(resultsText[color].blurb);
-    $("#loginModalContainer").css("visibility", "visible");
-    $("#loginModal").css("opacity", "1");
-}
 
 $(function() {
     //Add click event for login button in the header to open the login modal
@@ -141,11 +59,20 @@ $(function() {
     $("#omdbButton").click(callMovieApi);
 });
 
+function displayResultsModal(color) {
+    $("#modalTitle").append(resultsText[color].color);
+    $("#modalTitle").append(resultsText[color].title);
+    $("#modalBlurb").text(resultsText[color].blurb);
+    $("#loginModalContainer").css("visibility", "visible");
+    $("#loginModal").css("opacity", "1");
+}
+
 //Calls the OMDB movie API searching for movies with "in the" contained in the title
 //this is only because you can't search for all movies and this seems to give a reasonable sample
 //Loops through the 10 results and checks if any match a genre for the current color
+//If a genre matches, the loop is broken and the movie is displayed on screen
 function callMovieApi() {
-    color = localStorage.getItem("resultColor");
+    var color = localStorage.getItem("resultColor");
 
     var url = "https://www.omdbapi.com/?apikey=d9aa0252&s=in the";
     $.getJSON(url, async function(data) {
@@ -155,8 +82,9 @@ function callMovieApi() {
             var urlTwo = `https://www.omdbapi.com/?apikey=d9aa0252&i=${id}`;
 
             try {
-                var title = await findGenre(colourGenreLists[color], urlTwo);
-                console.log(title);
+                var movieData = await checkForMatchingGenres(colourGenreLists[color], urlTwo);
+                console.log(movieData.Title);
+                displayMovieModal(movieData)
                 break
             } catch (e) {
                 console.log("Error:", e);
@@ -165,13 +93,13 @@ function callMovieApi() {
     });
 }
 
-const findGenre = (genres, url) =>
+const checkForMatchingGenres = (colorGenres, url) =>
     new Promise((resolve, reject) => {
         $.getJSON(url, function(data) {
-            var genreArray = data.Genre.replace(/ /g, "").split(",");
-            genres.forEach(genre => {
-                genreArray.forEach(genreToFind => {
-                    if (genre == genreToFind) {
+            var movieGenres = data.Genre.replace(/ /g, "").split(",");
+            colorGenres.forEach(colorGenre => {
+                movieGenres.forEach(movieGenre => {
+                    if (colorGenre === movieGenre) {
                         resolve(data.Title);
                     }
                 });
@@ -179,3 +107,11 @@ const findGenre = (genres, url) =>
             reject("Genre does not match");
         });
     });
+
+const displayMovieModal = (movieData) => {
+    $("#modalTitle").text(movieData.title);
+    $("#modalTitle").append(resultsText[color].title);
+    $("#modalBlurb").text(resultsText[color].blurb);
+    $("#loginModalContainer").css("visibility", "visible");
+    $("#loginModal").css("opacity", "1");
+}
