@@ -85,9 +85,11 @@ $(function() {
         $(this).mouseout(function() {
             $(this).removeClass("cardFocused");
         });
-        $(this).draggable();
         $(this).append(wordList.pop());
     });
+    $(".cardContainer").each(function(){
+        $(this).draggable();
+    })
 });
 
 function displayResultsModal(color) {
@@ -98,18 +100,22 @@ function displayResultsModal(color) {
     $("#loginModal").css("opacity", "1");
 }
 
-$(document).ready(function() {
+$(function() {
     //Add click event for login button in the header to open the login modal
     $("#temporaryRed").click(function() {
+        localStorage.setItem("resultColor","red");
         displayResultsModal("red");
     });
     $("#temporaryBlue").click(function() {
+        localStorage.setItem("resultColor","blue");
         displayResultsModal("blue");
     });
     $("#temporaryGreen").click(function() {
+        localStorage.setItem("resultColor","green");
         displayResultsModal("green");
     });
     $("#temporaryYellow").click(function() {
+        localStorage.setItem("resultColor","yellow");
         displayResultsModal("yellow");
     });
 
@@ -137,31 +143,30 @@ $(document).ready(function() {
 
 //Calls the OMDB movie API searching for movies with "in the" contained in the title
 //this is only because you can't search for all movies and this seems to give a reasonable sample
-//Loops through the 10 results and checks if any match the genre
+//Loops through the 10 results and checks if any match a genre for the current color
 function callMovieApi() {
-    console.log("test");
+    color = localStorage.getItem("resultColor");
 
     var url = "https://www.omdbapi.com/?apikey=d9aa0252&s=in the";
     $.getJSON(url, async function(data) {
-        console.log(data);
 
         for (var i = 0; i < data.Search.length; i++) {
             var id = data.Search[i].imdbID;
             var urlTwo = `https://www.omdbapi.com/?apikey=d9aa0252&i=${id}`;
 
             try {
-                var title = await findGenre(colourGenreLists.red, urlTwo);
-                console.log("No Error", title);
+                var title = await findGenre(colourGenreLists[color], urlTwo);
+                console.log(title);
                 break
             } catch (e) {
-                console.log("Error", e);
+                console.log("Error:", e);
             }
         }
     });
 }
 
 const findGenre = (genres, url) =>
-    new Promise((resolve) => {
+    new Promise((resolve, reject) => {
         $.getJSON(url, function(data) {
             var genreArray = data.Genre.replace(/ /g, "").split(",");
             genres.forEach(genre => {
@@ -171,6 +176,6 @@ const findGenre = (genres, url) =>
                     }
                 });
             });
-            resolve(false);
+            reject("Genre does not match");
         });
     });
