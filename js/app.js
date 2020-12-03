@@ -86,43 +86,27 @@ $(function() {
     });
 });
 
+function displayResultsModal(color){
+        $("#modalTitle").append(resultsText[color].color);
+        $("#modalTitle").append(resultsText[color].title);
+        $("#modalBlurb").text(resultsText[color].blurb);
+        $("#loginModalContainer").css("visibility", "visible");
+        $("#loginModal").css("opacity", "1");
+}
+
 $(document).ready(function() {
     //Add click event for login button in the header to open the login modal
     $("#temporaryRed").click(function() {
-        console.log(resultsText);
-
-        $("#modalTitle").append(resultsText.red.color);
-        $("#modalTitle").append(resultsText.red.title);
-        $("#modalBlurb").text(resultsText.red.blurb);
-        $("#loginModalContainer").css("visibility", "visible");
-        $("#loginModal").css("opacity", "1");
+        displayResultsModal('red');
     });
     $("#temporaryBlue").click(function() {
-        console.log(resultsText);
-
-        $("#modalTitle").append(resultsText.blue.color);
-        $("#modalTitle").append(resultsText.blue.title);
-        $("#modalBlurb").text(resultsText.blue.blurb);
-        $("#loginModalContainer").css("visibility", "visible");
-        $("#loginModal").css("opacity", "1");
+        displayResultsModal('blue');
     });
     $("#temporaryGreen").click(function() {
-        console.log(resultsText);
-
-        $("#modalTitle").append(resultsText.green.color);
-        $("#modalTitle").append(resultsText.green.title);
-        $("#modalBlurb").text(resultsText.green.blurb);
-        $("#loginModalContainer").css("visibility", "visible");
-        $("#loginModal").css("opacity", "1");
+        displayResultsModal('green');
     });
     $("#temporaryYellow").click(function() {
-        console.log(resultsText);
-
-        $("#modalTitle").append(resultsText.yellow.color);
-        $("#modalTitle").append(resultsText.yellow.title);
-        $("#modalBlurb").text(resultsText.yellow.blurb);
-        $("#loginModalContainer").css("visibility", "visible");
-        $("#loginModal").css("opacity", "1");
+        displayResultsModal('yellow');
     });
 
 
