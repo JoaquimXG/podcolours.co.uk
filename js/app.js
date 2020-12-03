@@ -72,27 +72,32 @@ function displayResultsModal(color) {
 //Loops through the 10 results and checks if any match a genre for the current color
 //If a genre matches, the loop is broken and the movie is displayed on screen
 function callMovieApi() {
-    var color = localStorage.getItem("resultColor");
+    function recursiveLoop(){
+        var yearAfter1980 = Math.round(Math.random() * 40);
 
-    var url = "https://www.omdbapi.com/?apikey=d9aa0252&s=in the";
-    $.getJSON(url, async function(data) {
+        var url = `https://www.omdbapi.com/?apikey=d9aa0252&s=in the&y=${1980+yearAfter1980}`;
+        $.getJSON(url, async function(data) {
+            for (var i = 0; i < data.Search.length; i++) {
+                var id = data.Search[i].imdbID;
+                var urlTwo = `https://www.omdbapi.com/?apikey=d9aa0252&i=${id}`;
 
-        for (var i = 0; i < data.Search.length; i++) {
-            var id = data.Search[i].imdbID;
-            var urlTwo = `https://www.omdbapi.com/?apikey=d9aa0252&i=${id}`;
-
-            try {
-                var movieData = await checkForMatchingGenres(colourGenreLists[color], urlTwo);
-                console.log(movieData.Title);
-                displayMovieModal(movieData)
-                break
-            } catch (e) {
-                console.log("Error:", e);
+                try {
+                    var movieData = await checkForMatchingGenres(colourGenreLists[color], urlTwo);
+                    displayMovieModal(movieData)
+                    return
+                } catch (e) {
+                    console.log("Error:", e);
+                }
             }
-        }
-    });
+            recursiveLoop()
+        });
+
+    }
+    var color = localStorage.getItem("resultColor");
+    recursiveLoop()
 }
 
+//Checks a movie from a given url for matches agains the current colours genres
 const checkForMatchingGenres = (colorGenres, url) =>
     new Promise((resolve, reject) => {
         $.getJSON(url, function(data) {
@@ -108,13 +113,19 @@ const checkForMatchingGenres = (colorGenres, url) =>
         });
     });
 
+//Displays the movie modal screen
+//editing modal title, blurb and buttons to suit
 const displayMovieModal = (movieData) => {
-    $("#modalTitle").text("Your results suggest you would like: ");
-    $("#modalTitle").append(movieData.Title);
+    console.log(movieData)
+    $("#modalTitle").text("Your results suggest you would like ");
+    $("#modalTitle").append($('<br/>'));
+    var movieTitle = $('<a>')
+        .text(movieData.Title)
+        .attr("href", `https://www.imdb.com/title/${movieData.imdbID}/`)
+    $("#modalTitle").append(movieTitle);
     $("#modalBlurb").text(movieData.Plot);
     var movieButton = $('<button>')
         .text("More Info")
         .addClass("buttonBaseline buttonBlue noBorder colCenter")
     $("#modalButtonContainer").html(movieButton)
-
 }
