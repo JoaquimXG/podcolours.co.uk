@@ -60,6 +60,7 @@ $(function() {
 });
 
 function displayResultsModal(color) {
+    $("#modalTitle").text(resultsText.default);
     $("#modalTitle").append(resultsText[color].color);
     $("#modalTitle").append(resultsText[color].title);
     $("#modalBlurb").text(resultsText[color].blurb);
@@ -100,7 +101,7 @@ const checkForMatchingGenres = (colorGenres, url) =>
             colorGenres.forEach(colorGenre => {
                 movieGenres.forEach(movieGenre => {
                     if (colorGenre === movieGenre) {
-                        resolve(data.Title);
+                        resolve(data);
                     }
                 });
             });
@@ -109,9 +110,8 @@ const checkForMatchingGenres = (colorGenres, url) =>
     });
 
 const displayMovieModal = (movieData) => {
-    $("#modalTitle").text(movieData.title);
-    $("#modalTitle").append(resultsText[color].title);
-    $("#modalBlurb").text(resultsText[color].blurb);
-    $("#loginModalContainer").css("visibility", "visible");
-    $("#loginModal").css("opacity", "1");
+    console.log(movieData)
+    $("#modalTitle").text("Your results suggest you would like: ");
+    $("#modalTitle").append(movieData.Title);
+    $("#modalBlurb").text(movieData.Plot);
 }

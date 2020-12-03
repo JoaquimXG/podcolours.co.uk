@@ -47,6 +47,7 @@ const wordList = [
 ];
 
 const resultsText = {
+    default:"Thanks for taking the test, your result is: ",
     red: {
         color: "<span style='color:red;'>Red </span>",
         title: "The Fast Paced Achiever",
