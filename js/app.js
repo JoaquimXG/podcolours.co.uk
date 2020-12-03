@@ -86,7 +86,7 @@ function callMovieApi() {
                     displayMovieModal(movieData)
                     return
                 } catch (e) {
-                    console.log("Error:", e);
+                    continue
                 }
             }
             recursiveLoop()
