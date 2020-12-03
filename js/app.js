@@ -44,31 +44,35 @@ const resultsText = {
     red: {
         color: "<span style='color:red;'>Red </span>",
         title: "The Fast Paced Achiever",
-        blurb: "Reds are very action oriented and always in motion. They will approach others in a direct, authorita-tive manner and have a preference for big picture thinking.  When communicating with a red you should ensure that you are clear, specific and brief.  Ask questions to help them think through the de-tails and define their big picture ideas."
+        blurb:
+            "Reds are very action oriented and always in motion. They will approach others in a direct, authorita-tive manner and have a preference for big picture thinking.  When communicating with a red you should ensure that you are clear, specific and brief.  Ask questions to help them think through the de-tails and define their big picture ideas."
     },
     blue: {
         color: "<span style='color:blue;'>Blue </span>",
         title: "The Prepared Planner",
-        blurb: "People with a preference for Blue are usually very detail oriented and careful, blues ask hard ques-tions to ensure the job is done right.  They may tend toward perfectionism and like to work within clearly defined processes and procedures. To communicate with your blues, organiseyour thoughts and stick to business. "
+        blurb:
+            "People with a preference for Blue are usually very detail oriented and careful, blues ask hard ques-tions to ensure the job is done right.  They may tend toward perfectionism and like to work within clearly defined processes and procedures. To communicate with your blues, organiseyour thoughts and stick to business. "
     },
     green: {
         color: "<span style='color:green;'>Green </span>",
         title: "The Level Headed Helper",
-        blurb: "People with a preference for green tend to be intensely loyal and patient, theyare steady workers and make terrific friends. They prefer democratic relations and they are very accommodating when dealing with others.  Maximize their contribution by creating an environment where they feel safe and valued so you can hear their insightful feedback. To communicate with greens be gentle, friendly, and curi-ous."
+        blurb:
+            "People with a preference for green tend to be intensely loyal and patient, theyare steady workers and make terrific friends. They prefer democratic relations and they are very accommodating when dealing with others.  Maximize their contribution by creating an environment where they feel safe and valued so you can hear their insightful feedback. To communicate with greens be gentle, friendly, and curi-ous."
     },
-    yellow : {
+    yellow: {
         color: "<span style='color:yellow;'>Yellow </span>",
         title: "The Animated Optimist",
-        blurb: "People with a preference for yellow tend to be personable and trusting with a positive demeanor.  They usually approach others in a collaborative and democratic manner and have a genuine desire to help.  Yellows’dislike details and prefer looking at the bigger picture.  When communicating with a yellow you should be warm and friendly, but make sure you follow with specifics in writing.  "
+        blurb:
+            "People with a preference for yellow tend to be personable and trusting with a positive demeanor.  They usually approach others in a collaborative and democratic manner and have a genuine desire to help.  Yellows’dislike details and prefer looking at the bigger picture.  When communicating with a yellow you should be warm and friendly, but make sure you follow with specifics in writing.  "
     }
 };
 
-const colourGenreList = {
+const colourGenreLists = {
     red: ["Thriller", "Horror"],
     blue: ["Comedy", "Documentary"],
     yellow: ["Action", "Drama"],
     green: ["Romance", "Mystery"]
-}
+};
 
 $(function() {
     $(".card").each(function() {
@@ -86,29 +90,28 @@ $(function() {
     });
 });
 
-function displayResultsModal(color){
-        $("#modalTitle").append(resultsText[color].color);
-        $("#modalTitle").append(resultsText[color].title);
-        $("#modalBlurb").text(resultsText[color].blurb);
-        $("#loginModalContainer").css("visibility", "visible");
-        $("#loginModal").css("opacity", "1");
+function displayResultsModal(color) {
+    $("#modalTitle").append(resultsText[color].color);
+    $("#modalTitle").append(resultsText[color].title);
+    $("#modalBlurb").text(resultsText[color].blurb);
+    $("#loginModalContainer").css("visibility", "visible");
+    $("#loginModal").css("opacity", "1");
 }
 
 $(document).ready(function() {
     //Add click event for login button in the header to open the login modal
     $("#temporaryRed").click(function() {
-        displayResultsModal('red');
+        displayResultsModal("red");
     });
     $("#temporaryBlue").click(function() {
-        displayResultsModal('blue');
+        displayResultsModal("blue");
     });
     $("#temporaryGreen").click(function() {
-        displayResultsModal('green');
+        displayResultsModal("green");
     });
     $("#temporaryYellow").click(function() {
-        displayResultsModal('yellow');
+        displayResultsModal("yellow");
     });
-
 
     //Add click event for close button in the login modal to close the modal
     $("#closeLoginModal").click(function() {
@@ -128,42 +131,46 @@ $(document).ready(function() {
     $("#loginModal").click(function(e) {
         e.stopPropagation();
     });
-    $("#omdbButton").click(function() {
-        console.log("test");
-        var url = "https://www.omdbapi.com/?apikey=d9aa0252&s=in the";
 
-        $.getJSON(url, function(data){
-            console.log(data);
-            for (var i=0; i<data.Search.length; i++) {
-                var id = data.Search[i].imdbID;
-                var urlTwo = `https://www.omdbapi.com/?apikey=d9aa0252&i=${id}`;
-                //console.log(urlTwo);
-                var title = findGenre(colourGenreList.red, urlTwo)    
-                
-            };
-
-        });
-
-    })
+    $("#omdbButton").click(callMovieApi);
 });
 
-function findGenre (genres, url) {
-    var title = ""
-    $.getJSON(url, function(data){
-        var genreArray = (data.Genre).replace(/ /g,"").split(",")
-        //console.log(genreArray)
-        genres.forEach(genre =>{
-            genreArray.forEach(genreToFind =>{
-                if (genre == genreToFind){
-                    console.log("success")
-                    title = data.Title;
-                }
-            })
-        })
-        if (title === ""){
-            //TODO
-        } else {
-            console.log(title)
+//Calls the OMDB movie API searching for movies with "in the" contained in the title
+//this is only because you can't search for all movies and this seems to give a reasonable sample
+//Loops through the 10 results and checks if any match the genre
+function callMovieApi() {
+    console.log("test");
+
+    var url = "https://www.omdbapi.com/?apikey=d9aa0252&s=in the";
+    $.getJSON(url, async function(data) {
+        console.log(data);
+
+        for (var i = 0; i < data.Search.length; i++) {
+            var id = data.Search[i].imdbID;
+            var urlTwo = `https://www.omdbapi.com/?apikey=d9aa0252&i=${id}`;
+
+            try {
+                var title = await findGenre(colourGenreLists.red, urlTwo);
+                console.log("No Error", title);
+                break
+            } catch (e) {
+                console.log("Error", e);
+            }
         }
-    })
+    });
 }
+
+const findGenre = (genres, url) =>
+    new Promise((resolve) => {
+        $.getJSON(url, function(data) {
+            var genreArray = data.Genre.replace(/ /g, "").split(",");
+            genres.forEach(genre => {
+                genreArray.forEach(genreToFind => {
+                    if (genre == genreToFind) {
+                        resolve(data.Title);
+                    }
+                });
+            });
+            resolve(false);
+        });
+    });
