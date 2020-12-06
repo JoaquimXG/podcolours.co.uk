@@ -8,29 +8,6 @@ var storedCards = {
 };
 
 $(function() {
-    //TODO Remove the temporary buttons and link the displayed results with the
-    //end of the test
-    $("#temporaryRed").click(function() {
-        localStorage.setItem("resultColor", "red");
-        displayResultsModal("red");
-    });
-    $("#temporaryBlue").click(function() {
-        localStorage.setItem("resultColor", "blue");
-        displayResultsModal("blue");
-    });
-    $("#temporaryGreen").click(function() {
-        localStorage.setItem("resultColor", "green");
-        displayResultsModal("green");
-    });
-    $("#temporaryYellow").click(function() {
-        localStorage.setItem("resultColor", "yellow");
-        displayResultsModal("yellow");
-    });
-
-    $("#temporaryShowScore").click(function() {
-        console.log(JSON.parse(localStorage.getItem("storedCards")));
-    });
-
     //Add click event for close button in the app modal to close the modal
     $("#closeAppModal").click(function() {
         $("#appModal").css("opacity", "0");
@@ -78,15 +55,34 @@ function handleCardDrop(_, ui) {
 
     var cards = $(".card");
     if (cards.length === 0) {
+        if (wordList.length === 0){
+            console.log("games over")
+            showResult()
+            return
+        }
         console.log("No more cards");
         displayCards();
     }
 }
 
+//counts up the results and displays the appropriate modal
+function showResult(){
+    var max = 0;
+    var result = ""
+    Object.keys(storedCards).forEach(color => {
+        if (storedCards[color].length > max){
+            max = color.length
+            result = color;
+        }
+    } );
+    localStorage.setItem("resultColor", result);
+    displayResultsModal(result);
+}
+
 //Will add 20 random cards from the deck to the application screen
 function displayCards() {
     var newWords = [];
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 4; i++) {
         var randomCardIndex = Math.floor(Math.random() * wordList.length);
         var randomCard = wordList.splice(randomCardIndex, 1)[0];
         newWords.push(randomCard);
@@ -178,7 +174,7 @@ const checkForMatchingGenres = (colorGenres, url) =>
 //editing modal title, blurb and buttons to suit
 const displayMovieModal = movieData => {
     console.log(movieData);
-    $("#modalTitle").text("Your results suggest you would like ");
+    $("#modalTitle").text("Your results suggests you would like ");
     $("#modalTitle").append($("<br/>"));
     var movieTitle = $("<a>")
         .text(movieData.Title)

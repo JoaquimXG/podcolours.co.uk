@@ -9,6 +9,9 @@ var wordList = [
     ["Direct", "red"],
     ["Dislikes Detail", "red"],
     ["Driving", "red"],
+];
+
+const old = [
     ["Easily bored", "red"],
     ["Fast paced", "red"],
     ["Focussed", "red"],
@@ -81,7 +84,7 @@ var wordList = [
     ["Spontaneous", "blue"],
     ["Talkative", "blue"],
     ["Team Worker", "blue"]
-];
+]
 
 const resultsText = {
     default: "Thanks for taking the test, your result is: ",
