@@ -30,6 +30,7 @@
     color: black;
     font-weight: 700;
     cursor: default;
+    z-index: 1;
 }
 .card:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -40,4 +41,42 @@
     opacity: 0.5;
     transition: 0.4;
     background: linear-gradient(257.68deg, #ECECEC 0%, #E2E2E2 100%);
+}
+
+.dropzoneContainer {
+    position:absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    bottom: 0px;
+    left: 0px;
+    height: 400px;
+    width: 100vw;
+}
+
+.cardDropzone {
+    border: 2px solid;
+    padding: 15px;
+    width: 254px;
+    height: 180px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-size: 1.5em;
+    font-weight: 700;
+    border-radius: 10px;
+}
+.cardDropzoneHover {
+    box-shadow: inset 0px 0px 4px 1px rgba(0,0,0,0.35);
+}
+
+#greenDropzone {
+    border-color: rgba(86, 189, 102, 1);
+    background: rgba(86, 189, 102, 0.5);
+}
+
+#redDropzone {
+    border-color: rgba(255, 77, 79, 1);
+    background: rgba(255, 77, 79, 0.5);
 }

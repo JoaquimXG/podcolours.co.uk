@@ -42,7 +42,7 @@ $(function() {
     $("#omdbButton").click(callMovieApi);
 
     displayCards();
-    
+
     $(".card").each(function() {
         $(this).mousedown(function() {
             $(this).addClass("cardFocused");
@@ -56,8 +56,21 @@ $(function() {
         $(this).draggable();
         //$(this).append(wordList[0].pop());
     });
+    $(".cardDropzone").each(function(event, ui) {
+        $(this).droppable({
+            classes: {
+                "ui-droppable-hover": "cardDropzoneHover"
+            },
+            drop: function(event, ui) {
+                console.log("Something was dropped");
+                var draggableId = $(ui.draggable).attr("id");
+                var droppableId = $(this).attr("id");
+                console.log({draggableId})
+                console.log({droppableId})
+            }
+        });
+    });
 });
-
 
 //Will add 20 random cards from the deck to the application screen
 function displayCards() {
@@ -79,13 +92,14 @@ function displayCards() {
         newWords.push(randomCard);
         console.log("Random card: %o, %d", randomCard, i);
     }
-    var appBackground = $('#appPrimaryContainer')
+    var appBackground = $("#appPrimaryContainer");
 
     newWords.forEach(word => {
-        var $newCard = $('<div />')
-            .addClass('card')
+        var $newCard = $("<div />")
+            .addClass("card")
             .text(word)
-        appBackground.append($newCard)
+            .attr("id", word);
+        appBackground.append($newCard);
     });
 }
 
