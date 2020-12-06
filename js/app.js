@@ -84,6 +84,7 @@ function callMovieApi() {
                 try {
                     var movieData = await checkForMatchingGenres(colourGenreLists[color], urlTwo);
                     displayMovieModal(movieData)
+                    $("body").removeClass("loading")
                     return
                 } catch (e) {
                     continue
@@ -93,7 +94,9 @@ function callMovieApi() {
         });
 
     }
+
     var color = localStorage.getItem("resultColor");
+    $("body").addClass("loading")
     recursiveLoop()
 }
 
