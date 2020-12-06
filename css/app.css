@@ -15,15 +15,20 @@
 
 /* Styles for the cards that will be used during the test */
 .card {
+    margin:15px;
+    padding: 15px;
+    float: left;
+    width: 180px;
+    height: 127px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
     background: linear-gradient(257.68deg, #F7F7F7 0%, #ECECEC 100%);
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    width: 120px;
-    height: 85px;
-    text-align: center;
     color: black;
     font-weight: 700;
-    line-height: 85px;
     cursor: default;
 }
 .card:hover {

@@ -1,38 +1,22 @@
-import { wordList, resultsText, colourGenreLists } from './appGlobals.js';
+import { wordList, resultsText, colourGenreLists } from "./appGlobals.js";
 
 $(function() {
-    $(".card").each(function() {
-        $(this).mousedown(function() {
-            $(this).addClass("cardFocused");
-        });
-        $(this).mouseup(function() {
-            $(this).removeClass("cardFocused");
-        });
-        $(this).mouseout(function() {
-            $(this).removeClass("cardFocused");
-        });
-        $(this).append(wordList.pop());
-    });
-    $(".cardContainer").each(function(){
-        $(this).draggable();
-    })
-});
-
-$(function() {
+    //TODO Remove the temporary buttons and link the displayed results with the
+    //end of the test
     $("#temporaryRed").click(function() {
-        localStorage.setItem("resultColor","red");
+        localStorage.setItem("resultColor", "red");
         displayResultsModal("red");
     });
     $("#temporaryBlue").click(function() {
-        localStorage.setItem("resultColor","blue");
+        localStorage.setItem("resultColor", "blue");
         displayResultsModal("blue");
     });
     $("#temporaryGreen").click(function() {
-        localStorage.setItem("resultColor","green");
+        localStorage.setItem("resultColor", "green");
         displayResultsModal("green");
     });
     $("#temporaryYellow").click(function() {
-        localStorage.setItem("resultColor","yellow");
+        localStorage.setItem("resultColor", "yellow");
         displayResultsModal("yellow");
     });
 
@@ -56,7 +40,54 @@ $(function() {
     });
 
     $("#omdbButton").click(callMovieApi);
+
+    displayCards();
+    
+    $(".card").each(function() {
+        $(this).mousedown(function() {
+            $(this).addClass("cardFocused");
+        });
+        $(this).mouseup(function() {
+            $(this).removeClass("cardFocused");
+        });
+        $(this).mouseout(function() {
+            $(this).removeClass("cardFocused");
+        });
+        $(this).draggable();
+        //$(this).append(wordList[0].pop());
+    });
 });
+
+
+//Will add 20 random cards from the deck to the application screen
+function displayCards() {
+    var newWords = [];
+    var coloursRemaining = 4;
+    for (var i = 0; i < 20; i++) {
+        var randomColorIndex = Math.floor(Math.random() * coloursRemaining);
+        if (wordList[randomColorIndex].length === 0) {
+            i--;
+            continue;
+        }
+        var randomCardIndex = Math.floor(
+            Math.random() * wordList[randomColorIndex].length
+        );
+        var randomCard = wordList[randomColorIndex].splice(
+            randomCardIndex,
+            1
+        )[0];
+        newWords.push(randomCard);
+        console.log("Random card: %o, %d", randomCard, i);
+    }
+    var appBackground = $('#appPrimaryContainer')
+
+    newWords.forEach(word => {
+        var $newCard = $('<div />')
+            .addClass('card')
+            .text(word)
+        appBackground.append($newCard)
+    });
+}
 
 function displayResultsModal(color) {
     $("#modalTitle").text(resultsText.default);
@@ -72,32 +103,35 @@ function displayResultsModal(color) {
 //Loops through the 10 results and checks if any match a genre for the current color
 //If a genre matches, the loop is broken and the movie is displayed on screen
 function callMovieApi() {
-    function recursiveLoop(){
+    function recursiveLoop() {
         var yearAfter1980 = Math.round(Math.random() * 40);
 
-        var url = `https://www.omdbapi.com/?apikey=d9aa0252&s=in the&y=${1980+yearAfter1980}`;
+        var url = `https://www.omdbapi.com/?apikey=d9aa0252&s=in the&y=${1980 +
+            yearAfter1980}`;
         $.getJSON(url, async function(data) {
             for (var i = 0; i < data.Search.length; i++) {
                 var id = data.Search[i].imdbID;
                 var urlTwo = `https://www.omdbapi.com/?apikey=d9aa0252&i=${id}`;
 
                 try {
-                    var movieData = await checkForMatchingGenres(colourGenreLists[color], urlTwo);
-                    displayMovieModal(movieData)
-                    $("body").removeClass("loading")
-                    return
+                    var movieData = await checkForMatchingGenres(
+                        colourGenreLists[color],
+                        urlTwo
+                    );
+                    displayMovieModal(movieData);
+                    $("body").removeClass("loading");
+                    return;
                 } catch (e) {
-                    continue
+                    continue;
                 }
             }
-            recursiveLoop()
+            recursiveLoop();
         });
-
     }
 
     var color = localStorage.getItem("resultColor");
-    $("body").addClass("loading")
-    recursiveLoop()
+    $("body").addClass("loading");
+    recursiveLoop();
 }
 
 //Checks a movie from a given url for matches agains the current colours genres
@@ -118,17 +152,17 @@ const checkForMatchingGenres = (colorGenres, url) =>
 
 //Displays the movie modal screen
 //editing modal title, blurb and buttons to suit
-const displayMovieModal = (movieData) => {
-    console.log(movieData)
+const displayMovieModal = movieData => {
+    console.log(movieData);
     $("#modalTitle").text("Your results suggest you would like ");
-    $("#modalTitle").append($('<br/>'));
-    var movieTitle = $('<a>')
+    $("#modalTitle").append($("<br/>"));
+    var movieTitle = $("<a>")
         .text(movieData.Title)
-        .attr("href", `https://www.imdb.com/title/${movieData.imdbID}/`)
+        .attr("href", `https://www.imdb.com/title/${movieData.imdbID}/`);
     $("#modalTitle").append(movieTitle);
     $("#modalBlurb").text(movieData.Plot);
-    var movieButton = $('<button>')
+    var movieButton = $("<button>")
         .text("More Info")
-        .addClass("buttonBaseline buttonBlue noBorder colCenter")
-    $("#modalButtonContainer").html(movieButton)
-}
+        .addClass("buttonBaseline buttonBlue noBorder colCenter");
+    $("#modalButtonContainer").html(movieButton);
+};
