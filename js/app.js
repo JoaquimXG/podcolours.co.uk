@@ -1,5 +1,12 @@
 import { wordList, resultsText, colourGenreLists } from "./appGlobals.js";
 
+var storedCards = {
+    red: [],
+    green: [],
+    yellow: [],
+    blue: []
+};
+
 $(function() {
     //TODO Remove the temporary buttons and link the displayed results with the
     //end of the test
@@ -18,6 +25,10 @@ $(function() {
     $("#temporaryYellow").click(function() {
         localStorage.setItem("resultColor", "yellow");
         displayResultsModal("yellow");
+    });
+
+    $("#temporaryShowScore").click(function() {
+        console.log(JSON.parse(localStorage.getItem("storedCards")));
     });
 
     //Add click event for close button in the app modal to close the modal
@@ -43,62 +54,61 @@ $(function() {
 
     displayCards();
 
-    $(".card").each(function() {
-        $(this).mousedown(function() {
-            $(this).addClass("cardFocused");
-        });
-        $(this).mouseup(function() {
-            $(this).removeClass("cardFocused");
-        });
-        $(this).mouseout(function() {
-            $(this).removeClass("cardFocused");
-        });
-        $(this).draggable();
-        //$(this).append(wordList[0].pop());
-    });
-    $(".cardDropzone").each(function(event, ui) {
+    $(".cardDropzone").each(function() {
         $(this).droppable({
             classes: {
                 "ui-droppable-hover": "cardDropzoneHover"
             },
-            drop: function(event, ui) {
-                console.log("Something was dropped");
-                var draggableId = $(ui.draggable).attr("id");
-                var droppableId = $(this).attr("id");
-                console.log({draggableId})
-                console.log({droppableId})
-            }
+            drop: handleCardDrop
         });
     });
 });
 
+function handleCardDrop(_, ui) {
+    var card = $(ui.draggable);
+    var id = card.attr("id");
+    var color = card.attr("data-color");
+    console.log({ id, color });
+
+    if ($(this).attr("id") === "greenDropzone") {
+        storedCards[color].push(id);
+        localStorage.setItem("storedCards", JSON.stringify(storedCards));
+    }
+    card.remove();
+
+    var cards = $(".card");
+    if (cards.length === 0) {
+        console.log("No more cards");
+        displayCards();
+    }
+}
+
 //Will add 20 random cards from the deck to the application screen
 function displayCards() {
     var newWords = [];
-    var coloursRemaining = 4;
     for (var i = 0; i < 20; i++) {
-        var randomColorIndex = Math.floor(Math.random() * coloursRemaining);
-        if (wordList[randomColorIndex].length === 0) {
-            i--;
-            continue;
-        }
-        var randomCardIndex = Math.floor(
-            Math.random() * wordList[randomColorIndex].length
-        );
-        var randomCard = wordList[randomColorIndex].splice(
-            randomCardIndex,
-            1
-        )[0];
+        var randomCardIndex = Math.floor(Math.random() * wordList.length);
+        var randomCard = wordList.splice(randomCardIndex, 1)[0];
         newWords.push(randomCard);
-        console.log("Random card: %o, %d", randomCard, i);
     }
     var appBackground = $("#appPrimaryContainer");
 
     newWords.forEach(word => {
         var $newCard = $("<div />")
             .addClass("card")
-            .text(word)
-            .attr("id", word);
+            .text(word[0])
+            .attr("id", word[0])
+            .attr("data-color", word[1])
+            .mousedown(function() {
+                $(this).addClass("cardFocused");
+            })
+            .mouseup(function() {
+                $(this).removeClass("cardFocused");
+            })
+            .mouseout(function() {
+                $(this).removeClass("cardFocused");
+            })
+            .draggable();
         appBackground.append($newCard);
     });
 }
