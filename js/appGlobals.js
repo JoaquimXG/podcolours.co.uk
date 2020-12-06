@@ -9,9 +9,6 @@ var wordList = [
     ["Direct", "red"],
     ["Dislikes Detail", "red"],
     ["Driving", "red"],
-];
-
-const old = [
     ["Easily bored", "red"],
     ["Fast paced", "red"],
     ["Focussed", "red"],
