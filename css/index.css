@@ -171,6 +171,18 @@ h5 {
     fill:red;
 }
 
+.backModalIcon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    height: 28px;
+    width: 28px;
+}
+
+.backModalIcon:hover {
+    fill: #2f9bff;
+}
+
 /* Form Styles */
 .modalFormContainer {
     padding: 50px 50px;

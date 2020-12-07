@@ -72,19 +72,22 @@
                     <h4 class="textCenter" id="modalBlurb">
                         This is the blurb
                     </h4>
-                    <div id="modalButtonContainer" class="flex justifyCenter spaceEvenly">
-                    <button
-                        class="buttonBaseline buttonSuccess noBorder colCenter"
-                        onclick="location.href='./app.html'"
+                    <div
+                        id="modalButtonContainer"
+                        class="flex justifyCenter spaceEvenly"
                     >
-                    Save Your Results!
-                    </button>
-                    <button
-                        class="buttonBaseline buttonBlue noBorder colCenter"
-                        id="omdbButton"
-                    >
-                    Suggest a movie!
-                    </button>
+                        <button
+                            class="buttonBaseline buttonSuccess noBorder colCenter"
+                            onclick="location.href='./app.html'"
+                        >
+                            Save Your Results!
+                        </button>
+                        <button
+                            class="buttonBaseline buttonBlue noBorder colCenter"
+                            id="omdbButton"
+                        >
+                            Suggest a movie!
+                        </button>
                     </div>
                 </div>
                 <svg
@@ -100,12 +103,23 @@
                     />
                     <path d="M0 0h24v24H0z" fill="none" />
                 </svg>
+                <svg
+                    id="backAppModal"
+                    class="backModalIcon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24"
+                >
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path
+                        d="M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"
+                    />
+                </svg>
             </div>
         </div>
-        <div style="display:flex;flex-direction:row;">
-        </div>
-        <div id="appPrimaryContainer" class="appBackground">
-        </div>
+        <div style="display:flex;flex-direction:row;"></div>
+        <div id="appPrimaryContainer" class="appBackground"></div>
         <div class="dropzoneContainer">
             <div id="redDropzone" class="cardDropzone">Discard</div>
             <div id="greenDropzone" class="cardDropzone">Keep</div>

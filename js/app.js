@@ -1,5 +1,7 @@
 import { wordList, resultsText, colourGenreLists } from "./appGlobals.js";
 
+//A record of all the cards that the user has decided to keep during the test
+//This Object is also stored in localStorage in the event the browser is closed
 var storedCards = {
     red: [],
     green: [],
@@ -8,25 +10,6 @@ var storedCards = {
 };
 
 $(function() {
-    //Add click event for close button in the app modal to close the modal
-    $("#closeAppModal").click(function() {
-        $("#appModal").css("opacity", "0");
-        $("#appModalContainer").css("visibility", "hidden");
-    });
-
-    //Add click event for outside of the app modal to close the modal
-    //A side effect of this is that clicking on the modal itself will
-    //cause the modal to close as it is a child of appModalContainer
-    //This is resolved below
-    $("#appModalContainer").click(function() {
-        $("#appModal").css("opacity", "0");
-        $("#appModalContainer").css("visibility", "hidden");
-    });
-    //Stop click events on the app modal from propogating to is parent and closing the modal
-    $("#appModal").click(function(e) {
-        e.stopPropagation();
-    });
-
     $("#omdbButton").click(callMovieApi);
 
     displayCards();
@@ -41,11 +24,13 @@ $(function() {
     });
 });
 
+//This function is run every time a card is dropped into either the discard or keep box
+//retrieves the id and color of the card and adds
+//it to the global storedCards object
 function handleCardDrop(_, ui) {
     var card = $(ui.draggable);
     var id = card.attr("id");
     var color = card.attr("data-color");
-    console.log({ id, color });
 
     if ($(this).attr("id") === "greenDropzone") {
         storedCards[color].push(id);
@@ -55,26 +40,29 @@ function handleCardDrop(_, ui) {
 
     var cards = $(".card");
     if (cards.length === 0) {
-        if (wordList.length === 0){
-            console.log("games over")
-            showResult()
-            return
+        if (wordList.length === 0) {
+            calculateResult();
+            return;
         }
-        console.log("No more cards");
         displayCards();
     }
 }
 
 //counts up the results and displays the appropriate modal
-function showResult(){
+function calculateResult() {
     var max = 0;
-    var result = ""
+    var result = "";
     Object.keys(storedCards).forEach(color => {
-        if (storedCards[color].length > max){
-            max = color.length
+        if (storedCards[color].length > max) {
+            max = color.length;
             result = color;
         }
-    } );
+    });
+
+    //TODO There is a potential case of users discarding every card
+    //A result will not be shown at this point,
+    //We should have a message telling users that they must keep at least 1 card
+    //We can run a check for if (max ==== 0) then they haven't kept any cards
     localStorage.setItem("resultColor", result);
     displayResultsModal(result);
 }
@@ -82,7 +70,7 @@ function showResult(){
 //Will add 20 random cards from the deck to the application screen
 function displayCards() {
     var newWords = [];
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 1; i++) {
         var randomCardIndex = Math.floor(Math.random() * wordList.length);
         var randomCard = wordList.splice(randomCardIndex, 1)[0];
         newWords.push(randomCard);
@@ -109,6 +97,7 @@ function displayCards() {
     });
 }
 
+//Adjusts all css and text for the appropriate results modal
 function displayResultsModal(color) {
     $("#modalTitle").text(resultsText.default);
     $("#modalTitle").append(resultsText[color].color);
@@ -116,6 +105,7 @@ function displayResultsModal(color) {
     $("#modalBlurb").text(resultsText[color].blurb);
     $("#appModalContainer").css("visibility", "visible");
     $("#appModal").css("opacity", "1");
+    removeModalCloseHandlers();
 }
 
 //Calls the OMDB movie API searching for movies with "in the" contained in the title
@@ -186,3 +176,34 @@ const displayMovieModal = movieData => {
         .addClass("buttonBaseline buttonBlue noBorder colCenter");
     $("#modalButtonContainer").html(movieButton);
 };
+
+//Adds all of the required click handlers to allow modals to close
+//also displays the cross
+function addModalCloseHandlers() {
+    //Add click event for close button in the app modal to close the modal
+    $("#closeAppModal").click(function() {
+        handleModalClose();
+    });
+
+    //For the area around the modal
+    $("#appModalContainer").click(function() {
+        handleModalClose();
+    });
+    //Stop click events on the app modal from propogating to is parent and closing the modal
+    $("#appModal").click(function(e) {
+        e.stopPropagation();
+    });
+}
+
+//Removes the click handlers required to be able to close a modal
+//Hides the close button
+function removeModalCloseHandlers(){
+    $("#closeAppModal").off();
+    $("#closeAppModal").css("visibility", "hidden");
+    $("#appModalContainer").off();
+}
+
+function handleModalClose() {
+    $("#appModal").css("opacity", "0");
+    $("#appModalContainer").css("visibility", "hidden");
+}
