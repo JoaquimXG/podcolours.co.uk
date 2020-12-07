@@ -119,13 +119,14 @@
         </div>
     </body>
     <div id="modalHolding">
+
+        <!-- Instructions Modal -->
         <div id="instructModalSection" class="modalSection">
-            <h2 id="instructModalTitle" class="textCenter">
+            <h2 id="instructModalTitle" class="textCenter bottomMargin50">
                 Instructions
             </h2>
             <div class="divider"></div>
-            <br />
-            <h4 id="instructions" class="textCenter">
+            <h4 id="instructions" class="textCenter bottomMargin50">
                 Cards will be released onto the screen along with 2 buckets<br /><br />A
                 "Keep" bucket and a "Discard" bucket<br /><br />Place cards
                 which you feel represent you into the "Keep" bucket and cards
@@ -146,6 +147,8 @@
                 </button>
             </div>
         </div>
+
+        <!-- Movie Modal -->
         <div id="movieModalSection" class="modalSection">
             <h4 id="movieModalTitle" class="textCenter">
                 Your results suggests you would like <br /><span
@@ -168,10 +171,18 @@
                 </button>
             </div>
         </div>
+
+        <!-- Results Modal -->
         <div id="resultsModalSection" class="modalSection">
-            <h4 id="modalTitle" class="textCenter"></h4>
-            <br />
-            <h4 class="textCenter" id="modalBlurb"></h4>
+            <h2 id="resultsTitle" class="textCenter bottomMargin50">Thank You for Taking the Test</h2>
+
+            <h4 class="textCenter bottomMargin10">You are</h4>
+            <h2 id="resultColor" class="textCenter bottomMargin10"></h2>
+            <h4 id="resultTitle"class="textCenter bottomMargin50"></h4>
+
+            <div class="divider"> </div>
+            <h5 class="textCenter bottomMargin50" id="resultsBlurb"></h5>
+            <div class="divider"></div>
             <div
                 class="flex justifyCenter spaceEvenly"
             >
@@ -189,8 +200,10 @@
                 </button>
             </div>
         </div>
+
+        <!-- Sign up Modal -->
         <div id="signupModalSection" class="modalSection">
-            <h3>Sign up to save your results</h3>
+            <h3 class="bottomMargin50">Sign up to save your results</h3>
             <div class="formGroup field">
                 <input
                     name="email"

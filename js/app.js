@@ -152,10 +152,9 @@ function calculateResult() {
 
 //Generates the required html for results modal
 function generateResultsModal(color) {
-    $("#modalTitle").text(resultsText.default);
-    $("#modalTitle").append(resultsText[color].color);
-    $("#modalTitle").append(resultsText[color].title);
-    $("#modalBlurb").text(resultsText[color].blurb);
+    $("#resultColor").append(resultsText[color].color);
+    $("#resultTitle").append(resultsText[color].title);
+    $("#resultsBlurb").text(resultsText[color].blurb);
 }
 
 //Adjusts all css and text for the appropriate results modal
