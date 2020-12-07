@@ -102,12 +102,24 @@ h5 {
     padding-top: 150px;
 }
 
+.topMargin10 {
+    margin-top: 10px;
+}
+
+.topMargin20 {
+    margin-top: 20px;
+}
+
 .bottomMargin100 {
     margin-bottom: 100px;
 }
 
 .bottomMargin50 {
     margin-bottom: 50px;
+}
+
+.bottomMargin30 {
+    margin-bottom: 30px;
 }
 
 .bottomMargin10 {
@@ -153,7 +165,7 @@ h5 {
 .modal {
     background: white;
     border-radius: 7px;
-    max-width: 45%; 
+    max-width: 55%; 
     opacity: 0;
     transition: opacity 0.2s linear;
     min-width: 500px;
