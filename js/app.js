@@ -34,12 +34,14 @@ $(function() {
 //Will add 20 random cards from the deck to the application screen
 function displayCards() {
     var newWords = [];
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 20; i++) {
         var randomCardIndex = Math.floor(Math.random() * wordList.length);
         var randomCard = wordList.splice(randomCardIndex, 1)[0];
         newWords.push(randomCard);
     }
-    var appBackground = $("#appPrimaryContainer");
+    var appBackground = $("#cardContainer");
+    var containerWidth = $("#cardContainer").width();
+    var containerHeight = $("#cardContainer").height();
 
     newWords.forEach(word => {
         var $newCard = $("<div />")
@@ -47,6 +49,11 @@ function displayCards() {
             .text(word[0])
             .attr("id", word[0])
             .attr("data-color", word[1])
+            .css({
+                position: "absolute",
+                left: Math.random() * (containerWidth - 180),
+                top: Math.random() * (containerHeight- 127)
+            })
             .mousedown(function() {
                 $(this).addClass("cardFocused");
             })
@@ -84,7 +91,6 @@ function handleCardDrop(_, ui) {
         displayCards();
     }
 }
-
 
 //counts up the results and displays the appropriate modal
 function calculateResult() {
