@@ -163,6 +163,11 @@ function displayResultsModal() {
 
     $('#saveResultsButton').click(function(){
         swapModal('#signupModalSection')
+        $("#backAppModal")
+            .css("visibility", "visible")
+            .click(function() {
+                displayResultsModal();
+            });
     })
 
     //Removing unneccessary dangling click handlers and icons
@@ -226,9 +231,10 @@ const checkForMatchingGenres = (colorGenres, url) =>
 //editing modal title, blurb and buttons to suit
 const displayMovieModal = movieData => {
     //Generate dynamic html from movie data
+    var imdbUrl = `https://www.imdb.com/title/${movieData.imdbID}/` 
     var movieTitle = $("<a>")
         .text(movieData.Title)
-        .attr("href", `https://www.imdb.com/title/${movieData.imdbID}/`);
+        .attr("href", imdbUrl);
     $("#movieTitle").html(movieTitle);
     $("#moviePlot").text(movieData.Plot);
     $("#backAppModal")
@@ -236,6 +242,9 @@ const displayMovieModal = movieData => {
         .click(function() {
             displayResultsModal();
         });
+    $('#moreMovieInfoButton').click(function() {
+        window.open(imdbUrl, '_blank')
+    })
 
     swapModal("#movieModalSection");
 };
