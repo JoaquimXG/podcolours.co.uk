@@ -72,7 +72,7 @@ function handleWindowResize() {
 //Will add 20 random cards from the deck to the application screen
 function displayCards() {
     var newWords = [];
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 1; i++) {
         var randomCardIndex = Math.floor(Math.random() * wordList.length);
         var randomCard = wordList.splice(randomCardIndex, 1)[0];
         newWords.push(randomCard);
@@ -152,10 +152,9 @@ function calculateResult() {
 
 //Generates the required html for results modal
 function generateResultsModal(color) {
-    $("#modalTitle").text(resultsText.default);
-    $("#modalTitle").append(resultsText[color].color);
-    $("#modalTitle").append(resultsText[color].title);
-    $("#modalBlurb").text(resultsText[color].blurb);
+    $("#resultColor").append(resultsText[color].color);
+    $("#resultTitle").append(resultsText[color].title);
+    $("#resultsBlurb").text(resultsText[color].blurb);
 }
 
 //Adjusts all css and text for the appropriate results modal
