@@ -16,6 +16,30 @@ var storedCards = {
     blue: []
 };
 
+//Fix issues created when the window changes size
+window.onresize = handleWindowResize;
+var resizeTimer;
+function handleWindowResize() {
+    clearTimeout(resizeTimer)
+
+    resizeTimer = setTimeout(function() {
+        var containerWidth = $("#cardContainer").width();
+        var containerHeight = $("#cardContainer").height();
+        var headerHeight = $('#header').outerHeight();
+
+        //Fix size of application page as size of header changes
+        $('#appPrimaryContainer').css({height: `calc(100vh - ${headerHeight}px)`})
+
+        //Fix positioning of cards as canvas width changes
+        $('.card').each(function() {
+            $(this).css({
+                left: Math.random() * (containerWidth - 180),
+                top: Math.random() * (containerHeight- 127)
+            })
+        })
+    }, 150)
+}
+
 $(function() {
     $("#omdbButton").click(callMovieApi);
 
