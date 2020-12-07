@@ -64,15 +64,16 @@
         <script type="module" src="js/app.js"></script>
     </head>
     <header id="header" class="flex">
-        <a style="height:100%;" href="../"><img  id="headerLogoImg" src="img/paintSplashLogoTextToRight.png" /></a>
+        <a style="height:100%;" href="../"
+            ><img id="headerLogoImg" src="img/paintSplashLogoTextToRight.png"
+        /></a>
         <button
             id="headerLoginButton"
             class="flexPushRight buttonBaseline noBorder"
         >
             Login
         </button>
-        <button
-            class="buttonBaseline buttonBlue noBorder takeTheTest">
+        <button class="buttonBaseline buttonBlue noBorder takeTheTest">
             Save Your Score
         </button>
     </header>
@@ -118,9 +119,39 @@
         </div>
     </body>
     <div id="modalHolding">
+        <div id="instructModalFormContainer" class="modalFormContainer">
+            <h2 id="instructModalTitle" class="textCenter">
+                Instructions
+            </h2>
+            <div class="divider"></div>
+            <br />
+            <h4 id="instructions" class="textCenter">
+                Cards will be released onto the screen along with 2 buckets<br /><br />A
+                "Keep" bucket and a "Discard" bucket<br /><br />Place cards
+                which you feel represent you into the "Keep" bucket and cards
+                which don't into the "Discard" bucket.<br /><br />
+                When the cards on screen have been sorted more will be released
+                until all 80 have been dealt.<br /><br />After all the cards
+                have been sorted your results will be calculated
+            </h4>
+            <div class="divider"></div>
+            <div
+                id="instructModalButtonContainer"
+                class="flex justifyCenter spaceEvenly"
+            >
+                <button
+                    class="buttonBaseline buttonSuccess noBorder colCenter"
+                    id="testStartButton"
+                >
+                    Start the Test
+                </button>
+            </div>
+        </div>
         <div id="movieModalFormContainer" class="modalFormContainer">
             <h4 id="movieModalTitle" class="textCenter">
-                Your results suggests you would like <br /><span id="movieTitle"></span>
+                Your results suggests you would like <br /><span
+                    id="movieTitle"
+                ></span>
             </h4>
             <br />
             <h4>

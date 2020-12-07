@@ -4,7 +4,9 @@ import { wordList, resultsText, colourGenreLists } from "./appGlobals.js";
 import {
     swapModal,
     removeModalCloseHandlers,
-    removeModalBackHandlers
+    removeModalBackHandlers,
+    addModalCloseHandlers,
+    handleModalClose
 } from "./modalHelpers.js";
 
 //A record of all the cards that the user has decided to keep during the test
@@ -15,6 +17,25 @@ var storedCards = {
     yellow: [],
     blue: []
 };
+
+$(function() {
+    $("#omdbButton").click(callMovieApi);
+
+    displayCards();
+
+    $(".cardDropzone").each(function() {
+        $(this).droppable({
+            classes: {
+                "ui-droppable-hover": "cardDropzoneHover"
+            },
+            drop: handleCardDrop
+        });
+    });
+
+    swapModal('#instructModalFormContainer');
+    addModalCloseHandlers();
+    $('#testStartButton').click(handleModalClose)
+});
 
 //Fix issues created when the window changes size
 window.onresize = handleWindowResize;
@@ -39,21 +60,6 @@ function handleWindowResize() {
         })
     }, 150)
 }
-
-$(function() {
-    $("#omdbButton").click(callMovieApi);
-
-    displayCards();
-
-    $(".cardDropzone").each(function() {
-        $(this).droppable({
-            classes: {
-                "ui-droppable-hover": "cardDropzoneHover"
-            },
-            drop: handleCardDrop
-        });
-    });
-});
 
 //Will add 20 random cards from the deck to the application screen
 function displayCards() {

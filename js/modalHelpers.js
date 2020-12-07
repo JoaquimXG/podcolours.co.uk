@@ -43,7 +43,7 @@ function removeModalCloseHandlers() {
 function handleModalClose() {
     $("#appModal")
         .css("opacity", "0")
-        .css("visibility", "hidden");
+    $("#appModalContainer").css("visibility", "hidden");
 }
 
 function removeModalBackHandlers() {
