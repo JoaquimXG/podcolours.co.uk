@@ -66,30 +66,7 @@
     <body>
         <div id="appModalContainer" class="modalContainer">
             <div id="appModal" class="modal">
-                <div class="modalFormContainer">
-                    <h4 id="modalTitle" class="textCenter"></h4>
-                    <br />
-                    <h4 class="textCenter" id="modalBlurb">
-                        This is the blurb
-                    </h4>
-                    <div
-                        id="modalButtonContainer"
-                        class="flex justifyCenter spaceEvenly"
-                    >
-                        <button
-                            class="buttonBaseline buttonSuccess noBorder colCenter"
-                            onclick="location.href='./app.html'"
-                        >
-                            Save Your Results!
-                        </button>
-                        <button
-                            class="buttonBaseline buttonBlue noBorder colCenter"
-                            id="omdbButton"
-                        >
-                            Suggest a movie!
-                        </button>
-                    </div>
-                </div>
+                <div id="modalFormContainer"></div>
                 <svg
                     id="closeAppModal"
                     class="closeModalIcon"
@@ -125,4 +102,50 @@
             <div id="greenDropzone" class="cardDropzone">Keep</div>
         </div>
     </body>
+    <div id="modalHolding">
+        <div id="movieModalFormContainer" class="modalFormContainer">
+            <h4 id="movieModalTitle" class="textCenter">
+                Your results suggests you would like <br /><span id="movieTitle"></span>
+            </h4>
+            <br />
+            <h4>
+                Plot
+            </h4>
+            <h5 id="moviePlot"></h5>
+            <div
+                id="movieModalButtonContainer"
+                class="flex justifyCenter spaceEvenly"
+            >
+                <button
+                    class="buttonBaseline buttonBlue noBorder colCenter"
+                    id="moreMovieInfoButton"
+                >
+                    More Info
+                </button>
+            </div>
+        </div>
+        <div id="resultsModalFormContainer" class="modalFormContainer">
+            <h4 id="modalTitle" class="textCenter"></h4>
+            <br />
+            <h4 class="textCenter" id="modalBlurb"></h4>
+            <div
+                id="modalButtonContainer"
+                class="flex justifyCenter spaceEvenly"
+            >
+                <!-- TODO Change this buttons function, it should save the users results -->
+                <button
+                    class="buttonBaseline buttonSuccess noBorder colCenter"
+                    onclick="location.href='./app.html'"
+                >
+                    Save Your Results!
+                </button>
+                <button
+                    class="buttonBaseline buttonBlue noBorder colCenter"
+                    id="omdbButton"
+                >
+                    Suggest a movie!
+                </button>
+            </div>
+        </div>
+    </div>
 </html>

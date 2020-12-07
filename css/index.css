@@ -139,7 +139,7 @@ h5 {
 .modalContainer {
     display: flex;
     visibility: hidden;
-    transition:visibility 0.2s linear;
+    transition: visibility 0.2s linear;
     background: rgba(131, 138, 150, 0.8);
     width: 100vw;
     height: 100vh;
@@ -177,6 +177,7 @@ h5 {
     left: 20px;
     height: 28px;
     width: 28px;
+    visibility: hidden;
 }
 
 .backModalIcon:hover {
