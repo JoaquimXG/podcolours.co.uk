@@ -234,7 +234,8 @@ const displayMovieModal = movieData => {
     var imdbUrl = `https://www.imdb.com/title/${movieData.imdbID}/` 
     var movieTitle = $("<a>")
         .text(movieData.Title)
-        .attr("href", imdbUrl);
+        .attr("href", imdbUrl)
+        .attr("target", "_blank")
     $("#movieTitle").html(movieTitle);
     $("#moviePlot").text(movieData.Plot);
     $("#backAppModal")
