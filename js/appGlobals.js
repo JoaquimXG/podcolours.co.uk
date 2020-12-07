@@ -2,6 +2,7 @@ export { wordList, resultsText, colourGenreLists };
 
 var wordList = [
     ["Achiever", "red"],
+]
 //    ["Assertive", "red"],
 //    ["Candid", "red"],
 //    ["Competitive", "red"],
