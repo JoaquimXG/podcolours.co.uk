@@ -2,11 +2,11 @@ export {swapModal, addModalCloseHandlers, removeModalCloseHandlers, handleModalC
 
 function swapModal(newModal){
     //Remove currently displayed modal
-    $("#modalFormContainer > div").appendTo("#modalHolding");
+    $("#modalSectionContainer > div").appendTo("#modalHolding");
 
     //Display new modal
     $(newModal)
-        .appendTo("#modalFormContainer")
+        .appendTo("#modalSectionContainer")
         .css("display", "block");
 
     $("#appModalContainer").css("visibility", "visible");

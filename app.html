@@ -73,14 +73,14 @@
         >
             Login
         </button>
-        <button class="buttonBaseline buttonBlue noBorder takeTheTest">
-            Save Your Score
+        <button id="saveResultsHeaderButton" class="buttonBaseline buttonBlue noBorder takeTheTest">
+            Save Your Results
         </button>
     </header>
     <body>
         <div id="appModalContainer" class="modalContainer">
             <div id="appModal" class="modal">
-                <div id="modalFormContainer"></div>
+                <div id="modalSectionContainer"></div>
                 <svg
                     id="closeAppModal"
                     class="closeModalIcon"
@@ -119,7 +119,7 @@
         </div>
     </body>
     <div id="modalHolding">
-        <div id="instructModalFormContainer" class="modalFormContainer">
+        <div id="instructModalSection" class="modalSection">
             <h2 id="instructModalTitle" class="textCenter">
                 Instructions
             </h2>
@@ -136,7 +136,6 @@
             </h4>
             <div class="divider"></div>
             <div
-                id="instructModalButtonContainer"
                 class="flex justifyCenter spaceEvenly"
             >
                 <button
@@ -147,7 +146,7 @@
                 </button>
             </div>
         </div>
-        <div id="movieModalFormContainer" class="modalFormContainer">
+        <div id="movieModalSection" class="modalSection">
             <h4 id="movieModalTitle" class="textCenter">
                 Your results suggests you would like <br /><span
                     id="movieTitle"
@@ -159,7 +158,6 @@
             </h4>
             <h5 id="moviePlot"></h5>
             <div
-                id="movieModalButtonContainer"
                 class="flex justifyCenter spaceEvenly"
             >
                 <button
@@ -170,18 +168,16 @@
                 </button>
             </div>
         </div>
-        <div id="resultsModalFormContainer" class="modalFormContainer">
+        <div id="resultsModalSection" class="modalSection">
             <h4 id="modalTitle" class="textCenter"></h4>
             <br />
             <h4 class="textCenter" id="modalBlurb"></h4>
             <div
-                id="modalButtonContainer"
                 class="flex justifyCenter spaceEvenly"
             >
-                <!-- TODO Change this buttons function, it should save the users results -->
                 <button
+                    id="saveResultsButton"
                     class="buttonBaseline buttonSuccess noBorder colCenter"
-                    onclick="location.href='./app.html'"
                 >
                     Save Your Results!
                 </button>
@@ -190,6 +186,38 @@
                     id="omdbButton"
                 >
                     Suggest a movie!
+                </button>
+            </div>
+        </div>
+        <div id="signupModalSection" class="modalSection">
+            <h3>Sign up to save your results</h3>
+            <div class="formGroup field">
+                <input
+                    name="email"
+                    placeholder="Email Address"
+                    class="formField"
+                    type="input"
+                    id="email"
+                    required
+                />
+                <label for="email" class="formLabel">Email Address</label>
+            </div>
+            <div class="formGroup field">
+                <input
+                    name="password"
+                    placeholder="Password"
+                    class="formField"
+                    id="password"
+                    type="password"
+                />
+                <label for="password" class="formLabel">Password</label>
+            </div>
+            <div class="flex justifyCenter spaceEvenly">
+                <button
+                    id="signupButton"
+                    class="buttonBaseline buttonBlue noBorder colCenter "
+                >
+                    Sign Up
                 </button>
             </div>
         </div>

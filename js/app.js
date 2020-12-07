@@ -19,7 +19,13 @@ var storedCards = {
 };
 
 $(function() {
+    displayInstructionModal();
+
     $("#omdbButton").click(callMovieApi);
+    $('#saveResultsHeaderButton').click(function(){
+        swapModal('#signupModalSection')
+        addModalCloseHandlers();
+    })
 
     displayCards();
 
@@ -31,11 +37,13 @@ $(function() {
             drop: handleCardDrop
         });
     });
+});
 
-    swapModal('#instructModalFormContainer');
+function displayInstructionModal() {
+    swapModal('#instructModalSection');
     addModalCloseHandlers();
     $('#testStartButton').click(handleModalClose)
-});
+}
 
 //Fix issues created when the window changes size
 window.onresize = handleWindowResize;
@@ -64,7 +72,7 @@ function handleWindowResize() {
 //Will add 20 random cards from the deck to the application screen
 function displayCards() {
     var newWords = [];
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 1; i++) {
         var randomCardIndex = Math.floor(Math.random() * wordList.length);
         var randomCard = wordList.splice(randomCardIndex, 1)[0];
         newWords.push(randomCard);
@@ -152,7 +160,11 @@ function generateResultsModal(color) {
 
 //Adjusts all css and text for the appropriate results modal
 function displayResultsModal() {
-    swapModal("#resultsModalFormContainer");
+    swapModal("#resultsModalSection");
+
+    $('#saveResultsButton').click(function(){
+        swapModal('#signupModalSection')
+    })
 
     //Removing unneccessary dangling click handlers and icons
     removeModalCloseHandlers();
@@ -226,5 +238,5 @@ const displayMovieModal = movieData => {
             displayResultsModal();
         });
 
-    swapModal("#movieModalFormContainer");
+    swapModal("#movieModalSection");
 };
