@@ -249,3 +249,5 @@ const displayMovieModal = movieData => {
 
     swapModal("#movieModalSection");
 };
+
+//comment
