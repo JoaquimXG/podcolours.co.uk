@@ -143,7 +143,7 @@ function calculateResult() {
 
     //TODO There is a potential case of users discarding every card
     //A result will not be shown at this point,
-    //We should have a mesage telling users that they must keep at least 1 card
+    //We should have a message telling users that they must keep at least 1 card
     //We can run a check for if (max ==== 0) then they haven't kept any cards
     localStorage.setItem("resultColor", result);
     generateResultsModal(result);
