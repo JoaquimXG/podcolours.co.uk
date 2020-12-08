@@ -6,7 +6,8 @@ import {
     removeModalCloseHandlers,
     removeModalBackHandlers,
     addModalCloseHandlers,
-    handleModalClose
+    handleModalClose,
+    addHandlersForLoginModal
 } from "./modalHelpers.js";
 
 //A record of all the cards that the user has decided to keep during the test
@@ -37,6 +38,9 @@ $(function() {
             drop: handleCardDrop
         });
     });
+
+    addHandlersForLoginModal()
+
 });
 
 function displayInstructionModal() {
