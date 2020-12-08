@@ -4,7 +4,6 @@
 - Joaquim Gomez
 - Euan Doyle
 - Lewis Boyd
-- Konstantinos Sevastos
 
 # POD Colours
 POD Colours is a unique personality evaluation test. 
