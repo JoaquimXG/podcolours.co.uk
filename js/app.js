@@ -72,7 +72,7 @@ function handleWindowResize() {
 //Will add 20 random cards from the deck to the application screen
 function displayCards() {
     var newWords = [];
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 1; i++) {
         var randomCardIndex = Math.floor(Math.random() * wordList.length);
         var randomCard = wordList.splice(randomCardIndex, 1)[0];
         newWords.push(randomCard);
