@@ -4,7 +4,7 @@
 - Joaquim Gomez
 - Euan Doyle
 - Lewis Boyd
-
+- Konstantinos Sevastos
 # POD Colours
 POD Colours is a unique personality evaluation test. 
 The POD Colours tool supports individuals and teams to appreciate differences in personality by en- hancing self-awareness, leading to a deeper understanding of oneself and other people.
