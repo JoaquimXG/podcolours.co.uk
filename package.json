@@ -1,0 +1,26 @@
+{
+  "name": "podcolors",
+  "version": "1.0.0",
+  "description": "Personality test website for RGU",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CM2104-DynamicWebDevelopment/cm2104-group-webapp-delz.git"
+  },
+  "author": "Joaquim Gomez, Lewis Boyd, Euan Doyle",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CM2104-DynamicWebDevelopment/cm2104-group-webapp-delz/issues"
+  },
+  "homepage": "https://github.com/CM2104-DynamicWebDevelopment/cm2104-group-webapp-delz#readme",
+  "dependencies": {
+    "body-parse": "^0.1.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mongodb": "^2.2.32"
+  }
+}
