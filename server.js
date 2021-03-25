@@ -39,5 +39,9 @@ app.get("/test", (_, res) => {
         "text": "Save your Results",
         "id": "saveResultsHeaderButton"
     }}
-    res.render("pages/app")
+    content = db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}, (err, queryRes) => {
+        //TODO render error page on database error
+        if (err) throw err
+        res.render("pages/app", {header: header, content: queryRes.content })
+    });
 })
