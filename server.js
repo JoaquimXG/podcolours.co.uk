@@ -9,10 +9,22 @@ app.set("view engine", "ejs");
 //Routes
 //Home Page
 app.get("/", (_, res) => {
-    res.render("pages/index")
+    header = {"secondButton": {
+        "class" : "buttonSuccess",
+        "onClick": "location.href='/test'",
+        "text": "Take the Test",
+        "id": "testButton"
+    }}
+    res.render("pages/index", {header: header})
 });
 
 app.get("/test", (_, res) => {
+    header = {"secondButton": {
+        "class" : "buttonBlue",
+        "onClick": "",
+        "text": "Save your Results",
+        "id": "saveResultsHeaderButton"
+    }}
     res.render("pages/app")
 })
 
