@@ -12,4 +12,8 @@ app.get("/", (_, res) => {
     res.render("pages/index")
 });
 
+app.get("/test", (_, res) => {
+    res.render("pages/app")
+})
+
 app.listen(8080);
