@@ -1,0 +1,72 @@
+<!-- Login Modal for templating -->
+        <div id="loginModalContainer" class="modalContainer">
+            <div id="loginModal" class="modal">
+                <div class="modalSection">
+                    <div class="formGroup field">
+                        <input
+                            name="loginEmail"
+                            placeholder="Email Address"
+                            class="formField"
+                            type="input"
+                            id="loginEmail"
+                            required
+                        />
+                        <label for="email" class="formLabel"
+                            >Email Address</label
+                        >
+                    </div>
+                    <div class="formGroup field">
+                        <input
+                            name="loginPassword"
+                            placeholder="Password"
+                            class="formField"
+                            id="loginPassword"
+                            type="password"
+                        />
+                        <label for="password" class="formLabel">Password</label>
+                    </div>
+                    <button
+                        id="loginButton"
+                        class="buttonBaseline buttonBlue noBorder colCenter "
+                    >
+                        Login
+                    </button>
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked="checked"
+                            name="remember"
+                        />
+                        Remember me
+                    </label>
+                </div>
+                <div class="divider"></div>
+                <div class="modalSection">
+                    <h4 class="textCenter bottomMargin50">
+                        Don't have an account?<br />We will create one after
+                        your personality test.
+                    </h4>
+                    <div class="flex justifyCenter spaceEvenly">
+                        <button
+                            class="buttonBaseline buttonSuccess noBorder colCenter takeTheTest"
+                            onclick="location.href='./app.html'"
+                        >
+                            Take the Test!
+                        </button>
+                    </div>
+                </div>
+                <svg
+                    id="closeLoginModal"
+                    class="closeModalIcon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24"
+                >
+                    <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                    />
+                    <path d="M0 0h24v24H0z" fill="none" />
+                </svg>
+            </div>
+        </div>
