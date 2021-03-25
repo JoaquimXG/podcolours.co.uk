@@ -26,19 +26,8 @@
                         class="col col6 colPost1 smallCol10 smallColCenter smallMarginBottom smallTextCenter"
                     >
                         <div>
-                            <h1 id="heroTitle" class="bold bottomMargin50">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit
-                            </h1>
-                            <h4 class="bottomMargin50">
-                                Ut enim ad minim veniam, quis nfostrud
-                                exercitation ullamco laboris nisi ut aliquip ex
-                                ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum
-                                dolore eu fugiat nulla pariatur. Excepteur sint
-                                occaecat cupidatat non proident, sunt in culpa
-                                qui officia deserunt mollit anim id est laborum
-                            </h4>
+                            <h1 id="heroTitle" class="bold bottomMargin50"><%= content.hero.title %></h1>
+                            <h4 class="bottomMargin50"><%= content.hero.text %></h4>
                             <button
                                 class="takeTheTest buttonBaseline buttonSuccess noBorder colCenter smallColCenter"
                                 onclick="location.href='/app.html'"
@@ -51,22 +40,17 @@
                         id="heroContainerImageContainer"
                         class="col col5 smallCol6 smallColCenter smallMarginBottom"
                     >
-                        <img class="col12 smallCol12" src="img/logo.png" />
+                    <img class="col12 smallCol12" src="<%= content.hero.image %>" />
                     </div>
                 </div>
             </main>
             <section id="explanation" class="pullUp150 mainContainer z100">
                 <div class="shortBlock whiteOnPeach textCenter smallTextLeft">
                     <div class="col10 colCenter smallCol10 smallColCenter">
-                        <h1 class="bold bottomMargin50">What is POD Colours?</h1>
+                        <h1 class="bold bottomMargin50"><%= content.redSection.title %></h1>
                     </div>
                     <div class="col10 colCenter smallCol10 smallColCenter">
-                        <h4 class="bottomMargin50">
-                            POD Colours is a tool which supports individuals and
-                            teams, helping them to appreciate differences in
-                            personality by en-hancing self-awareness, leading to
-                            a deeper understanding of oneself and other people.
-                        </h4>
+                        <h4 class="bottomMargin50"><%= content.redSection.text %></h4>
                     </div>
                 </div>
             </section>
@@ -92,24 +76,10 @@
                         class="col7 colPre1 smallCol10 smallColCenter smallTextRight smallMarginBottom"
                     >
                         <div id="teamQuote">
-                            <h2 class="bold bottomMargin50">We believe in POD Colours!</h2>
-                            <h3 class="bottomMargin50">
-                                Understanding the key personality differences
-                                between ourselves and the people we interact
-                                with helps us to realise how they see us; why
-                                they act the way they do; the impact that we
-                                have on them and how to get the most out of our
-                                interactions by capitalising on strengths.
-                            </h3>
-                            <h3 class="bottomMargin50">
-                                The POD Colours tool is based on psychological
-                                research, and provide genuine insight into your
-                                key areas of strength and potential barriers to
-                                success.
-                            </h3>
-                            <h5 id="quoteAuthor" class="bottomMargin50">
-                                Tina McGregor, Leadership Development Specialist
-                            </h5>
+                            <h2 class="bold bottomMargin50"><%= content.teamPhotoSection.title %></h2>
+                            <h3 class="bottomMargin50"><%= content.teamPhotoSection.textOne %></h3>
+                            <h3 class="bottomMargin50"><%= content.teamPhotoSection.textTwo %></h3>
+                            <h5 id="quoteAuthor" class="bottomMargin50"><%= content.teamPhotoSection.quoteAuthor %></h5>
                         </div>
                     </div>
                 </div>
@@ -117,23 +87,17 @@
             <section id="testimonial">
                 <div class="mainContainer shortBlock textCenter">
                     <div class="col10 smallCol10 smallColCenter colCenter">
-                        <h2 class="bottomMargin50">
-                            "Wow! More accurate than I ever could have hoped
-                            for"
-                        </h2>
+                        <h2 class="bottomMargin50"><%= content.testimonials[0].text %></h2>
                         <div id="testimonialCircle"></div>
-                        <h3 class="bottomMargin50">A. Very happy customer.</h3>
+                        <h3 class="bottomMargin50"><%= content.testimonials[0].name %></h3>
                     </div>
                 </div>
             </section>
             <section id="callToAction" class="blackOnPaleBlue">
                 <div class="mainContainer shortBlock textCenter">
                     <div class="col10 smallCol10 colCenter smallColCenter">
-                        <h1 class="bold bottomMargin50">Ready to get started?</h1>
-                        <h2 class="bottomMargin50">
-                            We'll guide you every step of the way towards your
-                            self improvement.
-                        </h2>
+                        <h1 class="bold bottomMargin50"><%= content.callToAction.title %></h1>
+                        <h2 class="bottomMargin50"><%= content.callToAction.text %></h2>
                         <button
                             class="buttonBaseline buttonSuccess noBorder colCenter smallColCenter takeTheTest"
                             onclick="location.href='/app.html'"

@@ -26,6 +26,10 @@ is available on the default mongodb port.
 1. First install required packages, `npm install`.
 2. Then start server.js `npm start`.
 
+### Development and Testing
+
+run `npm test` to run the site with hot reload for development.
+
 ## Home page
 
 Serves as the landing page for the site. Functionality includes; 'Login'
