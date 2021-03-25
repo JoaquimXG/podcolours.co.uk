@@ -28,7 +28,7 @@ is available on the default mongodb port.
 
 ### Development and Testing
 
-run `npm test` to run the site with hot reload for development.
+run `npm run devel` to run the site with hot reload for development.
 
 ## Home page
 
