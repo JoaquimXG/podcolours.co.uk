@@ -9,13 +9,22 @@ oneself and other people.
 The POD Colours tool is based on psychological research, and provides an
 indication of your key strengths and potential barriers to success.
 
+## Dependancies
+
+- MongoDB
+  - Must be installed and available on the PATH
+
 ## Usage
 
 Website backend is built with express, ejs and MongoDB.
 
-First install required packages, `npm install`.
+npm has been configured to run a database setup script `setupDb.js` post
+installation.
+This will cause an error if mongodb is not currently installed and the service
+is available on the default mongodb port.
 
-Then start server.js `npm start`.
+1. First install required packages, `npm install`.
+2. Then start server.js `npm start`.
 
 ## Home page
 
@@ -42,4 +51,3 @@ are based on the personality result.
 - Joaquim Gomez
 - Euan Doyle
 - Lewis Boyd
-
