@@ -5,8 +5,10 @@
   "main": "server.js",
   "scripts": {
     "devel": "nodemon ./server.js",
-    "start": "node server.js",
-    "postinstall": "mongo setupDb.js"
+    "docker": "docker-compose up",
+    "startDocker" : "node server.js 'mongodb://podMongo:27017/podcolours'",
+    "setupDb": "mongo podcolours setupDb.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",

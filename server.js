@@ -3,16 +3,17 @@ const express = require("express");
 const app = express();
 
 //Express extensions
+mongoUrl = process.argv[2] ? process.argv[2] : "mongodb://localhost:27017/podcolours"
+console.log(`=== Connection: ${mongoUrl} ===`)
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 var db;
-mongoUrl = "mongodb://localhost:27017/podcolours"
 MongoClient.connect(mongoUrl, (err, database) => {
   if (err) throw err;
   db = database;
   app.listen(8080);
-  console.log('listening on 8080');
+  console.log('Listening on port 8080');
 });
 
 //Routes

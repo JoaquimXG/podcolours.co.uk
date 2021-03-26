@@ -1,16 +1,8 @@
 print("==== Setting up Database ====")
-databaseName = "podcolours"
-connection =  new Mongo()
+databaseName = db
 
-if (connection.getDBNames().indexOf(databaseName) != -1) {
-    db = connection.getDB(databaseName)
-    db.dropDatabase()
-    print(`Dropped ${databaseName} database`)
-}
-
-db = connection.getDB(databaseName)
+db.dropDatabase()
 print(`Created ${databaseName} database`)
-
 
 db.content.insert({_id: "/", content : {
     header: {

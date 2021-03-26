@@ -9,26 +9,48 @@ oneself and other people.
 The POD Colours tool is based on psychological research, and provides an
 indication of your key strengths and potential barriers to success.
 
-## Dependancies
-
-- MongoDB
-  - Must be installed and available on the PATH
-
 ## Usage
 
-Website backend is built with express, ejs and MongoDB.
+Two options for using the site.
 
-npm has been configured to run a database setup script `setupDb.js` post
-installation.
-This will cause an error if mongodb is not currently installed and the service
-is available on the default mongodb port.
+1. Locally with local MongoDB installation.
+2. Through a pair of docker containers. One runnign MongoDB and one for the webapp.
 
-1. First install required packages, `npm install`.
-2. Then start server.js `npm start`.
+### Option 1 - Local MongoDB
+
+This method should be utilised for development.
+
+Requires:
+    - Node
+    - npm
+    - MongoDB
+
+Website backend is built with express, ejs and MongoDB and npm has been configured
+with a selection of setup scripts to ease development.
+
+To start webapp.
+
+1. Install required npm packages, `npm install`.
+2. Setup the podcolours MongoDB database, `npm run setupDb`
+3. Launch webapp `npm start`.
+
+The webapp can additionally be launched with hot reload with `npm run devel` to
+ease development.
 
 ### Development and Testing
 
 run `npm run devel` to run the site with hot reload for development.
+
+### Option 2 - Docker
+
+Allows for automated and reliable deployment of the site for CI/CD purposes.
+Requires:
+    - Docker
+    - Docker-compose
+
+Simply run `npm run docker`.
+Both containers will be launched, database will be initialised and the site can
+be reached at localhost:8080.
 
 ## Home page
 

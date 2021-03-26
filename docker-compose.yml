@@ -1,0 +1,30 @@
+version: '3.1'
+services:
+  mongo:
+    container_name: podMongo
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+      - ./setupDb.js:/docker-entrypoint-initdb.d/setupDb.js:ro
+    networks:
+      - podcoloursApp
+    environment:
+      MONGO_INITDB_DATABASE: podcolours
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: pass
+  app:
+    build: .
+    container_name: podApp
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - "8080:8080"
+    networks:
+      - podcoloursApp
+networks:
+  podcoloursApp:
+    driver: bridge
