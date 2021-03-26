@@ -1,12 +1,19 @@
 /* Global styles for all tags */
-* {
-    padding: 0;
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
     margin: 0;
-    border: 0px;
-    box-sizing: border-box;
-    font-family: Roboto;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
     vertical-align: baseline;
-    position: relative;
+    outline: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+* {
+    /*TODO position: relative;*/
+    font-family: Roboto;
 }
 
 body {
@@ -32,6 +39,17 @@ header {
     flex-direction: row;
     align-items: center;
     padding: 20px 30px;
+}
+
+footer {
+    padding: 50px 20px 50px;
+    background-color: #333333;
+    color: #DCE3F1;
+}
+
+a {
+    text-decoration: none;
+    color: #2736BD;
 }
 
 h1 {
@@ -124,6 +142,11 @@ h5 {
 
 .bottomMargin10 {
     margin-bottom: 10px;
+}
+
+.sidePadding30 {
+    padding-left: 30px;
+    padding-right: 30px; 
 }
 
 .z100 {

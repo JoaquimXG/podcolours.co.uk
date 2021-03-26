@@ -8,6 +8,19 @@ db.content.insert({_id: "/", content : {
     header: {
         image: "/img/paintSplashLogoTextToRight.png"
     },
+    footer: {
+        copyright: "© 2021 POD Colours All rights reserved.",
+        links: [
+            {
+                text: "Home",
+                href: "/"
+            },
+            {
+                text: "Personality Test",
+                href: "/test"
+            }
+        ]
+    },
     hero : {
         title : "Welcome to POD Colours",
         text : "POD Colours is a unique personality evaluation test. The POD Colours tool supports individuals and teams to appreciate differences in personality by en-hancing self-awareness, leading to a deeper understanding of oneself and other people. The POD Colours tool is based on psychological research, and provides an indication of your key strengths and potential barriers to success.",
