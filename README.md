@@ -37,7 +37,7 @@ To start webapp.
 The webapp can additionally be launched with hot reload with `npm run devel` to
 ease development.
 
-### Development and Testing
+#### Development and Testing
 
 run `npm run devel` to run the site with hot reload for development.
 
@@ -51,6 +51,11 @@ Requires:
 Simply run `npm run docker`.
 Both containers will be launched, database will be initialised and the site can
 be reached at localhost:8080.
+
+#### Issues
+
+If a local MongoDB instance is already running on port 27017 (default port), it will
+need to be stopped before the docker instance can run.
 
 ## Home page
 
