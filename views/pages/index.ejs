@@ -86,10 +86,8 @@
             </section>
             <section id="testimonial">
                 <div class="mainContainer shortBlock textCenter">
-                    <div class="col10 smallCol10 smallColCenter colCenter">
-                        <h2 class="bottomMargin30"><%= content.testimonials[0].text %></h2>
-                        <div id="testimonialCircle"></div>
-                        <h3 class="bottomMargin30"><%= content.testimonials[0].name %></h3>
+                    <div class="col10 smallCol10 smallColCenter colCenter overflowHidden">
+                        <%- include('../partials/carousel')%>
                     </div>
                 </div>
             </section>

@@ -417,6 +417,34 @@ h5 {
     border: none;
 }
 
+/* Carousel */
+.carouselSlider {
+    width: 5000px;
+    display: flex;
+    transition: all 0.8s;
+}
+
+.carouselItem {
+    padding: 0 10px;
+}
+
+.carouselBtn {
+    width: 16px;
+    height: 16px;
+    margin: 8px;
+    border-radius: 16px;
+    display: inline-block;
+    cursor: pointer;
+    background-color: black;
+    transition: all 0.8s;
+}
+
+.carouselBtnWide {
+    width: 35px;
+    border-radius: 35px;
+    background-color: #ff5f61;
+}
+
 /* Individual tag Styles */
 #headerLogoImg {
     height: 100%;

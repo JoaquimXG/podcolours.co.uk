@@ -38,9 +38,25 @@ db.content.insert({_id: "/", content : {
     },
     testimonials : [
         {
-            text: "\"Wow! More accurate than I ever could have hoped for\"",
-            name: "A. Very happy customer."
-        }
+            text: "My team have seen amazing results already. Needless to say we are extremely satisfied",
+            name: "Jody Heath"
+        },
+        {
+            text: "I love how extensive the profile is! It will really help me understand myself better.",
+            name: "Ariya Sanders"
+        },
+        {
+            text: "Genuinely insightful and an interesting read.",
+            name: "Jim Millar"
+        },
+        {
+            text: "A profound assessment of my personality.",
+            name: "Tony Crouch"
+        },
+        {
+            text: "More accurate than I could have hoped for",
+            name: "Jana Holder"
+        },
     ],
     callToAction : {
         title : "Ready to get started?",
