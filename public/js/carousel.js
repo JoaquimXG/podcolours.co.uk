@@ -4,11 +4,12 @@ export {
 };
 
 //Prepares carousel click handlers
+var carouselItemWidth;
 function addCarouselHandlers(carouselId) {
     var carousel = $(`#${carouselId}`);
     //Set each item in the carousel to match the size of 
     //the carousels parent container
-    var carouselItemWidth = $(carousel).parent().width();
+    carouselItemWidth = $(carousel).parent().width();
 
     resizeCarousel(carouselId)
 
@@ -34,7 +35,7 @@ function resizeCarousel(carouselId) {
     var carousel = $(`#${carouselId}`);
     var items = $(".carouselItem")
 
-    var carouselItemWidth = $(carousel).parent().width();
+    carouselItemWidth = $(carousel).parent().width();
     $(".carouselItem").outerWidth(carouselItemWidth)
     $(carousel).width(items.length * carouselItemWidth)
 }
