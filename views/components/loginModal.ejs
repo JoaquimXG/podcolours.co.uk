@@ -1,7 +1,7 @@
 <!-- Login Modal for templating -->
         <div id="loginModalContainer" class="modalContainer">
             <div id="loginModal" class="modal">
-                <form class="modalSection">
+                <form class="modalSection" action="/postlogin" method="post">
                     <div class="formGroup field">
                         <input
                             name="loginEmail"
@@ -28,6 +28,7 @@
                     <button
                         id="loginButton"
                         class="buttonBaseline buttonBlue noBorder colCenter "
+                        type="submit"
                     >
                         Login
                     </button>

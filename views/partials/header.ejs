@@ -3,16 +3,20 @@
     <a style="height:100%;" href="/"
         ><img id="headerLogoImg" src="<%= content.header.image %>"
     /></a>
-    <button
-        id="headerLoginButton"
-        class="flexPushRight buttonBaseline noBorder"
-    >
-        Login
-    </button>
-    <button
-        id="<%= header.secondButton.id %>"
-        onclick="<%= header.secondButton.onClick %>"
-        class="buttonBaseline noBorder takeTheTest <%= header.secondButton.class %>">
-        <%= header.secondButton.text %>
-    </button>
+    <div class="flex flexPushRight ">
+        <%if (header.login) { %>
+        <button
+            id="headerLoginButton"
+            class="buttonBaseline noBorder"
+        >
+            Login
+        </button>
+        <% } %>
+        <button
+            id="<%= header.secondButton.id %>"
+            onclick="<%= header.secondButton.onClick %>"
+            class="buttonBaseline noBorder takeTheTest <%= header.secondButton.class %>">
+            <%= header.secondButton.text %>
+        </button>
+    </div>
 </header>
