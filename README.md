@@ -52,6 +52,11 @@ Simply run `npm run docker`.
 Both containers will be launched, database will be initialised and the site can
 be reached at localhost:8080.
 
+The database within the MongoDB container will only initalise when run for the
+first time. If setupDb.js is edited, the data/ folder should be deleted completely.
+This will force the MongoDB container to re-initialise the database using the updated
+setupDb.js script.
+
 #### Issues
 
 If a local MongoDB instance is already running on port 27017 (default port), it will
