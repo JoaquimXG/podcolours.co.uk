@@ -152,6 +152,10 @@ h5 {
     z-index: 100;
 }
 
+.overflowHidden {
+    overflow: hidden;
+}
+
 .rowCenter {
     margin-top: auto;
     margin-bottom: auto;
@@ -339,6 +343,10 @@ h5 {
     justify-content: space-evenly;
 }
 
+.spaceBetween {
+    justify-content: space-between;
+}
+
 .alignCenter {
     align-items: center;
 }
@@ -443,7 +451,7 @@ h5 {
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -452,3 +460,4 @@ h5 {
 #loginButton {
     margin: 40px auto 0px;
 }
+

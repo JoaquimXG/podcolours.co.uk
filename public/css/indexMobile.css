@@ -196,6 +196,7 @@
         margin-right: 100%;
     }
 } 
+
 @media screen and (min-width: 1020px) {
     .width95 {
         width: 95%;
@@ -214,8 +215,8 @@
     }
 
     .shortBlock {
-        padding-top: 100px;
-        padding-bottom: 100px;
+        padding-top: 70px;
+        padding-bottom: 70px;
     }
 
     .tallBlock {
