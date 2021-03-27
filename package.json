@@ -4,7 +4,7 @@
   "description": "Personality test website for RGU",
   "main": "server.js",
   "scripts": {
-    "devel": "nodemon ./server.js",
+    "devel": "nodemon -e js,mjs,json,ejs",
     "docker": "docker-compose up",
     "startDocker" : "node server.js 'mongodb://podMongo:27017/podcolours'",
     "setupDb": "mongo podcolours setupDb.js",

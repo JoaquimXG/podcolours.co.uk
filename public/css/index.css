@@ -17,7 +17,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 }
 
 body {
-    width: 100vw;
     font-size: 16px;
 }
 
@@ -42,7 +41,7 @@ header {
 }
 
 footer {
-    padding: 50px 20px 50px;
+    padding: 30px 20px 30px;
     background-color: #333333;
     color: #DCE3F1;
 }
