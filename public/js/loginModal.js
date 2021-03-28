@@ -48,40 +48,40 @@ function handleLogin(e) {
     var email = $("#loginEmail").val();
     var password = $("#loginPassword").val();
 
+
     //Handle fields being empty
     if (email === "" && password === ""){
         $("#loginEmail").addClass("formFieldError")
         $("#loginPassword").addClass("formFieldError")
-    } else if (email === ""){
-        $("#loginEmail").addClass("formFieldError")
-    } else if (password === ""){
-        $("#loginPassword").addClass("formFieldError")
-    } else {
-        $.post({
-            type: "POST",
-            url: "/postlogin",
-            data: {email:email, password:password},
-            dataType: "json"
-        })
-            .done(data => {
-                //Successful login
-                if (data.loggedin === true) {
-                    window.location.href = "/profile"
-                }
-                //Wrong username
-                else if (data.badusername === true){
-                    $("#loginEmail").addClass("formFieldError")
-                }
-                //Wrong password
-                else {
-                    $("#loginPassword").addClass("formFieldError")
-                }
-            })
-            //TODO Handle server failure
-            .fail(() => {
-                alert(`Server Error Please try again`)  
-            })
+        return;
     }
+    if (password === ""){
+        $("#loginPassword").addClass("formFieldError")
+    } 
+    $.post({
+        type: "POST",
+        url: "/postlogin",
+        data: {email:email, password:password},
+        dataType: "json"
+    })
+        .done(data => {
+            //Successful login
+            if (data.loggedin === true) {
+                window.location.href = "/profile"
+            }
+            //Wrong username
+            else if (data.badusername === true){
+                $("#loginEmail").addClass("formFieldError")
+            }
+            //Wrong password
+            else {
+                $("#loginPassword").addClass("formFieldError")
+            }
+        })
+        //TODO Handle server failure
+        .fail(() => {
+            alert(`Server Error Please try again`)  
+        })
 }
 
 
