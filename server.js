@@ -66,7 +66,13 @@ app.get("/test", (_, res) => {
 
 //User profile page
 app.get("/profile", (req, res) => {
-    //TODO, check if user is logged in
+    //Redirect user to homepage if they are not signed in
+    //TODO open login modal using a get/post parameter handled 
+    //with some basic javascript on the index page
+    if (!req.session.loggedin ) {
+        res.redirect("/")
+    }
+
     header = {
         login: false,
         secondButton: {
@@ -76,15 +82,23 @@ app.get("/profile", (req, res) => {
         id: "testButton"
     }};
 
-    profile = {
-        email: req.session.email,
-        pre: req.session
-    }
-    db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}, (err, queryRes) => {
-        //TODO render error page on database error
-        if (err) throw err
-        res.render("pages/profile", {header: header, content: queryRes.content, profile })
-    });
+    queryPromiseArray = [];
+    queryPromiseArray.push(db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}));
+    queryPromiseArray.push(db.collection('users').findOne({username:req.session.email}))
+
+    Promise.all(queryPromiseArray)
+        .then((resultsArray) => {
+            content = resultsArray[0].content;
+            profile = resultsArray[1]
+            temp = JSON.parse(JSON.stringify(profile))
+            profile.pre = temp
+            res.render("pages/profile", {
+                header: header,
+                content: content,
+                profile: profile })
+        })
+        //TODO When are errors generated here? How to handle them?
+        .catch((err) => console.log(`Error getting profile from db ${err}`))
 
 })
 
@@ -96,6 +110,7 @@ app.post("/signup", async (req, res) => {
     }
 
     //Add user to database and redirect to profile page
+    //TODO, check if username is already taken and return an error if it has
     db.collection('users').save(user, (err, _) =>  {
         if(err) throw err;
         req.session.email = user.username

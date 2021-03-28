@@ -142,7 +142,7 @@ function handleCardDrop(_, ui) {
 }
 
 function storeCard(color, id, isKept) {
-    storedCards[color].push({[id]:isKept});
+    storedCards[color].push({id: id, isKept:isKept});
     localStorage.setItem("storedCards", JSON.stringify(storedCards));
 }
 
