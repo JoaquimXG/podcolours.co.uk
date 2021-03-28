@@ -236,6 +236,12 @@ h5 {
     width: 100%;
 }
 
+/* remove standard placeholder */
+.formField::placeholder {
+    color: transparent;
+    visibility: hidden;
+}
+
 .formField {
     width: 100%;
     border: 0;
@@ -247,12 +253,6 @@ h5 {
     background: transparent;
     transition: border-color 0.2s;
     margin-bottom: 10px;
-}
-
-/* remove standard placeholder */
-.formField::placeholder {
-    color: transparent;
-    visibility: hidden;
 }
 
 .formField:focus {
@@ -298,6 +298,24 @@ h5 {
     box-shadow: none;
 }
 
+.formFieldError {
+    color: #ff5f61;
+    border-color: #ff5f61;
+}
+
+.formFieldError:focus {
+    border-color: #ff5f61;
+}
+
+.formFieldError ~ .formLabel {
+    color: #ff5f61;
+}
+
+.formFieldError:focus ~ .formLabel {
+    color: #ff5f61;
+}
+
+
 /* Color Schemes */
 .whiteOnBlack {
     background: #333;
@@ -311,6 +329,11 @@ h5 {
 .blackOnPaleBlue {
     background: #e6ecf6;
     color: black;
+}
+
+.error {
+    color: #ff5f61;
+    border-color: #ff5f61;
 }
 
 /* Font Styles */

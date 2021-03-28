@@ -3,6 +3,12 @@ export {
 };
 
 function addLoginModalHandlers() {
+    function hideModal() {
+        $("#loginModal").css("opacity", "0");
+        $("#loginModalContainer").css("visibility", "hidden");
+        $(".formField").removeClass("formFieldError")
+    }
+
     //Add click event for login button in the header to open the login modal
     $("#headerLoginButton").click(function() {
         $("#loginModalContainer").css("visibility", "visible");
@@ -11,8 +17,7 @@ function addLoginModalHandlers() {
 
     //Add click event for close button in the login modal to close the modal
     $("#closeLoginModal").click(function() {
-        $("#loginModal").css("opacity", "0");
-        $("#loginModalContainer").css("visibility", "hidden");
+        hideModal();
     });
 
     //Add click event for outside of the login modal to close the modal
@@ -20,26 +25,38 @@ function addLoginModalHandlers() {
     //cause the modal to close as it is a child of loginModalContainer
     //This is resolved below
     $("#loginModalContainer").click(function() {
-        $("#loginModal").css("opacity", "0");
-        $("#loginModalContainer").css("visibility", "hidden");
+        hideModal();
     });
     //Stop click events on the login modal from propogating to is parent and closing the modal
     $("#loginModal").click(function(e) {
         e.stopPropagation();
     });
 
+    //Handle login form submit
     $("#loginButton").click(e => {handleLogin(e)});
 
+    //Remove error class from fields when the
+    //user has begun to edit them again
+    $(".formField").on("input", function() {
+        $(this).removeClass("formFieldError")
+    })
 }
 
 
 function handleLogin(e) {
+    e.preventDefault()
     var email = $("#loginEmail").val();
     var password = $("#loginPassword").val();
 
-    e.preventDefault()
-
-    if(email != "" && password != ""){
+    //Handle fields being empty
+    if (email === "" && password === ""){
+        $("#loginEmail").addClass("formFieldError")
+        $("#loginPassword").addClass("formFieldError")
+    } else if (email === ""){
+        $("#loginEmail").addClass("formFieldError")
+    } else if (password === ""){
+        $("#loginPassword").addClass("formFieldError")
+    } else {
         $.post({
             type: "POST",
             url: "/postlogin",
@@ -53,20 +70,18 @@ function handleLogin(e) {
                 }
                 //Wrong username
                 else if (data.badusername === true){
-                    console.log("Username incorrect")
+                    $("#loginEmail").addClass("formFieldError")
                 }
                 //Wrong password
                 else {
-                    console.log("Password incorrect")
+                    $("#loginPassword").addClass("formFieldError")
                 }
             })
             //TODO Handle server failure
-            .fail((request, status, err) => {
-              alert(`Server Error Please try again`)  
+            .fail(() => {
+                alert(`Server Error Please try again`)  
             })
-
     }
-    //TODO email or password is empty, notify user
 }
 
 
