@@ -124,8 +124,10 @@ function handleCardDrop(_, ui) {
     var color = card.attr("data-color");
 
     if ($(this).attr("id") === "greenDropzone") {
-        storedCards[color].push(id);
-        localStorage.setItem("storedCards", JSON.stringify(storedCards));
+        storeCard(color, id, true);
+    }
+    else {
+        storeCard(color, id, false)
     }
     card.remove();
 
@@ -139,7 +141,15 @@ function handleCardDrop(_, ui) {
     }
 }
 
+function storeCard(color, id, isKept) {
+    storedCards[color].push({[id]:isKept});
+    localStorage.setItem("storedCards", JSON.stringify(storedCards));
+}
+
 //counts up the results and displays the appropriate modal
+//TODO This doesn't work anymore because the way cards are
+//stored has been changed so that not only the cards that were kept
+//are stored.
 function calculateResult() {
     var max = 0;
     var result = "";
