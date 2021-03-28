@@ -4,6 +4,8 @@ databaseName = db
 db.dropDatabase()
 print(`Created ${databaseName} database`)
 
+db.users.insert({username: "test", password: "test"});
+
 db.content.insert({_id: "/", content : {
     header: {
         image: "/img/paintSplashLogoTextToRight.png"

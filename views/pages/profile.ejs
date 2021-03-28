@@ -17,8 +17,14 @@
     <body>
         <div class="mainContainer shortBlock textCenter">
             <div class="col10 smallCol10 colCenter smallColCenter">
-                <h1 class="bold bottomMargin50">TODO: Handle Login</h1>
+                <h1 class="bold bottomMargin50">TODO: Create Profile Page</h1>
                 <h2 class="bottomMargin50">This will be the profile page containing some basic user information</h2>
+            </div>
+        </div>
+        <div class="mainContainer shortBlock textCenter">
+            <div class="col10 smallCol10 colCenter smallColCenter">
+                <h1 class="bold bottomMargin50">User logged in: <%= profile.email %></h1>
+                <pre class="bottomMargin50"><%= JSON.stringify(profile.pre, null, 2) %></pre>
             </div>
         </div>
     </body>

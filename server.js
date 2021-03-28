@@ -1,6 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const express = require("express");
-const bodyParser = require('body-parser'); //npm install body-parser
+const bodyParser = require('body-parser');
+const session = require('express-session');
 const app = express();
 
 //Use default mongo url or first command line arg
@@ -10,6 +11,11 @@ console.log(`=== Connection: ${mongoUrl} ===`)
 //Express extensions
 app.use(express.static("public"));
 app.set("view engine", "ejs");
+app.use(session({
+    secret: "a+VT+Vt4V+Y7EoLHatwfPDauKGMBygejiZNNEPwZP0g",
+    saveUninitialized: true,
+    resave: true
+}))
 app.use(bodyParser.urlencoded({
   extended: true
 }))
@@ -26,11 +32,11 @@ MongoClient.connect(mongoUrl, (err, database) => {
 //Home Page
 app.get("/", (_, res) => {
     header = {
-        "login": true,
-        "secondButton": {
-        "class" : "buttonSuccess",
-        "onClick": "location.href='/test'",
-        "text": "Take the Test",
+        login: true,
+        secondButton: {
+        class : "buttonSuccess",
+        onClick: "location.href='/test'",
+        text: "Take the Test",
         "id": "testButton"
     }};
 
@@ -41,14 +47,15 @@ app.get("/", (_, res) => {
     });
 });
 
+//Personality test page
 app.get("/test", (_, res) => {
     header = {
-        "login": true,
-        "secondButton": {
-        "class" : "buttonBlue",
-        "onClick": "",
-        "text": "Save your Results",
-        "id": "saveResultsHeaderButton"
+        login: true,
+        secondButton: {
+        class : "buttonBlue",
+        onClick: "",
+        text: "Save your Results",
+        id: "saveResultsHeaderButton"
     }}
     content = db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}, (err, queryRes) => {
         //TODO render error page on database error
@@ -57,28 +64,52 @@ app.get("/test", (_, res) => {
     });
 })
 
-app.get("/profile", (_, res) => {
+//User profile page
+app.get("/profile", (req, res) => {
+    //TODO, check if user is logged in
     header = {
-        "login": false,
-        "secondButton": {
-        "class" : "buttonSuccess",
-        "onClick": "location.href='/test'",
-        "text": "Take the Test",
-        "id": "testButton"
+        login: false,
+        secondButton: {
+        class : "buttonSuccess",
+        onClick: "location.href='/test'",
+        text: "Take the Test",
+        id: "testButton"
     }};
+
+    profile = {
+        email: req.session.email,
+        pre: req.session
+    }
     content = db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}, (err, queryRes) => {
         //TODO render error page on database error
         if (err) throw err
-        res.render("pages/profile", {header: header, content: queryRes.content })
+        res.render("pages/profile", {header: header, content: queryRes.content, profile })
     });
 
 })
 
+//Login handler
 app.post("/postlogin", (req, res) => {
-    //TODO Add user to database
-    console.log(req.body)
     var email = req.body.loginEmail
     var password = req.body.loginPassword
 
-    res.redirect("/profile");
+    db.collection('users').findOne({"username":email}, (err, result) => {
+        //TODO render error page on database error
+        if (err) throw err;
+        if(!result){
+            res.redirect('/')
+            return
+        }
+
+        if(result.password == password){ req.session.loggedin = true;
+            req.session.loggedin = true;
+            req.session.email = email;
+            res.send('/profile') 
+            return;
+        } else {
+            res.redirect('/')
+        }
+    });
 })
+
+
