@@ -88,6 +88,17 @@ app.get("/profile", (req, res) => {
 
 })
 
+app.post("/signup", (req, res) => {
+    var email = req.body.email
+    var password = req.body.password
+    var cards = req.body.cards
+
+    console.log({email, password, cards})
+    res.json({userCreated:true})
+    return;
+
+})
+
 //Login handler
 app.post("/postlogin", (req, res) => {
     var email = req.body.email

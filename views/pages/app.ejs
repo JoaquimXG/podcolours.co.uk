@@ -139,43 +139,7 @@
                 </button>
             </div>
         </div>
+        <%- include('../components/signUpModal', {header: "Sign up to save your results!"})%>
 
-        <!-- Sign up Modal -->
-        <div id="signupModalSection" class="modalSection">
-            <h3 class="textCenter bottomMargin50 topMargin20">
-                Sign up to save your results
-            </h3>
-            <div class="bottomMargin50">
-                <div class="formGroup field">
-                    <input
-                        name="email"
-                        placeholder="Email Address"
-                        class="formField"
-                        type="input"
-                        id="email"
-                        required
-                    />
-                    <label for="email" class="formLabel">Email Address</label>
-                </div>
-                <div class="formGroup field">
-                    <input
-                        name="password"
-                        placeholder="Password"
-                        class="formField"
-                        id="password"
-                        type="password"
-                    />
-                    <label for="password" class="formLabel">Password</label>
-                </div>
-            </div>
-            <div class="flex justifyCenter spaceEvenly">
-                <button
-                    id="signupButton"
-                    class="buttonBaseline buttonBlue noBorder colCenter "
-                >
-                    Sign Up
-                </button>
-            </div>
-        </div>
     </div>
 </html>

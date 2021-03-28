@@ -11,6 +11,8 @@ import {
 
 import {addLoginModalHandlers} from './loginModal.js'
 
+import {addSignUpModalHandlers} from './signUpModal.js'
+
 //A record of all the cards that the user has decided to keep during the test
 //This Object is also stored in localStorage in the event the browser is closed
 var storedCards = {
@@ -20,12 +22,16 @@ var storedCards = {
     blue: []
 };
 
+//On first load, display instructions, cards and add event handlers
 $(function() {
     displayInstructionModal();
 
+    addLoginModalHandlers();
+    addSignUpModalHandlers("saveResultsHeaderButton");
+
     $("#omdbButton").click(callMovieApi);
     $('#saveResultsHeaderButton').click(function(){
-        swapModal('#signupModalSection')
+        swapModal('#signUpModalSection')
         addModalCloseHandlers();
     })
 
@@ -39,8 +45,6 @@ $(function() {
             drop: handleCardDrop
         });
     });
-
-    addLoginModalHandlers()
 
 });
 
@@ -167,7 +171,7 @@ function displayResultsModal() {
     swapModal("#resultsModalSection");
 
     $('#saveResultsButton').click(function(){
-        swapModal('#signupModalSection')
+        swapModal('#signUpModalSection')
         $("#backAppModal")
             .css("visibility", "visible")
             .click(function() {
