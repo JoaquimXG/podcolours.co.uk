@@ -7,8 +7,9 @@ import {
     removeModalBackHandlers,
     addModalCloseHandlers,
     handleModalClose,
-    addHandlersForLoginModal
 } from "./modalHelpers.js";
+
+import {addLoginModalHandlers} from './loginModal.js'
 
 //A record of all the cards that the user has decided to keep during the test
 //This Object is also stored in localStorage in the event the browser is closed
@@ -39,7 +40,7 @@ $(function() {
         });
     });
 
-    addHandlersForLoginModal()
+    addLoginModalHandlers()
 
 });
 
@@ -253,5 +254,3 @@ const displayMovieModal = movieData => {
 
     swapModal("#movieModalSection");
 };
-
-//comment

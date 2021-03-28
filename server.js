@@ -14,7 +14,7 @@ app.set("view engine", "ejs");
 app.use(session({
     secret: "a+VT+Vt4V+Y7EoLHatwfPDauKGMBygejiZNNEPwZP0g",
     saveUninitialized: true,
-    resave: true
+    resave: true,
 }))
 app.use(bodyParser.urlencoded({
   extended: true
@@ -90,24 +90,38 @@ app.get("/profile", (req, res) => {
 
 //Login handler
 app.post("/postlogin", (req, res) => {
-    var email = req.body.loginEmail
-    var password = req.body.loginPassword
+    var email = req.body.email
+    var password = req.body.password
 
+    //Find user in database
     db.collection('users').findOne({"username":email}, (err, result) => {
         //TODO render error page on database error
         if (err) throw err;
+
+        formResponse = {
+            badPassword: false,
+            badusername: false,
+            loggedin: false
+        };
+
+        //No result due to username/email not found in db
         if(!result){
-            res.redirect('/')
+            formResponse.badusername = true;
+            res.json(formResponse)
             return
         }
 
-        if(result.password == password){ req.session.loggedin = true;
+        //Successful login
+        if(result.password === password) { 
             req.session.loggedin = true;
             req.session.email = email;
-            res.send('/profile') 
+            formResponse.loggedin = true;
+            res.json(formResponse) 
             return;
         } else {
-            res.redirect('/')
+            //Password incorrect
+            formResponse.badPassword = true;
+            res.json(formResponse)
         }
     });
 })

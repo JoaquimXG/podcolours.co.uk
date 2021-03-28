@@ -1,10 +1,10 @@
-import {addHandlersForLoginModal} from './modalHelpers.js'
+import {addLoginModalHandlers} from './loginModal.js'
 import {addCarouselHandlers, resizeCarousel} from './carousel.js'
 
 var carouselId = "carouselSlider"
 
 $(document).ready(function() {
-    addHandlersForLoginModal();
+    addLoginModalHandlers();
     addCarouselHandlers(carouselId)
     window.onresize = handleWindowResize;
 });
