@@ -40,7 +40,7 @@ app.get("/", (_, res) => {
         "id": "testButton"
     }};
 
-    content = db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}, (err, queryRes) => {
+    db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}, (err, queryRes) => {
         //TODO render error page on database error
         if (err) throw err
         res.render("pages/index", {header: header, content: queryRes.content })
@@ -54,10 +54,10 @@ app.get("/test", (_, res) => {
         secondButton: {
         class : "buttonBlue",
         onClick: "",
-        text: "Save your Results",
+        text: "Save your Progress",
         id: "saveResultsHeaderButton"
     }}
-    content = db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}, (err, queryRes) => {
+    db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}, (err, queryRes) => {
         //TODO render error page on database error
         if (err) throw err
         res.render("pages/app", {header: header, content: queryRes.content })
@@ -80,7 +80,7 @@ app.get("/profile", (req, res) => {
         email: req.session.email,
         pre: req.session
     }
-    content = db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}, (err, queryRes) => {
+    db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}, (err, queryRes) => {
         //TODO render error page on database error
         if (err) throw err
         res.render("pages/profile", {header: header, content: queryRes.content, profile })
@@ -88,14 +88,21 @@ app.get("/profile", (req, res) => {
 
 })
 
-app.post("/signup", (req, res) => {
-    var email = req.body.email
-    var password = req.body.password
-    var cards = req.body.cards
+app.post("/signup", async (req, res) => {
+    user = {
+        username: req.body.email,
+        password: req.body.password,
+        cards: req.body.cards
+    }
 
-    console.log({email, password, cards})
-    res.json({userCreated:true})
-    return;
+    //Add user to database and redirect to profile page
+    db.collection('users').save(user, (err, _) =>  {
+        if(err) throw err;
+        req.session.email = user.username
+        req.session.loggedin = true;
+        formResponse = {userCreated: true}
+        res.json(formResponse)
+    })
 
 })
 

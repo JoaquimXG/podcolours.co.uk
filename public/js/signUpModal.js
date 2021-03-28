@@ -65,8 +65,8 @@ function handleSignUp(e) {
             dataType: "json"
         })
             .done(data => {
+                //Redirect to profile page if user created 
                 if (data.userCreated === true) {
-                    console.log("User Created")
                     window.location.href = "/profile"
                 }
             })
