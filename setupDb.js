@@ -185,6 +185,10 @@ db.content.insert({
                     text: "Personality Test",
                     href: "/test",
                 },
+                {
+                    text: "Profile",
+                    href: "/profile",
+                },
             ],
         },
         hero: {

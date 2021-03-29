@@ -12,11 +12,13 @@
             Login
         </button>
         <% } %>
-        <button
-            id="<%= header.secondButton.id %>"
-            onclick="<%= header.secondButton.onClick %>"
-            class="buttonBaseline noBorder takeTheTest <%= header.secondButton.class %>">
-            <%= header.secondButton.text %>
-        </button>
+        <%if (header.testButton != false) { %>
+            <button
+                id="<%= header.testButton.id %>"
+                onclick="<%= header.testButton.onClick %>"
+                class="buttonBaseline noBorder takeTheTest <%= header.testButton.class %>">
+                <%= header.testButton.text %>
+            </button>
+        <% } %>
     </div>
 </header>
