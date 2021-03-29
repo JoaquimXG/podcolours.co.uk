@@ -71,7 +71,6 @@ app.get("/profile", (req, res) => {
     //Redirect user to homepage if they are not signed in
     //TODO open login modal using a get/post parameter handled 
     //with some basic javascript on the index page
-    console.log(req.session)
     if (!req.session.loggedin ) {
         res.redirect("/")
         return;
