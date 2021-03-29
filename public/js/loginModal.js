@@ -1,23 +1,28 @@
 export { 
-    addLoginModalHandlers
+    addLoginModalHandlers,
+    openLoginModal,
+    closeLoginModal
 };
 
-function addLoginModalHandlers() {
-    function hideModal() {
-        $("#loginModal").css("opacity", "0");
-        $("#loginModalContainer").css("visibility", "hidden");
-        $(".formField").removeClass("formFieldError")
-    }
-
-    //Add click event for login button in the header to open the login modal
-    $("#headerLoginButton").click(function() {
+function openLoginModal() {
         $("#loginModalContainer").css("visibility", "visible");
         $("#loginModal").css("opacity", "1");
-    });
+}
+
+function closeLoginModal() {
+    $("#loginModal").css("opacity", "0");
+    $("#loginModalContainer").css("visibility", "hidden");
+    $(".formField").removeClass("formFieldError")
+}
+
+function addLoginModalHandlers() {
+
+    //Add click event for login button in the header to open the login modal
+    $("#headerLoginButton").click(openLoginModal);
 
     //Add click event for close button in the login modal to close the modal
     $("#closeLoginModal").click(function() {
-        hideModal();
+        closeLoginModal();
     });
 
     //Add click event for outside of the login modal to close the modal
@@ -25,7 +30,7 @@ function addLoginModalHandlers() {
     //cause the modal to close as it is a child of loginModalContainer
     //This is resolved below
     $("#loginModalContainer").click(function() {
-        hideModal();
+        closeLoginModal();
     });
     //Stop click events on the login modal from propogating to is parent and closing the modal
     $("#loginModal").click(function(e) {

@@ -20,7 +20,7 @@
                 <% if (profile.testComplete === true) { %>
                     <%# %>
                     <h1 class="bold bottomMargin50 underline">Thank you for taking the test!</h1>
-                    <h2 class="bottomMargin30">Your choices suggest you have some <%= profile.result %> in you.</h2>
+                    <h2 class="bottomMargin30">Your choices suggest you're partially <%= profile.result %></h2>
 
                     <%- include('../components/profileField', {header: "You chose to keep", value: profile.cardCountString  })%>
                     <%- include('../components/profileField', {header: "Date Taken", value: profile.dateTaken  })%>
@@ -31,10 +31,10 @@
             </div>
             <% if (!profile.testComplete === true) { %>
                 <button
-                    id="<%= header.secondButton.id %>"
-                    onclick="<%= header.secondButton.onClick %>"
-                    class="buttonBaseline colCenter noBorder takeTheTest <%= header.secondButton.class %>">
-                    <%= header.secondButton.text %>
+                    id="<%= header.testButton.id %>"
+                    onclick="<%= header.testButton.onClick %>"
+                    class="buttonBaseline colCenter noBorder takeTheTest <%= header.testButton.class %>">
+                    <%= header.testButton.text %>
                 </button>
             <% } %>
         </div>

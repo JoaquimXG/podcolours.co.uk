@@ -5,11 +5,11 @@
             <%# Loops through all links for footer in database, new links can be easily added %>
             <% if (i === arr.length-1) { %>
                 <div class="sidePadding30">
-                    <a href="/"><h4><%= link.text %></h4></a>
+                    <a href=<%= link.href %>><h4><%= link.text %></h4></a>
                 </div>
             <% } else { %>
                 <div class="sidePadding30">
-                    <a href="/"><h4><%= link.text %></h4></a>
+                    <a href=<%= link.href %>><h4><%= link.text %></h4></a>
                 </div><h4>|</h4>
             <% } %>
         <% }); %>

@@ -33,7 +33,7 @@ MongoClient.connect(mongoUrl, (err, database) => {
 app.get("/", (_, res) => {
     header = {
         login: true,
-        secondButton: {
+        testButton: {
         class : "buttonSuccess",
         onClick: "location.href='/test'",
         text: "Take the Test",
@@ -44,6 +44,7 @@ app.get("/", (_, res) => {
         //TODO render error page on database error
         if (err) throw err
         res.render("pages/index", {header: header, content: queryRes.content })
+        return;
     });
 });
 
@@ -51,7 +52,7 @@ app.get("/", (_, res) => {
 app.get("/test", (_, res) => {
     header = {
         login: true,
-        secondButton: {
+        testButton: {
         class : "buttonBlue",
         onClick: "",
         text: "Save your Progress",
@@ -61,16 +62,17 @@ app.get("/test", (_, res) => {
         //TODO render error page on database error
         if (err) throw err
         res.render("pages/app", {header: header, content: queryRes.content })
+        return;
     });
 })
 
 //User profile page
 app.get("/profile", (req, res) => {
     //Redirect user to homepage if they are not signed in
-    //TODO open login modal using a get/post parameter handled 
-    //with some basic javascript on the index page
+    //Homepage is setup to open loginModal automatically with this param
     if (!req.session.loggedin ) {
-        res.redirect("/")
+        res.redirect("/?loginModal=1")
+        return;
     }
 
     //Counts the number of each colour that has been kept
@@ -85,24 +87,31 @@ app.get("/profile", (req, res) => {
         return cardCounts;
     }
 
-
     header = {
         login: false,
-        secondButton: {
+        testButton: {
         class : "buttonSuccess",
         onClick: "location.href='/test'",
         text: "Continue",
         id: "testButton"
     }};
 
+    //Add two query promises to array to be resolved in parallel
     queryPromiseArray = [];
     queryPromiseArray.push(db.collection('content').findOne({_id: "/"}, {_id: 0, content:1}));
     queryPromiseArray.push(db.collection('users').findOne({username:req.session.email}))
 
+    //Wait for both promises to resolve without error
     Promise.all(queryPromiseArray)
         .then((resultsArray) => {
             content = resultsArray[0].content;
             profile = resultsArray[1]
+
+            //Don't display button to continue test in header if
+            //the user has already completed the test
+            if (profile.testComplete === true){
+                header.testButton = false
+            }
 
             cardCounts = countKeptCards(profile.cards)
             profile.cardCountString = `Red: ${cardCounts.red}, \
@@ -110,12 +119,11 @@ Blue: ${cardCounts.blue}, \
 Green: ${cardCounts.green}, \
 Yellow: ${cardCounts.yellow}`
 
-            temp = JSON.parse(JSON.stringify(profile))
-            profile.pre = temp
             res.render("pages/profile", {
                 header: header,
                 content: content,
                 profile: profile })
+            return;
         })
         //TODO When are errors generated here? How to handle them?
         .catch((err) => console.log(`Error getting profile from db ${err}`))
@@ -125,7 +133,8 @@ app.post("/signup", async (req, res) => {
     user = {
         username: req.body.email,
         password: req.body.password,
-        cards: req.body.cards
+        cards: req.body.cards,
+        result: false
     }
 
     //Add user to database and redirect to profile page
@@ -136,6 +145,7 @@ app.post("/signup", async (req, res) => {
         req.session.loggedin = true;
         formResponse = {userCreated: true}
         res.json(formResponse)
+        return;
     })
 
 })
@@ -168,12 +178,13 @@ app.post("/postlogin", (req, res) => {
             req.session.loggedin = true;
             req.session.email = email;
             formResponse.loggedin = true;
-            res.json(formResponse) 
+            res.send(formResponse) 
             return;
         } else {
             //Password incorrect
             formResponse.badPassword = true;
             res.json(formResponse)
+            return;
         }
     });
 })
