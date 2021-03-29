@@ -69,6 +69,9 @@ app.get("/profile", (req, res) => {
     //Redirect user to homepage if they are not signed in
     //TODO open login modal using a get/post parameter handled 
     //with some basic javascript on the index page
+    if (!req.session.loggedin ) {
+        res.redirect("/")
+    }
 
     //Counts the number of each colour that has been kept
     //to dispay to the user. 
@@ -82,9 +85,6 @@ app.get("/profile", (req, res) => {
         return cardCounts;
     }
 
-    if (!req.session.loggedin ) {
-        res.redirect("/")
-    }
 
     header = {
         login: false,
