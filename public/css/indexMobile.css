@@ -35,6 +35,11 @@
         padding-bottom: 75px;
     }
 
+    .colCenter {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
     .smallMarginBottom {
         margin-bottom: 75px;
     }
@@ -215,13 +220,13 @@
     }
 
     .shortBlock {
-        padding-top: 70px;
-        padding-bottom: 70px;
+        padding-top: 60px;
+        padding-bottom: 60px;
     }
 
     .tallBlock {
-        padding-top: 150px;
-        padding-bottom: 150px;
+        padding-top: 100px;
+        padding-bottom: 100px;
     }
 
 

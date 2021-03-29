@@ -10,7 +10,8 @@ db.users.insert({
     department: "School of Computing",
     username: "user",
     password: "password",
-    dateTaken: Date(),
+    dateTaken: new Date(),
+    testComplete: false,
 });
 
 db.users.insert({
@@ -19,7 +20,9 @@ db.users.insert({
     department: "School of Computing",
     username: "testComplete",
     password: "testComplete",
-    dateTaken: Date(),
+    dateTaken: new Date(),
+    testComplete: true,
+    result: "Blue",
     cards: {
         red: [
             { id: "Easily bored", isKept: "true" },
@@ -118,7 +121,8 @@ db.users.insert({
     department: "School of Computing",
     username: "testInProgress",
     password: "testInProgress",
-    dateTaken: Date(),
+    dateTaken: new Date(),
+    testComplete: false,
     cards: {
         red: [
             { id: "Easily bored", isKept: "true" },

@@ -69,6 +69,19 @@ app.get("/profile", (req, res) => {
     //Redirect user to homepage if they are not signed in
     //TODO open login modal using a get/post parameter handled 
     //with some basic javascript on the index page
+
+    //Counts the number of each colour that has been kept
+    //to dispay to the user. 
+    function countKeptCards(cards) {
+        cardCounts = {};
+        for (const color in cards) {
+            cardCounts[color] = cards[color].filter(card => {
+                return card.isKept === 'true';
+            }).length
+        }
+        return cardCounts;
+    }
+
     if (!req.session.loggedin ) {
         res.redirect("/")
     }
@@ -78,7 +91,7 @@ app.get("/profile", (req, res) => {
         secondButton: {
         class : "buttonSuccess",
         onClick: "location.href='/test'",
-        text: "Take the Test",
+        text: "Continue",
         id: "testButton"
     }};
 
@@ -90,6 +103,13 @@ app.get("/profile", (req, res) => {
         .then((resultsArray) => {
             content = resultsArray[0].content;
             profile = resultsArray[1]
+
+            cardCounts = countKeptCards(profile.cards)
+            profile.cardCountString = `Red: ${cardCounts.red}, \
+Blue: ${cardCounts.blue}, \
+Green: ${cardCounts.green}, \
+Yellow: ${cardCounts.yellow}`
+
             temp = JSON.parse(JSON.stringify(profile))
             profile.pre = temp
             res.render("pages/profile", {
@@ -99,7 +119,6 @@ app.get("/profile", (req, res) => {
         })
         //TODO When are errors generated here? How to handle them?
         .catch((err) => console.log(`Error getting profile from db ${err}`))
-
 })
 
 app.post("/signup", async (req, res) => {

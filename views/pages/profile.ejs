@@ -15,16 +15,38 @@
     </head>
     <%- include('../partials/header')%>
     <body>
-        <div class="mainContainer shortBlock textCenter">
-            <div class="col10 smallCol10 colCenter smallColCenter">
-                <h1 class="bold bottomMargin50">TODO: Create Profile Page</h1>
-                <h2 class="bottomMargin50">This will be the profile page containing some basic user information</h2>
+        <div class="mainContainer shortBlock">
+            <div class="col10 smallCol10 colCenter smallColCenter bottomMargin50">
+
+                <% if (profile.testComplete === true) { %>
+                    <%# %>
+                    <h1 class="bold bottomMargin50 underline">Thank you for taking the test!</h1>
+                    <h2 class="bottomMargin30">Your choices suggest you have some <%= profile.result %> in you.</h2>
+
+                    <%- include('../components/profileField', {header: "You chose to keep", value: profile.cardCountString  })%>
+                    <%- include('../components/profileField', {header: "Date Taken", value: profile.dateTaken  })%>
+                <% } else { %>
+                    <h1 class="bold bottomMargin50 underline">Would you like to continue your test?</h1>
+                    <%- include('../components/profileField', {header: "Colours kept so far", value: profile.cardCountString})%>
+                <% } %>
             </div>
+            <% if (!profile.testComplete === true) { %>
+                <button
+                    id="<%= header.secondButton.id %>"
+                    onclick="<%= header.secondButton.onClick %>"
+                    class="buttonBaseline colCenter noBorder takeTheTest <%= header.secondButton.class %>">
+                    <%= header.secondButton.text %>
+                </button>
+            <% } %>
         </div>
-        <div class="mainContainer shortBlock textCenter">
-            <div class="col10 smallCol10 colCenter smallColCenter">
-                <h1 class="bold bottomMargin50">User logged in: <%= profile.email %></h1>
-                <pre class="bottomMargin50"><%= JSON.stringify(profile.pre, null, 2) %></pre>
+        <div class="mainContainer shortBlock">
+            <div class="col10 smallCol10 colCenter smallColCenter pullUp75">
+                <h1 class="bold bottomMargin50 underline">Profile</h1>
+                <%- include('../components/profileField', {header: "Name", value: profile.name })%>
+                <%- include('../components/profileField', {header: "Email", value: profile.username})%>
+                <%- include('../components/profileField', {header: "Password", value: "*".repeat(profile.password.length)})%>
+                <%- include('../components/profileField', {header: "University", value: profile.university})%>
+                <%- include('../components/profileField', {header: "Department", value: profile.department})%>
             </div>
         </div>
     </body>

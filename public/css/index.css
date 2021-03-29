@@ -76,6 +76,20 @@ h5 {
     font-weight: 100;
 }
 
+h1.underline {
+    border-bottom: 2.5px solid #aaa;
+    padding-bottom: 10px;
+}
+
+h2.underline {
+    border-bottom: 2px solid #aaa;
+    padding-bottom: 5px;
+}
+
+span.underline {
+    border-bottom: 2px solid #aaa;
+}
+
 /* Baselines */
 .buttonBaseline {
     background: none;
@@ -111,6 +125,12 @@ h5 {
     margin-top: -150px;
     position: relative;
 }
+
+.pullUp75 {
+    margin-top: -75px;
+    position: relative;
+}
+
 .textCenter {
     text-align: center;
 }
