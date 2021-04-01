@@ -1,4 +1,10 @@
-import { wordList, resultsText } from "./appGlobals.js";
+import { resultsText } from "./appGlobals.js";
+//Functions for handling all JQuery UI events for cards
+import {
+    displayCard,
+    handleUndecided,
+    handleCardDrop
+} from './cardUtilities.js'
 
 //A collection of functions to manage displaying and closing modals
 import {
@@ -13,22 +19,10 @@ import { addLoginModalHandlers } from "./loginModal.js";
 
 import { addSignUpModalHandlers } from "./signUpModal.js";
 
-//A record of all the cards that the user has decided to keep during the test
-//This Object is also stored in localStorage in the event the browser is closed
-var storedCards = {
-    red: [],
-    green: [],
-    yellow: [],
-    blue: [],
-};
-
-const CARDWIDTH = 180;
-const CARDHEIGHT = 127;
-const CARDTRANSTIME = 400;
-
 //On first load, display instructions, cards and add event handlers
 $(function () {
-    displayInstructionModal();
+    //TODO uncomment this line, it was just annoying me 
+    //displayInstructionModal();
 
     addLoginModalHandlers();
     addSignUpModalHandlers("saveResultsHeaderButton");
@@ -47,19 +41,16 @@ $(function () {
                 "ui-droppable-hover": "cardDropzoneHover",
             },
             drop: handleCardDrop,
+            greedy: true
         });
     });
+    $("#appPrimaryContainer").droppable({drop: handleUndecided})
 });
-
-function displayInstructionModal() {
-    swapModal("#instructModalSection");
-    addModalCloseHandlers();
-    $("#testStartButton").click(handleModalClose);
-}
 
 //Fix issues created when the window changes size
 window.onresize = handleWindowResize;
 var resizeTimer;
+//TODO This function no longer operates as intended after changing the behaviour of the cards
 function handleWindowResize() {
     clearTimeout(resizeTimer);
 
@@ -81,77 +72,6 @@ function handleWindowResize() {
             });
         });
     }, 150);
-}
-
-//Will add 20 random cards from the deck to the application screen
-function displayCard() {
-    var randomCardIndex = Math.floor(Math.random() * wordList.length);
-    var randomCard = wordList.splice(randomCardIndex, 1)[0];
-
-    var appBackground = $("#cardContainer");
-    var containerWidth = $("#cardContainer").width();
-    var containerHeight = $("#cardContainer").height();
-
-    var $newCard = $("<div />")
-        .addClass("bigCard card")
-        .text(randomCard.word)
-        .attr("id", randomCard.word)
-        .attr("data-color", randomCard.color)
-        .css({
-            position: "absolute",
-            left: 0.5 * (containerWidth - 360),
-            top: 0.5 * (containerHeight - 254),
-        })
-        .mousedown(function () {
-            $(this).addClass("cardFocused");
-        })
-        .mouseup(function () {
-            $(this).removeClass("cardFocused");
-        })
-        .mouseout(function () {
-            $(this).removeClass("cardFocused");
-        })
-        .draggable();
-    appBackground.append($newCard);
-}
-
-//This function is run every time a card is dropped into either the discard or keep box
-//retrieves the id and color of the card and adds
-//it to the global storedCards object
-function handleCardDrop(_, ui) {
-    var card = $(ui.draggable);
-    var id = card.attr("id");
-    var color = card.attr("data-color");
-
-    if ($(this).attr("id") === "greenDropzone") {
-        storeCard(color, id, true);
-    } else {
-        storeCard(color, id, false);
-    }
-    removeCard($(card))
-
-    if (wordList.length === 0) {
-        calculateResult();
-        return;
-    }
-    displayCard();
-}
-
-function removeCard(card) {
-    var pos = card.position();
-    card.addClass("cardTrans")
-        .css({
-            left: 0.5 * CARDWIDTH + pos.left,
-            top: 0.5 * CARDHEIGHT + pos.top
-        })
-        .removeClass("bigCard") 
-
-    setTimeout((card) => card.removeClass("cardTrans"), CARDTRANSTIME, $(card));
-}
-
-function storeCard(color, id, isKept) {
-    storedCards[color].push({ id: id, isKept: isKept });
-    localStorage.setItem("storedCards", JSON.stringify(storedCards));
 }
 
 //counts up the results and displays the appropriate modal
@@ -176,6 +96,16 @@ function calculateResult() {
     generateResultsModal(result);
     displayResultsModal();
 }
+
+
+// ---------- Modal Handlers ------------
+
+function displayInstructionModal() {
+    swapModal("#instructModalSection");
+    addModalCloseHandlers();
+    $("#testStartButton").click(handleModalClose);
+}
+
 
 //Generates the required html for results modal
 function generateResultsModal(color) {
@@ -202,7 +132,7 @@ function displayResultsModal() {
     removeModalBackHandlers();
 }
 
-//----------- MOVIE API -------------------------
+// ----------- Movie API -------------------------
 
 //Calls the OMDB movie API searching for movies with "in the" contained in the title
 //this is only because you can't search for all movies and this seems to give a reasonable sample
