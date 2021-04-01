@@ -55,8 +55,22 @@
             </div>
         </div>
         <div id="appPrimaryContainer" class="appBackground">
-            <div id="redDropzone" dropId="discarded" class="cardDropzone">Discard</div>
-            <div id="greenDropzone" dropId="kept" class="cardDropzone">Keep</div>
+            <div id="redDropzone" dropId="discarded" class="cardDropzone">
+                <div class="dropZoneText">Discard</div>
+                <div id="discardCounter" class="dropZoneText">0/60</div>
+            </div>
+            <div id="greenDropzone" dropId="kept" class="cardDropzone">
+                <div class="dropZoneText">Keep</div>
+                <div id="keepCounter" class="dropZoneText">0/20</div>
+            </div>
+        </div>
+        <div>
+            <button
+                id="completeTest"
+                class="buttonBaseline noBorder buttonSuccess"
+                disabled>
+                Finish
+            </button>
         </div>
     </body>
     <div id="modalHolding">

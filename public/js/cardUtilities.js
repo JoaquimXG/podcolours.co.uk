@@ -1,11 +1,3 @@
-export {
-    moveCard,
-    shrinkCard,
-    displayCard,
-    handleUndecided,
-    handleCardDrop
-}
-
 import { wordList } from "./appGlobals.js";
 
 //A record of all the cards that the user has decided to keep during the test
@@ -30,6 +22,22 @@ async function moveCard(card, oldKey, newKey, cards){
 
     cards[newKey].push({id: id, color: color})
     localStorage.setItem("storedCards", JSON.stringify(cards));
+
+    updateCounters();
+}
+
+function updateCounters() {
+    var numKept = cards.kept.length
+    var numDiscarded = cards.discarded.length
+    $("#keepCounter").text(`${numKept}/20`)
+    $("#discardCounter").text(`${numDiscarded}/60`)
+    if (numKept == 1 && numDiscarded == 1){
+        console.log("Test can be complete")
+        $("#completeTest").prop("disabled", false);
+    }
+    else {
+        $("#completeTest").prop("disabled", true);
+    }
 }
 
 function shrinkCard(card) {
@@ -92,7 +100,7 @@ function handleUndecided(_, ui) {
 }
 
 //TODO rewrite documentation
-function handleCardDrop(_, ui) {
+async function handleCardDrop(_, ui) {
     var card = $(ui.draggable);
     var oldDropZoneId = card.attr('dropId')
     var newDropZoneId = $(this).attr('dropId')
@@ -107,14 +115,21 @@ function handleCardDrop(_, ui) {
 
     //If the card has been moved to a different dropzone 
     //it should be counted for the new dropzone
-    if (oldDropZoneId !== newDropZoneId) {
-        console.log("Dropzone changed")
-        card.attr('dropId', newDropZoneId); 
-        moveCard($(card), oldDropZoneId, newDropZoneId, cards)
-    }
-
-    if (wordList.length === 0) {
-        calculateResult();
+    if (oldDropZoneId === newDropZoneId) {
         return;
     }
+    console.log("Dropzone changed")
+    card.attr('dropId', newDropZoneId); 
+    await moveCard($(card), oldDropZoneId, newDropZoneId, cards)
+
+    updateCounters()
+
+}
+
+export {
+    moveCard,
+    shrinkCard,
+    displayCard,
+    handleUndecided,
+    handleCardDrop
 }

@@ -1,4 +1,5 @@
 import { resultsText } from "./appGlobals.js";
+
 //Functions for handling all JQuery UI events for cards
 import {
     displayCard,
@@ -16,10 +17,10 @@ import {
 } from "./modalHelpers.js";
 
 import { addLoginModalHandlers } from "./loginModal.js";
-
 import { addSignUpModalHandlers } from "./signUpModal.js";
 
-//On first load, display instructions, cards and add event handlers
+//On first load, display instructions, display a card
+//and add event handlers for dropzones and modals
 $(function () {
     //TODO uncomment this line, it was just annoying me 
     //displayInstructionModal();
@@ -47,33 +48,6 @@ $(function () {
     $("#appPrimaryContainer").droppable({drop: handleUndecided})
 });
 
-//Fix issues created when the window changes size
-window.onresize = handleWindowResize;
-var resizeTimer;
-//TODO This function no longer operates as intended after changing the behaviour of the cards
-function handleWindowResize() {
-    clearTimeout(resizeTimer);
-
-    resizeTimer = setTimeout(function () {
-        var containerWidth = $("#cardContainer").width();
-        var containerHeight = $("#cardContainer").height();
-        var headerHeight = $("#header").outerHeight();
-
-        //Fix size of application page as size of header changes
-        $("#appPrimaryContainer").css({
-            height: `calc(100vh - ${headerHeight}px)`,
-        });
-
-        //Fix positioning of cards as canvas width changes
-        $(".card").each(function () {
-            $(this).css({
-                left: Math.random() * (containerWidth - 180),
-                top: Math.random() * (containerHeight - 127),
-            });
-        });
-    }, 150);
-}
-
 //counts up the results and displays the appropriate modal
 //TODO This doesn't work anymore because the way cards are
 //stored has been changed so that not only the cards that were kept
@@ -97,6 +71,33 @@ function calculateResult() {
     displayResultsModal();
 }
 
+//Fix issues created when the window changes size
+window.onresize = handleWindowResize;
+var resizeTimer;
+//TODO This function no longer operates as intended after changing the behaviour of the cards
+//Might want to move this function into cardutilities as well
+function handleWindowResize() {
+    clearTimeout(resizeTimer);
+
+    resizeTimer = setTimeout(function () {
+        var containerWidth = $("#cardContainer").width();
+        var containerHeight = $("#cardContainer").height();
+        var headerHeight = $("#header").outerHeight();
+
+        //Fix size of application page as size of header changes
+        $("#appPrimaryContainer").css({
+            height: `calc(100vh - ${headerHeight}px)`,
+        });
+
+        //Fix positioning of cards as canvas width changes
+        $(".card").each(function () {
+            $(this).css({
+                left: Math.random() * (containerWidth - 180),
+                top: Math.random() * (containerHeight - 127),
+            });
+        });
+    }, 150);
+}
 
 // ---------- Modal Handlers ------------
 
@@ -208,7 +209,6 @@ const displayMovieModal = (movieData) => {
 
     swapModal("#movieModalSection");
 };
-
 
 const colourGenreLists = {
     red: ["Thriller", "Horror"],
