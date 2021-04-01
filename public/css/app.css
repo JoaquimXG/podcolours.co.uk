@@ -27,6 +27,19 @@
     cursor: default;
     z-index: 1;
 }
+
+.bigCard {
+    padding: 30px;
+    width: 360px;
+    height: 254px;
+    border-radius: 18px;
+    font-size: 30px;
+}
+
+.cardTrans {
+    transition: 0.4s;
+}
+
 .card:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }

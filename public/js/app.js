@@ -1,5 +1,4 @@
 import { wordList, resultsText } from "./appGlobals.js";
-import {callMovieApi} from './movieApiCall.js'
 
 //A collection of functions to manage displaying and closing modals
 import {
@@ -23,6 +22,10 @@ var storedCards = {
     blue: [],
 };
 
+const CARDWIDTH = 180;
+const CARDHEIGHT = 127;
+const CARDTRANSTIME = 400;
+
 //On first load, display instructions, cards and add event handlers
 $(function () {
     displayInstructionModal();
@@ -36,7 +39,7 @@ $(function () {
         addModalCloseHandlers();
     });
 
-    displayCards();
+    displayCard();
 
     $(".cardDropzone").each(function () {
         $(this).droppable({
@@ -81,40 +84,35 @@ function handleWindowResize() {
 }
 
 //Will add 20 random cards from the deck to the application screen
-function displayCards() {
-    var newCards = [];
-    for (var i = 0; i < 20; i++) {
-        var randomCardIndex = Math.floor(Math.random() * wordList.length);
-        var randomCard = wordList.splice(randomCardIndex, 1)[0];
-        newCards.push(randomCard);
-    }
+function displayCard() {
+    var randomCardIndex = Math.floor(Math.random() * wordList.length);
+    var randomCard = wordList.splice(randomCardIndex, 1)[0];
+
     var appBackground = $("#cardContainer");
     var containerWidth = $("#cardContainer").width();
     var containerHeight = $("#cardContainer").height();
 
-    newCards.forEach((card) => {
-        var $newCard = $("<div />")
-            .addClass("card")
-            .text(card.word)
-            .attr("id", card.word)
-            .attr("data-color", card.color)
-            .css({
-                position: "absolute",
-                left: Math.random() * (containerWidth - 180),
-                top: Math.random() * (containerHeight - 127),
-            })
-            .mousedown(function () {
-                $(this).addClass("cardFocused");
-            })
-            .mouseup(function () {
-                $(this).removeClass("cardFocused");
-            })
-            .mouseout(function () {
-                $(this).removeClass("cardFocused");
-            })
-            .draggable();
-        appBackground.append($newCard);
-    });
+    var $newCard = $("<div />")
+        .addClass("bigCard card")
+        .text(randomCard.word)
+        .attr("id", randomCard.word)
+        .attr("data-color", randomCard.color)
+        .css({
+            position: "absolute",
+            left: 0.5 * (containerWidth - 360),
+            top: 0.5 * (containerHeight - 254),
+        })
+        .mousedown(function () {
+            $(this).addClass("cardFocused");
+        })
+        .mouseup(function () {
+            $(this).removeClass("cardFocused");
+        })
+        .mouseout(function () {
+            $(this).removeClass("cardFocused");
+        })
+        .draggable();
+    appBackground.append($newCard);
 }
 
 //This function is run every time a card is dropped into either the discard or keep box
@@ -130,16 +128,25 @@ function handleCardDrop(_, ui) {
     } else {
         storeCard(color, id, false);
     }
-    card.remove();
+    removeCard($(card))
 
-    var cards = $(".card");
-    if (cards.length === 0) {
-        if (true) {
-            calculateResult();
-            return;
-        }
-        displayCards();
+    if (wordList.length === 0) {
+        calculateResult();
+        return;
     }
+    displayCard();
+}
+
+function removeCard(card) {
+    var pos = card.position();
+    card.addClass("cardTrans")
+        .css({
+            left: 0.5 * CARDWIDTH + pos.left,
+            top: 0.5 * CARDHEIGHT + pos.top
+        })
+        .removeClass("bigCard") 
+
+    setTimeout((card) => card.removeClass("cardTrans"), CARDTRANSTIME, $(card));
 }
 
 function storeCard(color, id, isKept) {
