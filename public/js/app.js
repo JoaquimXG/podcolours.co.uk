@@ -4,7 +4,8 @@ import { resultsText } from "./appGlobals.js";
 import {
     displayCard,
     handleUndecided,
-    handleCardDrop
+    handleCardDrop,
+    loadProgress
 } from './cardUtilities.js'
 
 //A collection of functions to manage displaying and closing modals
@@ -18,6 +19,11 @@ import {
 
 import { addLoginModalHandlers } from "./loginModal.js";
 import { addSignUpModalHandlers } from "./signUpModal.js";
+
+//TODO REMOVE
+//Backend should check if user is
+//logged in and resume if they have a test in progress
+var SHOULDLOAD = true;
 
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
@@ -34,6 +40,8 @@ $(function () {
         addModalCloseHandlers();
     });
 
+    $("#completeTest").click(calculateResult);
+
     displayCard();
 
     $(".cardDropzone").each(function () {
@@ -46,29 +54,34 @@ $(function () {
         });
     });
     $("#appPrimaryContainer").droppable({drop: handleUndecided})
+
+    if (SHOULDLOAD) {
+        loadProgress();
+    }
 });
 
-//counts up the results and displays the appropriate modal
-//TODO This doesn't work anymore because the way cards are
-//stored has been changed so that not only the cards that were kept
-//are stored.
+//TODO write documentation
 function calculateResult() {
     var max = 0;
     var result = "";
-    Object.keys(storedCards).forEach((color) => {
-        if (storedCards[color].length > max) {
-            max = color.length;
+    var cards = JSON.parse(localStorage.getItem("storedCards"));
+    var colors = ["red", "blue", "green", "yellow"];
+
+    var colorCounts = {}
+    colors.forEach((color) => {
+        var count = cards.kept.filter((card)=> card.color == color).length
+        colorCounts[color] = count;
+        if (count > max) {
+            max = count;
             result = color;
         }
-    });
-
-    //TODO There is a potential case of users discarding every card
-    //A result will not be shown at this point,
-    //We should have a message telling users that they must keep at least 1 card
-    //We can run a check for if (max ==== 0) then they haven't kept any cards
-    localStorage.setItem("resultColor", result);
+    })
+    cards.colorCounts = colorCounts;
+    
     generateResultsModal(result);
     displayResultsModal();
+    localStorage.setItem("resultColor", result);
+    localStorage.setItem("storedCards", JSON.stringify(cards));
 }
 
 //Fix issues created when the window changes size

@@ -11,7 +11,16 @@ var cards = {
 const CARDWIDTH = 180;
 const CARDHEIGHT = 127;
 const CARDTRANSTIME = 400;
+//TODO Set these to the correct values, 20 and 60 respectively
+const NUMTOKEEP = 2;
+const NUMTODISCARD = 2;
 
+function loadProgress(){
+    cards = JSON.parse(localStorage.getItem("storedCards"));
+    updateCounters();
+}
+
+//TODO Write documentation
 async function moveCard(card, oldKey, newKey, cards){
     var id = card.attr("id");
     var color = card.attr("data-color");
@@ -26,13 +35,13 @@ async function moveCard(card, oldKey, newKey, cards){
     updateCounters();
 }
 
+//TODO Write documentation
 function updateCounters() {
     var numKept = cards.kept.length
     var numDiscarded = cards.discarded.length
-    $("#keepCounter").text(`${numKept}/20`)
-    $("#discardCounter").text(`${numDiscarded}/60`)
-    if (numKept == 1 && numDiscarded == 1){
-        console.log("Test can be complete")
+    $("#keepCounter").text(`${numKept}/${NUMTOKEEP}`)
+    $("#discardCounter").text(`${numDiscarded}/${NUMTODISCARD}`)
+    if (numKept == NUMTOKEEP && numDiscarded == NUMTODISCARD){
         $("#completeTest").prop("disabled", false);
     }
     else {
@@ -40,6 +49,7 @@ function updateCounters() {
     }
 }
 
+//TODO Write documentation
 function shrinkCard(card) {
     card.attr("isShrunk", "true")
     var pos = card.position();
@@ -53,7 +63,7 @@ function shrinkCard(card) {
     setTimeout((card) => card.removeClass("cardTrans"), CARDTRANSTIME, $(card));
 }
 
-//Will display 1 random card in the center of the screen
+//Displays a random card in the center of the screen
 function displayCard() {
     var randomCardIndex = Math.floor(Math.random() * wordList.length);
     var randomCard = wordList.splice(randomCardIndex, 1)[0];
@@ -86,7 +96,6 @@ function displayCard() {
     appBackground.append($newCard);
 }
 
-
 //TODO rewrite documentation
 function handleUndecided(_, ui) {
     var card = $(ui.draggable);
@@ -108,7 +117,6 @@ async function handleCardDrop(_, ui) {
     //If card has not been dropped into any dropzones yet
     //it will be big, and should be shrunk
     if (card.attr('isShrunk') !== 'true'){
-        console.log("Shrinking Card")
         shrinkCard($(card))
         displayCard();
     }
@@ -118,12 +126,10 @@ async function handleCardDrop(_, ui) {
     if (oldDropZoneId === newDropZoneId) {
         return;
     }
-    console.log("Dropzone changed")
     card.attr('dropId', newDropZoneId); 
     await moveCard($(card), oldDropZoneId, newDropZoneId, cards)
 
     updateCounters()
-
 }
 
 export {
@@ -131,5 +137,6 @@ export {
     shrinkCard,
     displayCard,
     handleUndecided,
-    handleCardDrop
+    handleCardDrop,
+    loadProgress
 }
