@@ -1,4 +1,5 @@
-import { wordList, resultsText, colourGenreLists } from "./appGlobals.js";
+import { wordList, resultsText } from "./appGlobals.js";
+import {callMovieApi} from './movieApiCall.js'
 
 //A collection of functions to manage displaying and closing modals
 import {
@@ -9,9 +10,9 @@ import {
     handleModalClose,
 } from "./modalHelpers.js";
 
-import {addLoginModalHandlers} from './loginModal.js'
+import { addLoginModalHandlers } from "./loginModal.js";
 
-import {addSignUpModalHandlers} from './signUpModal.js'
+import { addSignUpModalHandlers } from "./signUpModal.js";
 
 //A record of all the cards that the user has decided to keep during the test
 //This Object is also stored in localStorage in the event the browser is closed
@@ -19,95 +20,96 @@ var storedCards = {
     red: [],
     green: [],
     yellow: [],
-    blue: []
+    blue: [],
 };
 
 //On first load, display instructions, cards and add event handlers
-$(function() {
+$(function () {
     displayInstructionModal();
 
     addLoginModalHandlers();
     addSignUpModalHandlers("saveResultsHeaderButton");
 
     $("#omdbButton").click(callMovieApi);
-    $('#saveResultsHeaderButton').click(function(){
-        swapModal('#signUpModalSection')
+    $("#saveResultsHeaderButton").click(function () {
+        swapModal("#signUpModalSection");
         addModalCloseHandlers();
-    })
+    });
 
     displayCards();
 
-    $(".cardDropzone").each(function() {
+    $(".cardDropzone").each(function () {
         $(this).droppable({
             classes: {
-                "ui-droppable-hover": "cardDropzoneHover"
+                "ui-droppable-hover": "cardDropzoneHover",
             },
-            drop: handleCardDrop
+            drop: handleCardDrop,
         });
     });
-
 });
 
 function displayInstructionModal() {
-    swapModal('#instructModalSection');
+    swapModal("#instructModalSection");
     addModalCloseHandlers();
-    $('#testStartButton').click(handleModalClose)
+    $("#testStartButton").click(handleModalClose);
 }
 
 //Fix issues created when the window changes size
 window.onresize = handleWindowResize;
 var resizeTimer;
 function handleWindowResize() {
-    clearTimeout(resizeTimer)
+    clearTimeout(resizeTimer);
 
-    resizeTimer = setTimeout(function() {
+    resizeTimer = setTimeout(function () {
         var containerWidth = $("#cardContainer").width();
         var containerHeight = $("#cardContainer").height();
-        var headerHeight = $('#header').outerHeight();
+        var headerHeight = $("#header").outerHeight();
 
         //Fix size of application page as size of header changes
-        $('#appPrimaryContainer').css({height: `calc(100vh - ${headerHeight}px)`})
+        $("#appPrimaryContainer").css({
+            height: `calc(100vh - ${headerHeight}px)`,
+        });
 
         //Fix positioning of cards as canvas width changes
-        $('.card').each(function() {
+        $(".card").each(function () {
             $(this).css({
                 left: Math.random() * (containerWidth - 180),
-                top: Math.random() * (containerHeight- 127)
-            })
-        })
-    }, 150)
+                top: Math.random() * (containerHeight - 127),
+            });
+        });
+    }, 150);
 }
 
 //Will add 20 random cards from the deck to the application screen
 function displayCards() {
-    var newWords = [];
+    var newCards = [];
     for (var i = 0; i < 20; i++) {
         var randomCardIndex = Math.floor(Math.random() * wordList.length);
         var randomCard = wordList.splice(randomCardIndex, 1)[0];
-        newWords.push(randomCard);
+        newCards.push(randomCard);
     }
     var appBackground = $("#cardContainer");
     var containerWidth = $("#cardContainer").width();
     var containerHeight = $("#cardContainer").height();
 
-    newWords.forEach(word => {
+    newCards.forEach((card) => {
         var $newCard = $("<div />")
             .addClass("card")
-            .text(word[0])
-            .attr("id", word[0])
-            .attr("data-color", word[1])
+            .text(card.word)
+            .attr("id", card.word)
+            .attr("data-color", card.color)
             .css({
                 position: "absolute",
                 left: Math.random() * (containerWidth - 180),
-                top: Math.random() * (containerHeight- 127)
+                top: Math.random() * (containerHeight - 127),
             })
-            .mousedown(function() {
+            .mousedown(function () {
                 $(this).addClass("cardFocused");
             })
-            .mouseup(function() {
+            .mouseup(function () {
                 $(this).removeClass("cardFocused");
             })
-            .mouseout(function() {
+            .mouseout(function () {
                 $(this).removeClass("cardFocused");
             })
             .draggable();
@@ -125,15 +127,14 @@ function handleCardDrop(_, ui) {
 
     if ($(this).attr("id") === "greenDropzone") {
         storeCard(color, id, true);
-    }
-    else {
-        storeCard(color, id, false)
+    } else {
+        storeCard(color, id, false);
     }
     card.remove();
 
     var cards = $(".card");
     if (cards.length === 0) {
-        if (wordList.length === 0) {
+        if (true) {
             calculateResult();
             return;
         }
@@ -142,7 +143,7 @@ function handleCardDrop(_, ui) {
 }
 
 function storeCard(color, id, isKept) {
-    storedCards[color].push({id: id, isKept:isKept});
+    storedCards[color].push({ id: id, isKept: isKept });
     localStorage.setItem("storedCards", JSON.stringify(storedCards));
 }
 
@@ -153,7 +154,7 @@ function storeCard(color, id, isKept) {
 function calculateResult() {
     var max = 0;
     var result = "";
-    Object.keys(storedCards).forEach(color => {
+    Object.keys(storedCards).forEach((color) => {
         if (storedCards[color].length > max) {
             max = color.length;
             result = color;
@@ -180,19 +181,21 @@ function generateResultsModal(color) {
 function displayResultsModal() {
     swapModal("#resultsModalSection");
 
-    $('#saveResultsButton').click(function(){
-        swapModal('#signUpModalSection')
+    $("#saveResultsButton").click(function () {
+        swapModal("#signUpModalSection");
         $("#backAppModal")
             .css("visibility", "visible")
-            .click(function() {
+            .click(function () {
                 displayResultsModal();
             });
-    })
+    });
 
     //Removing unneccessary dangling click handlers and icons
     removeModalCloseHandlers();
     removeModalBackHandlers();
 }
+
+//----------- MOVIE API -------------------------
 
 //Calls the OMDB movie API searching for movies with "in the" contained in the title
 //this is only because you can't search for all movies and this seems to give a reasonable sample
@@ -233,10 +236,10 @@ function callMovieApi() {
 //Checks a movie from a given url for matches agains the current colours genres
 const checkForMatchingGenres = (colorGenres, url) =>
     new Promise((resolve, reject) => {
-        $.getJSON(url, function(data) {
+        $.getJSON(url, function (data) {
             var movieGenres = data.Genre.replace(/ /g, "").split(",");
-            colorGenres.forEach(colorGenre => {
-                movieGenres.forEach(movieGenre => {
+            colorGenres.forEach((colorGenre) => {
+                movieGenres.forEach((movieGenre) => {
                     if (colorGenre === movieGenre) {
                         resolve(data);
                     }
@@ -248,23 +251,31 @@ const checkForMatchingGenres = (colorGenres, url) =>
 
 //Displays the movie modal screen
 //editing modal title, blurb and buttons to suit
-const displayMovieModal = movieData => {
+const displayMovieModal = (movieData) => {
     //Generate dynamic html from movie data
-    var imdbUrl = `https://www.imdb.com/title/${movieData.imdbID}/` 
+    var imdbUrl = `https://www.imdb.com/title/${movieData.imdbID}/`;
     var movieTitle = $("<a>")
         .text(movieData.Title)
         .attr("href", imdbUrl)
-        .attr("target", "_blank")
+        .attr("target", "_blank");
     $("#movieTitle").html(movieTitle);
     $("#moviePlot").text(movieData.Plot);
     $("#backAppModal")
         .css("visibility", "visible")
-        .click(function() {
+        .click(function () {
             displayResultsModal();
         });
-    $('#moreMovieInfoButton').click(function() {
-        window.open(imdbUrl, '_blank')
-    })
+    $("#moreMovieInfoButton").click(function () {
+        window.open(imdbUrl, "_blank");
+    });
 
     swapModal("#movieModalSection");
+};
+
+
+const colourGenreLists = {
+    red: ["Thriller", "Horror"],
+    blue: ["Comedy", "Documentary"],
+    yellow: ["Action", "Drama"],
+    green: ["Romance", "Mystery"]
 };

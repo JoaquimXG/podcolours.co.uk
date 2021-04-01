@@ -81,6 +81,7 @@
 }
 
 #cardContainer {
+    position: relative;
     height: 70%;
     width: 100%;
 }
