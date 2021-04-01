@@ -2,8 +2,9 @@
     margin: 0px;
 }
 .appBackground {
+    position: relative;
     margin:0px;
-    padding: 30px 30px 0px;
+    padding: 30px 30px;
     background: linear-gradient(250deg, #D7DDE8 0%, #C9D0E1 100%);
     height: calc(100vh - 100px);
     width: 100vw;
@@ -63,10 +64,12 @@
 }
 
 .cardDropzone {
+    position: absolute;
+    top: 20px; 
+    width: 30%;
+    max-width: 450px;
+    height: calc(100% - 40px);
     border: 2px solid;
-    padding: 15px;
-    width: 254px;
-    height: 180px;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -82,11 +85,13 @@
 #greenDropzone {
     border-color: rgba(86, 189, 102, 1);
     background: rgba(86, 189, 102, 0.5);
+    left: 20px;
 }
 
 #redDropzone {
     border-color: rgba(255, 77, 79, 1);
     background: rgba(255, 77, 79, 0.5);
+    right: 20px;
 }
 
 #modalHolding{
@@ -95,6 +100,6 @@
 
 #cardContainer {
     position: relative;
-    height: 70%;
+    height: 100%;
     width: 100%;
 }
