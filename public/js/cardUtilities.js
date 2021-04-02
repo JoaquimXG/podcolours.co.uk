@@ -1,7 +1,8 @@
 import { wordList } from "./appGlobals.js";
 
-//A record of all the cards that the user has decided to keep during the test
-//This Object is also stored in localStorage in the event the browser is closed
+//Contains the current state of each card
+//wether it is "kept", "discarded", "undecided" 
+//or the next card to be handled
 var cards;
 
 const CARDWIDTH = 180;
@@ -11,6 +12,28 @@ const CARDTRANSTIME = 400;
 const NUMTOKEEP = 2;
 const NUMTODISCARD = 2;
 
+//Loads previous test state from localstorage
+async function loadProgress(){
+    cards = JSON.parse(localStorage.getItem("storedCards"));
+    if (cards === null) {
+        cards = {
+            kept: [],
+            discarded: [],
+            undecided: [],
+            next: {}
+        }
+        displayRandomCard();
+    }
+    else {
+        await displayAllCards();
+        redistributeCards();
+    }
+
+    updateCounters();
+}
+
+//Adds each card which needs to be loaded into the DOM
+//ready to be position in the appropriate divs
 async function displayAllCards() {
     var categories = ["kept", "discarded", "undecided"]
     categories.forEach(category => {
@@ -35,27 +58,11 @@ async function displayAllCards() {
     )
 }
 
-async function loadProgress(){
-    cards = JSON.parse(localStorage.getItem("storedCards"));
-    if (cards === null) {
-        cards = {
-            kept: [],
-            discarded: [],
-            undecided: [],
-            next: {}
-        }
-        displayRandomCard();
-    }
-    else {
-        await displayAllCards();
-        redistributeCards();
-    }
-
-    updateCounters();
-}
-
 var resizeTimer;
-//Redistributes cards on the screen, ensuring they remain in the appropriate sections
+//Moves all cards into their appropriate positions
+//Big card is centered and all other cards are moved into their dropzones
+//This function is run when first loading saved progress
+//and on every viewport resize
 function redistributeCards() {
     clearTimeout(resizeTimer);
 
@@ -102,8 +109,11 @@ function redistributeCards() {
     }, 100);
 }
 
-//TODO Write documentation
-async function moveCard(card, oldKey, newKey, cards){
+//Runs everytime a card is moved to a different dropzone
+//Ensures the cards record object has been updated to reflect
+//the change and updates the localStorage
+//TODO ajax to post data back to be saved to database
+function moveCard(card, oldKey, newKey, cards){
     var id = card.attr("id");
     var color = card.attr("data-color");
 
@@ -117,7 +127,8 @@ async function moveCard(card, oldKey, newKey, cards){
     localStorage.setItem("storedCards", JSON.stringify(cards));
 }
 
-//TODO Write documentation
+//Ensures counters for kept and discarded sections
+//display the appropriate value
 function updateCounters() {
     var numKept = cards.kept.length
     var numDiscarded = cards.discarded.length
@@ -131,7 +142,7 @@ function updateCounters() {
     }
 }
 
-//TODO Write documentation
+//Scales cards by half when they are first dropped into a dropzone
 function shrinkCard(card) {
     card.attr("isShrunk", "true")
     var pos = card.position();
@@ -145,7 +156,9 @@ function shrinkCard(card) {
     setTimeout((card) => card.removeClass("cardTrans"), CARDTRANSTIME, $(card));
 }
 
-//TODO Write documentation
+//Adds a specific new card to the DOM
+//takes an array of attributes and string of classes
+//to be added to the new card
 async function displayCard(attributes, classes){
     var id = attributes[0].value
     var appBackground = $("#appPrimaryContainer");
@@ -175,7 +188,7 @@ async function displayCard(attributes, classes){
     appBackground.append($newCard);
 }
 
-//Displays a random card in the center of the screen
+//Displays a random big card in the center of the screen
 async function displayRandomCard() {
     var randomCardIndex = Math.floor(Math.random() * wordList.length);
     var randomCard = wordList.splice(randomCardIndex, 1)[0];
@@ -187,7 +200,6 @@ async function displayRandomCard() {
     var appBackground = $("#appPrimaryContainer");
     var containerWidth = $("#appPrimaryContainer").outerWidth();
     var containerHeight = $("#appPrimaryContainer").outerHeight();
-
 
     var $newCard = $("<div />")
         .addClass("card bigCard")
@@ -215,20 +227,23 @@ async function displayRandomCard() {
     cards.next = {id: id, color: color}
 }
 
-//TODO rewrite documentation
+//Runs everytime a card is dropped into the "undecided" dropzone
+//Will update the cards record and save state if required
 function handleUndecided(_, ui) {
     var card = $(ui.draggable);
     var oldDropZoneId = card.attr('dropId');
     var newDropZoneId = $(this).attr('dropId')
-    card.attr("dropId", newDropZoneId);
 
     if (oldDropZoneId === 'undecided') {
         return;
     }
+    card.attr("dropId", newDropZoneId);
     moveCard($(card), oldDropZoneId, newDropZoneId, cards)
 }
 
-//TODO rewrite documentation
+//Runs everytime a card is dropped in either the "kept"
+//or "discarded" dropzone, will update the cards record
+//state and shrink the card if required
 async function handleCardDrop(_, ui) {
     var card = $(ui.draggable);
     var oldDropZoneId = card.attr('dropId')

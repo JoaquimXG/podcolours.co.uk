@@ -59,12 +59,14 @@ $(async function () {
             greedy: true
         });
     });
-    $("#appPrimaryContainer").droppable({drop: handleUndecided})
+    $("#undecidedDropZone").droppable({drop: handleUndecided})
 
     window.onresize = redistributeCards;
 });
 
-//TODO write documentation
+//Counts the number of cards of each colour which were kept
+//calculates the users test result, displayes the results modal
+//and saves the results to localStorage
 function calculateResult() {
     var max = 0;
     var result = "";
@@ -87,7 +89,6 @@ function calculateResult() {
     localStorage.setItem("resultColor", result);
     localStorage.setItem("storedCards", JSON.stringify(cards));
 }
-
 
 // ---------- Modal Handlers ------------
 
