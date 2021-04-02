@@ -2,10 +2,11 @@ import { resultsText } from "./appGlobals.js";
 
 //Functions for handling all JQuery UI events for cards
 import {
-    displayCard,
+    displayRandomCard,
     handleUndecided,
     handleCardDrop,
-    loadProgress
+    loadProgress, 
+    redistributeCards
 } from './cardUtilities.js'
 
 //A collection of functions to manage displaying and closing modals
@@ -27,7 +28,7 @@ var SHOULDLOAD = true;
 
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
-$(function () {
+$(async function () {
     //TODO uncomment this line, it was just annoying me 
     //displayInstructionModal();
 
@@ -42,7 +43,12 @@ $(function () {
 
     $("#completeTest").click(calculateResult);
 
-    displayCard();
+    if (SHOULDLOAD) {
+        await loadProgress();
+    }
+
+    //TODO, when loading progres, the card being displayed should be the "next card"
+    //displayRandomCard();
 
     $(".cardDropzone").each(function () {
         $(this).droppable({
@@ -55,9 +61,7 @@ $(function () {
     });
     $("#appPrimaryContainer").droppable({drop: handleUndecided})
 
-    if (SHOULDLOAD) {
-        loadProgress();
-    }
+    window.onresize = redistributeCards;
 });
 
 //TODO write documentation
@@ -84,33 +88,6 @@ function calculateResult() {
     localStorage.setItem("storedCards", JSON.stringify(cards));
 }
 
-//Fix issues created when the window changes size
-window.onresize = handleWindowResize;
-var resizeTimer;
-//TODO This function no longer operates as intended after changing the behaviour of the cards
-//Might want to move this function into cardutilities as well
-function handleWindowResize() {
-    clearTimeout(resizeTimer);
-
-    resizeTimer = setTimeout(function () {
-        var containerWidth = $("#cardContainer").width();
-        var containerHeight = $("#cardContainer").height();
-        var headerHeight = $("#header").outerHeight();
-
-        //Fix size of application page as size of header changes
-        $("#appPrimaryContainer").css({
-            height: `calc(100vh - ${headerHeight}px)`,
-        });
-
-        //Fix positioning of cards as canvas width changes
-        $(".card").each(function () {
-            $(this).css({
-                left: Math.random() * (containerWidth - 180),
-                top: Math.random() * (containerHeight - 127),
-            });
-        });
-    }, 150);
-}
 
 // ---------- Modal Handlers ------------
 
