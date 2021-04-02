@@ -38,6 +38,8 @@ async function loadProgress(){
     updateCounters();
 }
 
+//When loading a previous test, removes all words from the 
+//wordList which have already been shown 
 function updateWordList() {
     var allCards = cards.kept.concat(cards.discarded).concat(cards.undecided)
     allCards.push(cards.next)
@@ -145,6 +147,7 @@ function moveCard(card, oldKey, newKey, cards){
     updateCounters();
 
     localStorage.setItem("storedCards", JSON.stringify(cards));
+    localStorage.setItem("lastTestUpdate", Date.now())
 }
 
 //Ensures counters for kept and discarded sections

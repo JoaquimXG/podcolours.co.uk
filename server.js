@@ -94,6 +94,21 @@ app.get("/test", (req, res) => {
     );
 });
 
+//Counts the number of each colour that has been kept
+//to dispay to the user.
+function countKeptCards(cards) {
+    if (!cards.next) {
+        return {red: 0, blue: 0, yellow: 0, green: 0}
+    }
+    var colors = ["red", "blue", "green", "yellow"];
+    var colorCounts = {}
+    colors.forEach((color) => {
+        var count = cards.kept.filter((card)=> card.color == color).length
+        colorCounts[color] = count;
+    })
+    return colorCounts;
+}
+
 //User profile page
 app.get("/profile", (req, res) => {
     //Redirect user to homepage if they are not signed in
@@ -101,18 +116,6 @@ app.get("/profile", (req, res) => {
     if (!req.session.loggedin) {
         res.redirect("/?loginModal=1");
         return;
-    }
-
-    //Counts the number of each colour that has been kept
-    //to dispay to the user.
-    function countKeptCards(cards) {
-        var colors = ["red", "blue", "green", "yellow"];
-        var colorCounts = {}
-        colors.forEach((color) => {
-            var count = cards.kept.filter((card)=> card.color == color).length
-            colorCounts[color] = count;
-        })
-        return colorCounts;
     }
 
     header = {
@@ -143,9 +146,8 @@ app.get("/profile", (req, res) => {
 
             //Don't display button to continue test in header if
             //the user has already completed the test
-            //TODO need to provide this value when saving a completed test
             var colorCounts;
-            if (profile.testComplete === true) {
+            if (profile.testState.complete === true) {
                 header.testButton = false;
                 colorCounts = cards.colorCounts;
             } else {
@@ -172,7 +174,8 @@ app.post("/signup", async (req, res) => {
         username: req.body.email,
         password: req.body.password,
         cards: req.body.cards,
-        result: false,
+        testState: req.body.testState ? req.body.testState : {complete: false, result: null},
+        lastUpdate: req.body.lastUpdate ? req.body.lastUpdate : Date.now(),
     };
 
     //Add user to database and redirect to profile page

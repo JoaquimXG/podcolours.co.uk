@@ -7,7 +7,7 @@ import {
     handleUndecided,
     handleCardDrop,
     loadProgress, 
-    redistributeCards
+    redistributeCards,
 } from './cardUtilities.js'
 
 //A collection of functions to manage displaying and closing modals
@@ -45,6 +45,7 @@ $(async function () {
         await loadProgress();
     } else {
         displayRandomCard();
+        localStorage.setItem("testState", JSON.stringify({complete: false, result: null}))
     }
 
     $(".cardDropzone").each(function () {
@@ -80,12 +81,12 @@ function calculateResult() {
         }
     })
     cards.colorCounts = colorCounts;
-    cards.result = result;
     
     generateResultsModal(result);
     displayResultsModal();
-    localStorage.setItem("resultColor", result);
+    localStorage.setItem("testState", JSON.stringify({complete: true, result: result}));
     localStorage.setItem("storedCards", JSON.stringify(cards));
+    localStorage.setItem("lastTestUpdate", Date.now())
 }
 
 // ---------- Modal Handlers ------------

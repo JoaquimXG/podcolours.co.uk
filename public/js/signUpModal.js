@@ -47,6 +47,8 @@ function handleSignUp(e) {
     var email = $("#signUpEmail").val();
     var password = $("#signUpPassword").val();
     var cards = JSON.parse(localStorage.getItem('storedCards'));
+    var testSate = JSON.parse(localStorage.getItem("testState"))
+    var lastUpdate = Date.parse(localStorage.getItem("lastTestUpdate"))
 
     //Handle fields being empty
     if (email === "" || password === ""){
@@ -61,7 +63,13 @@ function handleSignUp(e) {
         $.post({
             type: "POST",
             url: "/signup",
-            data: {email:email, password:password, cards: cards},
+            data: {
+                email:email,
+                password:password,
+                cards: cards,
+                testState: testSate,
+                lastUpdate: lastUpdate
+            },
             dataType: "json"
         })
             .done(data => {
