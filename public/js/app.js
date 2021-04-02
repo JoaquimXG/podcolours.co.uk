@@ -22,6 +22,28 @@ import {
 import { addLoginModalHandlers } from "./loginModal.js";
 import { addSignUpModalHandlers } from "./signUpModal.js";
 
+function saveResultsButtonHandlers() {
+    $.get("/isauthenticated", data => {
+        if (data.isAuthenticated) {
+            addSignUpModalHandlers("saveResultsHeaderButton",
+                data.isAuthenticated,
+                //TODO replace this with a function to save
+                //the current state to the database
+                //I would also like to set a global variable showing that the user is signed in
+                //Then maybe the gamestate can be saved automatically
+                //I should delete the login button as well
+                () => console.log("woo"))
+            return;
+        }
+
+        addSignUpModalHandlers("saveResultsHeaderButton");
+        $("#saveResultsHeaderButton").click(function () {
+            swapModal("#signUpModalSection");
+            addModalCloseHandlers();
+        });
+    })
+}
+
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
 $(async function () {
@@ -31,15 +53,7 @@ $(async function () {
     //displayInstructionModal();
 
     addLoginModalHandlers();
-    addSignUpModalHandlers("saveResultsHeaderButton");
-
-    $("#omdbButton").click(callMovieApi);
-    $("#saveResultsHeaderButton").click(function () {
-        swapModal("#signUpModalSection");
-        addModalCloseHandlers();
-    });
-
-    $("#completeTest").click(calculateResult);
+    saveResultsButtonHandlers();
 
     if (shouldLoad === "1") {
         await loadProgress();
@@ -58,6 +72,9 @@ $(async function () {
         });
     });
     $("#undecidedDropZone").droppable({drop: handleUndecided})
+
+    $("#omdbButton").click(callMovieApi);
+    $("#completeTest").click(calculateResult);
 
     window.onresize = redistributeCards;
 });

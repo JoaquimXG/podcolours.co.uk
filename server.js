@@ -228,3 +228,15 @@ app.post("/postlogin", (req, res) => {
         }
     });
 });
+
+app.get("/isauthenticated", (req, res) => {
+    if (req.session.loggedin) {
+        var isAuthenticated = true;
+    }
+    else {
+        isAuthenticated = false;
+    }
+    res.send({isAuthenticated: isAuthenticated})
+    return;
+})
+

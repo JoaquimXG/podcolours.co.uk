@@ -2,7 +2,7 @@ export {
     addSignUpModalHandlers
 };
 
-function addSignUpModalHandlers(activationId) {
+function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCallBack) {
     function hideModal() {
         $("#signUpModalSection").css("opacity", "0");
         $("#signUpModalContainer").css("visibility", "hidden");
@@ -10,10 +10,14 @@ function addSignUpModalHandlers(activationId) {
     }
 
     //Add click event for signUp button in the header to open the login modal
-    $(`#${activationId}`).click(function() {
-        $("#signUpModalContainer").css("visibility", "visible");
-        $("#signUpModalSection").css("opacity", "1");
-    });
+    if (isAuthenticated) {
+        $(`#${activationId}`).click(authenticatedCallBack)
+    } else {
+        $(`#${activationId}`).click(function() {
+            $("#signUpModalContainer").css("visibility", "visible");
+            $("#signUpModalSection").css("opacity", "1");
+        });
+    }
 
     //Add click event for close button in the signUp modal to close the modal
     $("#closeSignUpModal").click(function() {
