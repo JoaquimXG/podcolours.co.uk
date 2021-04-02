@@ -1,5 +1,6 @@
 import {addLoginModalHandlers, openLoginModal} from './loginModal.js'
 import {addCarouselHandlers, resizeCarousel} from './carousel.js'
+import checkGetParam from './checkGetParam.js'
 
 var carouselId = "carouselSlider"
 
@@ -9,19 +10,6 @@ $(document).ready(function() {
     autoOpenModal();
     window.onresize = handleWindowResize;
 });
-
-
-//Checks if a get parameter exists and returns its value
-function checkGetParam(param) {
-    var urlParams = new URLSearchParams(window.location.search)
-    var value;
-
-    if (urlParams.has(param)) {
-        value = urlParams.get(param)
-    }
-
-    return value
-}
 
 function autoOpenModal() {
     var loginModal = checkGetParam('loginModal');

@@ -3,7 +3,12 @@ import { wordList } from "./appGlobals.js";
 //Contains the current state of each card
 //wether it is "kept", "discarded", "undecided" 
 //or the next card to be handled
-var cards;
+var cards = {
+    kept: [],
+    discarded: [],
+    undecided: [],
+    next: {}
+}
 
 const CARDWIDTH = 180;
 const CARDHEIGHT = 127;
@@ -15,6 +20,7 @@ const NUMTODISCARD = 2;
 //Loads previous test state from localstorage
 async function loadProgress(){
     cards = JSON.parse(localStorage.getItem("storedCards"));
+    updateWordList();
     if (cards === null) {
         cards = {
             kept: [],
@@ -30,6 +36,10 @@ async function loadProgress(){
     }
 
     updateCounters();
+}
+
+function updateWordList() {
+    console.log("Updating word list")
 }
 
 //Adds each card which needs to be loaded into the DOM

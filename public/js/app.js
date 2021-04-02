@@ -1,4 +1,5 @@
 import { resultsText } from "./appGlobals.js";
+import checkGetParam from './checkGetParam.js'
 
 //Functions for handling all JQuery UI events for cards
 import {
@@ -21,14 +22,11 @@ import {
 import { addLoginModalHandlers } from "./loginModal.js";
 import { addSignUpModalHandlers } from "./signUpModal.js";
 
-//TODO REMOVE
-//Backend should check if user is
-//logged in and resume if they have a test in progress
-var SHOULDLOAD = true;
-
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
 $(async function () {
+    var shouldLoad = checkGetParam("loadProgress");
+
     //TODO uncomment this line, it was just annoying me 
     //displayInstructionModal();
 
@@ -43,12 +41,11 @@ $(async function () {
 
     $("#completeTest").click(calculateResult);
 
-    if (SHOULDLOAD) {
+    if (shouldLoad === "1") {
         await loadProgress();
+    } else {
+        displayRandomCard();
     }
-
-    //TODO, when loading progres, the card being displayed should be the "next card"
-    //displayRandomCard();
 
     $(".cardDropzone").each(function () {
         $(this).droppable({

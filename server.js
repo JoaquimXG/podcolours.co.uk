@@ -63,7 +63,13 @@ app.get("/", (_, res) => {
 });
 
 //Personality test page
-app.get("/test", (_, res) => {
+app.get("/test", (req, res) => {
+    if (req.session.loggedin) {
+        if (req.query.loadProgress !== "1"){
+            res.redirect("/test?loadProgress=1");
+            return;
+        }
+    }
     header = {
         login: true,
         testButton: {
