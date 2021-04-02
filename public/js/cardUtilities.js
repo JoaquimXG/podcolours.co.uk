@@ -19,6 +19,7 @@ const NUMTODISCARD = 60;
 
 //Loads previous test state from localstorage
 async function loadProgress(){
+    //TODO getLatestSavedState()
     cards = JSON.parse(localStorage.getItem("storedCards"));
     if (cards === null) {
         cards = {
@@ -36,6 +37,17 @@ async function loadProgress(){
     }
 
     updateCounters();
+}
+
+async function getLatestSavedState() {
+    if (window.auth == true) {
+        //TODO get current values for cards from server and compare timestamps
+        //return most recent version
+    }
+    else {
+        return JSON.parse(localStorage.getItem("storedCards"))
+    }
+
 }
 
 //When loading a previous test, removes all words from the 
@@ -148,6 +160,9 @@ function moveCard(card, oldKey, newKey, cards){
 
     localStorage.setItem("storedCards", JSON.stringify(cards));
     localStorage.setItem("lastTestUpdate", Date.now())
+    if (window.auth) {
+        saveStateToServer(false)
+    }
 }
 
 //Ensures counters for kept and discarded sections
@@ -300,6 +315,7 @@ function saveStateToServer(redirect) {
     var cards = JSON.parse(localStorage.getItem('storedCards'));
     var testSate = JSON.parse(localStorage.getItem("testState"))
     var lastUpdate = Date.parse(localStorage.getItem("lastTestUpdate"))
+    console.log("Saving state to server")
 
     //Handle fields being empty
     $.post({

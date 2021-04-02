@@ -28,7 +28,8 @@ import { addSignUpModalHandlers } from "./signUpModal.js";
 //and add event handlers for dropzones and modals
 $(async function () {
     var shouldLoad = checkGetParam("loadProgress");
-    window.auth = checkIsAuthenticated(saveResultsButtonHandlers)
+    checkIsAuthenticated(saveResultsButtonHandlers)
+        .then((isAuthenticated) => window.auth = isAuthenticated)
 
     //TODO uncomment this line, it was just annoying me 
     //displayInstructionModal();
@@ -125,7 +126,8 @@ function displayResultsModal() {
     //Removing unneccessary dangling click handlers and icons
     removeModalCloseHandlers();
     removeModalBackHandlers();
-    if (window.auth){
+
+    if (window.auth == true) {
         $("#saveResultsButton").click(() => saveStateToServer(true))
         return;
     }
@@ -138,7 +140,6 @@ function displayResultsModal() {
                 displayResultsModal();
             });
     });
-
 }
 
 // ----------- Movie API -------------------------
