@@ -106,13 +106,13 @@ app.get("/profile", (req, res) => {
     //Counts the number of each colour that has been kept
     //to dispay to the user.
     function countKeptCards(cards) {
-        cardCounts = {};
-        for (const color in cards) {
-            cardCounts[color] = cards[color].filter((card) => {
-                return card.isKept === "true";
-            }).length;
-        }
-        return cardCounts;
+        var colors = ["red", "blue", "green", "yellow"];
+        var colorCounts = {}
+        colors.forEach((color) => {
+            var count = cards.kept.filter((card)=> card.color == color).length
+            colorCounts[color] = count;
+        })
+        return colorCounts;
     }
 
     header = {
@@ -139,18 +139,22 @@ app.get("/profile", (req, res) => {
         .then((resultsArray) => {
             content = resultsArray[0].content;
             profile = resultsArray[1];
+            cards = profile.cards;
 
             //Don't display button to continue test in header if
             //the user has already completed the test
+            //TODO need to provide this value when saving a completed test
+            var colorCounts;
             if (profile.testComplete === true) {
                 header.testButton = false;
+                colorCounts = cards.colorCounts;
+            } else {
+                colorCounts = countKeptCards(cards);
             }
-
-            cardCounts = countKeptCards(profile.cards);
-            profile.cardCountString = `Red: ${cardCounts.red}, \
-Blue: ${cardCounts.blue}, \
-Green: ${cardCounts.green}, \
-Yellow: ${cardCounts.yellow}`;
+                profile.cardCountString = `Red: ${colorCounts.red}, \
+Blue: ${colorCounts.blue}, \
+Green: ${colorCounts.green}, \
+Yellow: ${colorCounts.yellow}`;
 
             res.render("pages/profile", {
                 header: header,

@@ -1,4 +1,4 @@
-import { wordList } from "./appGlobals.js";
+import { wordList, setWordList } from "./appGlobals.js";
 
 //Contains the current state of each card
 //wether it is "kept", "discarded", "undecided" 
@@ -20,7 +20,6 @@ const NUMTODISCARD = 2;
 //Loads previous test state from localstorage
 async function loadProgress(){
     cards = JSON.parse(localStorage.getItem("storedCards"));
-    updateWordList();
     if (cards === null) {
         cards = {
             kept: [],
@@ -31,6 +30,7 @@ async function loadProgress(){
         displayRandomCard();
     }
     else {
+        updateWordList();
         await displayAllCards();
         redistributeCards();
     }
@@ -39,7 +39,14 @@ async function loadProgress(){
 }
 
 function updateWordList() {
-    console.log("Updating word list")
+    var allCards = cards.kept.concat(cards.discarded).concat(cards.undecided)
+    allCards.push(cards.next)
+    allCards = allCards.map(card => card.id)
+
+    var temp = wordList.filter((card) => {
+        return allCards.indexOf(card.id) < 0
+    })
+    setWordList(temp)
 }
 
 //Adds each card which needs to be loaded into the DOM
@@ -57,6 +64,9 @@ async function displayAllCards() {
         })
     })
     var nextCard = cards.next
+    if (nextCard === false){
+        return;
+    }
     displayCard(
         [
         {name: "id", value: nextCard.id},
@@ -203,7 +213,7 @@ async function displayRandomCard() {
     var randomCardIndex = Math.floor(Math.random() * wordList.length);
     var randomCard = wordList.splice(randomCardIndex, 1)[0];
 
-    var id = randomCard.word
+    var id = randomCard.id
     var color = randomCard.color
     var dropId = "undecided"
 
@@ -265,7 +275,12 @@ async function handleCardDrop(_, ui) {
         shrinkCard($(card))
         //Have to wait for this function to complete before updating
         //the cards array and updating the counter
-        await displayRandomCard();
+        if (wordList.length > 0){
+            await displayRandomCard();
+        }
+        else {
+            cards.next = false
+        }
     }
 
     //If the card has been moved to a different dropzone 

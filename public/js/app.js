@@ -80,6 +80,7 @@ function calculateResult() {
         }
     })
     cards.colorCounts = colorCounts;
+    cards.result = result;
     
     generateResultsModal(result);
     displayResultsModal();
