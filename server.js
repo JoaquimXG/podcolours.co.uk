@@ -94,6 +94,27 @@ app.get("/test", (req, res) => {
     );
 });
 
+//API endpoint to save current test state
+app.post("/test/saveState", (req, res) => {
+    if (!req.session.loggedin){
+        res.json({success: false,
+            error: "user not authenticated"})
+        return;
+    }
+    var updateObj = {$set: {
+        cards: req.body.cards,
+        testState: req.body.testState,
+        lastUpdate: req.body.lastUpdate == "NaN" ? Date.now() : req.body.lastUpdate ,
+    }}
+
+    db.collection("users").update({username: req.session.email}, updateObj, (err, _) => {
+        if (err) throw err;
+        res.json({success: true});
+        return;
+    });
+
+})
+
 //Counts the number of each colour that has been kept
 //to dispay to the user.
 function countKeptCards(cards) {
@@ -175,7 +196,7 @@ app.post("/signup", async (req, res) => {
         password: req.body.password,
         cards: req.body.cards,
         testState: req.body.testState ? req.body.testState : {complete: false, result: null},
-        lastUpdate: req.body.lastUpdate ? req.body.lastUpdate : Date.now(),
+        lastUpdate: req.body.lastUpdate === "NaN" ? Date.now() : req.body.lastUpdate ,
     };
 
     //Add user to database and redirect to profile page

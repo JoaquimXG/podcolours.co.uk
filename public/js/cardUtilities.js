@@ -14,8 +14,8 @@ const CARDWIDTH = 180;
 const CARDHEIGHT = 127;
 const CARDTRANSTIME = 400;
 //TODO Set these to the correct values, 20 and 60 respectively
-const NUMTOKEEP = 2;
-const NUMTODISCARD = 2;
+const NUMTOKEEP = 20;
+const NUMTODISCARD = 60;
 
 //Loads previous test state from localstorage
 async function loadProgress(){
@@ -295,6 +295,41 @@ async function handleCardDrop(_, ui) {
     moveCard($(card), oldDropZoneId, newDropZoneId, cards)
 }
 
+//Sends the current state of the test to be saved by the server
+function saveStateToServer(redirect) {
+    var cards = JSON.parse(localStorage.getItem('storedCards'));
+    var testSate = JSON.parse(localStorage.getItem("testState"))
+    var lastUpdate = Date.parse(localStorage.getItem("lastTestUpdate"))
+
+    //Handle fields being empty
+    $.post({
+        type: "POST",
+        url: "/test/saveState",
+        data: {
+            cards: cards,
+            testState: testSate,
+            lastUpdate: lastUpdate
+        },
+        dataType: "json"
+    })
+        .done(data => {
+            //Redirect to profile page if user created 
+            if (data.success === true) {
+                if (redirect){
+                    window.location.href = "/profile"
+                }
+            }
+            else {
+                console.log(data.error)
+            }
+        })
+        //TODO Handle server failure
+        .fail(() => {
+            alert(`Server Error Please try again`)  
+        })
+}
+
+
 export {
     moveCard,
     shrinkCard,
@@ -303,4 +338,5 @@ export {
     handleCardDrop,
     loadProgress,
     redistributeCards,
+    saveStateToServer
 }

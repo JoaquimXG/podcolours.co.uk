@@ -1,5 +1,6 @@
 import { resultsText } from "./appGlobals.js";
 import checkGetParam from './checkGetParam.js'
+import checkIsAuthenticated from './checkIsAuthenticated.js'
 
 //Functions for handling all JQuery UI events for cards
 import {
@@ -8,6 +9,7 @@ import {
     handleCardDrop,
     loadProgress, 
     redistributeCards,
+    saveStateToServer
 } from './cardUtilities.js'
 
 //A collection of functions to manage displaying and closing modals
@@ -22,38 +24,17 @@ import {
 import { addLoginModalHandlers } from "./loginModal.js";
 import { addSignUpModalHandlers } from "./signUpModal.js";
 
-function saveResultsButtonHandlers() {
-    $.get("/isauthenticated", data => {
-        if (data.isAuthenticated) {
-            addSignUpModalHandlers("saveResultsHeaderButton",
-                data.isAuthenticated,
-                //TODO replace this with a function to save
-                //the current state to the database
-                //I would also like to set a global variable showing that the user is signed in
-                //Then maybe the gamestate can be saved automatically
-                //I should delete the login button as well
-                () => console.log("woo"))
-            return;
-        }
-
-        addSignUpModalHandlers("saveResultsHeaderButton");
-        $("#saveResultsHeaderButton").click(function () {
-            swapModal("#signUpModalSection");
-            addModalCloseHandlers();
-        });
-    })
-}
-
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
 $(async function () {
     var shouldLoad = checkGetParam("loadProgress");
+    window.auth = checkIsAuthenticated(saveResultsButtonHandlers)
 
     //TODO uncomment this line, it was just annoying me 
     //displayInstructionModal();
 
     addLoginModalHandlers();
-    saveResultsButtonHandlers();
+    
 
     if (shouldLoad === "1") {
         await loadProgress();
@@ -78,6 +59,21 @@ $(async function () {
 
     window.onresize = redistributeCards;
 });
+
+function saveResultsButtonHandlers(isAuthenticated) {
+    if (isAuthenticated) {
+        addSignUpModalHandlers("saveResultsHeaderButton",
+            isAuthenticated,
+            () => saveStateToServer(true))
+        return;
+    }
+
+    addSignUpModalHandlers("saveResultsHeaderButton");
+    $("#saveResultsHeaderButton").click(function () {
+        swapModal("#signUpModalSection");
+        addModalCloseHandlers();
+    });
+}
 
 //Counts the number of cards of each colour which were kept
 //calculates the users test result, displayes the results modal
@@ -104,6 +100,7 @@ function calculateResult() {
     localStorage.setItem("testState", JSON.stringify({complete: true, result: result}));
     localStorage.setItem("storedCards", JSON.stringify(cards));
     localStorage.setItem("lastTestUpdate", Date.now())
+    saveStateToServer(false)
 }
 
 // ---------- Modal Handlers ------------
@@ -125,6 +122,13 @@ function generateResultsModal(color) {
 //Adjusts all css and text for the appropriate results modal
 function displayResultsModal() {
     swapModal("#resultsModalSection");
+    //Removing unneccessary dangling click handlers and icons
+    removeModalCloseHandlers();
+    removeModalBackHandlers();
+    if (window.auth){
+        $("#saveResultsButton").click(() => saveStateToServer(true))
+        return;
+    }
 
     $("#saveResultsButton").click(function () {
         swapModal("#signUpModalSection");
@@ -135,9 +139,6 @@ function displayResultsModal() {
             });
     });
 
-    //Removing unneccessary dangling click handlers and icons
-    removeModalCloseHandlers();
-    removeModalBackHandlers();
 }
 
 // ----------- Movie API -------------------------
