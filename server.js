@@ -26,16 +26,10 @@ app.use(
     })
 );
 
-var db;
-MongoClient.connect(mongoUrl, (err, database) => {
-    if (err) throw err;
-    db = database;
-    app.listen(8080);
-    console.log("Listening on port 8080");
-});
-
-function render500Error(res, errorText){
-    var text = errorText? errorText : "500: Server Error"
+//Error handler
+function errorHandler(err, _, res, _) {
+    var text = err
+    res.status(500)
     var error = {
         title: "Oh no, we are having trouble with your request. ",
         text: text,
@@ -43,6 +37,14 @@ function render500Error(res, errorText){
     }
     res.render("pages/error", {error: error});
 }
+
+var db;
+MongoClient.connect(mongoUrl, (err, database) => {
+    if (err) throw err;
+    db = database;
+    app.listen(8080);
+    console.log("Listening on port 8080");
+});
 
 //Counts the number of each colour that has been kept
 //to dispay to the user.
@@ -59,10 +61,9 @@ function countKeptCards(cards) {
     return colorCounts;
 }
 
-
 //Routes
 //Home Page
-app.get("/", (_, res) => {
+app.get("/", (_, res, next) => {
     header = {
         login: true,
         testButton: {
@@ -77,21 +78,22 @@ app.get("/", (_, res) => {
         { _id: "/" },
         { _id: 0, content: 1 },
         (err, queryRes) => {
-            if (err){
-                render500Error(res)
-                throw err;
-            };
-            res.render("pages/index", {
-                header: header,
-                content: queryRes.content,
-            });
-            return;
+            if (err) next(err);
+            try {
+                res.render("pages/index", {
+                    header: header,
+                    content: queryRes.content,
+                });
+            }
+            catch (err){
+                next(err)
+            }
         }
     );
 });
 
 //Personality test page
-app.get("/test", (_, res) => {
+app.get("/test", (_, res, next) => {
     header = {
         login: true,
         testButton: {
@@ -105,26 +107,27 @@ app.get("/test", (_, res) => {
         { _id: "/" },
         { _id: 0, content: 1 },
         (err, queryRes) => {
-            if (err){
-                render500Error(res)
-                throw err;
-            };
-            res.render("pages/test", {
-                header: header,
-                content: queryRes.content,
-            });
-            return;
+            if (err) next(err);
+            try {
+                res.render("pages/test", {
+                    header: header,
+                    content: queryRes.content,
+                });
+            } catch (err) {
+                next(err)
+            }
         }
     );
 });
 
 //API endpoint to save current test state
-app.post("/test/saveState", (req, res) => {
+app.post("/test/saveState", (req, res, next) => {
     if (!req.session.loggedin){
         res.json({success: false,
             error: "user not authenticated"})
         return;
     }
+
     var lastUpdate = JSON.parse(req.body.lastUpdate)
     var testState = JSON.parse(req.body.testState)
 
@@ -135,40 +138,35 @@ app.post("/test/saveState", (req, res) => {
     }}
 
     db.collection("users").update({username: req.session.email}, updateObj, (err, _) => {
-        if (err){
-            render500Error(res)
-            throw err;
-        };
+        if (err) next(err)
         res.json({success: true});
-        return;
     });
-
 })
 
 //API endpoint to retrieve current test state from database
-app.get("/test/getState", (req, res) => {
+app.get("/test/getState", (req, res, next) => {
     if (!req.session.loggedin){
         res.json({success: false,
             error: "user not authenticated"})
         return;
     }
     db.collection("users").findOne({username: req.session.email}, (err, result) => {
-        if (err){
-            render500Error(res)
-            throw err;
-        };
-        res.json({
-            success: true,
-            cards: result.cards,
-            lastUpdate: result.lastUpdate,
-            testState: result.testState
-        });
-        return;
+        if (err) next(err)
+        try {
+            res.json({
+                success: true,
+                cards: result.cards,
+                lastUpdate: result.lastUpdate,
+                testState: result.testState
+            });
+        } catch (err) {
+            next(err)
+        }
     });
 })
 
 //User profile page
-app.get("/profile", (req, res) => {
+app.get("/profile", (req, res, next) => {
     //Redirect user to homepage if they are not signed in
     //Homepage is setup to open loginModal automatically with this param
     if (!req.session.loggedin) {
@@ -221,25 +219,25 @@ Yellow: ${colorCounts.yellow}`;
                 content: content,
                 profile: profile,
             });
-            return;
         })
         .catch((err) => {
             console.log(`Error getting profile from db ${err}`)
-            render500Error(res)
-            throw err;
+            next(err)
         });
 });
 
-app.post("/signup", async (req, res) => {
+app.post("/signup", (req, res, next) => {
     var lastUpdate = JSON.parse(req.body.lastUpdate)
     var testState = JSON.parse(req.body.testState)
     var cards;
+
     try {
         cards = JSON.parse(req.body.cards)
     }
     catch {
         cards = false
     }
+
     user = {
         username: req.body.email,
         password: req.body.password,
@@ -251,29 +249,26 @@ app.post("/signup", async (req, res) => {
     //Add user to database and redirect to profile page
     //TODO, check if username is already taken and return an error if it has
     db.collection("users").save(user, (err, _) => {
-        if (err){
-            render500Error(res)
-            throw err;
-        };
-        req.session.email = user.username;
-        req.session.loggedin = true;
-        formResponse = { userCreated: true };
-        res.json(formResponse);
-        return;
+        if (err) next(err)
+        try {
+            req.session.email = user.username;
+            req.session.loggedin = true;
+            formResponse = { userCreated: true };
+            res.json(formResponse);
+        } catch (err) {
+            next(err)
+        }
     });
 });
 
 //Login handler
-app.post("/postlogin", (req, res) => {
+app.post("/postlogin", (req, res, next) => {
     var email = req.body.email;
     var password = req.body.password;
 
     //Find user in database
     db.collection("users").findOne({ username: email }, (err, result) => {
-        if (err) {
-            render500Error(res)
-            throw err;
-        };
+        if (err) next(err)
 
         formResponse = {
             badPassword: false,
@@ -290,16 +285,18 @@ app.post("/postlogin", (req, res) => {
 
         //Successful login
         if (result.password === password) {
-            req.session.loggedin = true;
-            req.session.email = email;
-            formResponse.loggedin = true;
-            res.send(formResponse);
-            return;
+            try {
+                req.session.loggedin = true;
+                req.session.email = email;
+                formResponse.loggedin = true;
+                res.send(formResponse);
+            } catch (err) {
+                next(err)
+            }
         } else {
             //Password incorrect
             formResponse.badPassword = true;
             res.json(formResponse);
-            return;
         }
     });
 });
@@ -324,3 +321,5 @@ app.get("*", (_, res) => {
     res.render("pages/error", {error: error});
     return;
 })
+
+app.use(errorHandler)
