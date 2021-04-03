@@ -34,6 +34,32 @@ MongoClient.connect(mongoUrl, (err, database) => {
     console.log("Listening on port 8080");
 });
 
+function render500Error(res, errorText){
+    var text = errorText? errorText : "500: Server Error"
+    var error = {
+        title: "Oh no, we are having trouble with your request. ",
+        text: text,
+        img: "/img/logo.png"
+    }
+    res.render("pages/error", {error: error});
+}
+
+//Counts the number of each colour that has been kept
+//to dispay to the user.
+function countKeptCards(cards) {
+    if (!cards.next) {
+        return {red: 0, blue: 0, yellow: 0, green: 0}
+    }
+    var colors = ["red", "blue", "green", "yellow"];
+    var colorCounts = {}
+    colors.forEach((color) => {
+        var count = cards.kept.filter((card)=> card.color == color).length
+        colorCounts[color] = count;
+    })
+    return colorCounts;
+}
+
+
 //Routes
 //Home Page
 app.get("/", (_, res) => {
@@ -51,8 +77,10 @@ app.get("/", (_, res) => {
         { _id: "/" },
         { _id: 0, content: 1 },
         (err, queryRes) => {
-            //TODO render error page on database error
-            if (err) throw err;
+            if (err){
+                render500Error(res)
+                throw err;
+            };
             res.render("pages/index", {
                 header: header,
                 content: queryRes.content,
@@ -63,7 +91,7 @@ app.get("/", (_, res) => {
 });
 
 //Personality test page
-app.get("/test", (req, res) => {
+app.get("/test", (_, res) => {
     header = {
         login: true,
         testButton: {
@@ -77,8 +105,10 @@ app.get("/test", (req, res) => {
         { _id: "/" },
         { _id: 0, content: 1 },
         (err, queryRes) => {
-            //TODO render error page on database error
-            if (err) throw err;
+            if (err){
+                render500Error(res)
+                throw err;
+            };
             res.render("pages/test", {
                 header: header,
                 content: queryRes.content,
@@ -105,7 +135,10 @@ app.post("/test/saveState", (req, res) => {
     }}
 
     db.collection("users").update({username: req.session.email}, updateObj, (err, _) => {
-        if (err) throw err;
+        if (err){
+            render500Error(res)
+            throw err;
+        };
         res.json({success: true});
         return;
     });
@@ -120,7 +153,10 @@ app.get("/test/getState", (req, res) => {
         return;
     }
     db.collection("users").findOne({username: req.session.email}, (err, result) => {
-        if (err) throw err;
+        if (err){
+            render500Error(res)
+            throw err;
+        };
         res.json({
             success: true,
             cards: result.cards,
@@ -130,21 +166,6 @@ app.get("/test/getState", (req, res) => {
         return;
     });
 })
-
-//Counts the number of each colour that has been kept
-//to dispay to the user.
-function countKeptCards(cards) {
-    if (!cards.next) {
-        return {red: 0, blue: 0, yellow: 0, green: 0}
-    }
-    var colors = ["red", "blue", "green", "yellow"];
-    var colorCounts = {}
-    colors.forEach((color) => {
-        var count = cards.kept.filter((card)=> card.color == color).length
-        colorCounts[color] = count;
-    })
-    return colorCounts;
-}
 
 //User profile page
 app.get("/profile", (req, res) => {
@@ -202,8 +223,11 @@ Yellow: ${colorCounts.yellow}`;
             });
             return;
         })
-        //TODO When are errors generated here? How to handle them?
-        .catch((err) => console.log(`Error getting profile from db ${err}`));
+        .catch((err) => {
+            console.log(`Error getting profile from db ${err}`)
+            render500Error(res)
+            throw err;
+        });
 });
 
 app.post("/signup", async (req, res) => {
@@ -227,7 +251,10 @@ app.post("/signup", async (req, res) => {
     //Add user to database and redirect to profile page
     //TODO, check if username is already taken and return an error if it has
     db.collection("users").save(user, (err, _) => {
-        if (err) throw err;
+        if (err){
+            render500Error(res)
+            throw err;
+        };
         req.session.email = user.username;
         req.session.loggedin = true;
         formResponse = { userCreated: true };
@@ -243,8 +270,10 @@ app.post("/postlogin", (req, res) => {
 
     //Find user in database
     db.collection("users").findOne({ username: email }, (err, result) => {
-        //TODO render error page on database error
-        if (err) throw err;
+        if (err) {
+            render500Error(res)
+            throw err;
+        };
 
         formResponse = {
             badPassword: false,
