@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="/css/index.css" />
 
         <!-- Internal javascript -->
-        <script type="module" src="/js/app.js"></script>
+        <script type="module" src="/js/test/test.js"></script>
     </head>
     <%- include('../partials/header')%>
     <body>
@@ -54,13 +54,24 @@
                 </svg>
             </div>
         </div>
-        <div style="display:flex;flex-direction:row;"></div>
         <div id="appPrimaryContainer" class="appBackground">
-            <div id="cardContainer"></div>
+            <div id="greenDropzone" dropId="kept" class="cardDropzone">
+                <div class="dropZoneText">Keep</div>
+                <div id="keepCounter" class="dropZoneText">0/20</div>
+            </div>
+            <div id="undecidedDropZone" dropId="undecided"></div>
+            <div id="redDropzone" dropId="discarded" class="cardDropzone">
+                <div class="dropZoneText">Discard</div>
+                <div id="discardCounter" class="dropZoneText">0/60</div>
+            </div>
         </div>
-        <div class="dropzoneContainer">
-            <div id="redDropzone" class="cardDropzone">Discard</div>
-            <div id="greenDropzone" class="cardDropzone">Keep</div>
+        <div>
+            <button
+                id="completeTest"
+                class="buttonBaseline noBorder buttonSuccess"
+                disabled>
+                Finish
+            </button>
         </div>
     </body>
     <div id="modalHolding">

@@ -107,10 +107,22 @@ span.underline {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px;
 }
 
+.buttonBaseline:disabled {
+    background-color: grey
+}
+
+
 .buttonBaseline:hover {
     color: #52c41a;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
     border-color: #52c41a;
+}
+
+.buttonBaseline:disabled:hover {
+    color: white;
+    box-shadow: unset;
+    background-color: grey;
+    cursor: unset;
 }
 
 .buttonBaseline:focus {
