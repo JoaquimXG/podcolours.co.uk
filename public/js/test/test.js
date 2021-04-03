@@ -28,8 +28,7 @@ import { addSignUpModalHandlers } from "../signUpModal.js";
 $(async function () {
     window.auth = await checkIsAuthenticated(saveResultsButtonHandlers);
 
-    //TODO uncomment this line, it was just annoying me
-    //displayInstructionModal();
+    displayInstructionModal();
 
     if (window.auth == true) {
         await loadProgress();
@@ -62,6 +61,8 @@ $(async function () {
     window.onresize = redistributeCards;
 });
 
+//If user is authenticated, the button to save results
+//the end of the test should save their results without prompting to sign in
 function saveResultsButtonHandlers(isAuthenticated) {
     if (isAuthenticated) {
         addSignUpModalHandlers("saveResultsHeaderButton", isAuthenticated, () =>
