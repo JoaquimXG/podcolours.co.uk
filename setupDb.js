@@ -13,6 +13,14 @@ db.users.insert({
 });
 
 db.users.insert({
+    username: "testNotStarted",
+    password: "testNotStarted",
+    cards: false,
+    testState: { complete: false, result: null },
+    lastUpdate: 1617481830775,
+});
+
+db.users.insert({
     username: "testStarted",
     password: "testStarted",
     cards: {
