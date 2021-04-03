@@ -48,6 +48,9 @@ async function getServerSavedState() {
     await $.get("/test/getState", (data) => {
         console.log("Pulling data from server", data);
         if (data.success) {
+            if (data.testState.complete == true) {
+                window.location.href = "/profile"
+            } 
             serverCards = data.cards;
         } else {
             //TODO Handle case where user is not signed in
