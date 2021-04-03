@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const app = express();
 
+const {errorHandler, countKeptCards} = require('./serverUtils.js')
+
 //Use default mongo url or first command line arg
 mongoUrl = process.argv[2]
     ? process.argv[2]
@@ -26,18 +28,6 @@ app.use(
     })
 );
 
-//Error handler
-function errorHandler(err, _, res, _) {
-    var text = err
-    res.status(500)
-    var error = {
-        title: "Oh no, we are having trouble with your request. ",
-        text: text,
-        img: "/img/logo.png"
-    }
-    res.render("pages/error", {error: error});
-}
-
 var db;
 MongoClient.connect(mongoUrl, (err, database) => {
     if (err) throw err;
@@ -45,21 +35,6 @@ MongoClient.connect(mongoUrl, (err, database) => {
     app.listen(8080);
     console.log("Listening on port 8080");
 });
-
-//Counts the number of each colour that has been kept
-//to dispay to the user.
-function countKeptCards(cards) {
-    if (!cards.next) {
-        return {red: 0, blue: 0, yellow: 0, green: 0}
-    }
-    var colors = ["red", "blue", "green", "yellow"];
-    var colorCounts = {}
-    colors.forEach((color) => {
-        var count = cards.kept.filter((card)=> card.color == color).length
-        colorCounts[color] = count;
-    })
-    return colorCounts;
-}
 
 //Routes
 //Home Page
