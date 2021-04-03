@@ -205,6 +205,10 @@ span.underline {
     background: #aaa;
 }
 
+.screenHeight {
+    height: 100vh;
+}
+
 .modalContainer {
     display: flex;
     visibility: hidden;
