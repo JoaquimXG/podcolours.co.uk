@@ -64,12 +64,6 @@ app.get("/", (_, res) => {
 
 //Personality test page
 app.get("/test", (req, res) => {
-    if (req.session.loggedin) {
-        if (req.query.loadProgress !== "1"){
-            res.redirect("/test?loadProgress=1");
-            return;
-        }
-    }
     header = {
         login: true,
         testButton: {
@@ -85,7 +79,7 @@ app.get("/test", (req, res) => {
         (err, queryRes) => {
             //TODO render error page on database error
             if (err) throw err;
-            res.render("pages/app", {
+            res.render("pages/test", {
                 header: header,
                 content: queryRes.content,
             });
@@ -101,10 +95,13 @@ app.post("/test/saveState", (req, res) => {
             error: "user not authenticated"})
         return;
     }
+    var lastUpdate = JSON.parse(req.body.lastUpdate)
+    var testState = JSON.parse(req.body.testState)
+
     var updateObj = {$set: {
-        cards: req.body.cards,
-        testState: req.body.testState,
-        lastUpdate: req.body.lastUpdate == "NaN" ? Date.now() : req.body.lastUpdate ,
+        cards: JSON.parse(req.body.cards),
+        testState: testState,
+        lastUpdate: lastUpdate == "NaN" ? Date.now() : lastUpdate,
     }}
 
     db.collection("users").update({username: req.session.email}, updateObj, (err, _) => {
@@ -113,6 +110,25 @@ app.post("/test/saveState", (req, res) => {
         return;
     });
 
+})
+
+//API endpoint to retrieve current test state from database
+app.get("/test/getState", (req, res) => {
+    if (!req.session.loggedin){
+        res.json({success: false,
+            error: "user not authenticated"})
+        return;
+    }
+    db.collection("users").findOne({username: req.session.email}, (err, result) => {
+        if (err) throw err;
+        res.json({
+            success: true,
+            cards: result.cards,
+            lastUpdate: result.lastUpdate,
+            testState: result.testState
+        });
+        return;
+    });
 })
 
 //Counts the number of each colour that has been kept
@@ -191,12 +207,21 @@ Yellow: ${colorCounts.yellow}`;
 });
 
 app.post("/signup", async (req, res) => {
+    var lastUpdate = JSON.parse(req.body.lastUpdate)
+    var testState = JSON.parse(req.body.testState)
+    var cards;
+    try {
+        cards = JSON.parse(req.body.cards)
+    }
+    catch {
+        cards = false
+    }
     user = {
         username: req.body.email,
         password: req.body.password,
-        cards: req.body.cards,
-        testState: req.body.testState ? req.body.testState : {complete: false, result: null},
-        lastUpdate: req.body.lastUpdate === "NaN" ? Date.now() : req.body.lastUpdate ,
+        cards: cards,
+        testState: testState ? testState : {complete: false, result: null},
+        lastUpdate: lastUpdate === "NaN" ? Date.now() : lastUpdate ,
     };
 
     //Add user to database and redirect to profile page

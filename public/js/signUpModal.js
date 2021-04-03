@@ -50,9 +50,9 @@ function handleSignUp(e) {
     e.preventDefault()
     var email = $("#signUpEmail").val();
     var password = $("#signUpPassword").val();
-    var cards = JSON.parse(localStorage.getItem('storedCards'));
-    var testSate = JSON.parse(localStorage.getItem("testState"))
-    var lastUpdate = Date.parse(localStorage.getItem("lastTestUpdate"))
+    var cards = localStorage.getItem('storedCards');
+    var testSate = localStorage.getItem("testState")
+    var lastUpdate = localStorage.getItem("lastTestUpdate")
 
     //Handle fields being empty
     if (email === "" || password === ""){

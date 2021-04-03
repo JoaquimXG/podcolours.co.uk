@@ -4,7 +4,9 @@ export default async function checkIsAuthenticated(callback) {
         if (data.isAuthenticated) {
             isAuthenticated = true;
         }
-        callback(isAuthenticated)
+        if (callback != undefined) {
+            callback(isAuthenticated)
+        }
     })
     return isAuthenticated;
 }

@@ -1,4 +1,5 @@
 import { wordList, setWordList } from "./appGlobals.js";
+import checkIsAuthenticated from '../checkIsAuthenticated.js'
 
 //Contains the current state of each card
 //wether it is "kept", "discarded", "undecided" 
@@ -16,11 +17,11 @@ const CARDTRANSTIME = 400;
 //TODO Set these to the correct values, 20 and 60 respectively
 const NUMTOKEEP = 20;
 const NUMTODISCARD = 60;
+const CATEGORIES = ["kept", "discarded", "undecided"]
 
 //Loads previous test state from localstorage
 async function loadProgress(){
-    //TODO getLatestSavedState()
-    cards = JSON.parse(localStorage.getItem("storedCards"));
+    cards = await getServerSavedState();
     if (cards === null) {
         cards = {
             kept: [],
@@ -39,22 +40,44 @@ async function loadProgress(){
     updateCounters();
 }
 
-async function getLatestSavedState() {
-    if (window.auth == true) {
-        //TODO get current values for cards from server and compare timestamps
-        //return most recent version
-    }
-    else {
-        return JSON.parse(localStorage.getItem("storedCards"))
-    }
+async function getServerSavedState() {
+    console.log("Loading saved state")
+    var serverCards;
 
+    await $.get("/test/getState", data => {
+        console.log("Pulling data from server", data)
+        if (data.success) {
+            serverCards = data.cards
+        }
+        else {
+            //TODO Handle case where user is not signed in
+            //They shold be signed in already
+            console.log(data.error)
+        }
+    })
+
+    if (serverCards != false) {
+        console.log("Using serverside cards")
+        //Mongo won't store empty arrays, server data needs to have empty arrays inserted
+        CATEGORIES.forEach(category => {
+            if (serverCards[category] == undefined) {
+                serverCards[category] = [];
+            }
+        })
+
+        return serverCards;
+    }
+    console.log("No cards stored on server for this user")
+    return null;
 }
 
 //When loading a previous test, removes all words from the 
 //wordList which have already been shown 
 function updateWordList() {
     var allCards = cards.kept.concat(cards.discarded).concat(cards.undecided)
-    allCards.push(cards.next)
+    if (cards.next != false) {
+        allCards.push(cards.next)
+    }
     allCards = allCards.map(card => card.id)
 
     var temp = wordList.filter((card) => {
@@ -66,25 +89,25 @@ function updateWordList() {
 //Adds each card which needs to be loaded into the DOM
 //ready to be position in the appropriate divs
 async function displayAllCards() {
-    var categories = ["kept", "discarded", "undecided"]
-    categories.forEach(category => {
+    CATEGORIES.forEach(category => {
         cards[category].forEach(card => {
             displayCard([
                 {name: "id", value: card.id},
-                {name: "color", value: card.color},
+                {name: "data-color", value: card.color},
                 {name: "dropId", value: category},
                 {name: "isShrunk", value: "true"}
             ], "card")
         })
     })
     var nextCard = cards.next
-    if (nextCard === false){
+    if (nextCard == false){
+
         return;
     }
     displayCard(
         [
         {name: "id", value: nextCard.id},
-        {name: "color", value: nextCard.color},
+        {name: "data-color", value: nextCard.color},
         {name: "dropId", value: "undecided"},
         {name: "isShrunk", value: "false"}
         ],
@@ -119,8 +142,7 @@ function redistributeCards() {
             return;
         }
 
-        var categories = ["kept", "discarded", "undecided"]
-        var containers = categories.map(category => {
+        var containers = CATEGORIES.map(category => {
             var container = $(`div[dropId="${category}"]`);
             return {
                 name: category,
@@ -297,7 +319,7 @@ async function handleCardDrop(_, ui) {
             await displayRandomCard();
         }
         else {
-            cards.next = false
+            cards.next = false;
         }
     }
 
@@ -311,40 +333,50 @@ async function handleCardDrop(_, ui) {
 }
 
 //Sends the current state of the test to be saved by the server
-function saveStateToServer(redirect) {
-    var cards = JSON.parse(localStorage.getItem('storedCards'));
-    var testSate = JSON.parse(localStorage.getItem("testState"))
-    var lastUpdate = Date.parse(localStorage.getItem("lastTestUpdate"))
+async function saveStateToServer(redirect) {
     console.log("Saving state to server")
+    var cards = localStorage.getItem('storedCards');
+    var testSate = localStorage.getItem("testState")
+    var lastUpdate = localStorage.getItem("lastTestUpdate")
 
-    //Handle fields being empty
-    $.post({
-        type: "POST",
-        url: "/test/saveState",
-        data: {
-            cards: cards,
-            testState: testSate,
-            lastUpdate: lastUpdate
-        },
-        dataType: "json"
-    })
-        .done(data => {
-            //Redirect to profile page if user created 
-            if (data.success === true) {
-                if (redirect){
-                    window.location.href = "/profile"
+    window.auth = await checkIsAuthenticated()
+    if (window.auth == true) {
+        $.post({
+            type: "POST",
+            url: "/test/saveState",
+            data: {
+                cards: cards,
+                testState: testSate,
+                lastUpdate: lastUpdate
+            },
+            dataType: "json"
+        })
+            .done(data => {
+                //Optionally redirect if required
+                if (data.success === true) {
+                    if (redirect){
+                        window.location.href = "/profile"
+                    }
+                    console.log("State saved")
                 }
-            }
-            else {
-                console.log(data.error)
-            }
-        })
+                else {
+                    console.log(data.error)
+                }
+            })
         //TODO Handle server failure
-        .fail(() => {
-            alert(`Server Error Please try again`)  
-        })
+            .fail(() => {
+                alert(`Server Error Please try again`)  
+            })
+    }
+    else {
+        //TODO The only time I have seen this happen is when refreshing the server
+        //and the session is lost. Otherwise I think that as long as the user is still on the page
+        //they shouldn't ever not be signed in. 
+        //This needs to be tested and if there are cases where this can happen then mitigation 
+        //should be implemented
+        console.log("User not signed in ")
+    }
 }
-
 
 export {
     moveCard,

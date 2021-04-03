@@ -1,6 +1,5 @@
 import { resultsText } from "./appGlobals.js";
-import checkGetParam from './checkGetParam.js'
-import checkIsAuthenticated from './checkIsAuthenticated.js'
+import checkIsAuthenticated from '../checkIsAuthenticated.js'
 
 //Functions for handling all JQuery UI events for cards
 import {
@@ -19,30 +18,30 @@ import {
     removeModalBackHandlers,
     addModalCloseHandlers,
     handleModalClose,
-} from "./modalHelpers.js";
+} from "../modalHelpers.js";
 
-import { addLoginModalHandlers } from "./loginModal.js";
-import { addSignUpModalHandlers } from "./signUpModal.js";
+import { addLoginModalHandlers } from "../loginModal.js";
+import { addSignUpModalHandlers } from "../signUpModal.js";
 
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
 $(async function () {
-    var shouldLoad = checkGetParam("loadProgress");
-    checkIsAuthenticated(saveResultsButtonHandlers)
-        .then((isAuthenticated) => window.auth = isAuthenticated)
+    window.auth = await checkIsAuthenticated(saveResultsButtonHandlers)
 
     //TODO uncomment this line, it was just annoying me 
     //displayInstructionModal();
 
-    addLoginModalHandlers();
     
-
-    if (shouldLoad === "1") {
+    if (window.auth == true) {
         await loadProgress();
     } else {
         displayRandomCard();
         localStorage.setItem("testState", JSON.stringify({complete: false, result: null}))
+        localStorage.setItem("lastTestUpdate", Date.now())
+        localStorage.removeItem("storedCards")
     }
+
+    addLoginModalHandlers();
 
     $(".cardDropzone").each(function () {
         $(this).droppable({
