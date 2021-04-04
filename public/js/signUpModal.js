@@ -56,6 +56,7 @@ function handleSignUp(e) {
     var password = $("#signUpPassword").val();
     var name = $("#signUpName").val();
     var department = $("#signUpDepartment").val();
+    var university = $("#signUpUniversity").val()
 
     var cards = localStorage.getItem('storedCards');
     var testSate = localStorage.getItem("testState")
@@ -63,7 +64,7 @@ function handleSignUp(e) {
 
     var ready = true;
     //Handle fields being empty
-    if (email === "" || password === "" || name === "" || department === ""){
+    if (email === "" || password === "" || name === "" || department === "" || university === ""){
         if (password === ""){
             $("#signUpPassword").addClass("formFieldError")
         } 
@@ -75,6 +76,9 @@ function handleSignUp(e) {
         } 
         if (department === ""){
             $("#signUpDepartment").addClass("formFieldError")
+        } 
+        if (university === ""){
+            $("#signUpUniversity").addClass("formFieldError")
         } 
         ready = false;
     }
@@ -94,6 +98,7 @@ function handleSignUp(e) {
                 email:email,
                 password:password,
                 department: department,
+                university: university,
                 cards: cards,
                 testState: testSate,
                 lastUpdate: lastUpdate

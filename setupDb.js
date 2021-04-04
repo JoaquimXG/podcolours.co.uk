@@ -5,16 +5,9 @@ db.dropDatabase();
 print(`Created ${databaseName} database`);
 
 db.users.insert({
-    name: "Nick Torres",
-    university: "Robert Gordon University",
-    department: "School of Computing",
-    username: "exampleUserWithDetails",
-    password: "exampleUserWithDetails",
-});
-
-db.users.insert({
     name: "Test Not Started",
     department: "Computing",
+    university: "Robert Gordon University",
     username: "test@notstarted.com",
     password: "test@notstarted.com",
     cards: false,
@@ -25,6 +18,7 @@ db.users.insert({
 db.users.insert({
     name: "Test Started",
     department: "Computing",
+    university: "Robert Gordon University",
     username: "test@started.com",
     password: "test@started.com",
     cards: {
@@ -40,6 +34,7 @@ db.users.insert({
 db.users.insert({
     name: "Test In Progress",
     department: "Computing",
+    university: "Robert Gordon University",
     username: "test@inprogress.com",
     password: "test@inprogress.com",
     cards: {
@@ -99,6 +94,7 @@ db.users.insert({
 db.users.insert({
     name: "Test Complete",
     department: "Computing",
+    university: "Robert Gordon University",
     username: "test@complete.com",
     password: "test@complete.com",
     cards: {

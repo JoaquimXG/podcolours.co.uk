@@ -11,6 +11,7 @@ const parseSignUpRequest = (req, res, next) => {
 
     res.locals.user = {
         name: req.body.name,
+        university: req.body.university,
         department: req.body.department,
         username: req.body.email,
         password: req.body.password,
