@@ -9,9 +9,13 @@ module.exports = (opts) => {
     //Include MongoDB as express middleware
     app.use(mongo(opts.mongoUrl))
 
-    //Express extensions
+    //Public folder for images, css and js files
     app.use(express.static("public"));
+
+    //ejs for templating
     app.set("view engine", "ejs");
+
+    //Express sessions for managing user logins
     app.use(
         session({
             secret: "a+VT+Vt4V+Y7EoLHatwfPDauKGMBygejiZNNEPwZP0g",
@@ -20,6 +24,7 @@ module.exports = (opts) => {
         })
     );
 
+    //HTTP body parse for handling post requests
     app.use(
         bodyParser.urlencoded({
             extended: true,

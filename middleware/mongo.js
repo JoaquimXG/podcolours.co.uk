@@ -1,5 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 
+//Custom middleware allows MongoDB client to be accessable
+//in all routes in any file through the request object
 module.exports = (mongoUrl) => {
     var link;
 
