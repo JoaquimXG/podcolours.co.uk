@@ -81,15 +81,14 @@
                 Instructions
             </h2>
             <div class="divider"></div>
-            <h4 id="instructions" class="textCenter bottomMargin50">
-                Cards will be released onto the screen along with 2 buckets<br /><br />A
-                "Keep" bucket and a "Discard" bucket<br /><br />Place cards
-                which you feel represent you into the "Keep" bucket and cards
-                which don't into the "Discard" bucket.<br /><br />
-                When the cards on screen have been sorted more will be released
-                until all 80 have been dealt.<br /><br />After all the cards
-                have been sorted your results will be calculated
-            </h4>
+            <%- include('../components/instructionLine.ejs', {number: "1",
+            text: "Read the card and decide if the word describes you."})%>
+            <%- include('../components/instructionLine.ejs', {number: "2",
+            text: "If you believe it does, you can keep it, if not, you can discard it."})%>
+            <%- include('../components/instructionLine.ejs', {number: "3",
+            text: "You are free to and encouraged to change your mind as the test goes on."})%>
+            <%- include('../components/instructionLine.ejs', {number: "4",
+            text: "When 20 cards are kept and 60 are discarded, you can finish and your results will be decided."})%>
             <div class="divider"></div>
             <div class="flex justifyCenter spaceEvenly">
                 <button

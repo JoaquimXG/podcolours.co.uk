@@ -89,6 +89,17 @@
     width: 100%;
 }
 
+
+.instructionNumber {
+    font-size: 50px;
+    margin: 0 30px;
+    font-weight: 700;
+}
+
+.instructionText {
+    text-align: left;
+}
+
 #greenDropzone {
     border-color: rgba(86, 189, 102, 1);
     background: rgba(86, 189, 102, 0.5);
