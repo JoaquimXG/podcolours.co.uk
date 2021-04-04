@@ -13,6 +13,33 @@ function countKeptCards(cards) {
     return colorCounts;
 }
 
+
+function parseProfileResultsArray(req, res, resultsArray){
+            content = resultsArray[0].content;
+            profile = resultsArray[1];
+            cards = profile.cards;
+
+            //Don't display button to continue test in header if
+            //the user has already completed the test
+            var colorCounts;
+            if (profile.testState.complete === true) {
+                header.testButton = false;
+                colorCounts = cards.colorCounts;
+            } else {
+                colorCounts = countKeptCards(cards);
+            }
+            profile.cardCountString = `Red: ${colorCounts.red}, \
+Blue: ${colorCounts.blue}, \
+Green: ${colorCounts.green}, \
+Yellow: ${colorCounts.yellow}`;
+
+            res.render("pages/profile", {
+                header: header,
+                content: content,
+                profile: profile,
+            });
+}
+
 module.exports = (req, res, next) => {
     //Redirect user to homepage if they are not signed in
     //Homepage is setup to open loginModal automatically with this param
@@ -44,31 +71,7 @@ module.exports = (req, res, next) => {
 
     //Wait for both promises to resolve without error
     Promise.all(queryPromiseArray)
-        .then((resultsArray) => {
-            content = resultsArray[0].content;
-            profile = resultsArray[1];
-            cards = profile.cards;
-
-            //Don't display button to continue test in header if
-            //the user has already completed the test
-            var colorCounts;
-            if (profile.testState.complete === true) {
-                header.testButton = false;
-                colorCounts = cards.colorCounts;
-            } else {
-                colorCounts = countKeptCards(cards);
-            }
-            profile.cardCountString = `Red: ${colorCounts.red}, \
-Blue: ${colorCounts.blue}, \
-Green: ${colorCounts.green}, \
-Yellow: ${colorCounts.yellow}`;
-
-            res.render("pages/profile", {
-                header: header,
-                content: content,
-                profile: profile,
-            });
-        })
+        .then((resultsArray) => parseProfileResultsArray(req, res, resultsArray))
         .catch((err) => {
             console.log(`Error getting profile from db ${err}`);
             next(err);
