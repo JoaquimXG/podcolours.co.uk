@@ -89,7 +89,7 @@ function moveCard(card, oldKey, newKey, cards) {
     updateCounters();
 
     localStorage.setItem("storedCards", JSON.stringify(cards));
-    localStorage.setItem("lastTestUpdate", Date.now());
+    localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));
     if (window.auth) {
         saveStateToServer(false);
     }

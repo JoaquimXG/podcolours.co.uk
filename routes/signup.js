@@ -1,8 +1,8 @@
 const parseSignUpRequest = (req, res, next) => {
     var lastUpdate = JSON.parse(req.body.lastUpdate);
     var testState = JSON.parse(req.body.testState);
-    var cards;
 
+    var cards;
     try {
         cards = JSON.parse(req.body.cards);
     } catch {

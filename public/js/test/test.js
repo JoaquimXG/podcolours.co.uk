@@ -38,7 +38,7 @@ $(async function () {
             "testState",
             JSON.stringify({ complete: false, result: null })
         );
-        localStorage.setItem("lastTestUpdate", Date.now());
+        localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));
         localStorage.removeItem("storedCards");
     }
 
@@ -105,7 +105,7 @@ function calculateResult() {
         JSON.stringify({ complete: true, result: result })
     );
     localStorage.setItem("storedCards", JSON.stringify(cards));
-    localStorage.setItem("lastTestUpdate", Date.now());
+    localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));
     saveStateToServer(false);
 }
 

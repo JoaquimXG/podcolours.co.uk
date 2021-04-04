@@ -50,6 +50,9 @@ function handleSignUp(e) {
     e.preventDefault()
     var email = $("#signUpEmail").val();
     var password = $("#signUpPassword").val();
+    var name = $("signUpName").val();
+    var department = $("signUpDepartment").val();
+
     var cards = localStorage.getItem('storedCards');
     var testSate = localStorage.getItem("testState")
     var lastUpdate = localStorage.getItem("lastTestUpdate")
@@ -68,8 +71,10 @@ function handleSignUp(e) {
             type: "POST",
             url: "/signup",
             data: {
+                name: name,
                 email:email,
                 password:password,
+                department: department,
                 cards: cards,
                 testState: testSate,
                 lastUpdate: lastUpdate

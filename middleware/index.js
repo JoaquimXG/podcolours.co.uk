@@ -30,6 +30,9 @@ module.exports = (opts) => {
             extended: true,
         })
     );
+
+    //HTTP body parser for json post requests
+    app.use(bodyParser.json());
     return app;
 }
 
