@@ -102,7 +102,7 @@ function calculateResult() {
     displayResultsModal();
     localStorage.setItem(
         "testState",
-        JSON.stringify({ complete: true, result: result })
+        JSON.stringify({ complete: true, result: result, time: Date.now()})
     );
     localStorage.setItem("storedCards", JSON.stringify(cards));
     localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));

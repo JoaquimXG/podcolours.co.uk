@@ -48,6 +48,10 @@ function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCall
 
 function handleSignUp(e) {
     e.preventDefault()
+
+
+    var emailRe = /^\S+@\S+\.\S+$/;
+
     var email = $("#signUpEmail").val();
     var password = $("#signUpPassword").val();
     var name = $("#signUpName").val();
@@ -57,16 +61,31 @@ function handleSignUp(e) {
     var testSate = localStorage.getItem("testState")
     var lastUpdate = localStorage.getItem("lastTestUpdate")
 
+    var ready = true;
     //Handle fields being empty
-    if (email === "" || password === ""){
+    if (email === "" || password === "" || name === "" || department === ""){
         if (password === ""){
             $("#signUpPassword").addClass("formFieldError")
         } 
         if (email === ""){
             $("#signUpEmail").addClass("formFieldError")
         } 
+        if (name === ""){
+            $("#signUpName").addClass("formFieldError")
+        } 
+        if (department === ""){
+            $("#signUpDepartment").addClass("formFieldError")
+        } 
+        ready = false;
     }
-    else {
+
+    //Check for bad email input
+    if (emailRe.test(email) === false) {
+        $("#signUpEmail").addClass("formFieldError")
+        ready = false;
+    }
+
+    if (ready) {
         $.post({
             type: "POST",
             url: "/signup",
