@@ -1,13 +1,13 @@
 var MongoClient = require('mongodb').MongoClient;
 
 module.exports = (mongoUrl) => {
-    var connection;
+    var link;
 
-    return function expressMongoDb(req, res, next) {
-        if (!connection) {
-            connection = MongoClient.connect(mongoUrl);
+    return function expressMongoDb(req, _, next) {
+        if (!link) {
+            link = MongoClient.connect(mongoUrl);
         }
-        connection
+        link
             .then((db) => {
                 req.db = db;
                 next();

@@ -1,4 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
+const mongo = require('./middleware/mongo')
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
@@ -12,6 +13,9 @@ mongoUrl = process.argv[2]
     : "mongodb://localhost:27017/podcolours";
 console.log(`=== Connection: ${mongoUrl} ===`);
 
+//Include MongoDB as express middleware
+app.use(mongo(mongoUrl))
+
 //Express extensions
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -22,23 +26,16 @@ app.use(
         resave: true,
     })
 );
+
 app.use(
     bodyParser.urlencoded({
         extended: true,
     })
 );
 
-var db;
-MongoClient.connect(mongoUrl, (err, database) => {
-    if (err) throw err;
-    db = database;
-    app.listen(8080);
-    console.log("Listening on port 8080");
-});
-
 //Routes
 //Home Page
-app.get("/", (_, res, next) => {
+app.get("/", (req, res, next) => {
     header = {
         login: true,
         testButton: {
@@ -49,7 +46,7 @@ app.get("/", (_, res, next) => {
         },
     };
 
-    db.collection("content").findOne(
+    req.db.collection("content").findOne(
         { _id: "/" },
         { _id: 0, content: 1 },
         (err, queryRes) => {
@@ -68,7 +65,7 @@ app.get("/", (_, res, next) => {
 });
 
 //Personality test page
-app.get("/test", (_, res, next) => {
+app.get("/test", (req, res, next) => {
     header = {
         login: true,
         testButton: {
@@ -78,7 +75,7 @@ app.get("/test", (_, res, next) => {
             id: "saveResultsHeaderButton",
         },
     };
-    db.collection("content").findOne(
+    req.db.collection("content").findOne(
         { _id: "/" },
         { _id: 0, content: 1 },
         (err, queryRes) => {
@@ -112,7 +109,7 @@ app.post("/test/saveState", (req, res, next) => {
         lastUpdate: lastUpdate == "NaN" ? Date.now() : lastUpdate,
     }}
 
-    db.collection("users").update({username: req.session.email}, updateObj, (err, _) => {
+    req.db.collection("users").update({username: req.session.email}, updateObj, (err, _) => {
         if (err) next(err)
         res.json({success: true});
     });
@@ -125,7 +122,7 @@ app.get("/test/getState", (req, res, next) => {
             error: "user not authenticated"})
         return;
     }
-    db.collection("users").findOne({username: req.session.email}, (err, result) => {
+    req.db.collection("users").findOne({username: req.session.email}, (err, result) => {
         if (err) next(err)
         try {
             res.json({
@@ -162,10 +159,10 @@ app.get("/profile", (req, res, next) => {
     //Add two query promises to array to be resolved in parallel
     queryPromiseArray = [];
     queryPromiseArray.push(
-        db.collection("content").findOne({ _id: "/" }, { _id: 0, content: 1 })
+        req.db.collection("content").findOne({ _id: "/" }, { _id: 0, content: 1 })
     );
     queryPromiseArray.push(
-        db.collection("users").findOne({ username: req.session.email })
+        req.db.collection("users").findOne({ username: req.session.email })
     );
 
     //Wait for both promises to resolve without error
@@ -224,7 +221,7 @@ function parseSignUpRequest(req, res, next) {
 }
 
 function checkIfUserExists(req, res, next) {
-    db.collection("users").findOne({username: req.body.email})
+    req.db.collection("users").findOne({username: req.body.email})
         .then((result) => {
             console.log("Result, User found:", result)
             res.locals.userExists = result === null ? 
@@ -246,7 +243,7 @@ app.post("/signup", parseSignUpRequest, checkIfUserExists, (req, res, next) => {
         return;
     }
     //Add user to database and redirect to profile page
-    db.collection("users").save(res.locals.user, (err, _) => {
+    req.db.collection("users").save(res.locals.user, (err, _) => {
         if (err) next(err)
         try {
             req.session.email = res.locals.user.username;
@@ -265,7 +262,7 @@ app.post("/postlogin", (req, res, next) => {
     var password = req.body.password;
 
     //Find user in database
-    db.collection("users").findOne({ username: email }, (err, result) => {
+    req.db.collection("users").findOne({ username: email }, (err, result) => {
         if (err) next(err)
 
         formResponse = {
@@ -321,3 +318,4 @@ app.get("*", (_, res) => {
 })
 
 app.use(errorHandler)
+app.listen(8080);
