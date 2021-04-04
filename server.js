@@ -226,7 +226,7 @@ Yellow: ${colorCounts.yellow}`;
         });
 });
 
-app.post("/signup", (req, res, next) => {
+function parseSignUpRequest(req, res, next) {
     var lastUpdate = JSON.parse(req.body.lastUpdate)
     var testState = JSON.parse(req.body.testState)
     var cards;
@@ -238,20 +238,43 @@ app.post("/signup", (req, res, next) => {
         cards = false
     }
 
-    user = {
+    res.locals.user = {
         username: req.body.email,
         password: req.body.password,
         cards: cards,
         testState: testState ? testState : {complete: false, result: null},
         lastUpdate: lastUpdate === "NaN" ? Date.now() : lastUpdate ,
     };
+    next()
+}
 
+function checkIfUserExists(req, res, next) {
+    db.collection("users").findOne({username: req.body.email})
+        .then((result) => {
+            console.log("Result, User found:", result)
+            res.locals.userExists = result === null ? 
+                false : true;
+            next()
+        })
+        .catch(err => next(err))
+}
+
+app.post("/signup", parseSignUpRequest, checkIfUserExists, (req, res, next) => { 
+    //Username is taken
+    if (res.locals.userExists) {
+        formResponse = {
+            userCreated: false,
+            errorCode: 1,
+            error: "Username taken"
+        }
+        res.json(formResponse)
+        return;
+    }
     //Add user to database and redirect to profile page
-    //TODO, check if username is already taken and return an error if it has
-    db.collection("users").save(user, (err, _) => {
+    db.collection("users").save(res.locals.user, (err, _) => {
         if (err) next(err)
         try {
-            req.session.email = user.username;
+            req.session.email = res.locals.user.username;
             req.session.loggedin = true;
             formResponse = { userCreated: true };
             res.json(formResponse);
