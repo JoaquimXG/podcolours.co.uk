@@ -8,6 +8,10 @@ module.exports = (req, res, next) => {
             id: "testButton",
         },
     };
+    if (req.session.loggedin) {
+        header.login = false;
+        header.profile = true;
+    }
 
     req.db.collection("content").findOne(
         { _id: "/" },

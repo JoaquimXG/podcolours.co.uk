@@ -11,6 +11,22 @@
         >
             Login
         </button>
+        <% } else if ( header.profile ) { %>
+        <button
+            id="headerProfileButton"
+            class="buttonBaseline noBorder buttonBlue"
+            onclick="location.href='/profile'"
+        >
+            Profile
+        </button>
+        <% } else if (header.logout){ %>
+        <script type="module" src="/js/logout.js"></script>
+        <button
+            id="headerLogoutButton"
+            class="buttonBaseline noBorder"
+        >
+            Logout
+        </button>
         <% } %>
         <%if (header.testButton != false) { %>
             <button

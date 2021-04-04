@@ -8,6 +8,10 @@ const testIndex = (req, res, next) => {
             id: "saveResultsHeaderButton",
         },
     };
+    if (req.session.loggedin) {
+        header.login = false;
+    }
+
     req.db.collection("content").findOne(
         { _id: "/" },
         { _id: 0, content: 1 },

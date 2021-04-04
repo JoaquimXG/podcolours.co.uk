@@ -104,7 +104,7 @@ span.underline {
     font-size: 20px;
     cursor: pointer;
     display: block;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px;
+    box-shadow: rgba(119, 125, 132, 0.5) 0px 1px 4px;
 }
 
 .buttonBaseline:disabled {
@@ -114,7 +114,7 @@ span.underline {
 
 .buttonBaseline:hover {
     color: #52c41a;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 1px 4px;
     border-color: #52c41a;
 }
 

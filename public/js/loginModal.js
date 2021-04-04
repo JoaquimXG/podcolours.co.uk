@@ -17,6 +17,11 @@ function closeLoginModal() {
 
 function addLoginModalHandlers() {
 
+    //If user is logged in the button won't exist
+    if (!$("#headerLoginButton").click(openLoginModal).length) {
+        return
+    }
+
     //Add click event for login button in the header to open the login modal
     $("#headerLoginButton").click(openLoginModal);
 

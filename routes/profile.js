@@ -1,3 +1,41 @@
+module.exports = (req, res, next) => {
+    //Redirect user to homepage if they are not signed in
+    //Homepage is setup to open loginModal automatically with this param
+    if (!req.session.loggedin) {
+        res.redirect("/?loginModal=1");
+        return;
+    }
+
+    header = {
+        logout: true,
+        testButton: {
+            class: "buttonSuccess",
+            onClick: "location.href='/test'",
+            text: "Continue",
+            id: "testButton",
+        },
+    };
+
+    //Add two query promises to array to be resolved in parallel
+    queryPromiseArray = [];
+    queryPromiseArray.push(
+        req.db
+            .collection("content")
+            .findOne({ _id: "/" }, { _id: 0, content: 1 })
+    );
+    queryPromiseArray.push(
+        req.db.collection("users").findOne({ username: req.session.email })
+    );
+
+    //Wait for both promises to resolve without error
+    Promise.all(queryPromiseArray)
+        .then((resultsArray) => parseProfileResultsArray(req, res, resultsArray))
+        .catch((err) => {
+            console.log(`Error getting profile from db ${err}`);
+            next(err);
+        });
+}
+
 //Counts the number of each colour that has been kept
 //to dispay to the user.
 function countKeptCards(cards) {
@@ -40,40 +78,3 @@ Yellow: ${colorCounts.yellow}`;
             });
 }
 
-module.exports = (req, res, next) => {
-    //Redirect user to homepage if they are not signed in
-    //Homepage is setup to open loginModal automatically with this param
-    if (!req.session.loggedin) {
-        res.redirect("/?loginModal=1");
-        return;
-    }
-
-    header = {
-        login: false,
-        testButton: {
-            class: "buttonSuccess",
-            onClick: "location.href='/test'",
-            text: "Continue",
-            id: "testButton",
-        },
-    };
-
-    //Add two query promises to array to be resolved in parallel
-    queryPromiseArray = [];
-    queryPromiseArray.push(
-        req.db
-            .collection("content")
-            .findOne({ _id: "/" }, { _id: 0, content: 1 })
-    );
-    queryPromiseArray.push(
-        req.db.collection("users").findOne({ username: req.session.email })
-    );
-
-    //Wait for both promises to resolve without error
-    Promise.all(queryPromiseArray)
-        .then((resultsArray) => parseProfileResultsArray(req, res, resultsArray))
-        .catch((err) => {
-            console.log(`Error getting profile from db ${err}`);
-            next(err);
-        });
-}

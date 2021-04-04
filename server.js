@@ -13,6 +13,7 @@ const {
 const login = require('./routes/login')
 const fourZeroFour = require('./routes/404')
 const errorHandler = require('./routes/error')
+const logout = require('./routes/logout')
 
 //Use default mongo url or first command line argument
 mongoUrl = process.argv[2]
@@ -47,6 +48,8 @@ app.post("/postlogin", login);
 app.get("/isauthenticated", (req, res) => {
     res.send({ isAuthenticated: req.session.loggedin });
 });
+
+app.get("/logout", logout)
 
 //404 Page for all other routes
 app.get("*", fourZeroFour);
