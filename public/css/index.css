@@ -526,12 +526,18 @@ span.underline {
     right: 10px;
 }
 
-#teamPhoto {
+#teamPhotoDiv {
+    overflow: hidden;
     height: 300px;
     width: 300px;
     background: white;
     border-radius: 50%;
     margin: auto;
+}
+
+#teamPhoto {
+    height: auto;
+    width: 100%;
 }
 
 #testimonialCircle {
