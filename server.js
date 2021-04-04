@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const app = express();
 
+const {errorHandler, countKeptCards} = require('./serverUtils.js')
+
 //Use default mongo url or first command line arg
 mongoUrl = process.argv[2]
     ? process.argv[2]
@@ -26,18 +28,6 @@ app.use(
     })
 );
 
-//Error handler
-function errorHandler(err, _, res, _) {
-    var text = err
-    res.status(500)
-    var error = {
-        title: "Oh no, we are having trouble with your request. ",
-        text: text,
-        img: "/img/logo.png"
-    }
-    res.render("pages/error", {error: error});
-}
-
 var db;
 MongoClient.connect(mongoUrl, (err, database) => {
     if (err) throw err;
@@ -45,21 +35,6 @@ MongoClient.connect(mongoUrl, (err, database) => {
     app.listen(8080);
     console.log("Listening on port 8080");
 });
-
-//Counts the number of each colour that has been kept
-//to dispay to the user.
-function countKeptCards(cards) {
-    if (!cards.next) {
-        return {red: 0, blue: 0, yellow: 0, green: 0}
-    }
-    var colors = ["red", "blue", "green", "yellow"];
-    var colorCounts = {}
-    colors.forEach((color) => {
-        var count = cards.kept.filter((card)=> card.color == color).length
-        colorCounts[color] = count;
-    })
-    return colorCounts;
-}
 
 //Routes
 //Home Page
@@ -226,7 +201,7 @@ Yellow: ${colorCounts.yellow}`;
         });
 });
 
-app.post("/signup", (req, res, next) => {
+function parseSignUpRequest(req, res, next) {
     var lastUpdate = JSON.parse(req.body.lastUpdate)
     var testState = JSON.parse(req.body.testState)
     var cards;
@@ -238,20 +213,43 @@ app.post("/signup", (req, res, next) => {
         cards = false
     }
 
-    user = {
+    res.locals.user = {
         username: req.body.email,
         password: req.body.password,
         cards: cards,
         testState: testState ? testState : {complete: false, result: null},
         lastUpdate: lastUpdate === "NaN" ? Date.now() : lastUpdate ,
     };
+    next()
+}
 
+function checkIfUserExists(req, res, next) {
+    db.collection("users").findOne({username: req.body.email})
+        .then((result) => {
+            console.log("Result, User found:", result)
+            res.locals.userExists = result === null ? 
+                false : true;
+            next()
+        })
+        .catch(err => next(err))
+}
+
+app.post("/signup", parseSignUpRequest, checkIfUserExists, (req, res, next) => { 
+    //Username is taken
+    if (res.locals.userExists) {
+        formResponse = {
+            userCreated: false,
+            errorCode: 1,
+            error: "Username taken"
+        }
+        res.json(formResponse)
+        return;
+    }
     //Add user to database and redirect to profile page
-    //TODO, check if username is already taken and return an error if it has
-    db.collection("users").save(user, (err, _) => {
+    db.collection("users").save(res.locals.user, (err, _) => {
         if (err) next(err)
         try {
-            req.session.email = user.username;
+            req.session.email = res.locals.user.username;
             req.session.loggedin = true;
             formResponse = { userCreated: true };
             res.json(formResponse);

@@ -81,6 +81,12 @@ function handleSignUp(e) {
                 if (data.userCreated === true) {
                     window.location.href = "/profile"
                 }
+                //User already exists
+                else if(data.errorCode === 1) {
+                    $("#signUpModalTitle")
+                        .text("Sorry, this username is taken")
+                    $("#signUpEmail").addClass("formFieldError")
+                }
             })
             //TODO Handle server failure
             .fail(() => {
