@@ -99,6 +99,10 @@ function moveCard(card, oldKey, newKey, cards) {
 async function saveStateToServer(redirect) {
     console.log("Saving state to server");
     var cards = localStorage.getItem("storedCards");
+    if (cards === null) {
+        console.log("No updates to save, passing")
+        return;
+    }
     var testSate = localStorage.getItem("testState");
     var lastUpdate = localStorage.getItem("lastTestUpdate");
 
