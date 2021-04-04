@@ -50,8 +50,8 @@ function handleSignUp(e) {
     e.preventDefault()
     var email = $("#signUpEmail").val();
     var password = $("#signUpPassword").val();
-    var name = $("signUpName").val();
-    var department = $("signUpDepartment").val();
+    var name = $("#signUpName").val();
+    var department = $("#signUpDepartment").val();
 
     var cards = localStorage.getItem('storedCards');
     var testSate = localStorage.getItem("testState")
