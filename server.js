@@ -1,10 +1,4 @@
-const MongoClient = require("mongodb").MongoClient;
-const mongo = require('./middleware/mongo')
-const express = require("express");
-const bodyParser = require("body-parser");
-const session = require("express-session");
-const app = express();
-
+const prepareMiddleware = require('./middleware/index')
 const {errorHandler, countKeptCards} = require('./serverUtils.js')
 
 //Use default mongo url or first command line arg
@@ -13,25 +7,7 @@ mongoUrl = process.argv[2]
     : "mongodb://localhost:27017/podcolours";
 console.log(`=== Connection: ${mongoUrl} ===`);
 
-//Include MongoDB as express middleware
-app.use(mongo(mongoUrl))
-
-//Express extensions
-app.use(express.static("public"));
-app.set("view engine", "ejs");
-app.use(
-    session({
-        secret: "a+VT+Vt4V+Y7EoLHatwfPDauKGMBygejiZNNEPwZP0g",
-        saveUninitialized: true,
-        resave: true,
-    })
-);
-
-app.use(
-    bodyParser.urlencoded({
-        extended: true,
-    })
-);
+const app = prepareMiddleware({mongoUrl: mongoUrl});
 
 //Routes
 //Home Page
