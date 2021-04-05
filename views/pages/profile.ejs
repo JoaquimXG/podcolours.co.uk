@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="/css/app.css"/>
 
         <!-- Internal javascript -->
+        <script src="/js/profile.js" ></script>
     </head>
     <%- include('../partials/header')%>
     <body>
@@ -40,12 +41,28 @@
         </div>
         <div class="mainContainer shortBlock">
             <div class="col10 smallCol10 colCenter smallColCenter pullUp75">
-                <h1 class="bold bottomMargin50 underline">Profile</h1>
+                <div class="flex bottomMargin50 underline spaceBetween alignEnd">
+                    <h1 class="bold">My Profile</h1>
+                    <button
+                        id="profileEditButton"
+                        class="buttonBaseline noBorder buttonBlue"
+                        onclick="this.blur()"
+                    >
+                        Edit
+                    </button>
+                    <button
+                        id="profileSaveButton"
+                        class="buttonBaseline noBorder buttonSuccess"
+                        onclick="this.blur()"
+                    >
+                        Save
+                    </button>
+                </div>
                 <%- include('../components/profileField', {header: "Name", value: profile.name })%>
-                <%- include('../components/profileField', {header: "Email", value: profile.email})%>
-                <%- include('../components/profileField', {header: "Password", value: "*".repeat(profile.password.length)})%>
                 <%- include('../components/profileField', {header: "University", value: profile.university})%>
                 <%- include('../components/profileField', {header: "Department", value: profile.department})%>
+                <%- include('../components/profileField', {header: "Email", value: profile.email})%>
+                <%- include('../components/profileField', {header: "Password", value: "*".repeat(8)})%>
             </div>
         </div>
     </body>

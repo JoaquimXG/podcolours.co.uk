@@ -90,6 +90,10 @@ span.underline {
     border-bottom: 2px solid #aaa;
 }
 
+.underline {
+    border-bottom: 2px solid #aaa;
+}
+
 /* Baselines */
 .buttonBaseline {
     background: none;
@@ -169,6 +173,10 @@ span.underline {
 
 .bottomMargin30 {
     margin-bottom: 30px;
+}
+
+.bottomMargin15 {
+    margin-bottom: 15px;
 }
 
 .bottomMargin10 {
@@ -410,8 +418,9 @@ span.underline {
 .alignCenter {
     align-items: center;
 }
+
 .alignEnd {
-    align-items: flex-end;
+    align-items: end;
 }
 
 /* Button Classes */
@@ -521,6 +530,21 @@ span.underline {
     transition: all 0.4s ease-out;
 }
 
+.profileFieldHeader {
+    margin-bottom: 15px;
+    color: #888888;
+}
+
+.profileFieldText {
+    margin-bottom: 30px;
+}
+
+.profileInput {
+    margin-bottom: 29px;
+    padding-top: unset;
+}
+
+/*color: #006dcb;*/
 
 /* Individual tag Styles */
 #headerLogoImg {
