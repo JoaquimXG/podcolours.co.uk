@@ -45,7 +45,7 @@ const testSaveState = (req, res, next) => {
         lastUpdate: lastUpdate == "NaN" ? Date.now() : lastUpdate,
     }}
 
-    req.db.collection("users").update({username: req.session.email}, updateObj, (err, _) => {
+    req.db.collection("users").update({email: req.session.email}, updateObj, (err, _) => {
         if (err) next(err)
         res.json({success: true});
     });
@@ -57,7 +57,7 @@ const testGetState = (req, res, next) => {
             error: "user not authenticated"})
         return;
     }
-    req.db.collection("users").findOne({username: req.session.email}, (err, result) => {
+    req.db.collection("users").findOne({email: req.session.email}, (err, result) => {
         if (err) next(err)
         try {
             res.json({

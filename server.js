@@ -38,7 +38,7 @@ app.get("/test/getState", testGetState);
 //User profile page
 app.get("/profile", profile);
 
-//Parse ajax signup request and add user to database if username available
+//Parse ajax signup request and add user to database if email available
 app.post("/signup", parseSignUpRequest, checkIfUserExists, signUpIndex);
 
 //Login handler

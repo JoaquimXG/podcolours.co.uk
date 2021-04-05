@@ -8,7 +8,7 @@ db.users.insert({
     name: "Test Not Started",
     department: "Computing",
     university: "Robert Gordon University",
-    username: "test@notstarted.com",
+    email: "test@notstarted.com",
     password: "test@notstarted.com",
     cards: false,
     testState: { complete: false, result: null },
@@ -19,7 +19,7 @@ db.users.insert({
     name: "Test Started",
     department: "Computing",
     university: "Robert Gordon University",
-    username: "test@started.com",
+    email: "test@started.com",
     password: "test@started.com",
     cards: {
         kept: [{ id: "Precise", color: "blue" }],
@@ -35,7 +35,7 @@ db.users.insert({
     name: "Test In Progress",
     department: "Computing",
     university: "Robert Gordon University",
-    username: "test@inprogress.com",
+    email: "test@inprogress.com",
     password: "test@inprogress.com",
     cards: {
         kept: [
@@ -95,7 +95,7 @@ db.users.insert({
     name: "Test Complete",
     department: "Computing",
     university: "Robert Gordon University",
-    username: "test@complete.com",
+    email: "test@complete.com",
     password: "test@complete.com",
     cards: {
         kept: [

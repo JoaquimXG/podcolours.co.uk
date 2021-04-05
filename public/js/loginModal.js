@@ -58,7 +58,6 @@ function handleLogin(e) {
     var email = $("#loginEmail").val();
     var password = $("#loginPassword").val();
 
-
     //Handle fields being empty
     if (email === "" && password === ""){
         $("#loginEmail").addClass("formFieldError")
@@ -79,8 +78,8 @@ function handleLogin(e) {
             if (data.loggedin === true) {
                 window.location.href = "/profile"
             }
-            //Wrong username
-            else if (data.badusername === true){
+            //Wrong email
+            else if (data.bademail === true){
                 $("#loginEmail").addClass("formFieldError")
             }
             //Wrong password
@@ -93,5 +92,3 @@ function handleLogin(e) {
             alert(`Server Error Please try again`)  
         })
 }
-
-

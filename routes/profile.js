@@ -24,7 +24,7 @@ module.exports = (req, res, next) => {
             .findOne({ _id: "/" }, { _id: 0, content: 1 })
     );
     queryPromiseArray.push(
-        req.db.collection("users").findOne({ username: req.session.email })
+        req.db.collection("users").findOne({ email: req.session.email })
     );
 
     //Wait for both promises to resolve without error

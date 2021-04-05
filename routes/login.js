@@ -3,18 +3,18 @@ module.exports = (req, res, next) => {
     var password = req.body.password;
 
     //Find user in database
-    req.db.collection("users").findOne({ username: email }, (err, result) => {
+    req.db.collection("users").findOne({ email: email }, (err, result) => {
         if (err) next(err);
 
         formResponse = {
             badPassword: false,
-            badusername: false,
+            bademail: false,
             loggedin: false,
         };
 
-        //No result due to username/email not found in db
+        //No result due to email not found in db
         if (!result) {
-            formResponse.badusername = true;
+            formResponse.bademail = true;
             res.json(formResponse);
             return;
         }

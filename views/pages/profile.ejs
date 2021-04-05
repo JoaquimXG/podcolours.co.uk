@@ -42,7 +42,7 @@
             <div class="col10 smallCol10 colCenter smallColCenter pullUp75">
                 <h1 class="bold bottomMargin50 underline">Profile</h1>
                 <%- include('../components/profileField', {header: "Name", value: profile.name })%>
-                <%- include('../components/profileField', {header: "Email", value: profile.username})%>
+                <%- include('../components/profileField', {header: "Email", value: profile.email})%>
                 <%- include('../components/profileField', {header: "Password", value: "*".repeat(profile.password.length)})%>
                 <%- include('../components/profileField', {header: "University", value: profile.university})%>
                 <%- include('../components/profileField', {header: "Department", value: profile.department})%>

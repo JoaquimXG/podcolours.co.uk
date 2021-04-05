@@ -113,7 +113,7 @@ function handleSignUp(e) {
                 //User already exists
                 else if(data.errorCode === 1) {
                     $("#signUpModalTitle")
-                        .text("Sorry, this username is taken")
+                        .text("Sorry, this email is taken")
                     $("#signUpEmail").addClass("formFieldError")
                 }
             })

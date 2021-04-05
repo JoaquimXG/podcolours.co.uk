@@ -13,7 +13,7 @@ const parseSignUpRequest = (req, res, next) => {
         name: req.body.name,
         university: req.body.university,
         department: req.body.department,
-        username: req.body.email,
+        email: req.body.email,
         password: req.body.password,
         cards: cards,
         testState: testState ? testState : { complete: false, result: null },
@@ -25,7 +25,7 @@ const parseSignUpRequest = (req, res, next) => {
 const checkIfUserExists = (req, res, next) => {
     req.db
         .collection("users")
-        .findOne({ username: req.body.email })
+        .findOne({ email: req.body.email })
         .then((result) => {
             console.log("Result, User found:", result);
             res.locals.userExists = result === null ? false : true;
@@ -35,12 +35,12 @@ const checkIfUserExists = (req, res, next) => {
 } 
 
 const signUpIndex = (req, res, next) => {
-    //Username is taken
+    //Email is taken
     if (res.locals.userExists) {
         formResponse = {
             userCreated: false,
             errorCode: 1,
-            error: "Username taken",
+            error: "Email taken",
         };
         res.json(formResponse);
         return;
@@ -49,7 +49,7 @@ const signUpIndex = (req, res, next) => {
     req.db.collection("users").save(res.locals.user, (err, _) => {
         if (err) next(err);
         try {
-            req.session.email = res.locals.user.username;
+            req.session.email = res.locals.user.email;
             req.session.loggedin = true;
             formResponse = { userCreated: true };
             res.json(formResponse);
