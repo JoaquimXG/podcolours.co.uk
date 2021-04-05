@@ -62,7 +62,7 @@
                 <%- include('../components/profileField', {header: "University", value: profile.university})%>
                 <%- include('../components/profileField', {header: "Department", value: profile.department})%>
                 <%- include('../components/profileField', {header: "Email", value: profile.email})%>
-                <%- include('../components/profileField', {header: "Password", value: "*".repeat(8)})%>
+                <%- include('../components/profileField', {header: "Password", value: "*".repeat(8), password: true})%>
             </div>
         </div>
     </body>

@@ -3,6 +3,6 @@
     <div>
         <h4 class="profileFieldHeader"><%= header %></h4>
         <h3 class="profileFieldText"><%= value %></h3>
-        <input class="formField profileInput" type="">
+        <input type="<%= locals.password ? 'password' : '' %>" class="formField profileInput" type="">
     </div>
 </div>
