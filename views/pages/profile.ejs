@@ -26,15 +26,15 @@
                     <%- include('../components/profileField', {header: "You chose to keep", value: profile.cardCountString  })%>
                     <%- include('../components/profileField', {header: "Date Taken", value: profile.lastUpdate  })%>
                 <% } else { %>
-                    <h1 class="bold bottomMargin100 underline">Your results are waiting...</h1>
+                    <h1 class="bold bottomMargin100 underline">Would you like to continue...</h1>
                     <div class="flex spaceAround">
                         <div>
                             <h1 class="textCenter bold bottomMargin30" >Kept</h1>
-                            <h1 class="textCenter green">30/20</h1>
+                            <h1 class="textCenter green"><%= profile.cards ? profile.cards.kept.length : 0 %>/20</h1>
                         </div>
                         <div>
                             <h1 class="textCenter bold bottomMargin30">Discarded</h1>
-                            <h1 class="textCenter red">35/60</h1>
+                            <h1 class="textCenter red"><%= profile.cards ? profile.cards.discarded.length : 0 %>/60</h1>
                         </div>
                     </div>
                 <% } %>
