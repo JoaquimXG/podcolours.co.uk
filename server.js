@@ -14,6 +14,7 @@ const login = require('./routes/login')
 const fourZeroFour = require('./routes/404')
 const errorHandler = require('./routes/error')
 const logout = require('./routes/logout')
+const {parseUpdateUserRequest, updateUserIndex} = require('./routes/updateuser')
 
 //Use default mongo url or first command line argument
 mongoUrl = process.argv[2]
@@ -43,6 +44,9 @@ app.post("/signup", parseSignUpRequest, checkIfUserExists, signUpIndex);
 
 //Login handler
 app.post("/postlogin", login);
+
+//Update user information in database
+app.post("/updateuser", parseUpdateUserRequest, checkIfUserExists, updateUserIndex);
 
 //Allows frontend to check if users is authenticated
 app.get("/isauthenticated", (req, res) => {

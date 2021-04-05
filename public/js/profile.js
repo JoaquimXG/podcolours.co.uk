@@ -22,34 +22,62 @@ function handleSave(e) {
     e.preventDefault()
     console.log("Saving Changes")
 
-    var form = {
-        ready: true,
-        fields : [
-            {
-                selector: "#profileNameInput"
-            },
-            {
-                selector: "#profileUniversityInput"
-            },
-            {
-                selector: "#profileDepartmentInput"
-            },
-            {
-                selector: "#profileEmailInput",
-                re: true,
-                reString: /^\S+@\S+\.\S+$/
-            },
-            {
-                selector: "#profilePasswordInput"
-            },
-        ]
-    }
-
-    form = validateForm(form)
+    var fields = [
+        {
+            selector: "#profileNameInput",
+            id: "name"
+        },
+        {
+            selector: "#profileUniversityInput",
+            id: "university"
+        },
+        {
+            selector: "#profileDepartmentInput",
+            id: "department"
+        },
+        {
+            selector: "#profileEmailInput",
+            id: "email",
+            re: true,
+            reString: /^\S+@\S+\.\S+$/
+        },
+        {
+            selector: "#profilePasswordInput",
+            id: "password"
+        },
+    ]
     
-    if (!form.ready) {
+
+    var data = validateForm(fields)
+    
+    if (!data.isValid) {
         return;
     }
+    console.log(data)
+    console.log("Posting form")
+
+    $.post({
+        type: "POST",
+        url: "/updateuser",
+        data: data,
+        dataType: "json"
+    })
+        .done(data => {
+            //Redirect to profile page if user created 
+            if (data.userUpdated === true) {
+                window.location.href = "/profile"
+            }
+            //TODO show red toast notification for user existing already
+            else if(data.errorCode === 1) {
+                $("#signUpModalTitle")
+                    .text("Sorry, this email is taken")
+                $("#signUpEmail").addClass("formFieldError")
+            }
+        })
+        //TODO Handle server failure
+        .fail(() => {
+            alert(`Server Error Please try again`)  
+        })
 
     $("#profileSaveButton").hide()
     $("#profileEditButton").show()

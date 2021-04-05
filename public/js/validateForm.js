@@ -1,23 +1,31 @@
-export default function validateForm(form) {
-    form.fields.forEach((field) => {
+export default function validateForm(fields) {
+    var returnForm = {}
+    returnForm.isValid = true;
+    fields.forEach((field) => {
         var el = $(field.selector)
         el.on("input", function() {
             $(this).removeClass("formFieldError")
         })
 
-        field.val = el.val()
-        if (field.val === "") {
+        var val = el.val()
+        if (val === "") {
             el.addClass("formFieldError")
-            form.ready = false;
+            returnForm.isValid = false;
             return;
         }
-        if (field.re) {
-            if (field.reString.test(field.val) === false) {
+        else if (field.re) {
+            if (field.reString.test(val) === false) {
                 el.addClass("formFieldError")
-                form.ready = false;
+                returnForm.isValid = false;
                 return;
             }
+            else {
+                returnForm[field.id] = val;
+            }
+        }
+        else {
+            returnForm[field.id] = val;
         }
     })
-    return form;
+    return returnForm;
 }
