@@ -18,19 +18,19 @@
     <body>
         <div class="mainContainer shortBlock">
             <div class="col10 smallCol10 colCenter smallColCenter bottomMargin50">
-                <% if (profile.testComplete === true) { %>
+                <% if (profile.testState.complete === true) { %>
                     <%# %>
                     <h1 class="bold bottomMargin50 underline">Thank you for taking the test!</h1>
-                    <h2 class="bottomMargin30">Your choices suggest you're partially <%= profile.result %></h2>
+                    <h2 class="bottomMargin30">Your choices suggest you're partially <%= profile.testState.result %></h2>
 
                     <%- include('../components/profileField', {header: "You chose to keep", value: profile.cardCountString  })%>
-                    <%- include('../components/profileField', {header: "Date Taken", value: profile.dateTaken  })%>
+                    <%- include('../components/profileField', {header: "Date Taken", value: profile.lastUpdate  })%>
                 <% } else { %>
                     <h1 class="bold bottomMargin50 underline">Would you like to continue your test?</h1>
                     <%- include('../components/profileField', {header: "Colours kept so far", value: profile.cardCountString})%>
                 <% } %>
             </div>
-            <% if (!profile.testComplete === true) { %>
+            <% if (!profile.testState.complete === true) { %>
                 <button
                     id="<%= header.testButton.id %>"
                     onclick="<%= header.testButton.onClick %>"
