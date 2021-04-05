@@ -13,7 +13,7 @@ const parseSignUpRequest = (req, res, next) => {
         name: req.body.name,
         university: req.body.university,
         department: req.body.department,
-        email: req.body.email,
+        email: req.body.email.toLowerCase(),
         password: req.body.password,
         cards: cards,
         testState: testState ? testState : { complete: false, result: null },
@@ -25,7 +25,7 @@ const parseSignUpRequest = (req, res, next) => {
 const checkIfUserExists = (req, res, next) => {
     req.db
         .collection("users")
-        .findOne({ email: req.body.email })
+        .findOne({ email: res.locals.user.email})
         .then((result) => {
             console.log("Result, User found:", result);
             res.locals.userExists = result === null ? false : true;
