@@ -49,7 +49,7 @@ function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCall
 function handleSignUp(e) {
     e.preventDefault()
 
-
+    //TODO use the validateForm function
     var emailRe = /^\S+@\S+\.\S+$/;
 
     var email = $("#signUpEmail").val();
