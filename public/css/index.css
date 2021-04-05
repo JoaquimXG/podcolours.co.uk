@@ -76,6 +76,10 @@ h5 {
     font-weight: 100;
 }
 
+bold {
+    font-weight: 700;
+}
+
 h1.underline {
     border-bottom: 2.5px solid #aaa;
     padding-bottom: 10px;
@@ -90,8 +94,21 @@ span.underline {
     border-bottom: 2px solid #aaa;
 }
 
+.blue {
+    color: #2f9bff;
+}
+
+.green {
+    color: #52c41a;
+}
+
+.red {
+    color: #ff5f61;
+}
+
 .underline {
     border-bottom: 2px solid #aaa;
+    padding-bottom: 10px;
 }
 
 /* Baselines */
@@ -409,6 +426,10 @@ span.underline {
 
 .spaceEvenly {
     justify-content: space-evenly;
+}
+
+.spaceAround {
+    justify-content: space-around;
 }
 
 .spaceBetween {

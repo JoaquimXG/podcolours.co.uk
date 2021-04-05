@@ -17,17 +17,26 @@
     <%- include('../partials/header')%>
     <body>
         <div class="mainContainer shortBlock">
-            <div class="col10 smallCol10 colCenter smallColCenter bottomMargin50">
+            <div class="col10 smallCol10 colCenter smallColCenter bottomMargin100">
                 <% if (profile.testState.complete === true) { %>
                     <%# %>
-                    <h1 class="bold bottomMargin50 underline">Thank you for taking the test!</h1>
+                    <h1 class="bold bottomMargin100 underline">Thank you for taking the test!</h1>
                     <h2 class="bottomMargin30">Your choices suggest you're partially <%= profile.testState.result %></h2>
 
                     <%- include('../components/profileField', {header: "You chose to keep", value: profile.cardCountString  })%>
                     <%- include('../components/profileField', {header: "Date Taken", value: profile.lastUpdate  })%>
                 <% } else { %>
-                    <h1 class="bold bottomMargin50 underline">Would you like to continue your test?</h1>
-                    <%- include('../components/profileField', {header: "Colours kept so far", value: profile.cardCountString})%>
+                    <h1 class="bold bottomMargin100 underline">Your results are waiting...</h1>
+                    <div class="flex spaceAround">
+                        <div>
+                            <h1 class="textCenter bold bottomMargin30" >Kept</h1>
+                            <h1 class="textCenter green">30/20</h1>
+                        </div>
+                        <div>
+                            <h1 class="textCenter bold bottomMargin30">Discarded</h1>
+                            <h1 class="textCenter red">35/60</h1>
+                        </div>
+                    </div>
                 <% } %>
             </div>
             <% if (!profile.testState.complete === true) { %>
@@ -40,7 +49,7 @@
             <% } %>
         </div>
         <div class="mainContainer shortBlock">
-            <div class="col10 smallCol10 colCenter smallColCenter pullUp75">
+            <div class="col10 smallCol10 colCenter smallColCenter ">
                 <div class="flex bottomMargin50 underline spaceBetween alignEnd">
                     <h1 class="bold">My Profile</h1>
                     <button
