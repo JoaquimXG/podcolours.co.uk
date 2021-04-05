@@ -39,42 +39,44 @@ module.exports = (req, res, next) => {
 //Counts the number of each colour that has been kept
 //to dispay to the user.
 function countKeptCards(cards) {
-    if (!cards.next) {
-        return {red: 0, blue: 0, yellow: 0, green: 0}
-    }
     var colors = ["red", "blue", "green", "yellow"];
     var colorCounts = {}
-    colors.forEach((color) => {
-        var count = cards.kept.filter((card)=> card.color == color).length
-        colorCounts[color] = count;
-    })
-    return colorCounts;
+    try {
+        colors.forEach((color) => {
+            var count = cards.kept.filter((card)=> card.color == color).length
+            colorCounts[color] = count;
+        })
+        return colorCounts;
+    } catch {
+        return {red: 0, blue: 0, yellow: 0, green: 0}
+    }
 }
 
 
 function parseProfileResultsArray(req, res, resultsArray){
-            content = resultsArray[0].content;
-            profile = resultsArray[1];
-            cards = profile.cards;
+    content = resultsArray[0].content;
+    profile = resultsArray[1];
+    cards = profile.cards;
 
-            //Don't display button to continue test in header if
-            //the user has already completed the test
-            var colorCounts;
-            if (profile.testState.complete === true) {
-                header.testButton = false;
-                colorCounts = cards.colorCounts;
-            } else {
-                colorCounts = countKeptCards(cards);
-            }
-            profile.cardCountString = `Red: ${colorCounts.red}, \
+    //Don't display button to continue test in header if
+    //the user has already completed the test
+    var colorCounts;
+    if (profile.testState.complete === true) {
+        header.testButton = false;
+        colorCounts = cards.colorCounts;
+    } else {
+        colorCounts = countKeptCards(cards);
+    }
+
+    profile.cardCountString = `Red: ${colorCounts.red}, \
 Blue: ${colorCounts.blue}, \
 Green: ${colorCounts.green}, \
 Yellow: ${colorCounts.yellow}`;
 
-            res.render("pages/profile", {
-                header: header,
-                content: content,
-                profile: profile,
-            });
+    res.render("pages/profile", {
+        header: header,
+        content: content,
+        profile: profile,
+    });
 }
 
