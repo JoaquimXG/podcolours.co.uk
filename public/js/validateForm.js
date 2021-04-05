@@ -9,9 +9,14 @@ export default function validateForm(fields) {
 
         var val = el.val()
         if (val === "") {
-            el.addClass("formFieldError")
-            returnForm.isValid = false;
-            return;
+            if (!field.canBeEmpty) {
+                el.addClass("formFieldError")
+                returnForm.isValid = false;
+                return;
+            }
+            else {
+                returnForm[field.id] = false;
+            }
         }
         else if (field.re) {
             if (field.reString.test(val) === false) {

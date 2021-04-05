@@ -14,8 +14,12 @@ const parseUpdateUserRequest = (req, res, next) => {
         university: req.body.university,
         department: req.body.department,
         email: req.body.email.toLowerCase(),
-        password: req.body.password,
     };
+
+    if (req.body.password === "false") {
+    } else {
+        res.locals.user.password = req.body.password;
+    }
     next();
 }
 

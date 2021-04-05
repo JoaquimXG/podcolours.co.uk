@@ -43,18 +43,16 @@ function handleSave(e) {
         },
         {
             selector: "#profilePasswordInput",
-            id: "password"
+            id: "password",
+            canBeEmpty: true
         },
     ]
-    
 
     var data = validateForm(fields)
     
     if (!data.isValid) {
         return;
     }
-    console.log(data)
-    console.log("Posting form")
 
     $.post({
         type: "POST",
