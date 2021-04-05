@@ -10,6 +10,7 @@ const testIndex = (req, res, next) => {
     };
     if (req.session.loggedin) {
         header.login = false;
+        header.profile = true;
     }
 
     req.db.collection("content").findOne(
