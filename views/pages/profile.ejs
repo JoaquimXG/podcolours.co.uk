@@ -17,15 +17,30 @@
     <%- include('../partials/header')%>
     <body>
         <div class="mainContainer shortBlock">
-            <div class="col10 smallCol10 colCenter smallColCenter bottomMargin100">
-                <% if (profile.testState.complete === true) { %>
+            <% if (profile.testState.complete === true) { %>
+            <div class="col10 smallCol10 colCenter smallColCenter">
                     <%# %>
-                    <h1 class="bold bottomMargin100 underline">Thank you for taking the test!</h1>
-                    <h2 class="bottomMargin30">Your choices suggest you're partially <%= profile.testState.result %></h2>
-
-                    <%- include('../components/profileField', {header: "You chose to keep", value: profile.cardCountString  })%>
-                    <%- include('../components/profileField', {header: "Date Taken", value: profile.lastUpdate  })%>
-                <% } else { %>
+                    <h1 class="bold bottomMargin100 underline">Your results</h1>
+                    <div class="flex spaceAround">
+                        <div>
+                            <h1 class="textCenter bold bottomMargin30" >Blue</h1>
+                            <h1 class="textCenter green"><%= profile.cards.colorCounts.blue %></h1>
+                        </div>
+                        <div>
+                            <h1 class="textCenter bold bottomMargin30" >Red</h1>
+                            <h1 class="textCenter green"><%= profile.cards.colorCounts.red%></h1>
+                        </div>
+                        <div>
+                            <h1 class="textCenter bold bottomMargin30" >Green</h1>
+                            <h1 class="textCenter green"><%= profile.cards.colorCounts.green%></h1>
+                        </div>
+                        <div>
+                            <h1 class="textCenter bold bottomMargin30">Yellow</h1>
+                            <h1 class="textCenter red"><%= profile.cards.colorCounts.yellow %></h1>
+                        </div>
+                    </div>
+            <% } else { %>
+            <div class="col10 smallCol10 colCenter smallColCenter bottomMargin100">
                     <h1 class="bold bottomMargin100 underline">Would you like to continue...</h1>
                     <div class="flex spaceAround">
                         <div>
@@ -37,7 +52,7 @@
                             <h1 class="textCenter red"><%= profile.cards ? profile.cards.discarded.length : 0 %>/60</h1>
                         </div>
                     </div>
-                <% } %>
+            <% } %>
             </div>
             <% if (!profile.testState.complete === true) { %>
                 <button

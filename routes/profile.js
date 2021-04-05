@@ -60,18 +60,9 @@ function parseProfileResultsArray(req, res, resultsArray){
 
     //Don't display button to continue test in header if
     //the user has already completed the test
-    var colorCounts;
     if (profile.testState.complete === true) {
         header.testButton = false;
-        colorCounts = cards.colorCounts;
-    } else {
-        colorCounts = countKeptCards(cards);
-    }
-
-    profile.cardCountString = `Red: ${colorCounts.red}, \
-Blue: ${colorCounts.blue}, \
-Green: ${colorCounts.green}, \
-Yellow: ${colorCounts.yellow}`;
+    } 
 
     res.render("pages/profile", {
         header: header,
