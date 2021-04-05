@@ -14,7 +14,7 @@ indication of your key strengths and potential barriers to success.
 Two options for using the site.
 
 1. Locally with local MongoDB installation.
-2. Through a pair of docker containers. One runnign MongoDB and one for the webapp.
+2. Through a pair of docker containers. One running MongoDB and one for the webapp.
 
 ### Option 1 - Local MongoDB
 
