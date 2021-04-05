@@ -66,7 +66,7 @@ $(async function () {
 function saveResultsButtonHandlers(isAuthenticated) {
     if (isAuthenticated) {
         addSignUpModalHandlers("saveResultsHeaderButton", isAuthenticated, () =>
-            saveStateToServer(true)
+            saveStateToServer(false, true)
         );
         return;
     }
@@ -106,7 +106,7 @@ function calculateResult() {
     );
     localStorage.setItem("storedCards", JSON.stringify(cards));
     localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));
-    saveStateToServer(false);
+    saveStateToServer(false, false);
 }
 
 // ---------- Modal Handlers ------------
@@ -132,7 +132,7 @@ function displayResultsModal() {
     removeModalBackHandlers();
 
     if (window.auth == true) {
-        $("#saveResultsButton").click(() => saveStateToServer(true));
+        $("#saveResultsButton").click(() => saveStateToServer(true, false));
         return;
     }
 

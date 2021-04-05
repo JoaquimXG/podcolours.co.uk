@@ -7,7 +7,7 @@ export default function toastBuilder(options) {
     var opts = options || {};
 
     opts.defaultText = opts.defaultText || 'Progress Saved';
-    opts.displayTime = opts.displayTime || 10000;
+    opts.displayTime = opts.displayTime || 2000;
     opts.target = opts.target || 'body';
     opts.topOffset = opts.topOffset + 20 || 20
 

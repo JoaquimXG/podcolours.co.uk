@@ -3,7 +3,7 @@ const testIndex = (req, res, next) => {
         login: true,
         testButton: {
             class: "buttonBlue",
-            onClick: "",
+            onClick: "this.blur()",
             text: "Save your Progress",
             id: "saveResultsHeaderButton",
         },

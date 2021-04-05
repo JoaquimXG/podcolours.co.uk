@@ -1,5 +1,6 @@
 import { wordList, setWordList } from "./appGlobals.js";
 import checkIsAuthenticated from "../checkIsAuthenticated.js";
+import toastBuilder from '../toast.js'
 
 //Contains the current state of each card
 //wether it is "kept", "discarded", "undecided"
@@ -91,16 +92,23 @@ function moveCard(card, oldKey, newKey, cards) {
     localStorage.setItem("storedCards", JSON.stringify(cards));
     localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));
     if (window.auth) {
-        saveStateToServer(false);
+        saveStateToServer(false, false);
     }
 }
 
 //Sends the current state of the test to be saved by the server
-async function saveStateToServer(redirect) {
-    console.log("Saving state to server");
+async function saveStateToServer(redirect, shouldToast) {
+    const toast = toastBuilder({
+        target: "#appPrimaryContainer",
+        topOffset: 100
+    })
+
     var cards = localStorage.getItem("storedCards");
+    //No local changes to send to the server
     if (cards === null) {
-        console.log("No updates to save, passing")
+        if (shouldToast) {
+            toast();
+        }
         return;
     }
     var testSate = localStorage.getItem("testState");
@@ -123,8 +131,11 @@ async function saveStateToServer(redirect) {
                 if (data.success === true) {
                     if (redirect) {
                         window.location.href = "/profile";
+                        return;
                     }
-                    console.log("State saved");
+                    if (shouldToast) {
+                        toast()
+                    }
                 } else {
                     console.log(data.error);
                 }
