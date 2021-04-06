@@ -1,3 +1,5 @@
+//Checks if user is logged in to edit header buttons
+//Pulls content from the database to display on the page
 module.exports = (req, res, next) => {
     header = {
         login: true,

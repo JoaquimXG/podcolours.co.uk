@@ -53,6 +53,7 @@ app.get("/isauthenticated", (req, res) => {
     res.send({ isAuthenticated: req.session.loggedin });
 });
 
+//Handles user logging out
 app.get("/logout", logout)
 
 //404 Page for all other routes

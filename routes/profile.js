@@ -1,3 +1,4 @@
+//Handles get requests for profile page
 module.exports = (req, res, next) => {
     //Redirect user to homepage if they are not signed in
     //Homepage is setup to open loginModal automatically with this param
@@ -18,18 +19,24 @@ module.exports = (req, res, next) => {
 
     //Add two query promises to array to be resolved in parallel
     queryPromiseArray = [];
+    //Query for page content
     queryPromiseArray.push(
         req.db
             .collection("content")
             .findOne({ _id: "/" }, { _id: 0, content: 1 })
     );
+    //Query for user content
     queryPromiseArray.push(
         req.db.collection("users").findOne({ email: req.session.email })
     );
 
     //Wait for both promises to resolve without error
+    //then render profile page including page and user content
+    //Otherwise render 500 error page
     Promise.all(queryPromiseArray)
-        .then((resultsArray) => parseProfileResultsArray(req, res, resultsArray))
+        .then((resultsArray) => {
+            res.render("pages/profile", parseProfileResultsArray(req, res, resultsArray))
+        })
         .catch((err) => {
             console.log(`Error getting profile from db ${err}`);
             next(err);
@@ -37,7 +44,7 @@ module.exports = (req, res, next) => {
 }
 
 //Counts the number of each colour that has been kept
-//to dispay to the user.
+//to dispay to the user. LEGACY - Not currently used
 function countKeptCards(cards) {
     var colors = ["red", "blue", "green", "yellow"];
     var colorCounts = {}
@@ -52,11 +59,10 @@ function countKeptCards(cards) {
     }
 }
 
-
+//Parses results of page and user content queries
 function parseProfileResultsArray(req, res, resultsArray){
-    content = resultsArray[0].content;
-    profile = resultsArray[1];
-    cards = profile.cards;
+    var content = resultsArray[0].content;
+    var profile = resultsArray[1];
 
     //Don't display button to continue test in header if
     //the user has already completed the test
@@ -64,10 +70,10 @@ function parseProfileResultsArray(req, res, resultsArray){
         header.testButton = false;
     } 
 
-    res.render("pages/profile", {
+     return {
         header: header,
         content: content,
         profile: profile,
-    });
+    }
 }
 
