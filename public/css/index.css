@@ -106,6 +106,10 @@ span.underline {
     color: #ff5f61;
 }
 
+.yellow {
+    color: #FBB52B;
+}
+
 .underline {
     border-bottom: 2px solid #aaa;
     padding-bottom: 10px;
