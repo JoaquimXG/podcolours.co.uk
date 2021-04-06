@@ -49,6 +49,7 @@ app.post("/postlogin", login);
 app.post("/updateuser", parseUpdateUserRequest, checkIfUserExists, updateUserIndex);
 
 //Allows frontend to check if users is authenticated
+//Just returns the boolean used on the backend to denote user login status
 app.get("/isauthenticated", (req, res) => {
     res.send({ isAuthenticated: req.session.loggedin });
 });
@@ -61,4 +62,6 @@ app.get("*", fourZeroFour);
 
 //Custom server error 500 handler
 app.use(errorHandler);
+
+//TODO change to 80 when deploying for coursework
 app.listen(8080);

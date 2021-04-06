@@ -1,4 +1,4 @@
-//Error handler
+//Error handler, utilised to handle all express error paths
 module.exports = (err, req, res, next) =>{
     var text = err
     res.status(500)

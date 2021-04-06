@@ -1,3 +1,6 @@
+//Parses a POST login request assessing whether user can login
+//returns an object with boolean values allowing for a
+//responsive frontend form
 module.exports = (req, res, next) => {
     var email = req.body.email.toLowerCase();
     var password = req.body.password;
@@ -6,6 +9,7 @@ module.exports = (req, res, next) => {
     req.db.collection("users").findOne({ email: email }, (err, result) => {
         if (err) next(err);
 
+        //Object utilised by frontend to decide appropriate response
         formResponse = {
             badPassword: false,
             bademail: false,
@@ -19,8 +23,8 @@ module.exports = (req, res, next) => {
             return;
         }
 
-        //Successful login
         if (result.password === password) {
+            //Successful login
             try {
                 req.session.loggedin = true;
                 req.session.email = email;

@@ -5,6 +5,7 @@ var MongoClient = require('mongodb').MongoClient;
 module.exports = (mongoUrl) => {
     var link;
 
+    //Returns a function to be used as middleware for express
     return function expressMongoDb(req, _, next) {
         if (!link) {
             link = MongoClient.connect(mongoUrl);

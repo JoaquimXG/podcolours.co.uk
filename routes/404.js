@@ -1,3 +1,4 @@
+//Handles wildcard route
 module.exports = (_, res) => {
     var error = {
         title: "Oh no, we seem to be lost...",
