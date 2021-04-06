@@ -1,16 +1,17 @@
 import validateForm from './validateForm.js'
 
+//Add event handlers for handling editting user values
 $(function() {
     $("#profileSaveButton").hide()
     $("#profileEditButton").click(handleEdit)
     $("#profileSaveButton").click(handleSave)
     $(".profileInput").hide()
-
 })
 
+//Handle edit button clicked
+//Setup form for editing
 function handleEdit(e) {
     e.preventDefault()
-    console.log("Editing values")
 
     $("#profileEditButton").hide()
     $("#profileSaveButton").show()
@@ -18,10 +19,12 @@ function handleEdit(e) {
     $(".profileInput").show()
 }
 
+//Handle save button clicked
+//Validate form fields and send data to server
 function handleSave(e) {
     e.preventDefault()
-    console.log("Saving Changes")
 
+    //Array for fields in form to be validated
     var fields = [
         {
             selector: "#profileNameInput",
@@ -50,10 +53,12 @@ function handleSave(e) {
 
     var data = validateForm(fields)
     
+    //If form was not valid, don't send data
     if (!data.isValid) {
         return;
     }
 
+    //Post data to server
     $.post({
         type: "POST",
         url: "/updateuser",
@@ -77,6 +82,7 @@ function handleSave(e) {
             alert(`Server Error Please try again`)  
         })
 
+    //Return form to default
     $("#profileSaveButton").hide()
     $("#profileEditButton").show()
     $(".profileInput").hide()

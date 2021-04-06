@@ -3,8 +3,11 @@ export {
     resizeCarousel,
 };
 
-//Prepares carousel click handlers
+//A group of modular functions for providing
+//funcionality to any size responsive carousel
+
 var carouselItemWidth;
+//Prepares carousel click handlers
 function addCarouselHandlers(carouselId) {
     var carousel = $(`#${carouselId}`);
     //Set each item in the carousel to match the size of 

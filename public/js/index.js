@@ -2,8 +2,10 @@ import {addLoginModalHandlers, openLoginModal} from './loginModal.js'
 import {addCarouselHandlers, resizeCarousel} from './carousel.js'
 import checkGetParam from './checkGetParam.js'
 
+//Selector for carousel on homepage
 var carouselId = "carouselSlider"
 
+//Adding modal, carousel and window resize handlers
 $(document).ready(function() {
     addLoginModalHandlers();
     addCarouselHandlers(carouselId)
@@ -11,6 +13,7 @@ $(document).ready(function() {
     window.onresize = handleWindowResize;
 });
 
+//If loginModal GET param is present, prompt user to login
 function autoOpenModal() {
     var loginModal = checkGetParam('loginModal');
 

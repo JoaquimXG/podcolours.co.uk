@@ -2,7 +2,9 @@ export {
     addSignUpModalHandlers
 };
 
+//Modular function for adding all event handlers for sign up modal 
 function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCallBack) {
+    //Internal function which handles all events to hide the sign up modal
     function hideModal() {
         $("#signUpModalSection").css("opacity", "0");
         $("#signUpModalContainer").css("visibility", "hidden");
@@ -31,6 +33,7 @@ function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCall
     $("#signUpModalContainer").click(function() {
         hideModal();
     });
+
     //Stop click events on the signUp modal from propogating to is parent and closing the modal
     $("#signUpModal").click(function(e) {
         e.stopPropagation();
@@ -46,24 +49,26 @@ function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCall
     })
 }
 
+//Parses user sign up form data and gathers current test data
+//Validates values and posts data to server
 function handleSignUp(e) {
     e.preventDefault()
 
-    //TODO use the validateForm function
-    var emailRe = /^\S+@\S+\.\S+$/;
+    //Retrieve test state information from localStorage
+    var cards = localStorage.getItem('storedCards');
+    var testSate = localStorage.getItem("testState")
+    var lastUpdate = localStorage.getItem("lastTestUpdate")
 
+    //TODO use the validateForm function
+    //Retrieve all form values
     var email = $("#signUpEmail").val();
     var password = $("#signUpPassword").val();
     var name = $("#signUpName").val();
     var department = $("#signUpDepartment").val();
     var university = $("#signUpUniversity").val()
 
-    var cards = localStorage.getItem('storedCards');
-    var testSate = localStorage.getItem("testState")
-    var lastUpdate = localStorage.getItem("lastTestUpdate")
-
     var ready = true;
-    //Handle fields being empty
+    //Check for empty fields and add error css class if required
     if (email === "" || password === "" || name === "" || department === "" || university === ""){
         if (password === ""){
             $("#signUpPassword").addClass("formFieldError")
@@ -83,12 +88,14 @@ function handleSignUp(e) {
         ready = false;
     }
 
-    //Check for bad email input
+    //Check for bad emai input with re
+    var emailRe = /^\S+@\S+\.\S+$/;
     if (emailRe.test(email) === false) {
         $("#signUpEmail").addClass("formFieldError")
         ready = false;
     }
 
+    //Only post data to server if form is validated
     if (ready) {
         $.post({
             type: "POST",
@@ -110,7 +117,7 @@ function handleSignUp(e) {
                 if (data.userCreated === true) {
                     window.location.href = "/profile"
                 }
-                //User already exists
+                //If email is taken, notify user 
                 else if(data.errorCode === 1) {
                     $("#signUpModalTitle")
                         .text("Sorry, this email is taken")

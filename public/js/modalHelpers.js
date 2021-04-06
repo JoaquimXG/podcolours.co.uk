@@ -6,6 +6,8 @@ export {
     removeModalBackHandlers,
 };
 
+//Takes the currently selected modal out of the modalHolding div
+//and places the newModal argument modal in the holding div
 function swapModal(newModal) {
     //Remove currently displayed modal
     $("#modalSectionContainer > div").appendTo("#modalHolding");
@@ -20,7 +22,7 @@ function swapModal(newModal) {
 }
 
 //Adds all of the required click handlers to allow modals to close
-//also displays the cross
+//also displays the cross svg
 function addModalCloseHandlers() {
     //Add click event for close button in the app modal to close the modal
     $("#closeAppModal").click(function() {
@@ -46,6 +48,7 @@ function removeModalCloseHandlers() {
     $("#appModalContainer").off();
 }
 
+//Hides a modal when closing
 function handleModalClose() {
     $("#appModal").css("opacity", "0");
     $("#appModalContainer").css("visibility", "hidden");

@@ -1,3 +1,5 @@
+//Modular script to be used alongside a logout button
+//On any page it is required
 $(function() {
     var logoutButton = $("#headerLogoutButton")
 
@@ -9,7 +11,8 @@ $(function() {
     logoutButton.click(logoutUser)
 })
 
-//Logs out user and returns to homepage
+//Performs a get request to logout user and
+//redirects to the homepage
 function logoutUser() {
     $.get("/logout", (data) => {
         if (data.success) {
