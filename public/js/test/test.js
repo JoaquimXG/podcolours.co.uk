@@ -31,9 +31,13 @@ $(async function () {
     displayInstructionModal();
 
     if (window.auth == true) {
+        //If user is signed in, their previous progress is loaded
         await loadProgress();
     } else {
+        //Otherwise a new test is initiated
         displayRandomCard();
+
+        //Storing initial test values in localStorage
         localStorage.setItem(
             "testState",
             JSON.stringify({ complete: false, result: null })
@@ -42,8 +46,10 @@ $(async function () {
         localStorage.removeItem("storedCards");
     }
 
+    //Add handlers for login
     addLoginModalHandlers();
 
+    //Add initial test app dropzone handlers for JQuery UI 
     $(".cardDropzone").each(function () {
         $(this).droppable({
             classes: {
@@ -58,12 +64,14 @@ $(async function () {
     $("#omdbButton").click(callMovieApi);
     $("#completeTest").click(calculateResult);
 
+    //Handler for screen resizing
     window.onresize = redistributeCards;
 });
 
-//If user is authenticated, the button to save results
-//the end of the test should save their results without prompting to sign in
+//Handlers for save your progress button
 function saveResultsButtonHandlers(isAuthenticated) {
+    //If user is authenticated, the button to save results
+    //the end of the test should save their results without prompting to sign in
     if (isAuthenticated) {
         addSignUpModalHandlers("saveResultsHeaderButton", isAuthenticated, () =>
             saveStateToServer(false, true)
@@ -71,6 +79,7 @@ function saveResultsButtonHandlers(isAuthenticated) {
         return;
     }
 
+    //If user is not logged in they should be prompted to sign up
     addSignUpModalHandlers("saveResultsHeaderButton");
     $("#saveResultsHeaderButton").click(function () {
         swapModal("#signUpModalSection");
@@ -87,6 +96,8 @@ function calculateResult() {
     var cards = JSON.parse(localStorage.getItem("storedCards"));
     var colors = ["red", "blue", "green", "yellow"];
 
+    //Loop throug each color and count how many cards of each
+    //color have been kept. Calculating the highest count at the same time
     var colorCounts = {};
     colors.forEach((color) => {
         var count = cards.kept.filter((card) => card.color == color).length;
@@ -96,21 +107,28 @@ function calculateResult() {
             result = color;
         }
     });
+    //Add the result to the cards variable
     cards.colorCounts = colorCounts;
 
+    //Display the users results
     generateResultsModal(result);
     displayResultsModal();
+
+    //Store the updated cards data in localStorage
     localStorage.setItem(
         "testState",
         JSON.stringify({ complete: true, result: result, time: Date.now()})
     );
     localStorage.setItem("storedCards", JSON.stringify(cards));
     localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));
+
+    //Update server with new results
     saveStateToServer(false, false);
 }
 
 // ---------- Modal Handlers ------------
 
+//Handles showing the instructions modal
 function displayInstructionModal() {
     swapModal("#instructModalSection");
     addModalCloseHandlers();
@@ -131,11 +149,13 @@ function displayResultsModal() {
     removeModalCloseHandlers();
     removeModalBackHandlers();
 
+    //If user is signed in save state to server rather than asking to sign up
     if (window.auth == true) {
         $("#saveResultsButton").click(() => saveStateToServer(true, false));
         return;
     }
 
+    //If user not signed in, add handler to prompt user sign up
     $("#saveResultsButton").click(function () {
         swapModal("#signUpModalSection");
         $("#backAppModal")

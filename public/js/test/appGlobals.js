@@ -1,9 +1,12 @@
 export { wordList, resultsText, setWordList };
 
+//Function to allow setting the value for
+//wordlist global from outside of this module
 function setWordList(newWordList) {
     wordList = newWordList
 }
 
+//All words which can be shown as cards during the test
 var wordList = [
     {id: "Achiever", color: "red"},
     {id: "Assertive", color: "red"},
@@ -87,6 +90,7 @@ var wordList = [
     {id: "Team Worker", color: "yellow"}
 ]
 
+//Example results which users can recieve after the test
 const resultsText = {
     red: {
         color: "<span style='color:red;'>Red </span>",

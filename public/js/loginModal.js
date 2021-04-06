@@ -4,11 +4,13 @@ export {
     closeLoginModal
 };
 
+//Handler for displaying the login modal
 function openLoginModal() {
         $("#loginModalContainer").css("visibility", "visible");
         $("#loginModal").css("opacity", "1");
 }
 
+//Handler for hiding the login modal
 function closeLoginModal() {
     $("#loginModal").css("opacity", "0");
     $("#loginModalContainer").css("visibility", "hidden");
@@ -52,18 +54,22 @@ function addLoginModalHandlers() {
     })
 }
 
-
+//validates login form values and posts data to server if values not empty
 function handleLogin(e) {
     e.preventDefault()
     var email = $("#loginEmail").val();
     var password = $("#loginPassword").val();
 
-    //Handle fields being empty
+    //If both fields are empty don't send the form
+    //and add css error class
     if (email === "" && password === ""){
         $("#loginEmail").addClass("formFieldError")
         $("#loginPassword").addClass("formFieldError")
         return;
     }
+
+    //If only password is empty, add error class for password
+    //Still send email data in order to check if email is valid
     if (password === ""){
         $("#loginPassword").addClass("formFieldError")
     } 
@@ -74,15 +80,15 @@ function handleLogin(e) {
         dataType: "json"
     })
         .done(data => {
-            //Successful login
+            //Successful login redirect to profile
             if (data.loggedin === true) {
                 window.location.href = "/profile"
             }
-            //Wrong email
+            //Wrong email, notify user
             else if (data.bademail === true){
                 $("#loginEmail").addClass("formFieldError")
             }
-            //Wrong password
+            //Wrong password notify user
             else {
                 $("#loginPassword").addClass("formFieldError")
             }
