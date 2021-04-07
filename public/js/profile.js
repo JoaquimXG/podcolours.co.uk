@@ -1,4 +1,5 @@
 import validateForm from './validateForm.js'
+import toastBuilder from './toast.js'
 
 //Add event handlers for handling editting user values
 $(function() {
@@ -23,6 +24,14 @@ function handleEdit(e) {
 //Validate form fields and send data to server
 function handleSave(e) {
     e.preventDefault()
+
+    //Notification to warn user that username is taken
+    const toast = toastBuilder({
+        target: "body",
+        topOffset: 100,
+        defaultText: "Email address taken",
+        classes: "toastError"
+    })
 
     //Array for fields in form to be validated
     var fields = [
@@ -69,12 +78,20 @@ function handleSave(e) {
             //Redirect to profile page if user created 
             if (data.userUpdated === true) {
                 window.location.href = "/profile"
+                //Return form to default
+                $("#profileSaveButton").hide()
+                $("#profileEditButton").show()
+                $(".profileInput").hide()
+                $(".profileFieldText").show()
             }
-            //TODO show red toast notification for user existing already
+            //Show user toast notification if email is taken
             else if(data.errorCode === 1) {
-                $("#signUpModalTitle")
-                    .text("Sorry, this email is taken")
-                $("#signUpEmail").addClass("formFieldError")
+                toast()
+                $("#profileEmailInput").addClass("formFieldError")
+            }
+            //User has lost their session, redirect to homepage and prompt login
+            else if (data.errorCode === 2){
+                window.location.href = "/?loginModal=1"
             }
         })
         //TODO Handle server failure
@@ -82,9 +99,5 @@ function handleSave(e) {
             alert(`Server Error Please try again`)  
         })
 
-    //Return form to default
-    $("#profileSaveButton").hide()
-    $("#profileEditButton").show()
-    $(".profileInput").hide()
-    $(".profileFieldText").show()
+
 }

@@ -555,6 +555,10 @@ span.underline {
     transition: all 0.4s ease-out;
 }
 
+.toastError {
+    background-color: #ff5f61;
+}
+
 .profileFieldHeader {
     margin-bottom: 15px;
     color: #888888;

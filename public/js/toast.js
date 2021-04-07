@@ -10,11 +10,12 @@ export default function toastBuilder(options) {
     opts.displayTime = opts.displayTime || 2000;
     opts.target = opts.target || 'body';
     opts.topOffset = opts.topOffset + 20 || 20
+    opts.classes = opts.classes + ' toast' || 'toast'
 
     //returns a function which will generate a toast notification on each call
         return function (text) {
             $('<div/>')
-                .addClass('toast')
+                .addClass(opts.classes)
             //Add to the start of target element
                 .prependTo($(opts.target))
                 .text(text || opts.defaultText)
