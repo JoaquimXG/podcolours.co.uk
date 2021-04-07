@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
         return;
     }
 
-    header = {
+    res.locals.header = {
         logout: true,
         testButton: {
             class: "buttonSuccess",
