@@ -48,7 +48,7 @@ const checkIfUserExists = (req, res, next) => {
 const signUpIndex = (req, res, next) => {
     //Email is taken
     if (res.locals.userExists) {
-        formResponse = {
+        var formResponse = {
             userCreated: false,
             errorCode: 1,
             error: "Email taken",
@@ -63,7 +63,7 @@ const signUpIndex = (req, res, next) => {
         try {
             req.session.email = res.locals.user.email;
             req.session.loggedin = true;
-            formResponse = { userCreated: true };
+            var formResponse = { userCreated: true };
             res.json(formResponse);
         } catch (err) {
             next(err);

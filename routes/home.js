@@ -1,7 +1,7 @@
 //Checks if user is logged in to edit header buttons
 //Pulls content from the database to display on the page
 module.exports = (req, res, next) => {
-    header = {
+    res.locals.header = {
         login: true,
         testButton: {
             class: "buttonSuccess",
@@ -10,9 +10,10 @@ module.exports = (req, res, next) => {
             id: "testButton",
         },
     };
+
     if (req.session.loggedin) {
-        header.login = false;
-        header.profile = true;
+        res.locals.header.login = false;
+        res.locals.header.profile = true;
     }
 
     req.db.collection("content").findOne(
@@ -22,7 +23,7 @@ module.exports = (req, res, next) => {
             if (err) next(err);
             try {
                 res.render("pages/index", {
-                    header: header,
+                    header: res.locals.header,
                     content: queryRes.content,
                 });
             }

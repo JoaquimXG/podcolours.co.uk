@@ -4,7 +4,7 @@
 //automatically parsed
 const parseUpdateUserRequest = (req, res, next) => {
     if (!req.session.loggedin) {
-        formResponse = {
+        var formResponse = {
             userUpdated: false,
             errorCode: 2,
             error: "User not logged in",

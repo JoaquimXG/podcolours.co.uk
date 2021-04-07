@@ -1,7 +1,7 @@
 //Checks if user is logged in to edit header buttons
 //Pulls content from the database to display on the page
 const testIndex = (req, res, next) => {
-    header = {
+    res.locals.header = {
         login: true,
         testButton: {
             class: "buttonBlue",
@@ -11,8 +11,8 @@ const testIndex = (req, res, next) => {
         },
     };
     if (req.session.loggedin) {
-        header.login = false;
-        header.profile = true;
+        res.locals.header.login = false;
+        res.locals.header.profile = true;
     }
 
     req.db.collection("content").findOne(
@@ -22,7 +22,7 @@ const testIndex = (req, res, next) => {
             if (err) next(err);
             try {
                 res.render("pages/test", {
-                    header: header,
+                    header: res.locals.header,
                     content: queryRes.content,
                 });
             } catch (err) {

@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
         if (err) next(err);
 
         //Object utilised by frontend to decide appropriate response
-        formResponse = {
+        var formResponse = {
             badPassword: false,
             bademail: false,
             loggedin: false,
