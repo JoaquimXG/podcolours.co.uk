@@ -71,7 +71,7 @@ function parseProfileResultsArray(req, res, resultsArray){
     } 
 
      return {
-        header: header,
+        header: res.locals.header,
         content: content,
         profile: profile,
     }
