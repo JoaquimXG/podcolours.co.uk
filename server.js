@@ -17,7 +17,7 @@ const logout = require('./routes/logout')
 const {parseUpdateUserRequest, updateUserIndex} = require('./routes/updateuser')
 
 //Use default mongo url or first command line argument
-mongoUrl = process.argv[2]
+var mongoUrl = process.argv[2]
     ? process.argv[2]
     : "mongodb://localhost:27017/podcolours";
 console.log(`=== Connection: ${mongoUrl} ===`);
