@@ -2,6 +2,7 @@ const mongo = require('./mongo')
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const MongoStore = require('connect-mongo')
 
 const app = express();
 
@@ -19,8 +20,9 @@ module.exports = (opts) => {
     app.use(
         session({
             secret: "a+VT+Vt4V+Y7EoLHatwfPDauKGMBygejiZNNEPwZP0g",
-            saveUninitialized: true,
             resave: true,
+            saveUninitialized: true,
+            store: MongoStore.create({mongoUrl: opts.mongoUrl})
         })
     );
 
