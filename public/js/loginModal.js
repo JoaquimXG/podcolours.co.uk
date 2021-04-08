@@ -52,6 +52,13 @@ function addLoginModalHandlers() {
     $(".formField").on("input", function() {
         $(this).removeClass("formFieldError")
     })
+
+    if(localStorage.getItem("emailRemembered") !== null){
+        $("#remember_me_checkbox").prop("checked", true);
+        var store = localStorage.getItem("emailRemembered")
+        var email = $("#loginEmail")
+        email.val(store);
+    }
 }
 
 //validates login form values and posts data to server if values not empty
@@ -59,6 +66,10 @@ function handleLogin(e) {
     e.preventDefault()
     var email = $("#loginEmail").val();
     var password = $("#loginPassword").val();
+    var remembered = $("#remember_me_checkbox").is(":checked");
+
+    handleRemembered(remembered, email);
+
 
     //If both fields are empty don't send the form
     //and add css error class
@@ -97,4 +108,14 @@ function handleLogin(e) {
         .fail(() => {
             alert(`Server Error Please try again`)  
         })
+}
+
+function handleRemembered(checked, email){
+    if(checked){
+        localStorage.setItem("emailRemembered", email)
+        return
+    }
+    else{
+        localStorage.removeItem("emailRemembered", email)
+    }
 }
