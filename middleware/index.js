@@ -27,6 +27,7 @@ module.exports = (opts) => {
         })
     );
 
+    //Initialising passport js with sessions
     app.use(passport.initialize())
     app.use(passport.session())
 

@@ -23,6 +23,13 @@ var mongoUrl = process.argv[2]
 console.log(`=== Connection: ${mongoUrl} ===`);
 
 const app = prepareMiddleware({ mongoUrl: mongoUrl });
+//const passport = require('./middleware/passport')
+
+var passport = require('passport')
+var LocalStrategy = require('passport-local').Strategy;
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 //Home Page
 app.get("/", home);
@@ -43,7 +50,48 @@ app.get("/profile", profile);
 app.post("/signup", parseSignUpRequest, checkIfUserExists, signUpIndex);
 
 //Login handler
-app.post("/postlogin", login);
+app.post("/", login);
+
+function postLoginHandler(req, res, next) {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            next(err)
+            return
+        }
+        console.log(info)
+
+        var formResponse = {
+            badPassword: false,
+            bademail: false,
+            loggedin: false,
+        };
+
+        if (!user) {
+            if (info.errorCode === 2){
+                formResponse.badPassword = true;
+            }
+            if (info.errorCode === 1) {
+                formResponse.bademail = true;
+            }
+            res.json(formResponse)
+            return
+        }
+
+        req.login(user, (err) => {
+            if (err) {
+                next(err)
+                return
+            }
+            formResponse.loggedin = true;
+            res.json(formResponse)
+            return;
+        })
+    })(req, res, next)
+}
+
+app.post("/postlogin", postLoginHandler, (req, res, next) => {
+    console.log("after request")
+})
 
 //Update user information in database
 app.post("/updateuser", parseUpdateUserRequest, checkIfUserExists, updateUserIndex);

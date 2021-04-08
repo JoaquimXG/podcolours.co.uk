@@ -1,42 +1,40 @@
 //Parses a POST login request assessing whether user can login
 //returns an object with boolean values allowing for a
 //responsive frontend form
+//Login logic is handled with passport js 
 module.exports = (req, res, next) => {
-    var email = req.body.email.toLowerCase();
-    var password = req.body.password;
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            next(err)
+            return
+        }
+        console.log(info)
 
-    //Find user in database
-    req.db.collection("users").findOne({ email: email }, (err, result) => {
-        if (err) next(err);
-
-        //Object utilised by frontend to decide appropriate response
         var formResponse = {
             badPassword: false,
             bademail: false,
             loggedin: false,
         };
 
-        //No result due to email not found in db
-        if (!result) {
-            formResponse.bademail = true;
-            res.json(formResponse);
-            return;
+        if (!user) {
+            if (info.errorCode === 2){
+                formResponse.badPassword = true;
+            }
+            if (info.errorCode === 1) {
+                formResponse.bademail = true;
+            }
+            res.json(formResponse)
+            return
         }
 
-        if (result.password === password) {
-            //Successful login
-            try {
-                req.session.loggedin = true;
-                req.session.email = email;
-                formResponse.loggedin = true;
-                res.send(formResponse);
-            } catch (err) {
-                next(err);
+        req.login(user, (err) => {
+            if (err) {
+                next(err)
+                return
             }
-        } else {
-            //Password incorrect
-            formResponse.badPassword = true;
-            res.json(formResponse);
-        }
-    });
+            formResponse.loggedin = true;
+            res.json(formResponse)
+            return;
+        })
+    })(req, res, next);
 }
