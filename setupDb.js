@@ -494,4 +494,11 @@ db.content.insert({
     },
 });
 
+db.celebs.insert({
+    red: ["Jimmy John", "Thomas Cruise"],
+    green: ["Alex Salmond", "Nicola Sturgeon"],
+    blue: ["Lewis Boyd", "James Hamilton"],
+    yellow: ["Idris Elba", "Tom Hardy"]
+})
+
 print("==== Database Setup Complete ====\n\n");
