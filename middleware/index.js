@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoStore = require('connect-mongo')
+const passport = require('./passport')
 
 const app = express();
 
@@ -25,6 +26,9 @@ module.exports = (opts) => {
             store: MongoStore.create({mongoUrl: opts.mongoUrl})
         })
     );
+
+    app.use(passport.initialize())
+    app.use(passport.session())
 
     //HTTP body parse for handling post requests
     app.use(
