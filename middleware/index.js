@@ -23,7 +23,7 @@ module.exports = (opts) => {
             secret: "a+VT+Vt4V+Y7EoLHatwfPDauKGMBygejiZNNEPwZP0g",
             resave: true,
             saveUninitialized: true,
-            store: MongoStore.create({mongoUrl: opts.mongoUrl})
+            store: MongoStore.create({mongoUrl: opts.mongoUrl, crypto: {secret: false}})
         })
     );
 
