@@ -23,13 +23,6 @@ var mongoUrl = process.argv[2]
 console.log(`=== Connection: ${mongoUrl} ===`);
 
 const app = prepareMiddleware({ mongoUrl: mongoUrl });
-//const passport = require('./middleware/passport')
-
-var passport = require('passport')
-var LocalStrategy = require('passport-local').Strategy;
-
-app.use(passport.initialize())
-app.use(passport.session())
 
 //Home Page
 app.get("/", home);

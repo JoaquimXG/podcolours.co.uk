@@ -1,4 +1,4 @@
-var passport = require('passport')
+var passport = require('../middleware/passport')
 
 //Parses a POST login request assessing whether user can login
 //returns an object with boolean values allowing for a
@@ -10,7 +10,6 @@ module.exports = (req, res, next) => {
             next(err)
             return
         }
-        console.log(info)
 
         var formResponse = {
             badPassword: false,
