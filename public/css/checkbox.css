@@ -4,8 +4,7 @@
     position: relative;
     margin: 40px auto 0px;
     border-radius:25px;
-
-    
+    align-items: center;
 }
 
 .checkbox > span {
@@ -31,16 +30,17 @@
 .checkbox > input:checked {
     border: 2px solid #41B883;
     background-color: #0bb633;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.checkbox > input:checked + span::before {
+.checkbox > input:checked::before{
     content: '\2713';
     display: block;
     text-align: center;
     color: #e3ede5;
-    position: absolute;
-    left: 0.7rem;
-    top: 0.2rem;
+    position: relative;
 }
 
 .checkbox > input:active {
