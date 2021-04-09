@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   mongo:
-    container_name: podMongo
+    container_name: ${MONGOHOST}
     image: mongo
     restart: always
     ports:
