@@ -5,6 +5,10 @@ var passport = require('../middleware/passport')
 //responsive frontend form
 //Login logic is handled with passport js 
 module.exports = (req, res, next) => {
+    //Using passportJS for authentication using 'local' strategy
+    //Function is called by password during login and passed the 
+    //result of the local strategy function call in middleware/passport.js
+    //if a user is returned the api will respnd with loggedin as true
     passport.authenticate('local', (err, user, info) => {
         if (err) {
             next(err)

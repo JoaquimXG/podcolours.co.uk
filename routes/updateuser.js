@@ -24,7 +24,7 @@ const parseUpdateUserRequest = async (req, res, next) => {
         email: req.body.email.toLowerCase(),
     };
 
-    //If a password was passed it should be included in the update
+    //If a password was passed its hash should be included in the update
     //otherwise pass
     if (!req.body.password === "false") {
         res.locals.user.hash = await bcrypt.hash(req.body.password, 10)

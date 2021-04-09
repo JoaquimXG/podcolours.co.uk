@@ -16,6 +16,7 @@ const parseSignUpRequest = async (req, res, next) => {
         cards = false;
     }
 
+    //Hash password before storing
     var hash = await bcrypt.hash(req.body.password, 10)
 
     //Emails stored as lowercase to simplify searching
