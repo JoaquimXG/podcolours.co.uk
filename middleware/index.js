@@ -1,6 +1,7 @@
 const mongo = require('./mongo')
 const express = require("express");
 const bodyParser = require("body-parser");
+const compression = require("compression")
 const session = require("express-session");
 const MongoStore = require('connect-mongo')
 const passport = require('./passport')
@@ -13,6 +14,9 @@ module.exports = (opts) => {
 
     //Public folder for images, css and js files
     app.use(express.static("public"));
+
+    //gzips files before sending responses to server
+    app.use(compression())
 
     //ejs for templating
     app.set("view engine", "ejs");
