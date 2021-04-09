@@ -2,7 +2,7 @@
 module.exports = (req, res, next) => {
     //Redirect user to homepage if they are not signed in
     //Homepage is setup to open loginModal automatically with this param
-    if (!req.session.loggedin) {
+    if (!req.user) {
         res.redirect("/?loginModal=1");
         return;
     }
@@ -27,7 +27,7 @@ module.exports = (req, res, next) => {
     );
     //Query for user content
     queryPromiseArray.push(
-        req.db.collection("users").findOne({ email: req.session.email })
+        req.db.collection("users").findOne({ email: req.user.email })
     );
 
     //Wait for both promises to resolve without error

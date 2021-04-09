@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
         },
     };
 
-    if (req.session.loggedin) {
+    if (req.user) {
         res.locals.header.login = false;
         res.locals.header.profile = true;
     }

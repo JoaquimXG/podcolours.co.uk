@@ -10,7 +10,7 @@ const testIndex = (req, res, next) => {
             id: "saveResultsHeaderButton",
         },
     };
-    if (req.session.loggedin) {
+    if (req.user) {
         res.locals.header.login = false;
         res.locals.header.profile = true;
     }
@@ -35,7 +35,7 @@ const testIndex = (req, res, next) => {
 //Handles POST requests with test data
 const testSaveState = (req, res, next) => {
     //Notifies the frontend if the user is not logged in
-    if (!req.session.loggedin){
+    if (!req.user){
         res.json({success: false,
             error: "user not authenticated"})
         return;
@@ -54,7 +54,7 @@ const testSaveState = (req, res, next) => {
     }}
 
     //Update user test state information
-    req.db.collection("users").update({email: req.session.email}, updateObj, (err, _) => {
+    req.db.collection("users").update({email: req.user.email}, updateObj, (err, _) => {
         if (err) next(err)
         res.json({success: true});
     });
@@ -64,13 +64,13 @@ const testSaveState = (req, res, next) => {
 //Used for loading progress of users who are mid-test
 const testGetState = (req, res, next) => {
     //Return an error if the user is not logged in
-    if (!req.session.loggedin){
+    if (!req.user){
         res.json({success: false,
             error: "user not authenticated"})
         return;
     }
     //Otherwise find the users teststate info and send to frontend
-    req.db.collection("users").findOne({email: req.session.email}, (err, result) => {
+    req.db.collection("users").findOne({email: req.user.email}, (err, result) => {
         if (err) next(err)
         try {
             res.json({

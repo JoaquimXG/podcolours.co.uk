@@ -51,7 +51,7 @@ app.post("/updateuser", parseUpdateUserRequest, checkIfUserExists, updateUserInd
 //Allows frontend to check if users is authenticated
 //Just returns the boolean used on the backend to denote user login status
 app.get("/isauthenticated", (req, res) => {
-    res.send({ isAuthenticated: req.session.loggedin });
+    res.send({ isAuthenticated: req.user ? true : false });
 });
 
 //Handles user logging out

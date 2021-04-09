@@ -3,7 +3,7 @@
 //Variables are sent as json objects and are therefore 
 //automatically parsed
 const parseUpdateUserRequest = (req, res, next) => {
-    if (!req.session.loggedin) {
+    if (!req.user) {
         var formResponse = {
             userUpdated: false,
             errorCode: 2,
@@ -34,7 +34,7 @@ const parseUpdateUserRequest = (req, res, next) => {
 const updateUserIndex = (req, res, next) => {
     //If user is updating their email address
     //check if the new one is already taken
-    if (res.locals.user.email != req.session.email) {
+    if (res.locals.user.email != req.user.email) {
         if (res.locals.userExists) {
             formResponse = {
                 userUpdated: false,
@@ -50,9 +50,9 @@ const updateUserIndex = (req, res, next) => {
     var updateObj = {$set: res.locals.user}
 
     //Update user
-    req.db.collection("users").update({email: req.session.email}, updateObj, (err, _) => {
+    req.db.collection("users").update({email: req.user.email}, updateObj, (err, _) => {
         if (err) next(err)
-        req.session.email = res.locals.user.email
+        req.user.email = res.locals.user.email
         res.json({userUpdated: true});
     });
 }
