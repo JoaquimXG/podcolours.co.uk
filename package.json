@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/CM2104-DynamicWebDevelopment/cm2104-group-webapp-delz#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parse": "^0.1.0",
     "connect-mongo": "^4.4.1",
     "ejs": "^3.1.6",

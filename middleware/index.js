@@ -20,6 +20,7 @@ module.exports = (opts) => {
     //Express sessions for managing user logins
     app.use(
         session({
+            //TODO replace secret with session variable
             secret: "a+VT+Vt4V+Y7EoLHatwfPDauKGMBygejiZNNEPwZP0g",
             resave: true,
             saveUninitialized: true,
