@@ -1,3 +1,5 @@
+var passport = require('passport')
+
 //Parses a POST login request assessing whether user can login
 //returns an object with boolean values allowing for a
 //responsive frontend form
