@@ -58,16 +58,18 @@ const signUpIndex = (req, res, next) => {
     }
 
     //Add user to database and redirect to profile page
-    req.db.collection("users").save(res.locals.user, (err, _) => {
+    req.db.collection("users").insertOne(res.locals.user, (err, result) => {
+        var insertedId = result.ops[0]._id;
         if (err) next(err);
-        try {
-            req.session.email = res.locals.user.email;
-            req.session.loggedin = true;
+        req.login({_id: insertedId}, (err) => {
+            if (err) {
+                next(err)
+                return
+            }
             var formResponse = { userCreated: true };
             res.json(formResponse);
-        } catch (err) {
-            next(err);
-        }
+            return;
+        })
     });
 }
 
