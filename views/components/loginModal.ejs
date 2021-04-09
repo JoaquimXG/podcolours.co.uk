@@ -1,4 +1,7 @@
 <!-- Login Modal for templating -->
+<head>
+    <link rel="stylesheet" href="/css/checkbox.css">
+</head>
 <div id="loginModalContainer" class="modalContainer">
     <div id="loginModal" class="modal">
         <form class="modalSection">
@@ -31,10 +34,13 @@
             >
                 Login
             </button>
-            <input type="checkbox" id="remember_me_checkbox">
-                <label for="checkbox">
-                    <div id="tick"> Remember Me</div>
-                </label>
+
+            <!-- Remember Me Button on login pop up-->
+            <label class="checkbox">
+                <input type="checkbox" />
+                <span>Remember Me</span>
+            </label>
+
         </form>
         <div class="divider"></div>
         <div class="modalSection">
