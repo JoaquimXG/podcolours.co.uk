@@ -1,5 +1,7 @@
+const bcrypt = require('bcrypt')
+
 //Parses POST request with user sign up information 
-const parseSignUpRequest = (req, res, next) => {
+const parseSignUpRequest = async (req, res, next) => {
     //Values are sent as strings as they are pulled from localstorage
     //so they require parsing before database ingestion
     var lastUpdate = JSON.parse(req.body.lastUpdate);
@@ -14,13 +16,15 @@ const parseSignUpRequest = (req, res, next) => {
         cards = false;
     }
 
+    var hash = await bcrypt.hash(req.body.password, 10)
+
     //Emails stored as lowercase to simplify searching
     res.locals.user = {
         name: req.body.name,
         university: req.body.university,
         department: req.body.department,
         email: req.body.email.toLowerCase(),
-        password: req.body.password,
+        hash: hash,
         cards: cards,
         testState: testState ? testState : { complete: false, result: null },
         lastUpdate: lastUpdate === "NaN" ? Date.now() : lastUpdate,

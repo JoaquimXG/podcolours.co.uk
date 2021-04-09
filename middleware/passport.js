@@ -20,7 +20,7 @@ passport.use(new LocalStrategy({
             if (!result) {
                 return done(null, false, {errorCode: 1,  message: 'Incorrect username.' });
             }
-            var isMatch = await comparePassword(password, result.password)
+            var isMatch = await bcrypt.compare(password, result.hash) 
             if (!isMatch) {
                 return done(null, false, {errorCode: 2, message: 'Incorrect password.' });
             }
@@ -28,9 +28,5 @@ passport.use(new LocalStrategy({
         })
     }
 ));
-
-async function comparePassword(plaintTextPassword, hash) {
-    return bcrypt.compare(plaintTextPassword, hash)
-}
 
 module.exports = passport;

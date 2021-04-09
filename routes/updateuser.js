@@ -1,8 +1,10 @@
+const bcrypt = require('bcrypt')
+
 //Parses user update POST request
 //Similar in structure to the parseSignUpRequest
 //Variables are sent as json objects and are therefore 
 //automatically parsed
-const parseUpdateUserRequest = (req, res, next) => {
+const parseUpdateUserRequest = async (req, res, next) => {
     if (!req.user) {
         var formResponse = {
             userUpdated: false,
@@ -25,7 +27,7 @@ const parseUpdateUserRequest = (req, res, next) => {
     //If a password was passed it should be included in the update
     //otherwise pass
     if (!req.body.password === "false") {
-        res.locals.user.password = req.body.password;
+        res.locals.user.hash = await bcrypt.hash(req.body.password, 10)
     }
     next();
 }
