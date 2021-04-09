@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongo = require('./mongo')
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -8,9 +9,11 @@ const passport = require('./passport')
 
 const app = express();
 
-module.exports = (opts) => {
+module.exports = () => {
+    var mongoUrl = generateMongoUrl()
+    console.log(`=== Connection: ${mongoUrl} ===`);
     //Include MongoDB as express middleware
-    app.use(mongo(opts.mongoUrl))
+    app.use(mongo(mongoUrl))
 
     //Public folder for images, css and js files
     app.use(express.static("public"));
@@ -24,12 +27,11 @@ module.exports = (opts) => {
     //Express sessions for managing user logins
     app.use(
         session({
-            //TODO replace secret with session variable
-            secret: "a+VT+Vt4V+Y7EoLHatwfPDauKGMBygejiZNNEPwZP0g",
+            secret: process.env.SESSIONSECRET ? process.env.SESSIONSECRET : "secret",
             resave: true,
             saveUninitialized: true,
             cookie: {maxAge: false},
-            store: MongoStore.create({mongoUrl: opts.mongoUrl, crypto: {secret: false}})
+            store: MongoStore.create({mongoUrl: mongoUrl, crypto: {secret: false}})
         })
     );
 
@@ -49,3 +51,10 @@ module.exports = (opts) => {
     return app;
 }
 
+function generateMongoUrl() {
+    var host = process.env.MONGOHOST ? process.env.MONGOHOST : "localhost"
+    var port = process.env.MONGOPORT ? process.env.MONGOPORT : 27017
+    var database = process.env.MONGODATABASE ? process.env.MONGODATABASE : "podcolours"
+
+    return `mongodb://${host}:${port}/${database}`
+}
