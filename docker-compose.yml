@@ -5,7 +5,7 @@ services:
     image: mongo
     restart: always
     ports:
-      - "27017:27017"
+      - "${MONGOPORT}:27017"
     volumes:
       - ./data:/data/db
       - ./setupDb.js:/docker-entrypoint-initdb.d/setupDb.js:ro
@@ -22,9 +22,15 @@ services:
     depends_on:
       - mongo
     ports:
-      - "8080:8080"
+      - "80:${APPPORT}"
     networks:
       - podcoloursApp
+    environment:
+        - APPPORT=${APPPORT}
+        - MONGOHOST=${MONGOHOST}
+        - MONGOPORT=${MONGOPORT}
+        - MONGODATABASE=${MONGODATABASE}
+        - SESSIONSECRET=${SESSIONSECRET}
 networks:
   podcoloursApp:
     driver: bridge
