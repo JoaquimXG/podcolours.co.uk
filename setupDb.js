@@ -9,7 +9,7 @@ db.users.insert({
     department: "Computing",
     university: "Robert Gordon University",
     email: "test@notstarted.com",
-    password: "test@notstarted.com",
+    hash: "$2b$10$eTq/E0.UlYj8uyiCfxykTeW5z1n1/yb3pqk8tFqCN8B.TEYwkpqxm",
     cards: false,
     testState: { complete: false, result: null },
     lastUpdate: 1617569642314,
@@ -20,7 +20,7 @@ db.users.insert({
     department: "Computing",
     university: "Robert Gordon University",
     email: "test@started.com",
-    password: "test@started.com",
+    hash: "$2b$10$/lJpDONcxv27fYjvkH8ENO8o3JwF481j8TO/B3G1UCr8wGlKTW7fu",
     cards: {
         kept: [{ id: "Precise", color: "blue" }],
         discarded: [{ id: "Assertive", color: "red" }],
@@ -36,7 +36,7 @@ db.users.insert({
     department: "Computing",
     university: "Robert Gordon University",
     email: "test@inprogress.com",
-    password: "test@inprogress.com",
+    hash: "$2b$10$zapooDH8Kw08R6ivj5a3ledTkaUwqbx1WqOGSJU3El2IXlsLFombK",
     cards: {
         kept: [
             { id: "Work at own pace", color: "green" },
@@ -96,7 +96,7 @@ db.users.insert({
     department: "Computing",
     university: "Robert Gordon University",
     email: "test@nearlycomplete.com",
-    password: "test@nearlycomplete.com",
+    hash: "$2b$10$WivgpBtfFv7Hpq0n717sc.8Lh69lTkmLyDa5VxVIaHweVYFSXTNdm",
     cards: {
         kept: [
             { id: "Work at own pace", color: "green" },
@@ -194,7 +194,7 @@ db.users.insert({
     department: "Computing",
     university: "Robert Gordon University",
     email: "test@complete.com",
-    password: "test@complete.com",
+    hash: "$2b$10$RcrRadLAAaJMa0VkJRwSR.pMOuaXO.pGiXulTBnrojvfiKD5LFGZ6",
     cards: {
         kept: [
             { id: "Highly Organised", color: "blue" },
