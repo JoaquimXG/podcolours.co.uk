@@ -59,9 +59,9 @@ const signUpIndex = (req, res, next) => {
 
     //Add user to database and redirect to profile page
     req.db.collection("users").insertOne(res.locals.user, (err, result) => {
+        if (err) next(err);
         var newUserId = result.ops[0]._id;
         var newUserEmail = result.ops[0].email;
-        if (err) next(err);
         req.login({_id: newUserId, email: newUserEmail}, (err) => {
             if (err) {
                 next(err)
