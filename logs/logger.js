@@ -1,7 +1,7 @@
 const { createLogger, format, transports } = require('winston');
 
 const log = createLogger({
-    level: 'debug',
+    level: 'http',
     format: format.combine(
         format.errors({ stack: true }),
     ),
@@ -21,6 +21,7 @@ const logFormat = format.printf(function(info) {
 
 if (process.env.NODE_ENV !== 'production') {
     log.add(new transports.Console({
+        level: "debug",
         format: format.combine(
             format.colorize(),
             logFormat
