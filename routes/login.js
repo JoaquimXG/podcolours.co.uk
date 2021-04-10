@@ -29,8 +29,8 @@ module.exports = (req, res, next) => {
             if (info.errorCode === 1) {
                 formResponse.bademail = true;
             }
-            log.warn(`Bad Login ${info.message} - User: ${req.body.email}`)
             res.json(formResponse)
+            log.warn(`Bad Login ${info.message} - User: ${req.body.email}`, {route: "login", action: "failure"})
             return
         }
 
@@ -39,9 +39,9 @@ module.exports = (req, res, next) => {
                 next(err)
                 return
             }
-            log.info(`Successful Login - User: ${user.email}`)
             formResponse.loggedin = true;
             res.json(formResponse)
+            log.info(`Successful Login - User: ${user.email}`, {route: "login", action: "failure"})
             return;
         })
     })(req, res, next);

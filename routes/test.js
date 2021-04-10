@@ -1,3 +1,5 @@
+const log = require('../logs/logger')
+
 //Checks if user is logged in to edit header buttons
 //Pulls content from the database to display on the page
 const testIndex = (req, res, next) => {
@@ -38,6 +40,8 @@ const testSaveState = (req, res, next) => {
     if (!req.user){
         res.json({success: false,
             error: "user not authenticated"})
+        log.warn("Test save failed - User not authenticated", 
+            {route: "test/saveState", action: "failure"})
         return;
     }
 
@@ -50,6 +54,8 @@ const testSaveState = (req, res, next) => {
     req.db.collection("users").update({email: req.user.email}, updateObj, (err, _) => {
         if (err) next(err)
         res.json({success: true});
+        log.info(`Test save success - User: ${req.user.email}`, 
+            {route: "test/saveState", action: "success"})
     });
 }
 
@@ -60,6 +66,8 @@ const testGetState = (req, res, next) => {
     if (!req.user){
         res.json({success: false,
             error: "user not authenticated"})
+        log.warn("Test load failed - User not authenticated", 
+            {route: "test/getState", action: "failure"})
         return;
     }
     //Otherwise find the users teststate info and send to frontend
@@ -71,6 +79,8 @@ const testGetState = (req, res, next) => {
                 test: result.test,
                 _id: result._id
             });
+            log.info(`Test load success - User: ${req.user.email}`, 
+                {route: "test/getState", action: "success"})
         } catch (err) {
             next(err)
         }

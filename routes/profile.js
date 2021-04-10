@@ -5,8 +5,8 @@ module.exports = (req, res, next) => {
     //Redirect user to homepage if they are not signed in
     //Homepage is setup to open loginModal automatically with this param
     if (!req.user) {
-        log.warn("Profile not available - User not logged in")
         res.redirect("/?loginModal=1");
+        log.warn("Profile not available - User not logged in", {route: "profile", action: "failure"})
         return;
     }
 

@@ -8,6 +8,6 @@ module.exports = (_, res) => {
         text: "404: Page not Found",
         img: "/img/logo.png",
     };
-    log.warn("404: Page not found", {status: 404})
     res.render("pages/error", { error: error });
+    log.warn("404: Page not found", {route: "404", action: "failure", status: 404})
 }

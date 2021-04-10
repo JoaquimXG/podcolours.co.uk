@@ -45,8 +45,8 @@ const signUpIndex = (req, res, next) => {
             errorCode: 1,
             error: "Email taken",
         };
-        log.warn(`Bad User Sign-up - Email Taken: ${res.locals.user.email}`)
         res.json(formResponse);
+        log.warn(`Bad User Sign-up - Email Taken: ${res.locals.user.email}`, {route: "signup", action: "failure"})
         return;
     }
 
@@ -60,9 +60,9 @@ const signUpIndex = (req, res, next) => {
                 next(err)
                 return
             }
-            log.info(`Successful User Sign-up - User: ${newUserEmail}`)
             var formResponse = { userCreated: true };
             res.json(formResponse);
+            log.info(`Successful User Sign-up - User: ${newUserEmail}`, {route: "signup", action: "success"})
             return;
         })
     });

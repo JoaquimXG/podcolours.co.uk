@@ -1,3 +1,4 @@
+const log = require('../logs/logger')
 const bcrypt = require('bcrypt')
 
 //Parses user update POST request
@@ -44,6 +45,8 @@ const updateUserIndex = (req, res, next) => {
                 error: "Email taken",
             };
             res.json(formResponse);
+            log.warn(`Bad User update - Email Taken: ${res.locals.user.email}`,
+                {route: "updateuser", action: "failure"})
             return;
         }
     }
@@ -56,6 +59,8 @@ const updateUserIndex = (req, res, next) => {
         if (err) next(err)
         req.user.email = res.locals.user.email
         res.json({userUpdated: true});
+        log.warn(`Successful User update - User: ${res.locals.user.email}`,
+            {route: "updateuser", action: "failure"})
     });
 }
 

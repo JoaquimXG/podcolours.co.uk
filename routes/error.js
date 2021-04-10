@@ -9,6 +9,6 @@ module.exports = (err, req, res, next) =>{
         text: text,
         img: "/img/logo.png"
     }
-    log.error(`500: ${text}`, {status: 500})
     res.render("pages/error", {error: error});
+    log.error(`500: ${text}`, {route: "error", action: "failure", status: 500})
 }
