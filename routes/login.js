@@ -1,4 +1,5 @@
 var passport = require('../middleware/passport')
+const log = require('../logs/logger')
 
 //Parses a POST login request assessing whether user can login
 //returns an object with boolean values allowing for a
@@ -28,6 +29,7 @@ module.exports = (req, res, next) => {
             if (info.errorCode === 1) {
                 formResponse.bademail = true;
             }
+            log.warn(`Bad Login ${info.message} - User: ${req.body.email}`)
             res.json(formResponse)
             return
         }
@@ -37,6 +39,7 @@ module.exports = (req, res, next) => {
                 next(err)
                 return
             }
+            log.info(`Successful Login - User: ${user.email}`)
             formResponse.loggedin = true;
             res.json(formResponse)
             return;

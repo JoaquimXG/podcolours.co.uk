@@ -1,7 +1,7 @@
 const log = require('../logs/logger')
 
 module.exports = (req, res, next) => {
-    log.info({
+    log.http({
         req: {
             headers: {
                 cookie: req.cookies,
