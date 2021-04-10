@@ -1,11 +1,14 @@
 require('dotenv').config();
+
 const mongo = require('./mongo')
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 const compression = require("compression")
 const session = require("express-session");
 const MongoStore = require('connect-mongo')
 const passport = require('./passport')
+const logger = require('./logger')
 
 const app = express();
 
@@ -48,6 +51,9 @@ module.exports = () => {
 
     //HTTP body parser for json post requests
     app.use(bodyParser.json());
+    app.use(cookieParser())
+
+    app.use(logger)
     return app;
 }
 
