@@ -1,3 +1,4 @@
+const log = require('../logs/logger')
 const bcrypt = require('bcrypt')
 
 //Parses POST request with user sign up information 
@@ -28,7 +29,6 @@ const checkIfUserExists = (req, res, next) => {
         .collection("users")
         .findOne({ email: res.locals.user.email})
         .then((result) => {
-            console.log("Result, User found:", result);
             res.locals.userExists = result === null ? false : true;
             next();
         })
@@ -45,6 +45,7 @@ const signUpIndex = (req, res, next) => {
             errorCode: 1,
             error: "Email taken",
         };
+        log.warn(`Bad User Sign-up - Email Taken: ${res.locals.user.email}`)
         res.json(formResponse);
         return;
     }
@@ -59,6 +60,7 @@ const signUpIndex = (req, res, next) => {
                 next(err)
                 return
             }
+            log.info(`Successful User Sign-up - User: ${newUserEmail}`)
             var formResponse = { userCreated: true };
             res.json(formResponse);
             return;
