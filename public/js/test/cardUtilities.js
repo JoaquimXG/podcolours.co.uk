@@ -77,6 +77,7 @@ async function getServerSavedState() {
         });
 
         //Return server cards data to be loaded into the page
+        localStorage.setItem("storedCards", JSON.stringify(serverCards));
         return serverCards;
     }
     //No valid cards were found on the server, null will be handled by starting a new test
