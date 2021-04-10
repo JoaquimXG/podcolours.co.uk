@@ -53,9 +53,9 @@ function addLoginModalHandlers() {
         $(this).removeClass("formFieldError")
     })
 
-    if(localStorage.getItem("emailRemembered") !== null){
-        $("#remember_me_checkbox").prop("checked", true);
-        var store = localStorage.getItem("emailRemembered")
+    if(localStorage.getItem("isEmailRemembered") !== null){
+        $("#loginRememberMe").prop("checked", true);
+        var store = localStorage.getItem("isEmailRemembered")
         var email = $("#loginEmail")
         email.val(store);
     }
@@ -66,9 +66,9 @@ function handleLogin(e) {
     e.preventDefault()
     var email = $("#loginEmail").val();
     var password = $("#loginPassword").val();
-    var remembered = $("#remember_me_checkbox").is(":checked");
+    var isRemembered = $("#loginRememberMe").is(":checked");
 
-    handleRemembered(remembered, email);
+    handleRemembered(isRemembered, email);
 
 
     //If both fields are empty don't send the form
@@ -110,12 +110,12 @@ function handleLogin(e) {
         })
 }
 
-function handleRemembered(checked, email){
-    if(checked){
-        localStorage.setItem("emailRemembered", email)
+function handleRemembered(isChecked, email){
+    if(isChecked){
+        localStorage.setItem("isEmailRemembered", email)
         return
     }
     else{
-        localStorage.removeItem("emailRemembered", email)
+        localStorage.removeItem("isEmailRemembered", email)
     }
 }
