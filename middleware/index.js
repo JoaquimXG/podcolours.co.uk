@@ -1,4 +1,5 @@
 require('dotenv').config();
+const log = require('../logs/logger')
 
 const mongo = require('./mongo')
 const express = require("express");
@@ -14,7 +15,7 @@ const app = express();
 
 module.exports = () => {
     var mongoUrl = generateMongoUrl()
-    console.log(`=== Connection: ${mongoUrl} ===`);
+    log.debug(`=== Connection: ${mongoUrl} ===`);
     //Include MongoDB as express middleware
     app.use(mongo(mongoUrl))
 
