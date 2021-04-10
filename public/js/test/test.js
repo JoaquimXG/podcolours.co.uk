@@ -149,8 +149,6 @@ function displayResultsModal() {
     swapModal("#resultsModalSection");
     //Removing unneccessary dangling click handlers and icons
     removeModalBackHandlers();
-    removeModalCloseHandlers();
-    removeCloseModalIcon()
 
     //If user is signed in save state to server rather than asking to sign up
     if (window.auth == true) {
