@@ -27,7 +27,9 @@ const parseUpdateUserRequest = async (req, res, next) => {
 
     //If a password was passed its hash should be included in the update
     //otherwise pass
-    if (!req.body.password === "false") {
+    if (req.body.password !== "false") {
+        log.info(`Hashing new password for update: ${res.locals.user.email}`,
+            {route: "updateuser", action: "failure"})
         res.locals.user.hash = await bcrypt.hash(req.body.password, 10)
     }
     next();
@@ -59,7 +61,7 @@ const updateUserIndex = (req, res, next) => {
         if (err) next(err)
         req.user.email = res.locals.user.email
         res.json({userUpdated: true});
-        log.warn(`Successful User update - User: ${res.locals.user.email}`,
+        log.info(`Successful User update - User: ${res.locals.user.email}`,
             {route: "updateuser", action: "failure"})
     });
 }
