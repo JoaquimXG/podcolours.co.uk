@@ -1,4 +1,4 @@
-import requestUserSignIn from './requestUserSignIn'
+import requestUserSignIn from './requestUserSignIn.js'
 
 //Handler for displaying the login modal
 function openLoginModal() {

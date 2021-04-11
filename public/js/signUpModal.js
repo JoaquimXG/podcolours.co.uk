@@ -1,4 +1,5 @@
-import requestUserSignIn from './requestUserSignIn'
+import requestUserSignIn from './requestUserSignIn.js'
+import validateForm from './validateForm.js'
 
 //Modular function for adding all event handlers for sign up modal 
 function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCallBack, state) {
@@ -56,74 +57,63 @@ function removeCloseModalIcon() {
 function handleSignUp(e, state) {
     e.preventDefault()
 
-    //TODO use the validateForm function
-    //Retrieve all form values
-    var email = $("#signUpEmail").val();
-    var password = $("#signUpPassword").val();
-    var name = $("#signUpName").val();
-    var department = $("#signUpDepartment").val();
-    var university = $("#signUpUniversity").val()
+    //Array for fields in form to be validated
+    var fields = [
+        {
+            selector: "#signUpName",
+            id: "name"
+        },
+        {
+            selector: "#signUpUniversity",
+            id: "university"
+        },
+        {
+            selector: "#signUpDepartment",
+            id: "department"
+        },
+        {
+            selector: "#signUpEmail",
+            id: "email",
+            re: true,
+            reString: /^\S+@\S+\.\S+$/
+        },
+        {
+            selector: "#signUpPassword",
+            id: "password",
+        },
+    ]
 
-    var ready = true;
-    //Check for empty fields and add error css class if required
-    if (email === "" || password === "" || name === "" || department === "" || university === ""){
-        if (password === ""){
-            $("#signUpPassword").addClass("formFieldError")
-        } 
-        if (email === ""){
-            $("#signUpEmail").addClass("formFieldError")
-        } 
-        if (name === ""){
-            $("#signUpName").addClass("formFieldError")
-        } 
-        if (department === ""){
-            $("#signUpDepartment").addClass("formFieldError")
-        } 
-        if (university === ""){
-            $("#signUpUniversity").addClass("formFieldError")
-        } 
-        ready = false;
+    var data = validateForm(fields)
+    
+    //If form was not valid, don't send data
+    if (!data.isValid) {
+        return;
     }
 
-    //Check for bad emai input with re
-    var emailRe = /^\S+@\S+\.\S+$/;
-    if (emailRe.test(email) === false) {
-        $("#signUpEmail").addClass("formFieldError")
-        ready = false;
-    }
+    data.test = JSON.stringify(state.test)
 
-    //Only post data to server if form is validated
-    if (ready) {
-        $.post({
-            type: "POST",
-            url: "/signup",
-            data: {
-                name: name,
-                email:email,
-                password:password,
-                department: department,
-                university: university,
-                test: JSON.stringify(state.test)
-            },
-            dataType: "json"
+    $.post({
+        type: "POST",
+        url: "/signup",
+        data: data,
+        dataType: "json"
+    })
+        .done(data => {
+            //Redirect to profile page if user created 
+            if (data.userCreated === true) {
+                localStorage.removeItem("test-local")
+                window.location.href = "/profile"
+            }
+            //If email is taken, notify user 
+            else if(data.errorCode === 1) {
+                $("#signUpModalTitle")
+                    .text("Sorry, this email is taken")
+                $("#signUpEmail").addClass("formFieldError")
+            }
         })
-            .done(data => {
-                //Redirect to profile page if user created 
-                if (data.userCreated === true) {
-                    localStorage.removeItem("test-local")
-                    window.location.href = "/profile"
-                }
-                //If email is taken, notify user 
-                else if(data.errorCode === 1) {
-                    $("#signUpModalTitle")
-                        .text("Sorry, this email is taken")
-                    $("#signUpEmail").addClass("formFieldError")
-                }
-            })
-            .fail(() => {
-                requestUserSignIn()
-            })
-    }
+        .fail(() => {
+            requestUserSignIn()
+        })
 }
 
 export { 
