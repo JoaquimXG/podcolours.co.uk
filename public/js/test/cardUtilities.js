@@ -1,5 +1,6 @@
 import checkIsAuthenticated from "../checkIsAuthenticated.js";
 import toastBuilder from '../toast.js'
+import requestUserSignIn from '../requestUserSignIn.js'
 
 //GLOBAL Constants 
 //Card height and width for css
@@ -71,15 +72,6 @@ async function initTest(isAuth, wordList) {
 function loadLocalProgress() {
     var state = JSON.parse(localStorage.getItem("test-local"))
     return state;
-}
-
-function requestUserSignIn() {
-    const toast = toastBuilder({
-        target: "body",
-        defaultText: "Session lost, please sign in"
-    })
-    setTimeout(() => window.location.href = "/?loginModal=1", 1000)
-    toast();
 }
 
 //Performs ajax get for serverside card data
