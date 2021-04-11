@@ -31,11 +31,12 @@ $(async function () {
 
     window.isAuth = await checkIsAuthenticated()
 
-    //Adjust header button action depending on if user is authenticated or not
-    saveResultsButtonHandlers(isAuth, state)
 
     //Initialise the test state
     var {state, wordList} = await initTest(window.isAuth, fullWordList);
+
+    //Adjust header button action depending on if user is authenticated or not
+    saveResultsButtonHandlers(isAuth, state)
 
     //Add handlers for login
     addLoginModalHandlers();
@@ -52,7 +53,7 @@ $(async function () {
     });
     $("#undecidedDropZone").droppable({ drop: (_, ui) => handleUndecided(_, ui, state) });
 
-    $("#omdbButton").click(callMovieApi);
+    $("#omdbButton").click(() => callMovieApi(state));
     $("#completeTest").click((_) => calculateResult(state));
 
     //Handler for screen resizing
@@ -61,17 +62,20 @@ $(async function () {
 
 //Handlers for save your progress button
 function saveResultsButtonHandlers(isAuthenticated, state) {
+    console.log("here", state)
     //If user is authenticated, the button to save results
     //the end of the test should save their results without prompting to sign in
     if (isAuthenticated) {
-        addSignUpModalHandlers("saveResultsHeaderButton", isAuthenticated, () =>
-            saveStateToServer(false, true)
+        addSignUpModalHandlers("saveResultsHeaderButton",
+            isAuthenticated,
+            (passedState) => saveStateToServer(false, true, passedState),
+            state
         );
         return;
     }
 
     //If user is not logged in they should be prompted to sign up
-    addSignUpModalHandlers("saveResultsHeaderButton");
+    addSignUpModalHandlers("saveResultsHeaderButton", false, null, state);
     $("#saveResultsHeaderButton").click(function () {
         swapModal("#signUpModalSection");
         addModalCloseHandlers();
@@ -102,19 +106,21 @@ function calculateResult(state) {
 
     //Display the users results
     generateResultsModal(result);
-    displayResultsModal();
+    displayResultsModal(state);
 
     state.test.complete = true;
     state.test.result = result;
     state.test.ts = Date.now();
     state.test.timeComplete = Date.now();
 
-    //Store the updated cards data in localStorage
-    localStorage.setItem("test-local", JSON.stringify(state));
+    if (window.isAuth) {
+        saveStateToServer(false, false, state);
+    } 
+    else {
+        //Store the updated cards data in localStorage
+        localStorage.setItem("test-local", JSON.stringify(state));
+    }
 
-    //Update server with new results
-    //TODO fix 
-    //saveStateToServer(false, false);
 }
 
 // ---------- Modal Handlers ------------
@@ -134,7 +140,7 @@ function generateResultsModal(color) {
 }
 
 //Adjusts all css and text for the appropriate results modal
-function displayResultsModal() {
+function displayResultsModal(state) {
     swapModal("#resultsModalSection");
     //Removing unneccessary dangling click handlers and icons
     removeModalCloseHandlers();
@@ -142,7 +148,7 @@ function displayResultsModal() {
 
     //If user is signed in save state to server rather than asking to sign up
     if (window.isAuth == true) {
-        $("#saveResultsButton").click(() => saveStateToServer(true, false));
+        $("#saveResultsButton").click(() => saveStateToServer(true, false, state));
         return;
     }
 
@@ -152,7 +158,7 @@ function displayResultsModal() {
         $("#backAppModal")
             .css("visibility", "visible")
             .click(function () {
-                displayResultsModal();
+                displayResultsModal(state);
             });
     });
 }
@@ -163,7 +169,7 @@ function displayResultsModal() {
 //this is only because you can't search for all movies and this seems to give a reasonable sample
 //Loops through the 10 results and checks if any match a genre for the current color
 //If a genre matches, the loop is broken and the movie is displayed on screen
-function callMovieApi() {
+function callMovieApi(state) {
     function test10Movies() {
         var yearAfter1980 = Math.round(Math.random() * 40);
 
@@ -180,7 +186,7 @@ function callMovieApi() {
                         colourGenreLists[color],
                         urlTwo
                     );
-                    displayMovieModal(movieData);
+                    displayMovieModal(movieData, state);
                     $("body").removeClass("loading");
                     return;
                 } catch (e) {
@@ -214,7 +220,7 @@ const checkForMatchingGenres = (colorGenres, url) =>
 
 //Displays the movie modal screen
 //editing modal title, blurb and buttons to suit
-const displayMovieModal = (movieData) => {
+const displayMovieModal = (movieData, state) => {
     //Generate dynamic html from movie data
     var imdbUrl = `https://www.imdb.com/title/${movieData.imdbID}/`;
     var movieTitle = $("<a>")
@@ -226,7 +232,7 @@ const displayMovieModal = (movieData) => {
     $("#backAppModal")
         .css("visibility", "visible")
         .click(function () {
-            displayResultsModal();
+            displayResultsModal(state);
         });
     $("#moreMovieInfoButton").click(function () {
         window.open(imdbUrl, "_blank");

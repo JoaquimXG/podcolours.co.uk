@@ -30,7 +30,7 @@ function newTestState() {
                 discarded: [],
                 undecided: [],
                 next: false,
-                complete: true
+                complete: false
             },
             complete: false,
             result: null,
@@ -106,9 +106,6 @@ async function loadServerProgress() {
         }
     });
 
-    //Return server cards data to be loaded into the page
-    //TODO we shouldn't need this here
-    //localStorage.setItem("storedCards", JSON.stringify(serverCards));
     return state;
 }
 
@@ -151,17 +148,6 @@ async function saveStateToServer(redirect, shouldToast, state) {
         target: "#appPrimaryContainer",
         topOffset: 100
     })
-
-    //If there are no local changes to send to the server
-    //pass on sending any data
-    //TODO not sure what to do here, why would it be null
-    if (state.test.cards === null) {
-        if (shouldToast) {
-            //If user should be notified, display toast notification
-            toast();
-        }
-        return;
-    }
 
     //Only post data if user is signed in
     window.isAuth = await checkIsAuthenticated();
