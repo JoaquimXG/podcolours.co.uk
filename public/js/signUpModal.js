@@ -4,7 +4,7 @@ export {
 };
 
 //Modular function for adding all event handlers for sign up modal 
-function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCallBack) {
+function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCallBack, state) {
     //Internal function which handles all events to hide the sign up modal
     function hideModal() {
         $("#signUpModalSection").css("opacity", "0");
@@ -14,7 +14,7 @@ function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCall
 
     //Add click event for signUp button in the header to open the login modal
     if (isAuthenticated) {
-        $(`#${activationId}`).click(authenticatedCallBack)
+        $(`#${activationId}`).click(() => authenticatedCallBack(state))
     } else {
         $(`#${activationId}`).click(function() {
             $("#signUpModalContainer").css("visibility", "visible");
@@ -41,7 +41,7 @@ function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCall
     });
 
     //Handle signUp form submit
-    $("#signUpButton").click(e => {handleSignUp(e)});
+    $("#signUpButton").click(e => {handleSignUp(e, state)});
 
     //Remove error class from fields when the
     //user has begun to edit them again
@@ -56,13 +56,8 @@ function removeCloseModalIcon() {
 
 //Parses user sign up form data and gathers current test data
 //Validates values and posts data to server
-function handleSignUp(e) {
+function handleSignUp(e, state) {
     e.preventDefault()
-
-    //Retrieve test state information from localStorage
-    var cards = localStorage.getItem('storedCards');
-    var testSate = localStorage.getItem("testState")
-    var lastUpdate = localStorage.getItem("lastTestUpdate")
 
     //TODO use the validateForm function
     //Retrieve all form values
@@ -111,15 +106,14 @@ function handleSignUp(e) {
                 password:password,
                 department: department,
                 university: university,
-                cards: cards,
-                testState: testSate,
-                lastUpdate: lastUpdate
+                test: JSON.stringify(state.test)
             },
             dataType: "json"
         })
             .done(data => {
                 //Redirect to profile page if user created 
                 if (data.userCreated === true) {
+                    localStorage.removeItem("test-local")
                     window.location.href = "/profile"
                 }
                 //If email is taken, notify user 

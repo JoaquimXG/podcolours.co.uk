@@ -1,16 +1,6 @@
-import { wordList, setWordList } from "./appGlobals.js";
 import checkIsAuthenticated from "../checkIsAuthenticated.js";
 import toastBuilder from '../toast.js'
-
-//Contains the current state of each card
-//wether it is "kept", "discarded", "undecided"
-//or the next card to be handled
-var cards = {
-    kept: [],
-    discarded: [],
-    undecided: [],
-    next: {},
-};
+import requestUserSignIn from '../requestUserSignIn.js'
 
 //GLOBAL Constants 
 //Card height and width for css
@@ -27,122 +17,145 @@ const CATEGORIES = ["kept", "discarded", "undecided"];
 
 // ------- Load and Save Progress Functions ------------
 
-//Loads previous test state and displays all previously 
-//handles cards
-async function loadProgress() {
-    cards = await getServerSavedState();
-    if (cards === null) {
-        cards = {
-            kept: [],
-            discarded: [],
-            undecided: [],
-            next: {},
-        };
-        displayRandomCard();
-    } else {
-        updateWordList();
-        await displayAllCards();
-        redistributeCards();
+//Initiates a new test with new state
+function newTestState() {
+    //Contains the current state of each card
+    //wether it is "kept", "discarded", "undecided"
+    //or the next card to be handled
+    var state = {
+        _id: "local",
+        test: {
+            ts: Date.now(),
+            cards: {
+                kept: [],
+                discarded: [],
+                undecided: [],
+                next: false,
+                complete: false
+            },
+            complete: false,
+            result: null,
+            timeComplete: null
+        }
     }
 
-    updateCounters();
+    return state;
+}
+
+//Loads previous test state and displays all previously 
+//handles cards
+async function initTest(isAuth, wordList) {
+    var state;
+    if (isAuth) {
+        state = await loadServerProgress()
+    }
+    else {
+        state = loadLocalProgress()
+    }
+
+    if (state === null)  {
+        state = newTestState()
+        //Display the first card
+        displayRandomCard(wordList, state);
+    }
+    else {
+        wordList = updateWordList(state, wordList);
+        await displayAllCards(state);
+        redistributeCards(state);
+    }
+
+    updateCounters(state, NUMTOKEEP, NUMTODISCARD);
+
+    return {state, wordList};
+}
+
+function loadLocalProgress() {
+    var state = JSON.parse(localStorage.getItem("test-local"))
+    return state;
 }
 
 //Performs ajax get for serverside card data
-async function getServerSavedState() {
-    var serverCards;
-
+async function loadServerProgress() {
+    var state = false;
     await $.get("/test/getState", (data) => {
         if (data.success) {
             //User is logged in
-            if (data.testState.complete == true) {
+            if (data.test.complete == true) {
                 //If test is already complete, redirect user back to their profile page
                 window.location.href = "/profile"
             } 
-            //Load in cards data from the server
-            serverCards = data.cards;
+            state = {
+                _id: data._id,
+                test: data.test
+            }
         } else {
-            //TODO Handle case where user is not signed in
-            //They shold be signed in already
+            requestUserSignIn();
         }
     });
 
-    if (serverCards != false) {
-        //valid card data was pulled from server
-        CATEGORIES.forEach((category) => {
-            if (serverCards[category] == undefined) {
-                //Mongo won't store empty arrays, server data needs to have empty arrays inserted
-                serverCards[category] = [];
-            }
-        });
-
-        //Return server cards data to be loaded into the page
-        return serverCards;
+    if (state === false) {
+        //No valid cards were found on the server, null will be handled by starting a new test
+        return null;
     }
-    //No valid cards were found on the server, null will be handled by starting a new test
-    return null;
+
+    CATEGORIES.forEach((category) => {
+        if (state.test.cards[category] == undefined) {
+            //Mongo won't store empty arrays, server data needs to have empty arrays inserted
+            state.test.cards[category] = [];
+        }
+    });
+
+    return state;
 }
 
 //Runs everytime a card is moved to a different dropzone
 //Ensures the cards record object has been updated to reflect
-//the change and updates the localStorage
-function moveCard(card, oldKey, newKey, cards) {
+//the change and saves the state either to localStorage or the server
+//depending on whether the user is signed in or not
+function moveCard(card, oldKey, newKey, state) {
     //Get word and color from the current card
     var id = card.attr("id");
     var color = card.attr("data-color");
 
     //Remove card from its old category, if it was already handled
-    cards[oldKey] = cards[oldKey].filter(function (checkCard) {
+    state.test.cards[oldKey] = state.test.cards[oldKey].filter(function (checkCard) {
         return checkCard.id != id;
     });
 
     //Add card to its new category and update the test counters
-    cards[newKey].push({ id: id, color: color });
-    updateCounters();
+    state.test.cards[newKey].push({ id: id, color: color });
+    updateCounters(state, NUMTOKEEP, NUMTODISCARD);
 
-    //Store newly updated categories in localStorage
-    localStorage.setItem("storedCards", JSON.stringify(cards));
-    localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));
+    //State has been updated, so update timestamp
+    state.test.ts = Date.now();
 
-    //Save most recent state if user is logged in
-    if (window.auth) {
-        saveStateToServer(false, false);
+    if (window.isAuth) {
+        //Save most recent state to server
+        saveStateToServer(false, false, state);
+    }
+    else {
+        //Store newly updated categories in localStorage
+        localStorage.setItem("test-local", JSON.stringify(state));
+
     }
 }
 
 //Sends the current state of the test to be saved by the server
-async function saveStateToServer(redirect, shouldToast) {
+async function saveStateToServer(redirect, shouldToast, state) {
     //Create function for generating toast notification
     const toast = toastBuilder({
         target: "#appPrimaryContainer",
         topOffset: 100
     })
 
-    //Retrieve current test cards state
-    var cards = localStorage.getItem("storedCards");
-    var testSate = localStorage.getItem("testState");
-    var lastUpdate = localStorage.getItem("lastTestUpdate");
-
-    //If there are no local changes to send to the server
-    //pass on sending any data
-    if (cards === null) {
-        if (shouldToast) {
-            //If user should be notified, display toast notification
-            toast();
-        }
-        return;
-    }
-
     //Only post data if user is signed in
-    window.auth = await checkIsAuthenticated();
-    if (window.auth == true) {
+    window.isAuth = await checkIsAuthenticated();
+    if (window.isAuth == true) {
         $.post({
             type: "POST",
             url: "/test/saveState",
             data: {
-                cards: cards,
-                testState: testSate,
-                lastUpdate: lastUpdate,
+                test: JSON.stringify(state.test),
             },
             dataType: "json",
         })
@@ -158,30 +171,23 @@ async function saveStateToServer(redirect, shouldToast) {
                         toast()
                     }
                 } else {
-                    //TODO handle this error case
-                    console.log(data.error);
+                    requestUserSignIn()
                 }
             })
-            //TODO Handle server failure
             .fail(() => {
-                alert(`Server Error Please try again`);
+                requestUserSignIn()
             });
     } else {
-        //TODO Potentially redirect to homepage and prompt user to login?
-        //The only time I have seen this happen is when refreshing the server
-        //and the session is lost. Otherwise I think that as long as the user is still on the page
-        //they shouldn't ever not be signed in.
-        //This needs to be tested and if there are cases where this can happen then mitigation
-        //should be implemented
-        console.log("User not signed in ");
+        requestUserSignIn();
     }
 }
 
 //When loading a previous test, removes all words from the
 //wordList which have already been shown
-function updateWordList() {
+function updateWordList(state, wordList) {
     //Create an array containing all of the cards which have been handled so far 
     //in all categories
+    var cards = state.test.cards;
     var allCards = cards.kept.concat(cards.discarded).concat(cards.undecided);
     //Add "next" card to array if there is one to add
     if (cards.next != false) {
@@ -191,21 +197,21 @@ function updateWordList() {
     allCards = allCards.map((card) => card.id);
 
     //Remove all card in allCards from wordlist
-    var temp = wordList.filter((card) => {
+    var updatedWordList = wordList.filter((card) => {
         return allCards.indexOf(card.id) < 0;
     });
 
-    //Update changes to wordList
-    setWordList(temp);
+    //Have to return wordList as the referene value was changed
+    return updatedWordList;
 }
 
 //Adds each card which needs to be loaded into the DOM
 //ready to be position in the appropriate divs
-async function displayAllCards() {
+async function displayAllCards(state) {
     //Loop through each card in each category
     //and add it to the dom
     CATEGORIES.forEach((category) => {
-        cards[category].forEach((card) => {
+        state.test.cards[category].forEach((card) => {
             displayCard(
                 [
                     { name: "id", value: card.id },
@@ -219,7 +225,7 @@ async function displayAllCards() {
     });
 
     //Display the "next" card as a big card if it exists
-    var nextCard = cards.next;
+    var nextCard = state.test.cards.next;
     if (nextCard == false) {
         return;
     }
@@ -239,7 +245,7 @@ var resizeTimer;
 //Big card is centered and all other cards are moved into their dropzones
 //This function is run when first loading saved progress
 //and on every viewport resize
-function redistributeCards() {
+function redistributeCards(state) {
     clearTimeout(resizeTimer);
 
     //Initiates 100ms after most recent window resize
@@ -260,7 +266,7 @@ function redistributeCards() {
         });
 
         //If no cards to move then pass 
-        if (cards === null) {
+        if (state.test.cards === null) {
             return;
         }
 
@@ -279,7 +285,7 @@ function redistributeCards() {
         //loop through each container and relocate each card into 
         //the appropriate container
         containers.forEach((category) => {
-            cards[category.name].forEach((card) => {
+            state.test.cards[category.name].forEach((card) => {
                 var card = $(`[id="${card.id}"]`);
                 card.position({
                     my: `left top`,
@@ -297,14 +303,14 @@ function redistributeCards() {
 
 //Ensures counters for kept and discarded sections
 //display the appropriate value
-function updateCounters() {
+function updateCounters(state, numToKeep, numToDiscard) {
     //Get the number of cards which have been kept and discarded
-    var numKept = cards.kept.length;
-    var numDiscarded = cards.discarded.length;
+    var numKept = state.test.cards.kept.length;
+    var numDiscarded = state.test.cards.discarded.length;
 
     //Update the html
-    $("#keepCounter").text(`${numKept}/${NUMTOKEEP}`);
-    $("#discardCounter").text(`${numDiscarded}/${NUMTODISCARD}`);
+    $("#keepCounter").text(`${numKept}/${numToKeep}`);
+    $("#discardCounter").text(`${numDiscarded}/${numToDiscard}`);
 
     //If the correct numbers have been reached, allow the user to complete the test
     if (numKept == NUMTOKEEP && numDiscarded == NUMTODISCARD) {
@@ -366,7 +372,7 @@ async function displayCard(attributes, classes) {
 }
 
 //Displays a random big card in the center of the screen
-async function displayRandomCard() {
+async function displayRandomCard(wordList, state) {
     //Select a random card from the wordlist
     var randomCardIndex = Math.floor(Math.random() * wordList.length);
     var randomCard = wordList.splice(randomCardIndex, 1)[0];
@@ -405,30 +411,31 @@ async function displayRandomCard() {
         .draggable();
     appBackground.append($newCard);
 
-    cards.next = { id: id, color: color };
+    state.test.cards.next = { id: id, color: color };
 }
 
 //Runs everytime a card is dropped into the "undecided" dropzone
 //Will update the cards record and save state if required
-function handleUndecided(_, ui) {
+function handleUndecided(_, ui, state) {
     var card = $(ui.draggable);
     var oldDropZoneId = card.attr("dropId");
-    var newDropZoneId = $(this).attr("dropId");
+    var newDropZoneId = $(_.target).attr("dropId");
 
     if (oldDropZoneId === "undecided") {
         return;
     }
+
     card.attr("dropId", newDropZoneId);
-    moveCard($(card), oldDropZoneId, newDropZoneId, cards);
+    moveCard($(card), oldDropZoneId, newDropZoneId, state);
 }
 
 //Runs everytime a card is dropped in either the "kept"
 //or "discarded" dropzone, will update the cards record
 //state and shrink the card if required
-async function handleCardDrop(_, ui) {
+async function handleCardDrop(_, ui, state, wordList) {
     var card = $(ui.draggable);
     var oldDropZoneId = card.attr("dropId");
-    var newDropZoneId = $(this).attr("dropId");
+    var newDropZoneId = $(_.target).attr("dropId");
 
     //If card has not been dropped into any dropzones yet
     //it will be big, and should be shrunk
@@ -437,9 +444,10 @@ async function handleCardDrop(_, ui) {
         //Have to wait for this function to complete before updating
         //the cards array and updating the counter
         if (wordList.length > 0) {
-            await displayRandomCard();
+            await displayRandomCard(wordList, state);
         } else {
-            cards.next = false;
+            state.test.cards.next = false;
+            state.test.cards.complete = true;
         }
     }
 
@@ -449,7 +457,7 @@ async function handleCardDrop(_, ui) {
         return;
     }
     card.attr("dropId", newDropZoneId);
-    moveCard($(card), oldDropZoneId, newDropZoneId, cards);
+    moveCard($(card), oldDropZoneId, newDropZoneId, state);
 }
 
 export {
@@ -458,7 +466,7 @@ export {
     displayRandomCard,
     handleUndecided,
     handleCardDrop,
-    loadProgress,
+    initTest,
     redistributeCards,
     saveStateToServer,
 };

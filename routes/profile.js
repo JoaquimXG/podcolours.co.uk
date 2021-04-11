@@ -1,9 +1,12 @@
+const log = require('../logs/logger')
+
 //Handles get requests for profile page
 module.exports = (req, res, next) => {
     //Redirect user to homepage if they are not signed in
     //Homepage is setup to open loginModal automatically with this param
     if (!req.user) {
         res.redirect("/?loginModal=1");
+        log.warn("Profile not available - User not logged in", {route: "profile", action: "failure"})
         return;
     }
 
@@ -38,7 +41,6 @@ module.exports = (req, res, next) => {
             res.render("pages/profile", parseProfileResultsArray(req, res, resultsArray))
         })
         .catch((err) => {
-            console.log(`Error getting profile from db ${err}`);
             next(err);
         });
 }
@@ -66,7 +68,7 @@ function parseProfileResultsArray(req, res, resultsArray){
 
     //Don't display button to continue test in header if
     //the user has already completed the test
-    if (profile.testState.complete === true) {
+    if (profile.test.complete === true) {
         res.locals.header.testButton = false;
     } 
 
@@ -76,4 +78,3 @@ function parseProfileResultsArray(req, res, resultsArray){
         profile: profile,
     }
 }
-

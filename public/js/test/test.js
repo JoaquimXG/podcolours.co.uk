@@ -1,12 +1,12 @@
 import { resultsText } from "./appGlobals.js";
 import checkIsAuthenticated from "../checkIsAuthenticated.js";
+import { wordList as fullWordList } from "./appGlobals.js";
 
 //Functions for handling all JQuery UI events for cards
 import {
-    displayRandomCard,
     handleUndecided,
     handleCardDrop,
-    loadProgress,
+    initTest,
     redistributeCards,
     saveStateToServer,
 } from "./cardUtilities.js";
@@ -23,28 +23,19 @@ import {
 import { addLoginModalHandlers } from "../loginModal.js";
 import { addSignUpModalHandlers, removeCloseModalIcon } from "../signUpModal.js";
 
+
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
 $(async function () {
-    window.auth = await checkIsAuthenticated(saveResultsButtonHandlers);
-
     displayInstructionModal();
 
-    if (window.auth == true) {
-        //If user is signed in, their previous progress is loaded
-        await loadProgress();
-    } else {
-        //Otherwise a new test is initiated
-        displayRandomCard();
+    window.isAuth = await checkIsAuthenticated()
 
-        //Storing initial test values in localStorage
-        localStorage.setItem(
-            "testState",
-            JSON.stringify({ complete: false, result: null })
-        );
-        localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));
-        localStorage.removeItem("storedCards");
-    }
+    //Initialise the test state
+    var {state, wordList} = await initTest(window.isAuth, fullWordList);
+
+    //Adjust header button action depending on if user is authenticated or not
+    saveResultsButtonHandlers(isAuth, state)
 
     //Add handlers for login
     addLoginModalHandlers();
@@ -55,32 +46,34 @@ $(async function () {
             classes: {
                 "ui-droppable-hover": "cardDropzoneHover",
             },
-            drop: handleCardDrop,
+            drop: (_, ui) => handleCardDrop(_, ui, state, wordList),
             greedy: true,
         });
     });
-    $("#undecidedDropZone").droppable({ drop: handleUndecided });
+    $("#undecidedDropZone").droppable({ drop: (_, ui) => handleUndecided(_, ui, state) });
 
-    $("#omdbButton").click(callMovieApi);
-    $("#completeTest").click(calculateResult);
+    $("#omdbButton").click(() => callMovieApi(state));
+    $("#completeTest").click((_) => calculateResult(state));
 
     //Handler for screen resizing
-    window.onresize = redistributeCards;
+    window.onresize = (_) => redistributeCards(state);
 });
 
 //Handlers for save your progress button
-function saveResultsButtonHandlers(isAuthenticated) {
+function saveResultsButtonHandlers(isAuthenticated, state) {
     //If user is authenticated, the button to save results
     //the end of the test should save their results without prompting to sign in
     if (isAuthenticated) {
-        addSignUpModalHandlers("saveResultsHeaderButton", isAuthenticated, () =>
-            saveStateToServer(false, true)
+        addSignUpModalHandlers("saveResultsHeaderButton",
+            isAuthenticated,
+            (passedState) => saveStateToServer(false, true, passedState),
+            state
         );
         return;
     }
 
     //If user is not logged in they should be prompted to sign up
-    addSignUpModalHandlers("saveResultsHeaderButton");
+    addSignUpModalHandlers("saveResultsHeaderButton", false, null, state);
     $("#saveResultsHeaderButton").click(function () {
         swapModal("#signUpModalSection");
         addModalCloseHandlers();
@@ -90,17 +83,16 @@ function saveResultsButtonHandlers(isAuthenticated) {
 //Counts the number of cards of each colour which were kept
 //calculates the users test result, displayes the results modal
 //and saves the results to localStorage
-function calculateResult() {
+function calculateResult(state) {
     var max = 0;
     var result = "";
-    var cards = JSON.parse(localStorage.getItem("storedCards"));
     var colors = ["red", "blue", "green", "yellow"];
 
     //Loop throug each color and count how many cards of each
     //color have been kept. Calculating the highest count at the same time
     var colorCounts = {};
     colors.forEach((color) => {
-        var count = cards.kept.filter((card) => card.color == color).length;
+        var count = state.test.cards.kept.filter((card) => card.color == color).length;
         colorCounts[color] = count;
         if (count > max) {
             max = count;
@@ -108,22 +100,24 @@ function calculateResult() {
         }
     });
     //Add the result to the cards variable
-    cards.colorCounts = colorCounts;
+    state.test.cards.colorCounts = colorCounts;
 
     //Display the users results
     generateResultsModal(result);
-    displayResultsModal();
+    displayResultsModal(state);
 
-    //Store the updated cards data in localStorage
-    localStorage.setItem(
-        "testState",
-        JSON.stringify({ complete: true, result: result, time: Date.now()})
-    );
-    localStorage.setItem("storedCards", JSON.stringify(cards));
-    localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));
+    state.test.complete = true;
+    state.test.result = result;
+    state.test.ts = Date.now();
+    state.test.timeComplete = Date.now();
 
-    //Update server with new results
-    saveStateToServer(false, false);
+    if (window.isAuth) {
+        saveStateToServer(false, false, state);
+    } 
+    else {
+        //Store the updated cards data in localStorage
+        localStorage.setItem("test-local", JSON.stringify(state));
+    }
 }
 
 // ---------- Modal Handlers ------------
@@ -144,15 +138,14 @@ function generateResultsModal(color) {
 }
 
 //Adjusts all css and text for the appropriate results modal
-//
-function displayResultsModal() {
+function displayResultsModal(state) {
     swapModal("#resultsModalSection");
     //Removing unneccessary dangling click handlers and icons
     removeModalBackHandlers();
 
     //If user is signed in save state to server rather than asking to sign up
-    if (window.auth == true) {
-        $("#saveResultsButton").click(() => saveStateToServer(true, false));
+    if (window.isAuth == true) {
+        $("#saveResultsButton").click(() => saveStateToServer(true, false, state));
         return;
     }
 
@@ -162,7 +155,7 @@ function displayResultsModal() {
         $("#backAppModal")
             .css("visibility", "visible")
             .click(function () {
-                displayResultsModal();
+                displayResultsModal(state);
             });
     });
 }
@@ -173,7 +166,7 @@ function displayResultsModal() {
 //this is only because you can't search for all movies and this seems to give a reasonable sample
 //Loops through the 10 results and checks if any match a genre for the current color
 //If a genre matches, the loop is broken and the movie is displayed on screen
-function callMovieApi() {
+function callMovieApi(state) {
     function test10Movies() {
         var yearAfter1980 = Math.round(Math.random() * 40);
 
@@ -190,7 +183,7 @@ function callMovieApi() {
                         colourGenreLists[color],
                         urlTwo
                     );
-                    displayMovieModal(movieData);
+                    displayMovieModal(movieData, state);
                     $("body").removeClass("loading");
                     return;
                 } catch (e) {
@@ -224,7 +217,7 @@ const checkForMatchingGenres = (colorGenres, url) =>
 
 //Displays the movie modal screen
 //editing modal title, blurb and buttons to suit
-const displayMovieModal = (movieData) => {
+const displayMovieModal = (movieData, state) => {
     //Generate dynamic html from movie data
     var imdbUrl = `https://www.imdb.com/title/${movieData.imdbID}/`;
     var movieTitle = $("<a>")
@@ -236,7 +229,7 @@ const displayMovieModal = (movieData) => {
     $("#backAppModal")
         .css("visibility", "visible")
         .click(function () {
-            displayResultsModal();
+            displayResultsModal(state);
         });
     $("#moreMovieInfoButton").click(function () {
         window.open(imdbUrl, "_blank");

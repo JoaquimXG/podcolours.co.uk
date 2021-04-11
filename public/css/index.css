@@ -540,7 +540,7 @@ span.underline {
 }
 
 .toast {
-    z-index: 2000;
+    z-index: 5000;
     padding: 15px 40px;
     border-radius: 7px;
     color: white;

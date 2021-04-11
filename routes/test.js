@@ -1,3 +1,5 @@
+const log = require('../logs/logger')
+
 //Checks if user is logged in to edit header buttons
 //Pulls content from the database to display on the page
 const testIndex = (req, res, next) => {
@@ -38,25 +40,22 @@ const testSaveState = (req, res, next) => {
     if (!req.user){
         res.json({success: false,
             error: "user not authenticated"})
+        log.warn("Test save failed - User not authenticated", 
+            {route: "test/saveState", action: "failure"})
         return;
     }
 
-    //Variables are stored in localstorage as strings
-    //and not converted to JSON before being sent 
-    var lastUpdate = JSON.parse(req.body.lastUpdate)
-    var testState = JSON.parse(req.body.testState)
-
     //Object for database update
     var updateObj = {$set: {
-        cards: JSON.parse(req.body.cards),
-        testState: testState,
-        lastUpdate: lastUpdate == "NaN" ? Date.now() : lastUpdate,
+        test: JSON.parse(req.body.test),
     }}
 
     //Update user test state information
     req.db.collection("users").update({email: req.user.email}, updateObj, (err, _) => {
         if (err) next(err)
         res.json({success: true});
+        log.info(`Test save success - User: ${req.user.email}`, 
+            {route: "test/saveState", action: "success"})
     });
 }
 
@@ -67,6 +66,8 @@ const testGetState = (req, res, next) => {
     if (!req.user){
         res.json({success: false,
             error: "user not authenticated"})
+        log.warn("Test load failed - User not authenticated", 
+            {route: "test/getState", action: "failure"})
         return;
     }
     //Otherwise find the users teststate info and send to frontend
@@ -75,10 +76,11 @@ const testGetState = (req, res, next) => {
         try {
             res.json({
                 success: true,
-                cards: result.cards,
-                lastUpdate: result.lastUpdate,
-                testState: result.testState
+                test: result.test,
+                _id: result._id
             });
+            log.info(`Test load success - User: ${req.user.email}`, 
+                {route: "test/getState", action: "success"})
         } catch (err) {
             next(err)
         }

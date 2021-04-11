@@ -1,4 +1,6 @@
 require('dotenv').config();
+const log = require('./logs/logger')
+
 //All middleware is handled out of server.js
 const prepareMiddleware = require("./middleware/index");
 
@@ -58,5 +60,5 @@ app.get("*", fourZeroFour);
 //Custom server error 500 handler
 app.use(errorHandler);
 
-console.log(`Listening on ${process.env.APPPORT ? process.env.APPPORT : 8080}`)
+log.debug(`Listening on ${process.env.APPPORT ? process.env.APPPORT : 8080}`)
 app.listen(process.env.APPPORT ? process.env.APPPORT : 8080);

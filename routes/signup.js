@@ -1,20 +1,10 @@
+const log = require('../logs/logger')
 const bcrypt = require('bcrypt')
 
 //Parses POST request with user sign up information 
 const parseSignUpRequest = async (req, res, next) => {
-    //Values are sent as strings as they are pulled from localstorage
-    //so they require parsing before database ingestion
-    var lastUpdate = JSON.parse(req.body.lastUpdate);
-    var testState = JSON.parse(req.body.testState);
-
-    //Value for cards may be "" which won't be parsed by JSON.parse
-    //if cards are empty, false should be stored
-    var cards;
-    try {
-        cards = JSON.parse(req.body.cards);
-    } catch {
-        cards = false;
-    }
+    //Test state
+    var test = JSON.parse(req.body.test)
 
     //Hash password before storing
     var hash = await bcrypt.hash(req.body.password, 10)
@@ -26,9 +16,7 @@ const parseSignUpRequest = async (req, res, next) => {
         department: req.body.department,
         email: req.body.email.toLowerCase(),
         hash: hash,
-        cards: cards,
-        testState: testState ? testState : { complete: false, result: null },
-        lastUpdate: lastUpdate === "NaN" ? Date.now() : lastUpdate,
+        test: test,
     };
     next();
 }
@@ -41,7 +29,6 @@ const checkIfUserExists = (req, res, next) => {
         .collection("users")
         .findOne({ email: res.locals.user.email})
         .then((result) => {
-            console.log("Result, User found:", result);
             res.locals.userExists = result === null ? false : true;
             next();
         })
@@ -59,6 +46,7 @@ const signUpIndex = (req, res, next) => {
             error: "Email taken",
         };
         res.json(formResponse);
+        log.warn(`Bad User Sign-up - Email Taken: ${res.locals.user.email}`, {route: "signup", action: "failure"})
         return;
     }
 
@@ -74,6 +62,7 @@ const signUpIndex = (req, res, next) => {
             }
             var formResponse = { userCreated: true };
             res.json(formResponse);
+            log.info(`Successful User Sign-up - User: ${newUserEmail}`, {route: "signup", action: "success"})
             return;
         })
     });
