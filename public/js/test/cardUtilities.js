@@ -133,9 +133,9 @@ function moveCard(card, oldKey, newKey, state) {
     //State has been updated, so update timestamp
     state.test.ts = Date.now();
 
-    if (window.auth) {
+    if (window.isAuth) {
         //Save most recent state to server
-        saveStateToServer(false, false);
+        saveStateToServer(false, false, state);
     }
     else {
         //Store newly updated categories in localStorage
@@ -145,21 +145,17 @@ function moveCard(card, oldKey, newKey, state) {
 }
 
 //Sends the current state of the test to be saved by the server
-async function saveStateToServer(redirect, shouldToast) {
+async function saveStateToServer(redirect, shouldToast, state) {
     //Create function for generating toast notification
     const toast = toastBuilder({
         target: "#appPrimaryContainer",
         topOffset: 100
     })
 
-    //Retrieve current test cards state
-    var cards = localStorage.getItem("storedCards");
-    var testSate = localStorage.getItem("testState");
-    var lastUpdate = localStorage.getItem("lastTestUpdate");
-
     //If there are no local changes to send to the server
     //pass on sending any data
-    if (cards === null) {
+    //TODO not sure what to do here, why would it be null
+    if (state.test.cards === null) {
         if (shouldToast) {
             //If user should be notified, display toast notification
             toast();
@@ -168,15 +164,15 @@ async function saveStateToServer(redirect, shouldToast) {
     }
 
     //Only post data if user is signed in
-    window.auth = await checkIsAuthenticated();
-    if (window.auth == true) {
+    window.isAuth = await checkIsAuthenticated();
+    if (window.isAuth == true) {
         $.post({
             type: "POST",
             url: "/test/saveState",
             data: {
-                cards: cards,
-                testState: testSate,
-                lastUpdate: lastUpdate,
+                test: JSON.stringify(state.test),
+                //TODO should we check for matching ID?
+                //_id: testSate,
             },
             dataType: "json",
         })

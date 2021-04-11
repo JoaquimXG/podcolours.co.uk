@@ -41,16 +41,9 @@ const testSaveState = (req, res, next) => {
         return;
     }
 
-    //Variables are stored in localstorage as strings
-    //and not converted to JSON before being sent 
-    var lastUpdate = JSON.parse(req.body.lastUpdate)
-    var testState = JSON.parse(req.body.testState)
-
     //Object for database update
     var updateObj = {$set: {
-        cards: JSON.parse(req.body.cards),
-        testState: testState,
-        lastUpdate: lastUpdate == "NaN" ? Date.now() : lastUpdate,
+        test: JSON.parse(req.body.test),
     }}
 
     //Update user test state information
