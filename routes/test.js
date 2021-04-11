@@ -75,9 +75,8 @@ const testGetState = (req, res, next) => {
         try {
             res.json({
                 success: true,
-                cards: result.cards,
-                lastUpdate: result.lastUpdate,
-                testState: result.testState
+                test: result.test,
+                _id: result._id
             });
         } catch (err) {
             next(err)

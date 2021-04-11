@@ -23,8 +23,8 @@ function newTestState() {
     //or the next card to be handled
     var state = {
         _id: "local",
-        ts: Date.now(),
         test: {
+            ts: Date.now(),
             cards: {
                 kept: [],
                 discarded: [],
@@ -45,11 +45,11 @@ function newTestState() {
 //handles cards
 async function initTest(isAuth, wordList) {
     var state;
-    if (!isAuth) {
-        state = loadLocalProgress()
+    if (isAuth) {
+        state = await loadServerProgress()
     }
     else {
-        //TODO handle when user is authenticated
+        state = loadLocalProgress()
     }
 
     if (state === null)  {
@@ -74,18 +74,19 @@ function loadLocalProgress() {
 }
 
 //Performs ajax get for serverside card data
-async function getServerSavedState() {
-    var serverCards;
-
+async function loadServerProgress() {
+    var state = false;
     await $.get("/test/getState", (data) => {
         if (data.success) {
             //User is logged in
-            if (data.testState.complete == true) {
+            if (data.test.complete == true) {
                 //If test is already complete, redirect user back to their profile page
                 window.location.href = "/profile"
             } 
-            //Load in cards data from the server
-            serverCards = data.cards;
+            state = {
+                _id: data._id,
+                test: data.test
+            }
         } else {
             //TODO Handle case where user is not signed in
             //They shold be signed in already
@@ -93,21 +94,22 @@ async function getServerSavedState() {
         }
     });
 
-    if (serverCards != false) {
-        //valid card data was pulled from server
-        CATEGORIES.forEach((category) => {
-            if (serverCards[category] == undefined) {
-                //Mongo won't store empty arrays, server data needs to have empty arrays inserted
-                serverCards[category] = [];
-            }
-        });
-
-        //Return server cards data to be loaded into the page
-        localStorage.setItem("storedCards", JSON.stringify(serverCards));
-        return serverCards;
+    if (state === false) {
+        //No valid cards were found on the server, null will be handled by starting a new test
+        return null;
     }
-    //No valid cards were found on the server, null will be handled by starting a new test
-    return null;
+
+    CATEGORIES.forEach((category) => {
+        if (state.test.cards[category] == undefined) {
+            //Mongo won't store empty arrays, server data needs to have empty arrays inserted
+            state.test.cards[category] = [];
+        }
+    });
+
+    //Return server cards data to be loaded into the page
+    //TODO we shouldn't need this here
+    //localStorage.setItem("storedCards", JSON.stringify(serverCards));
+    return state;
 }
 
 //Runs everytime a card is moved to a different dropzone
@@ -129,7 +131,7 @@ function moveCard(card, oldKey, newKey, state) {
     updateCounters(state, NUMTOKEEP, NUMTODISCARD);
 
     //State has been updated, so update timestamp
-    state.ts = Date.now();
+    state.test.ts = Date.now();
 
     if (window.auth) {
         //Save most recent state to server

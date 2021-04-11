@@ -29,12 +29,13 @@ import { addSignUpModalHandlers } from "../signUpModal.js";
 $(async function () {
     displayInstructionModal();
 
-    //Initialise the test state
-    var {state, wordList} = await initTest(window.auth, fullWordList);
+    window.isAuth = await checkIsAuthenticated()
 
-    //Checks if the user is authenticated and passes the results to save
-    //results button handler
-    window.isAuth = await checkIsAuthenticated((isAuth) => saveResultsButtonHandlers(isAuth, state));
+    //Adjust header button action depending on if user is authenticated or not
+    saveResultsButtonHandlers(isAuth, state)
+
+    //Initialise the test state
+    var {state, wordList} = await initTest(window.isAuth, fullWordList);
 
     //Add handlers for login
     addLoginModalHandlers();
@@ -105,7 +106,7 @@ function calculateResult(state) {
 
     state.test.complete = true;
     state.test.result = result;
-    state.ts = Date.now();
+    state.test.ts = Date.now();
     state.test.timeComplete = Date.now();
 
     //Store the updated cards data in localStorage
@@ -140,7 +141,7 @@ function displayResultsModal() {
     removeModalBackHandlers();
 
     //If user is signed in save state to server rather than asking to sign up
-    if (window.auth == true) {
+    if (window.isAuth == true) {
         $("#saveResultsButton").click(() => saveStateToServer(true, false));
         return;
     }
