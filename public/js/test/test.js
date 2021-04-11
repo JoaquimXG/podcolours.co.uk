@@ -1,28 +1,29 @@
-import { resultsText } from "./appGlobals.js";
 import checkIsAuthenticated from "../checkIsAuthenticated.js";
-import { wordList as fullWordList } from "./appGlobals.js";
-
-//Functions for handling all JQuery UI events for cards
-import {
-    handleUndecided,
-    handleCardDrop,
-    initTest,
-    redistributeCards,
-    saveStateToServer,
-} from "./cardUtilities.js";
+import { wordList as fullWordList, resultsText, config } from "./appGlobals.js";
 
 //A collection of functions to manage displaying and closing modals
 import {
     swapModal,
-    removeModalCloseHandlers,
     removeModalBackHandlers,
     addModalCloseHandlers,
     handleModalClose,
 } from "../modalHelpers.js";
 
 import { addLoginModalHandlers } from "../loginModal.js";
-import { addSignUpModalHandlers, removeCloseModalIcon } from "../signUpModal.js";
+import { addSignUpModalHandlers } from "../signUpModal.js";
 
+//Dropzone Handler functions
+import {
+    handleUndecided,
+    handleCardDrop,
+} from "./droppableHandlers.js";
+
+//Functions for handling all JQuery UI events for cards
+import {
+    initTest,
+    redistributeCards,
+    saveStateToServer,
+} from "./stateManagement.js";
 
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals

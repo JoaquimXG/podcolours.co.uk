@@ -1,4 +1,17 @@
-export { wordList, resultsText, setWordList };
+export { wordList, resultsText, setWordList, config };
+
+//GLOBAL Constants 
+const config = {
+    //Card height and width for css
+    CARDWIDTH: 180,
+    CARDHEIGHT: 127,
+    //CSS transition time length
+    CARDTRANSTIME: 400,
+    //Number of cards user should keep before test can end
+    NUMTOKEEP: 20,
+    //Number of cards to discard before test can end
+    NUMTODISCARD: 60,
+}
 
 //Function to allow setting the value for
 //wordlist global from outside of this module

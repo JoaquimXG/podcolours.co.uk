@@ -2,16 +2,12 @@ import checkIsAuthenticated from "../checkIsAuthenticated.js";
 import toastBuilder from '../toast.js'
 import requestUserSignIn from '../requestUserSignIn.js'
 
-//GLOBAL Constants 
-//Card height and width for css
-const CARDWIDTH = 180;
-const CARDHEIGHT = 127;
-//CSS transition time length
-const CARDTRANSTIME = 400;
-//Number of cards user should keep before test can end
-const NUMTOKEEP = 20;
-//Number of cards to discard before test can end
-const NUMTODISCARD = 60;
+
+import {displayRandomCard, displayCard} from './displayCards.js'
+import {updateCounters} from './droppableHandlers.js'
+import {config} from './appGlobals.js'
+
+
 //Possible categories to store cards in 
 const CATEGORIES = ["kept", "discarded", "undecided"];
 
@@ -64,7 +60,7 @@ async function initTest(isAuth, wordList) {
         redistributeCards(state);
     }
 
-    updateCounters(state, NUMTOKEEP, NUMTODISCARD);
+    updateCounters(state, config.NUMTOKEEP, config.NUMTODISCARD);
 
     return {state, wordList};
 }
@@ -106,38 +102,6 @@ async function loadServerProgress() {
     });
 
     return state;
-}
-
-//Runs everytime a card is moved to a different dropzone
-//Ensures the cards record object has been updated to reflect
-//the change and saves the state either to localStorage or the server
-//depending on whether the user is signed in or not
-function moveCard(card, oldKey, newKey, state) {
-    //Get word and color from the current card
-    var id = card.attr("id");
-    var color = card.attr("data-color");
-
-    //Remove card from its old category, if it was already handled
-    state.test.cards[oldKey] = state.test.cards[oldKey].filter(function (checkCard) {
-        return checkCard.id != id;
-    });
-
-    //Add card to its new category and update the test counters
-    state.test.cards[newKey].push({ id: id, color: color });
-    updateCounters(state, NUMTOKEEP, NUMTODISCARD);
-
-    //State has been updated, so update timestamp
-    state.test.ts = Date.now();
-
-    if (window.isAuth) {
-        //Save most recent state to server
-        saveStateToServer(false, false, state);
-    }
-    else {
-        //Store newly updated categories in localStorage
-        localStorage.setItem("test-local", JSON.stringify(state));
-
-    }
 }
 
 //Sends the current state of the test to be saved by the server
@@ -261,8 +225,8 @@ function redistributeCards(state) {
         });
         //Relocate "next" card into center of screen
         $(".bigCard").css({
-            left: 0.5 * (containerWidth - CARDWIDTH * 2),
-            top: 0.5 * (containerHeight - CARDHEIGHT * 2),
+            left: 0.5 * (containerWidth - config.CARDWIDTH * 2),
+            top: 0.5 * (containerHeight - config.CARDHEIGHT * 2),
         });
 
         //If no cards to move then pass 
@@ -277,8 +241,8 @@ function redistributeCards(state) {
             return {
                 name: category,
                 container: container,
-                height: container.outerHeight() - CARDHEIGHT,
-                width: container.outerWidth() - CARDWIDTH,
+                height: container.outerHeight() - config.CARDHEIGHT,
+                width: container.outerWidth() - config.CARDWIDTH,
             };
         });
 
@@ -299,173 +263,7 @@ function redistributeCards(state) {
     }, 100);
 }
 
-// -------------- Real time test application functions ------------------
-
-//Ensures counters for kept and discarded sections
-//display the appropriate value
-function updateCounters(state, numToKeep, numToDiscard) {
-    //Get the number of cards which have been kept and discarded
-    var numKept = state.test.cards.kept.length;
-    var numDiscarded = state.test.cards.discarded.length;
-
-    //Update the html
-    $("#keepCounter").text(`${numKept}/${numToKeep}`);
-    $("#discardCounter").text(`${numDiscarded}/${numToDiscard}`);
-
-    //If the correct numbers have been reached, allow the user to complete the test
-    if (numKept == NUMTOKEEP && numDiscarded == NUMTODISCARD) {
-        $("#completeTest").prop("disabled", false);
-    } else {
-        $("#completeTest").prop("disabled", true);
-    }
-}
-
-//Scales cards by half when they are first dropped into a dropzone
-function shrinkCard(card) {
-    //Ensures cards aren't shrunk again 
-    card.attr("isShrunk", "true");
-    var pos = card.position();
-
-    //Shrinks card around its center
-    card.addClass("cardTrans")
-        .css({
-            left: 0.5 * CARDWIDTH + pos.left,
-            top: 0.5 * CARDHEIGHT + pos.top,
-        })
-        .removeClass("bigCard");
-
-    //Remove the transition class when no longer required
-    setTimeout((card) => card.removeClass("cardTrans"), CARDTRANSTIME, $(card));
-}
-
-//Adds a specific new card to the DOM
-//takes an array of attributes and string of classes
-//to be added to the new card
-async function displayCard(attributes, classes) {
-    var id = attributes[0].value;
-    var appBackground = $("#appPrimaryContainer");
-
-    //Create card and add required css and JQuery UI handlers
-    var $newCard = $("<div />")
-        .addClass(classes)
-        .text(id)
-        .css({
-            position: "absolute",
-            left: 10,
-            top: 10,
-        })
-        .mousedown(function () {
-            $(this).addClass("cardFocused");
-        })
-        .mouseup(function () {
-            $(this).removeClass("cardFocused");
-        })
-        .mouseout(function () {
-            $(this).removeClass("cardFocused");
-        })
-        .draggable();
-
-    attributes.forEach((attr) => {
-        $newCard.attr(attr.name, attr.value);
-    });
-    appBackground.append($newCard);
-}
-
-//Displays a random big card in the center of the screen
-async function displayRandomCard(wordList, state) {
-    //Select a random card from the wordlist
-    var randomCardIndex = Math.floor(Math.random() * wordList.length);
-    var randomCard = wordList.splice(randomCardIndex, 1)[0];
-
-    //Parse its required values
-    var id = randomCard.id;
-    var color = randomCard.color;
-    var dropId = "undecided";
-
-    //Get parameters of location to place the card
-    var appBackground = $("#appPrimaryContainer");
-    var containerWidth = $("#appPrimaryContainer").outerWidth();
-    var containerHeight = $("#appPrimaryContainer").outerHeight();
-
-    //Create card and add required css and JQuery UI handlers
-    var $newCard = $("<div />")
-        .addClass("card bigCard")
-        .text(id)
-        .attr("id", id)
-        .attr("data-color", color)
-        .attr("dropId", dropId)
-        .css({
-            position: "absolute",
-            left: 0.5 * (containerWidth - CARDWIDTH * 2),
-            top: 0.5 * (containerHeight - CARDHEIGHT * 2),
-        })
-        .mousedown(function () {
-            $(this).addClass("cardFocused");
-        })
-        .mouseup(function () {
-            $(this).removeClass("cardFocused");
-        })
-        .mouseout(function () {
-            $(this).removeClass("cardFocused");
-        })
-        .draggable();
-    appBackground.append($newCard);
-
-    state.test.cards.next = { id: id, color: color };
-}
-
-//Runs everytime a card is dropped into the "undecided" dropzone
-//Will update the cards record and save state if required
-function handleUndecided(_, ui, state) {
-    var card = $(ui.draggable);
-    var oldDropZoneId = card.attr("dropId");
-    var newDropZoneId = $(_.target).attr("dropId");
-
-    if (oldDropZoneId === "undecided") {
-        return;
-    }
-
-    card.attr("dropId", newDropZoneId);
-    moveCard($(card), oldDropZoneId, newDropZoneId, state);
-}
-
-//Runs everytime a card is dropped in either the "kept"
-//or "discarded" dropzone, will update the cards record
-//state and shrink the card if required
-async function handleCardDrop(_, ui, state, wordList) {
-    var card = $(ui.draggable);
-    var oldDropZoneId = card.attr("dropId");
-    var newDropZoneId = $(_.target).attr("dropId");
-
-    //If card has not been dropped into any dropzones yet
-    //it will be big, and should be shrunk
-    if (card.attr("isShrunk") !== "true") {
-        shrinkCard($(card));
-        //Have to wait for this function to complete before updating
-        //the cards array and updating the counter
-        if (wordList.length > 0) {
-            await displayRandomCard(wordList, state);
-        } else {
-            state.test.cards.next = false;
-            state.test.cards.complete = true;
-        }
-    }
-
-    //If the card has been moved to a different dropzone
-    //it should be counted for the new dropzone
-    if (oldDropZoneId === newDropZoneId) {
-        return;
-    }
-    card.attr("dropId", newDropZoneId);
-    moveCard($(card), oldDropZoneId, newDropZoneId, state);
-}
-
 export {
-    moveCard,
-    shrinkCard,
-    displayRandomCard,
-    handleUndecided,
-    handleCardDrop,
     initTest,
     redistributeCards,
     saveStateToServer,
