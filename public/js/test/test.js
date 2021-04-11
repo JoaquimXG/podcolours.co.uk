@@ -1,13 +1,12 @@
 import { resultsText } from "./appGlobals.js";
 import checkIsAuthenticated from "../checkIsAuthenticated.js";
-import { wordList } from "./appGlobals.js";
+import { wordList as fullWordList } from "./appGlobals.js";
 
 //Functions for handling all JQuery UI events for cards
 import {
-    displayRandomCard,
     handleUndecided,
     handleCardDrop,
-    loadProgress,
+    initTest,
     redistributeCards,
     saveStateToServer,
 } from "./cardUtilities.js";
@@ -24,39 +23,18 @@ import {
 import { addLoginModalHandlers } from "../loginModal.js";
 import { addSignUpModalHandlers } from "../signUpModal.js";
 
+
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
 $(async function () {
-    window.auth = await checkIsAuthenticated(saveResultsButtonHandlers);
-
     displayInstructionModal();
 
-    if (window.auth == true) {
-        //If user is signed in, their previous progress is loaded
-        await loadProgress();
-    } else {
-        //Otherwise a new test is initiated
+    //Initialise the test state
+    var {state, wordList} = await initTest(window.auth, fullWordList);
 
-        //Init test state
-        var state = {
-            _id: "local",
-            ts: Date.now(),
-            test: {
-                cards: {
-                    kept: [],
-                    discarded: [],
-                    undecided: [],
-                    next: {}
-                },
-                complete: false,
-                result: null
-            }
-        }
-
-        //Display first card
-        displayRandomCard(wordList, state);
-        localStorage.setItem(`test-${state._id}`, JSON.stringify(state))
-    }
+    //Checks if the user is authenticated and passes the results to save
+    //results button handler
+    window.isAuth = await checkIsAuthenticated((isAuth) => saveResultsButtonHandlers(isAuth, state));
 
     //Add handlers for login
     addLoginModalHandlers();
@@ -74,14 +52,14 @@ $(async function () {
     $("#undecidedDropZone").droppable({ drop: (_, ui) => handleUndecided(_, ui, state) });
 
     $("#omdbButton").click(callMovieApi);
-    $("#completeTest").click(calculateResult);
+    $("#completeTest").click((_) => calculateResult(state));
 
     //Handler for screen resizing
-    window.onresize = redistributeCards;
+    window.onresize = (_) => redistributeCards(state);
 });
 
 //Handlers for save your progress button
-function saveResultsButtonHandlers(isAuthenticated) {
+function saveResultsButtonHandlers(isAuthenticated, state) {
     //If user is authenticated, the button to save results
     //the end of the test should save their results without prompting to sign in
     if (isAuthenticated) {
@@ -102,17 +80,16 @@ function saveResultsButtonHandlers(isAuthenticated) {
 //Counts the number of cards of each colour which were kept
 //calculates the users test result, displayes the results modal
 //and saves the results to localStorage
-function calculateResult() {
+function calculateResult(state) {
     var max = 0;
     var result = "";
-    var cards = JSON.parse(localStorage.getItem("storedCards"));
     var colors = ["red", "blue", "green", "yellow"];
 
     //Loop throug each color and count how many cards of each
     //color have been kept. Calculating the highest count at the same time
     var colorCounts = {};
     colors.forEach((color) => {
-        var count = cards.kept.filter((card) => card.color == color).length;
+        var count = state.test.cards.kept.filter((card) => card.color == color).length;
         colorCounts[color] = count;
         if (count > max) {
             max = count;
@@ -120,22 +97,23 @@ function calculateResult() {
         }
     });
     //Add the result to the cards variable
-    cards.colorCounts = colorCounts;
+    state.test.cards.colorCounts = colorCounts;
 
     //Display the users results
     generateResultsModal(result);
     displayResultsModal();
 
+    state.test.complete = true;
+    state.test.result = result;
+    state.ts = Date.now();
+    state.test.timeComplete = Date.now();
+
     //Store the updated cards data in localStorage
-    localStorage.setItem(
-        "testState",
-        JSON.stringify({ complete: true, result: result, time: Date.now()})
-    );
-    localStorage.setItem("storedCards", JSON.stringify(cards));
-    localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));
+    localStorage.setItem("test-local", JSON.stringify(state));
 
     //Update server with new results
-    saveStateToServer(false, false);
+    //TODO fix 
+    //saveStateToServer(false, false);
 }
 
 // ---------- Modal Handlers ------------
