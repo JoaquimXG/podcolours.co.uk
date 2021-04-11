@@ -1,7 +1,4 @@
-export { 
-    addSignUpModalHandlers,
-    removeCloseModalIcon
-};
+import requestUserSignIn from './requestUserSignIn'
 
 //Modular function for adding all event handlers for sign up modal 
 function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCallBack, state) {
@@ -123,9 +120,13 @@ function handleSignUp(e, state) {
                     $("#signUpEmail").addClass("formFieldError")
                 }
             })
-            //TODO Handle server failure
             .fail(() => {
-                alert(`Server Error Please try again`)  
+                requestUserSignIn()
             })
     }
 }
+
+export { 
+    addSignUpModalHandlers,
+    removeCloseModalIcon
+};

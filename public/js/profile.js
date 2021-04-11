@@ -1,5 +1,6 @@
 import validateForm from './validateForm.js'
 import toastBuilder from './toast.js'
+import requestUserSignIn from './requestUserSignIn'
 
 //Add event handlers for handling editting user values
 $(function() {
@@ -94,9 +95,8 @@ function handleSave(e) {
                 window.location.href = "/?loginModal=1"
             }
         })
-        //TODO Handle server failure
         .fail(() => {
-            alert(`Server Error Please try again`)  
+            requestUserSignIn();
         })
 
 

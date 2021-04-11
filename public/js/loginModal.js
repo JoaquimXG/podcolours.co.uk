@@ -1,8 +1,4 @@
-export { 
-    addLoginModalHandlers,
-    openLoginModal,
-    closeLoginModal
-};
+import requestUserSignIn from './requestUserSignIn'
 
 //Handler for displaying the login modal
 function openLoginModal() {
@@ -104,9 +100,8 @@ function handleLogin(e) {
                 $("#loginPassword").addClass("formFieldError")
             }
         })
-        //TODO Handle server failure
         .fail(() => {
-            alert(`Server Error Please try again`)  
+            requestUserSignIn()
         })
 }
 
@@ -119,3 +114,9 @@ function handleRemembered(isChecked, email){
         localStorage.removeItem("isEmailRemembered", email)
     }
 }
+
+export { 
+    addLoginModalHandlers,
+    openLoginModal,
+    closeLoginModal
+};
