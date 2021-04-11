@@ -1,6 +1,6 @@
-import {addLoginModalHandlers, openLoginModal} from './loginModal.js'
-import {addCarouselHandlers, resizeCarousel} from './carousel.js'
-import checkGetParam from './checkGetParam.js'
+import {addLoginModalHandlers, openLoginModal} from './modals/loginModal.js'
+import {addCarouselHandlers, resizeCarousel} from './components/carousel.js'
+import checkGetParam from './utilities/checkGetParam.js'
 
 //Selector for carousel on homepage
 var carouselId = "carouselSlider"

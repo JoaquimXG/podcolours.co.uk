@@ -1,6 +1,6 @@
-import validateForm from './validateForm.js'
-import toastBuilder from './toast.js'
-import requestUserSignIn from './requestUserSignIn.js'
+import validateForm from './utilities/validateForm.js'
+import toastBuilder from './components/toast.js'
+import requestUserSignIn from './utilities/requestUserSignIn.js'
 
 //Add event handlers for handling editting user values
 $(function() {

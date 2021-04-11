@@ -1,5 +1,5 @@
-import requestUserSignIn from './requestUserSignIn.js'
-import validateForm from './validateForm.js'
+import requestUserSignIn from '../utilities/requestUserSignIn.js'
+import validateForm from '../utilities/validateForm.js'
 
 //Modular function for adding all event handlers for sign up modal 
 function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCallBack, state) {

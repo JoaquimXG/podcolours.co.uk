@@ -1,5 +1,5 @@
-import checkIsAuthenticated from "../checkIsAuthenticated.js";
-import { wordList as fullWordList, resultsText, config } from "./appGlobals.js";
+import checkIsAuthenticated from "../utilities/checkIsAuthenticated.js";
+import { wordList as fullWordList, resultsText } from "./appGlobals.js";
 
 //A collection of functions to manage displaying and closing modals
 import {
@@ -7,16 +7,16 @@ import {
     removeModalBackHandlers,
     addModalCloseHandlers,
     handleModalClose,
-} from "../modalHelpers.js";
+} from "../modals/modalHelpers.js";
 
-import { addLoginModalHandlers } from "../loginModal.js";
-import { addSignUpModalHandlers } from "../signUpModal.js";
+import { addLoginModalHandlers } from "../modals/loginModal.js";
+import { addSignUpModalHandlers } from "../modals/signUpModal.js";
 
 //Dropzone Handler functions
 import {
     handleUndecided,
     handleCardDrop,
-} from "./droppableHandlers.js";
+} from "./cardDropHandlers.js";
 
 //Functions for handling all JQuery UI events for cards
 import {

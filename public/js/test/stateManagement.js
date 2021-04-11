@@ -1,12 +1,10 @@
-import checkIsAuthenticated from "../checkIsAuthenticated.js";
-import toastBuilder from '../toast.js'
-import requestUserSignIn from '../requestUserSignIn.js'
-
+import checkIsAuthenticated from "../utilities/checkIsAuthenticated.js";
+import toastBuilder from '../components/toast.js'
+import requestUserSignIn from '../utilities/requestUserSignIn.js'
 
 import {displayRandomCard, displayCard} from './displayCards.js'
-import {updateCounters} from './droppableHandlers.js'
+import {updateCounters} from './cardDropHandlers.js'
 import {config} from './appGlobals.js'
-
 
 //Possible categories to store cards in 
 const CATEGORIES = ["kept", "discarded", "undecided"];
