@@ -66,7 +66,7 @@ function parseProfileResultsArray(req, res, resultsArray){
 
     //Don't display button to continue test in header if
     //the user has already completed the test
-    if (profile.testState.complete === true) {
+    if (profile.test.complete === true) {
         res.locals.header.testButton = false;
     } 
 
@@ -76,4 +76,3 @@ function parseProfileResultsArray(req, res, resultsArray){
         profile: profile,
     }
 }
-
