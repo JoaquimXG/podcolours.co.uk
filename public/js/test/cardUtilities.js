@@ -380,7 +380,6 @@ async function displayCard(attributes, classes) {
 }
 
 //Displays a random big card in the center of the screen
-//TODO check if wordlist is mutated outside this function
 async function displayRandomCard(wordList, state) {
     //Select a random card from the wordlist
     var randomCardIndex = Math.floor(Math.random() * wordList.length);
