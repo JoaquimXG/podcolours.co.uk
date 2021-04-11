@@ -16,6 +16,25 @@ Two options for using the site.
 1. Locally with local MongoDB installation.
 2. Through a pair of docker containers. One running MongoDB and one for the webapp.
 
+
+### Configuration
+
+Server is configured through environment variables, either manually set or through
+dotenv.
+If using dotenv, fill in the appropriate variables in a .env file. Variables
+included below.
+
+- APPPORT
+  - Port for connecting to website
+- MONGOHOST
+  - Hostname for MongoDB server
+- MONGOPORT
+  - Port to connect to MongoDB server
+- MONGODATABASE
+  - MongoDB database name
+- SESSIONSECRET
+  - Secret for encryption sessions
+
 ### Option 1 - Local MongoDB
 
 This method should be utilised for development.
@@ -23,7 +42,7 @@ This method should be utilised for development.
 Requires:
     - Node
     - npm
-    - MongoDB
+    - MongoDB @3.2+
 
 Website backend is built with express, ejs and MongoDB and npm has been configured
 with a selection of setup scripts to ease development.
@@ -42,6 +61,9 @@ ease development.
 run `npm run devel` to run the site with hot reload for development.
 
 ### Option 2 - Docker
+
+This will be the way to deploy when we actually deploy to production, unfortunately
+the codio virtual machines don't allow docker to be installed and run.
 
 Allows for automated and reliable deployment of the site for CI/CD purposes.
 Requires:
