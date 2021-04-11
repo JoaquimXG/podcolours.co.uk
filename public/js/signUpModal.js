@@ -1,5 +1,6 @@
 export { 
-    addSignUpModalHandlers
+    addSignUpModalHandlers,
+    removeCloseModalIcon
 };
 
 //Modular function for adding all event handlers for sign up modal 
@@ -47,6 +48,10 @@ function addSignUpModalHandlers(activationId, isAuthenticated, authenticatedCall
     $(".formField").on("input", function() {
         $(this).removeClass("formFieldError")
     })
+}
+
+function removeCloseModalIcon() {
+    $("#closeSignUpModal").remove()
 }
 
 //Parses user sign up form data and gathers current test data

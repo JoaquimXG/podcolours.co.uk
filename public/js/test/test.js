@@ -21,7 +21,7 @@ import {
 } from "../modalHelpers.js";
 
 import { addLoginModalHandlers } from "../loginModal.js";
-import { addSignUpModalHandlers } from "../signUpModal.js";
+import { addSignUpModalHandlers, removeCloseModalIcon } from "../signUpModal.js";
 
 
 //On first load, display instructions, display a card
@@ -131,8 +131,9 @@ function displayInstructionModal() {
 
 //Generates the required html for results modal
 function generateResultsModal(color) {
+    $("#resultColor").empty()
     $("#resultColor").append(resultsText[color].color);
-    $("#resultTitle").append(resultsText[color].title);
+    $("#resultTitle").text(resultsText[color].title);
     $("#resultsBlurb").text(resultsText[color].blurb);
 }
 
@@ -140,7 +141,6 @@ function generateResultsModal(color) {
 function displayResultsModal(state) {
     swapModal("#resultsModalSection");
     //Removing unneccessary dangling click handlers and icons
-    removeModalCloseHandlers();
     removeModalBackHandlers();
 
     //If user is signed in save state to server rather than asking to sign up
