@@ -1,5 +1,6 @@
 import { resultsText } from "./appGlobals.js";
 import checkIsAuthenticated from "../checkIsAuthenticated.js";
+import { wordList } from "./appGlobals.js";
 
 //Functions for handling all JQuery UI events for cards
 import {
@@ -35,15 +36,26 @@ $(async function () {
         await loadProgress();
     } else {
         //Otherwise a new test is initiated
-        displayRandomCard();
 
-        //Storing initial test values in localStorage
-        localStorage.setItem(
-            "testState",
-            JSON.stringify({ complete: false, result: null })
-        );
-        localStorage.setItem("lastTestUpdate", JSON.stringify(Date.now()));
-        localStorage.removeItem("storedCards");
+        //Init test state
+        var state = {
+            _id: "local",
+            ts: Date.now(),
+            test: {
+                cards: {
+                    kept: [],
+                    discarded: [],
+                    undecided: [],
+                    next: {}
+                },
+                complete: false,
+                result: null
+            }
+        }
+
+        //Display first card
+        displayRandomCard(wordList, state);
+        localStorage.setItem(`test-${state._id}`, JSON.stringify(state))
     }
 
     //Add handlers for login
@@ -55,11 +67,11 @@ $(async function () {
             classes: {
                 "ui-droppable-hover": "cardDropzoneHover",
             },
-            drop: handleCardDrop,
+            drop: (_, ui) => handleCardDrop(_, ui, state, wordList),
             greedy: true,
         });
     });
-    $("#undecidedDropZone").droppable({ drop: handleUndecided });
+    $("#undecidedDropZone").droppable({ drop: (_, ui) => handleUndecided(_, ui, state) });
 
     $("#omdbButton").click(callMovieApi);
     $("#completeTest").click(calculateResult);
