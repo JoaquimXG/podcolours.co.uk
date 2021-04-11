@@ -73,6 +73,15 @@ function loadLocalProgress() {
     return state;
 }
 
+function requestUserSignIn() {
+    const toast = toastBuilder({
+        target: "body",
+        defaultText: "Session lost, please sign in"
+    })
+    setTimeout(() => window.location.href = "/?loginModal=1", 1000)
+    toast();
+}
+
 //Performs ajax get for serverside card data
 async function loadServerProgress() {
     var state = false;
@@ -88,9 +97,7 @@ async function loadServerProgress() {
                 test: data.test
             }
         } else {
-            //TODO Handle case where user is not signed in
-            //They shold be signed in already
-            //notify user that session has been lost and redirect to /?loginModal=1
+            requestUserSignIn();
         }
     });
 
@@ -157,8 +164,6 @@ async function saveStateToServer(redirect, shouldToast, state) {
             url: "/test/saveState",
             data: {
                 test: JSON.stringify(state.test),
-                //TODO should we check for matching ID?
-                //_id: testSate,
             },
             dataType: "json",
         })
@@ -174,22 +179,14 @@ async function saveStateToServer(redirect, shouldToast, state) {
                         toast()
                     }
                 } else {
-                    //TODO handle this error case
-                    console.log(data.error);
+                    requestUserSignIn()
                 }
             })
-            //TODO Handle server failure
             .fail(() => {
-                alert(`Server Error Please try again`);
+                requestUserSignIn()
             });
     } else {
-        //TODO Potentially redirect to homepage and prompt user to login?
-        //The only time I have seen this happen is when refreshing the server
-        //and the session is lost. Otherwise I think that as long as the user is still on the page
-        //they shouldn't ever not be signed in.
-        //This needs to be tested and if there are cases where this can happen then mitigation
-        //should be implemented
-        console.log("User not signed in ");
+        requestUserSignIn();
     }
 }
 
@@ -459,10 +456,6 @@ async function handleCardDrop(_, ui, state, wordList) {
             await displayRandomCard(wordList, state);
         } else {
             state.test.cards.next = false;
-            //TODO find all instances of this value being checked
-            //The first I can think of is for redirecting users away from this page
-            //The plan is to use cards.result instead as a marker of whether
-            //the user has actually pressed finish
             state.test.cards.complete = true;
         }
     }

@@ -31,7 +31,6 @@ $(async function () {
 
     window.isAuth = await checkIsAuthenticated()
 
-
     //Initialise the test state
     var {state, wordList} = await initTest(window.isAuth, fullWordList);
 
@@ -62,7 +61,6 @@ $(async function () {
 
 //Handlers for save your progress button
 function saveResultsButtonHandlers(isAuthenticated, state) {
-    console.log("here", state)
     //If user is authenticated, the button to save results
     //the end of the test should save their results without prompting to sign in
     if (isAuthenticated) {
@@ -120,7 +118,6 @@ function calculateResult(state) {
         //Store the updated cards data in localStorage
         localStorage.setItem("test-local", JSON.stringify(state));
     }
-
 }
 
 // ---------- Modal Handlers ------------
