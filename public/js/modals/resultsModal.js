@@ -6,13 +6,13 @@ import {
     hideModalBack,
     addModalBackHandler
 } from './generalModalHandlers.js'
+import {callMovieApi} from './movieModal.js'
 
 import { resultsText } from "../test/appGlobals.js";
 
 import { saveStateToServer } from "../test/stateManagement.js";
 
-//TODO comment
-//TODO add modal close icon to results modal
+//Prepares all click handlers for results modal
 function setupResultsModal(id, openModalButtonId, state) {
     function setup() {
         calculateResult(state)
@@ -35,8 +35,21 @@ function setupResultsModal(id, openModalButtonId, state) {
                 openModal('resultsModal')
                 hideModalBack('signUpModal')
             })
-            return 
         });
+
+        $("#omdbButton").click(() => {
+            callMovieApi(() => {
+                openModal('movieModal')
+                closeModal('resultsModal')
+                showModalBack('movieModal')
+                addModalBackHandler('movieModal', () => {
+                    closeModal('movieModal')
+                    openModal('resultsModal')
+                    hideModalBack('movieModal')
+                })
+            })
+        });
+        return
     }
     setupModal(id, openModalButtonId, {setup: setup})
 }

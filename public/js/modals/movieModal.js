@@ -1,13 +1,16 @@
 import {colourGenreLists} from "../test/appGlobals.js";
-import { swapModal } from "./modalHelpers.js";
 
-// ----------- Movie API -------------------------
+import {setupModal } from './generalModalHandlers.js'
+
+function setupMovieModal(id, openModalButtonId) {
+    setupModal(id, openModalButtonId)
+}
 
 //Calls the OMDB movie API searching for movies with "in the" contained in the title
 //this is only because you can't search for all movies and this seems to give a reasonable sample
 //Loops through the 10 results and checks if any match a genre for the current color
 //If a genre matches, the loop is broken and the movie is displayed on screen
-export default function(state, modalBackCb) {
+function callMovieApi(cb) {
     function test10Movies() {
         var yearAfter1980 = Math.round(Math.random() * 40);
 
@@ -15,7 +18,6 @@ export default function(state, modalBackCb) {
             1980 + yearAfter1980
         }`;
         $.getJSON(url, async function (data) {
-            console.log(JSON.stringify(data, null, 4))
             for (var i = 0; i < data.Search.length; i++) {
                 var id = data.Search[i].imdbID;
                 var urlTwo = `https://www.omdbapi.com/?apikey=d9aa0252&i=${id}`;
@@ -25,7 +27,7 @@ export default function(state, modalBackCb) {
                         colourGenreLists[color],
                         urlTwo
                     );
-                    displayMovieModal(movieData, state, modalBackCb);
+                    generateMovieModal(movieData, cb);
                     $("body").removeClass("loading");
                     return;
                 } catch (e) {
@@ -60,7 +62,7 @@ const checkForMatchingGenres = (colorGenres, url) =>
 
 //Displays the movie modal screen
 //editing modal title, blurb and buttons to suit
-const displayMovieModal = (movieData, state, cb) => {
+const generateMovieModal = (movieData, cb) => {
     //Generate dynamic html from movie data
     var imdbUrl = `https://www.imdb.com/title/${movieData.imdbID}/`;
     var movieTitle = $("<a>")
@@ -69,15 +71,13 @@ const displayMovieModal = (movieData, state, cb) => {
         .attr("target", "_blank");
     $("#movieTitle").html(movieTitle);
     $("#moviePlot").text(movieData.Plot);
-    $("#backAppModal")
-        .css("visibility", "visible")
-        .click(function () {
-            cb(state);
-        });
     $("#moreMovieInfoButton").click(function () {
         window.open(imdbUrl, "_blank");
     });
-
-    swapModal("#movieModalSection");
+    if (cb) {
+        cb()
+    }
 };
 
+
+export { setupMovieModal, callMovieApi }

@@ -1,19 +1,13 @@
 import checkIsAuthenticated from "../utilities/checkIsAuthenticated.js";
 import { wordList as fullWordList } from "./appGlobals.js";
 
-//A collection of functions to manage displaying and closing modals
-import {
-    swapModal,
-} from "../modals/modalHelpers.js";
-
-import  callMovieApi  from '../modals/movieModal.js'
-
 //Generalised modal handlers
 import { openModal } from '../modals/generalModalHandlers.js'
 import setupLoginModal from "../modals/loginModal.js";
 import setupInstructionsModal from '../modals/instructionsModal.js'
 import setupSignUpModal from '../modals/signUpModal.js'
 import setupResultsModal from '../modals/resultsModal.js'
+import {setupMovieModal} from '../modals/movieModal.js'
 
 //Dropzone Handler functions
 import {
@@ -32,6 +26,7 @@ const INSTRUCTIONMODALID = 'instructionsModal'
 const LOGINMODALID = 'loginModal'
 const SIGNUPMODALID = 'signUpModal'
 const RESULTSMODALID = 'resultsModal'
+const MOVIEMODALID = 'movieModal'
 
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
@@ -39,9 +34,7 @@ $(async function () {
     setupInstructionsModal(INSTRUCTIONMODALID)
     openModal(INSTRUCTIONMODALID)
     setupLoginModal(LOGINMODALID, 'headerLoginButton');
-
-    //TODO remove close handlers and replace with generics
-    //addModalCloseHandlers();
+    setupMovieModal(MOVIEMODALID, 'headerLogoImg');
 
     window.isAuth = await checkIsAuthenticated()
 
@@ -50,7 +43,6 @@ $(async function () {
 
     //Adjust header button action depending on if user is authenticated or not
     saveResultsButtonHandlers(window.isAuth, state)
-
 
     //Add initial test app dropzone handlers for JQuery UI 
     $(".cardDropzone").each(function () {
@@ -63,8 +55,6 @@ $(async function () {
         });
     });
     $("#undecidedDropZone").droppable({ drop: (_, ui) => handleUndecided(_, ui, state) });
-
-    $("#omdbButton").click(() => callMovieApi(state, () => {openModal(RESULTSMODALID)}));
 
     var isResultsGenerated = false;
     $("#completeTest").click((_) => {
