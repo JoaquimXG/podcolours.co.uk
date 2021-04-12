@@ -241,7 +241,8 @@ span.underline {
 .modalContainer {
     display: flex;
     visibility: hidden;
-    transition: visibility 0.2s linear;
+    opacity: 0;
+    transition: visibility 0.25s linear, opacity 0.2s linear;
     background: rgba(131, 138, 150, 0.8);
     width: 100vw;
     height: 100vh;
@@ -253,6 +254,11 @@ span.underline {
     justify-content: center;
 }
 
+.modalContainerShown {
+    visibility: visible;
+    opacity: 1;
+}
+
 .modal {
     background: white;
     border-radius: 7px;
@@ -262,6 +268,10 @@ span.underline {
     max-width: 700px; 
     width: 55%;
     min-width: 500px;
+}
+
+.modalShown {
+    opacity: 1;
 }
 
 .closeModalIcon {

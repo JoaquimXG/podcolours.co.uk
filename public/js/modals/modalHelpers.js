@@ -17,8 +17,8 @@ function swapModal(newModal) {
         .appendTo("#modalSectionContainer")
         .css("display", "block");
 
-    $("#appModalContainer").css("visibility", "visible");
-    $("#appModal").css("opacity", "1");
+    $("#appModalContainer").addClass('modalContainerShown');
+    $("#appModal").addClass('modalShown');
 }
 
 //Adds all of the required click handlers to allow modals to close
@@ -50,8 +50,8 @@ function removeModalCloseHandlers() {
 
 //Hides a modal when closing
 function handleModalClose() {
-    $("#appModal").css("opacity", "0");
-    $("#appModalContainer").css("visibility", "hidden");
+    $("#appModal").removeClass('modalShown');
+    $("#appModalContainer").removeClass('modalContainerShown');
 }
 
 function removeModalBackHandlers() {
@@ -59,4 +59,3 @@ function removeModalBackHandlers() {
         .off()
         .css("visibility", "hidden");
 }
-
