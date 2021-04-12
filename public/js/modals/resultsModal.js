@@ -2,7 +2,7 @@ import {
     setupModal,
     swapModal
 } from './generalModalHandlers.js'
-import {callMovieApi} from './movieModal.js'
+import {requestRandomPerson} from './randomPersonModal.js'
 
 import { resultsText } from "../test/appGlobals.js";
 
@@ -24,10 +24,10 @@ function setupResultsModal(id, openModalButtonId, state) {
             swapModal('resultsModal', 'signUpModal', true)
         });
 
-        $("#omdbButton").click(() => {
-            callMovieApi(() => {
-                swapModal('resultsModal', 'movieModal', true)
-            })
+        $("#randomPersonButton").click(() => {
+            requestRandomPerson(state.test.result,
+                () => swapModal('resultsModal', 'randomPersonModal', true)
+            )
         });
         return
     }

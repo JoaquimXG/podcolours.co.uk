@@ -7,7 +7,7 @@ import setupLoginModal from "../modals/loginModal.js";
 import setupInstructionsModal from '../modals/instructionsModal.js'
 import setupSignUpModal from '../modals/signUpModal.js'
 import setupResultsModal from '../modals/resultsModal.js'
-import {setupMovieModal} from '../modals/movieModal.js'
+import {setupRandomPersonModal} from '../modals/randomPersonModal.js'
 
 //Dropzone Handler functions
 import {
@@ -26,7 +26,7 @@ const INSTRUCTIONMODALID = 'instructionsModal'
 const LOGINMODALID = 'loginModal'
 const SIGNUPMODALID = 'signUpModal'
 const RESULTSMODALID = 'resultsModal'
-const MOVIEMODALID = 'movieModal'
+const RANDOMPERSONMODALID = 'randomPersonModal'
 
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
@@ -34,7 +34,7 @@ $(async function () {
     setupInstructionsModal(INSTRUCTIONMODALID)
     openModal(INSTRUCTIONMODALID)
     setupLoginModal(LOGINMODALID, 'headerLoginButton');
-    setupMovieModal(MOVIEMODALID);
+    setupRandomPersonModal(RANDOMPERSONMODALID);
 
     window.isAuth = await checkIsAuthenticated()
 

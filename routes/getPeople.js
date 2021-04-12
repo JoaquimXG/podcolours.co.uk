@@ -15,7 +15,7 @@ module.exports=(req, res, next)=> {
         if (result) {
             //Selects random famous person from the array pulled from database
             var person = result.people[Math.floor(Math.random() * result.people.length)];
-            res.send(JSON.stringify({success: true, person: person}))
+            res.json({success: true, person: person})
             log.info(`Famous person (${person}) generated for ${testResult}`,
                 {route: "/test/getPeople", action: "failure"})
         }
