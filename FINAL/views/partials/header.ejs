@@ -1,0 +1,40 @@
+<!-- Header, Templating used to adjust the usage for the second button -->
+<header id="header" class="flex">
+    <a style="height:100%;" href="/"
+        ><img id="headerLogoImg" src="<%= content.header.image %>"
+    /></a>
+    <div class="flex flexPushRight ">
+        <%if (header.login) { %>
+        <button
+            id="headerLoginButton"
+            class="buttonBaseline noBorder"
+        >
+            Login
+        </button>
+        <% } else if ( header.profile ) { %>
+        <button
+            id="headerProfileButton"
+            class="buttonBaseline noBorder"
+            onclick="location.href='/profile'"
+        >
+            Profile
+        </button>
+        <% } else if (header.logout){ %>
+        <script type="module" src="/js/logout.js"></script>
+        <button
+            id="headerLogoutButton"
+            class="buttonBaseline noBorder"
+        >
+            Logout
+        </button>
+        <% } %>
+        <%if (header.testButton != false) { %>
+            <button
+                id="<%= header.testButton.id %>"
+                onclick="<%= header.testButton.onClick %>"
+                class="buttonBaseline noBorder takeTheTest <%= header.testButton.class %>">
+                <%= header.testButton.text %>
+            </button>
+        <% } %>
+    </div>
+</header>

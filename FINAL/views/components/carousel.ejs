@@ -1,0 +1,22 @@
+<!-- Carousel component, should be used with carousel javascript file carousel.js 
+    Carousel is designed to be able to be droppped into any layout div on any page -->
+<div class="carouselSlider bottomMargin30" id="carouselSlider">
+    <% content.testimonials.forEach((testimonial, i) => { %>
+        <%# Loops through all testimonials in database, new testimonials can be easily added %>
+            <div class="carouselItem flexColumn spaceBetween">
+                <h2 class="bottomMargin30"><%= testimonial.text %></h2>
+                <div id="testimonialCircle"></div>
+                <h3><%= testimonial.name %></h3>
+            </div>
+    <% }); %>
+</div>
+<div>
+    <% content.testimonials.forEach((testimonial, i) => { %>
+        <%# Same as above but adding buttons instead of content %>
+        <% if (i === 0) { %>
+            <span class="carouselBtn carouselBtnWide"></span>
+        <% } else { %>
+            <span class="carouselBtn"></span>
+        <% } %>
+    <% }); %>
+</div>
