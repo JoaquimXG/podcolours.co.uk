@@ -494,13 +494,47 @@ db.content.insert({
     },
 });
 
-db.celebs.insert({
-    _id:"celeb",
-    colours: {
-    red: ["Victoria Beckham", "Victoria Silvstedt", "Taylor Swift", "James Hamilton", "Tom Hardy"],
-    green: ["Wayne Rooney", "Cash Warren","50 Cent", "Willie Garsob", "Paris Hilton" ],
-    blue: ["Zach Galifianakis", "Gerard Butler", "Adele", "Abbie Cornish", "Adam Sandler"],
-    yellow: ["Rachel McAdams", "Pamela Anderson", "Cameron Diaz", "Will Smith", "Whitney Port"]
-}})
+db.people.insertMany([
+    {
+        _id: "red",
+        people: [
+            "Victoria Beckham",
+            "Victoria Silvstedt",
+            "Taylor Swift",
+            "James Hamilton",
+            "Tom Hardy",
+        ],
+    },
+    {
+        _id: "green",
+        people: [
+            "Wayne Rooney",
+            "Cash Warren",
+            "50 Cent",
+            "Willie Garsob",
+            "Paris Hilton",
+        ],
+    },
+    {
+        _id: "blue",
+        people: [
+            "Zach Galifianakis",
+            "Gerard Butler",
+            "Adele",
+            "Abbie Cornish",
+            "Adam Sandler",
+        ],
+    },
+    {
+        _id: "yellow",
+        people: [
+            "Rachel McAdams",
+            "Pamela Anderson",
+            "Cameron Diaz",
+            "Will Smith",
+            "Whitney Port",
+        ],
+    },
+]);
 
 print("==== Database Setup Complete ====\n\n");
