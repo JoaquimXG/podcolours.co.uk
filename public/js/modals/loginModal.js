@@ -1,61 +1,22 @@
 import requestUserSignIn from '../utilities/requestUserSignIn.js'
+import {setupModal} from './generalModalHandlers.js'
 
-//Handler for displaying the login modal
-function openLoginModal() {
-        $("#loginModalContainer").css("visibility", "visible");
-        $("#loginModal").css("opacity", "1");
-}
+//Setups up additional click handlers required for login modal
+function setupLoginModal(id, openModalButtonId) {
+    function setup() {
+        //Handle login form submit
+        $("#loginButton").click(e => {handleLogin(e)});
 
-//Handler for hiding the login modal
-function closeLoginModal() {
-    $("#loginModal").css("opacity", "0");
-    $("#loginModalContainer").css("visibility", "hidden");
-    $(".formField").removeClass("formFieldError")
-}
-
-function addLoginModalHandlers() {
-
-    //If user is logged in the button won't exist
-    if (!$("#headerLoginButton").click(openLoginModal).length) {
-        return
+        if(localStorage.getItem("isEmailRemembered") !== null){
+            $("#loginRememberMe").prop("checked", true);
+            var store = localStorage.getItem("isEmailRemembered")
+            var email = $("#loginEmail")
+            email.val(store);
+        }
     }
-
-    //Add click event for login button in the header to open the login modal
-    $("#headerLoginButton").click(openLoginModal);
-
-    //Add click event for close button in the login modal to close the modal
-    $("#closeLoginModal").click(function() {
-        closeLoginModal();
-    });
-
-    //Add click event for outside of the login modal to close the modal
-    //A side effect of this is that clicking on the modal itself will
-    //cause the modal to close as it is a child of loginModalContainer
-    //This is resolved below
-    $("#loginModalContainer").click(function() {
-        closeLoginModal();
-    });
-    //Stop click events on the login modal from propogating to is parent and closing the modal
-    $("#loginModal").click(function(e) {
-        e.stopPropagation();
-    });
-
-    //Handle login form submit
-    $("#loginButton").click(e => {handleLogin(e)});
-
-    //Remove error class from fields when the
-    //user has begun to edit them again
-    $(".formField").on("input", function() {
-        $(this).removeClass("formFieldError")
-    })
-
-    if(localStorage.getItem("isEmailRemembered") !== null){
-        $("#loginRememberMe").prop("checked", true);
-        var store = localStorage.getItem("isEmailRemembered")
-        var email = $("#loginEmail")
-        email.val(store);
-    }
+    setupModal(id, openModalButtonId, {setup: setup})
 }
+
 
 //validates login form values and posts data to server if values not empty
 function handleLogin(e) {
@@ -65,7 +26,6 @@ function handleLogin(e) {
     var isRemembered = $("#loginRememberMe").is(":checked");
 
     handleRemembered(isRemembered, email);
-
 
     //If both fields are empty don't send the form
     //and add css error class
@@ -116,7 +76,5 @@ function handleRemembered(isChecked, email){
 }
 
 export { 
-    addLoginModalHandlers,
-    openLoginModal,
-    closeLoginModal
+    setupLoginModal
 };

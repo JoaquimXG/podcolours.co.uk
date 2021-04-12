@@ -9,7 +9,7 @@ import {
     handleModalClose,
 } from "../modals/modalHelpers.js";
 
-import { addLoginModalHandlers } from "../modals/loginModal.js";
+import { setupLoginModal } from "../modals/loginModal.js";
 import { addSignUpModalHandlers } from "../modals/signUpModal.js";
 
 //Dropzone Handler functions
@@ -39,7 +39,7 @@ $(async function () {
     saveResultsButtonHandlers(isAuth, state)
 
     //Add handlers for login
-    addLoginModalHandlers();
+    setupLoginModal('loginModal', 'headerLoginButton');
 
     //Add initial test app dropzone handlers for JQuery UI 
     $(".cardDropzone").each(function () {
@@ -154,7 +154,7 @@ function displayResultsModal(state) {
     $("#saveResultsButton").click(function () {
         swapModal("#signUpModalSection");
         $("#backAppModal")
-            .css("visibility", "visible")
+            .css('visibility', 'visible')
             .click(function () {
                 displayResultsModal(state);
             });
@@ -228,7 +228,7 @@ const displayMovieModal = (movieData, state) => {
     $("#movieTitle").html(movieTitle);
     $("#moviePlot").text(movieData.Plot);
     $("#backAppModal")
-        .css("visibility", "visible")
+        .addClass('modalShown')
         .click(function () {
             displayResultsModal(state);
         });

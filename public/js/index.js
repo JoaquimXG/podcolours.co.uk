@@ -1,4 +1,5 @@
-import {addLoginModalHandlers, openLoginModal} from './modals/loginModal.js'
+import {setupLoginModal} from './modals/loginModal.js'
+import {openModal} from './modals/generalModalHandlers.js'
 import {addCarouselHandlers, resizeCarousel} from './components/carousel.js'
 import checkGetParam from './utilities/checkGetParam.js'
 
@@ -7,7 +8,7 @@ var carouselId = "carouselSlider"
 
 //Adding modal, carousel and window resize handlers
 $(document).ready(function() {
-    addLoginModalHandlers();
+    setupLoginModal("loginModal", "headerLoginButton");
     addCarouselHandlers(carouselId)
     autoOpenModal();
     window.onresize = handleWindowResize;
@@ -18,7 +19,7 @@ function autoOpenModal() {
     var loginModal = checkGetParam('loginModal');
 
     if (loginModal === '1') {
-        openLoginModal()
+        openModal("loginModal")
     }
 }
 
