@@ -34,7 +34,7 @@ $(async function () {
     setupInstructionsModal(INSTRUCTIONMODALID)
     openModal(INSTRUCTIONMODALID)
     setupLoginModal(LOGINMODALID, 'headerLoginButton');
-    setupMovieModal(MOVIEMODALID, 'headerLogoImg');
+    setupMovieModal(MOVIEMODALID);
 
     window.isAuth = await checkIsAuthenticated()
 

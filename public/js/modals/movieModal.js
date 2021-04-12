@@ -71,6 +71,7 @@ const generateMovieModal = (movieData, cb) => {
         .attr("target", "_blank");
     $("#movieTitle").html(movieTitle);
     $("#moviePlot").text(movieData.Plot);
+    $("#moreMovieInfoButton").off('click')
     $("#moreMovieInfoButton").click(function () {
         window.open(imdbUrl, "_blank");
     });

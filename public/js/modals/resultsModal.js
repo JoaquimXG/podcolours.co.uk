@@ -1,10 +1,6 @@
 import { 
     setupModal,
-    openModal,
-    closeModal,
-    showModalBack,
-    hideModalBack,
-    addModalBackHandler
+    swapModal
 } from './generalModalHandlers.js'
 import {callMovieApi} from './movieModal.js'
 
@@ -25,28 +21,12 @@ function setupResultsModal(id, openModalButtonId, state) {
 
         //If user not signed in, add handler to prompt user sign up
         $("#saveResultsButton").click(() => {
-            //TODO write function and create css classes to crisply swap
-            //two modals without them fading in and out
-            openModal('signUpModal')
-            closeModal('resultsModal')
-            showModalBack('signUpModal')
-            addModalBackHandler('signUpModal', () => {
-                closeModal('signUpModal')
-                openModal('resultsModal')
-                hideModalBack('signUpModal')
-            })
+            swapModal('resultsModal', 'signUpModal', true)
         });
 
         $("#omdbButton").click(() => {
             callMovieApi(() => {
-                openModal('movieModal')
-                closeModal('resultsModal')
-                showModalBack('movieModal')
-                addModalBackHandler('movieModal', () => {
-                    closeModal('movieModal')
-                    openModal('resultsModal')
-                    hideModalBack('movieModal')
-                })
+                swapModal('resultsModal', 'movieModal', true)
             })
         });
         return

@@ -37,6 +37,7 @@ function setupModal(id, openModalButtonId, cb) {
     }
 }
 
+//Adds css classes to show a modal
 function openModal(id, cb) {
     $(`#${getModalContainerId(id)}`).addClass("modalContainerShown");
     $(`#${id}`).addClass("modalShown");
@@ -46,6 +47,7 @@ function openModal(id, cb) {
     }
 }
 
+//Adds css classes to hide a modal
 function closeModal(id, cb) {
     $(`#${id}`).removeClass("modalShown");
     $(`#${getModalContainerId(id)}`).removeClass("modalContainerShown");
@@ -54,6 +56,41 @@ function closeModal(id, cb) {
     if (cb) {
         cb()
     }
+}
+
+//two modals without them fading in and out
+//Swaps two modals and if necessary adds click handlers for back buttons
+//to go back to last modal
+function swapModal(currentId, newId, showBack) {
+    removeTransition(currentId)
+    removeTransition(newId)
+
+    openModal(newId)
+    closeModal(currentId)
+
+    if (showBack) {
+        showModalBack(newId)
+        addModalBackHandler(newId, () => {
+            swapModal(newId, currentId, false)
+            //closeModal(newId)
+            //openModal(currentId)
+            hideModalBack(newId)
+        })
+    }
+    setTimeout(() => {
+        addTransition(currentId)
+        addTransition(newId)
+    }, 250)
+}
+
+function removeTransition(id) {
+    $(`#${id}`).addClass('modalNoTransition')
+    $(`#${getModalContainerId(id)}`).addClass('modalNoTransition')
+}
+
+function addTransition(id) {
+    $(`#${id}`).removeClass('modalNoTransition')
+    $(`#${getModalContainerId(id)}`).removeClass('modalNoTransition')
 }
 
 function addModalBackHandler(modalId, handler) {
@@ -87,4 +124,5 @@ export {
     showModalBack,
     hideModalBack,
     addModalBackHandler,
+    swapModal
 }
