@@ -6,11 +6,14 @@ import {
     swapModal,
     removeModalBackHandlers,
     addModalCloseHandlers,
-    handleModalClose,
 } from "../modals/modalHelpers.js";
-
-import { setupLoginModal } from "../modals/loginModal.js";
 import { addSignUpModalHandlers } from "../modals/signUpModal.js";
+
+//Generalised modal handlers
+import { openModal } from '../modals/generalModalHandlers.js'
+import setupLoginModal from "../modals/loginModal.js";
+import setupInstructionsModal from '../modals/instructionsModal.js'
+
 
 //Dropzone Handler functions
 import {
@@ -25,10 +28,17 @@ import {
     saveStateToServer,
 } from "./stateManagement.js";
 
+const INSTRUCTIONMODALID = 'instructionsModal'
+const LOGINMODALID = 'loginModal'
+
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
 $(async function () {
-    displayInstructionModal();
+    setupInstructionsModal(INSTRUCTIONMODALID)
+    openModal(INSTRUCTIONMODALID)
+
+    //TODO remove close handlers and replace with generics
+    addModalCloseHandlers();
 
     window.isAuth = await checkIsAuthenticated()
 
@@ -39,7 +49,7 @@ $(async function () {
     saveResultsButtonHandlers(isAuth, state)
 
     //Add handlers for login
-    setupLoginModal('loginModal', 'headerLoginButton');
+    setupLoginModal(LOGINMODALID, 'headerLoginButton');
 
     //Add initial test app dropzone handlers for JQuery UI 
     $(".cardDropzone").each(function () {
@@ -122,13 +132,6 @@ function calculateResult(state) {
 }
 
 // ---------- Modal Handlers ------------
-
-//Handles showing the instructions modal
-function displayInstructionModal() {
-    swapModal("#instructModalSection");
-    addModalCloseHandlers();
-    $("#testStartButton").click(handleModalClose);
-}
 
 //Generates the required html for results modal
 function generateResultsModal(color) {

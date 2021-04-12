@@ -23,6 +23,7 @@
     <%- include('../partials/header')%>
     <body>
         <%- include('../components/loginModal')%>
+        <%- include('../components/instructionsModal.ejs') %>
         <div id="appModalContainer" class="modalContainer">
             <div id="appModal" class="modal">
                 <div id="modalSectionContainer"></div>
@@ -75,31 +76,6 @@
         </div>
     </body>
     <div id="modalHolding">
-        <!-- Instructions Modal -->
-        <div id="instructModalSection" class="modalSection">
-            <h2 id="instructModalTitle" class="textCenter bottomMargin50">
-                Instructions
-            </h2>
-            <div class="divider"></div>
-            <%- include('../components/instructionLine.ejs', {number: "1",
-            text: "Read the card and decide if the word describes you."})%>
-            <%- include('../components/instructionLine.ejs', {number: "2",
-            text: "If you believe it does, you can keep it, if not, you can discard it."})%>
-            <%- include('../components/instructionLine.ejs', {number: "3",
-            text: "You are free to and encouraged to change your mind as the test goes on."})%>
-            <%- include('../components/instructionLine.ejs', {number: "4",
-            text: "When 20 cards are kept and 60 are discarded, you can finish and your results will be decided."})%>
-            <div class="divider"></div>
-            <div class="flex justifyCenter spaceEvenly">
-                <button
-                    class="buttonBaseline buttonSuccess noBorder colCenter"
-                    id="testStartButton"
-                >
-                    Begin
-                </button>
-            </div>
-        </div>
-
         <!-- Movie Modal -->
         <div id="movieModalSection" class="modalSection">
             <h4
@@ -150,6 +126,5 @@
             </div>
         </div>
         <%- include('../components/signUpModal', {header: "Sign up to save your progress!"})%>
-
     </div>
 </html>
