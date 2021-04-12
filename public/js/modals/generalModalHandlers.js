@@ -12,11 +12,10 @@ function setupModal(id, openModalButtonId, cb) {
     var cb = cb || {};
 
     //If user is logged in the button won't exist
-    if (!$(`#${openModalButtonId}`).length) {
-        return
+    if ($(`#${openModalButtonId}`).length !== 0) {
+        //Add click event for login button in the header to open the login modal
+        $(`#${openModalButtonId}`).click(() => openModal(id, cb.open));
     }
-    //Add click event for login button in the header to open the login modal
-    $(`#${openModalButtonId}`).click(() => openModal(id, cb.open));
 
     const internalClose = () => closeModal(id, cb.close);
     //Add click event for close button in the login modal to close the modal

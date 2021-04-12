@@ -75,6 +75,4 @@ function handleRemembered(isChecked, email){
     }
 }
 
-export { 
-    setupLoginModal
-};
+export default setupLoginModal;

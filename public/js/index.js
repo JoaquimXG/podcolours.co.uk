@@ -1,4 +1,4 @@
-import {setupLoginModal} from './modals/loginModal.js'
+import setupLoginModal from './modals/loginModal.js'
 import {openModal} from './modals/generalModalHandlers.js'
 import {addCarouselHandlers, resizeCarousel} from './components/carousel.js'
 import checkGetParam from './utilities/checkGetParam.js'
