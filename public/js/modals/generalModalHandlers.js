@@ -56,6 +56,18 @@ function closeModal(id, cb) {
     }
 }
 
+function addModalBackHandler(modalId, handler) {
+    $(`#${getModalBackId(modalId)}`).click(handler)
+}
+
+function showModalBack(modalId) {
+    $(`#${getModalBackId(modalId)}`).css('visibility', 'visible')
+}
+
+function hideModalBack(modalId) {
+    $(`#${getModalBackId(modalId)}`).css('visibility', 'hidden')
+}
+
 function getModalContainerId(modalId) {
     return `${modalId}Container`
 }
@@ -64,8 +76,15 @@ function getModalCloseId(modalId){
     return `${modalId}Close`
 }
 
+function getModalBackId(modalId) {
+    return `${modalId}Back`
+}
+
 export {
     setupModal,
     openModal,
-    closeModal
+    closeModal,
+    showModalBack,
+    hideModalBack,
+    addModalBackHandler,
 }

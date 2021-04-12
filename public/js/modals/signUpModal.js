@@ -10,13 +10,6 @@ function setupSignUpModal(id, openModalButtonId, state) {
     setupModal(id, openModalButtonId, {setup: setup})
 }
 
-//Modular function for adding all event handlers for sign up modal 
-
-//TODO remove, deprecated
-function removeCloseModalIcon() {
-    $("#closeSignUpModal").remove()
-}
-
 //Parses user sign up form data and gathers current test data
 //Validates values and posts data to server
 function handleSignUp(e, state) {
@@ -79,6 +72,11 @@ function handleSignUp(e, state) {
         .fail(() => {
             requestUserSignIn()
         })
+}
+
+//TODO remove, deprecated
+function removeCloseModalIcon() {
+    $("#closeSignUpModal").remove()
 }
 
 export default setupSignUpModal;

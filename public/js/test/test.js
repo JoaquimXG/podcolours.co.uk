@@ -1,11 +1,9 @@
 import checkIsAuthenticated from "../utilities/checkIsAuthenticated.js";
-import { wordList as fullWordList, resultsText } from "./appGlobals.js";
+import { wordList as fullWordList } from "./appGlobals.js";
 
 //A collection of functions to manage displaying and closing modals
 import {
     swapModal,
-    removeModalBackHandlers,
-    addModalCloseHandlers,
 } from "../modals/modalHelpers.js";
 
 //Generalised modal handlers
@@ -13,6 +11,7 @@ import { openModal } from '../modals/generalModalHandlers.js'
 import setupLoginModal from "../modals/loginModal.js";
 import setupInstructionsModal from '../modals/instructionsModal.js'
 import setupSignUpModal from '../modals/signUpModal.js'
+import setupResultsModal from '../modals/resultsModal.js'
 
 
 //Dropzone Handler functions
@@ -30,6 +29,8 @@ import {
 
 const INSTRUCTIONMODALID = 'instructionsModal'
 const LOGINMODALID = 'loginModal'
+const SIGNUPMODALID = 'signUpModal'
+const RESULTSMODALID = 'resultsModal'
 
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
@@ -39,7 +40,7 @@ $(async function () {
     setupLoginModal(LOGINMODALID, 'headerLoginButton');
 
     //TODO remove close handlers and replace with generics
-    addModalCloseHandlers();
+    //addModalCloseHandlers();
 
     window.isAuth = await checkIsAuthenticated()
 
@@ -47,7 +48,7 @@ $(async function () {
     var {state, wordList} = await initTest(window.isAuth, fullWordList);
 
     //Adjust header button action depending on if user is authenticated or not
-    saveResultsButtonHandlers(isAuth, state)
+    saveResultsButtonHandlers(window.isAuth, state)
 
 
     //Add initial test app dropzone handlers for JQuery UI 
@@ -63,7 +64,15 @@ $(async function () {
     $("#undecidedDropZone").droppable({ drop: (_, ui) => handleUndecided(_, ui, state) });
 
     $("#omdbButton").click(() => callMovieApi(state));
-    $("#completeTest").click((_) => calculateResult(state));
+
+    var isResultsGenerated = false;
+    $("#completeTest").click((_) => {
+        if (!isResultsGenerated) {
+            setupResultsModal(RESULTSMODALID, null, state)
+            isResultsGenerated = true;
+        }
+        openModal(RESULTSMODALID)
+    });
 
     //Handler for screen resizing
     window.onresize = (_) => redistributeCards(state);
@@ -75,85 +84,9 @@ function saveResultsButtonHandlers(isAuthenticated, state) {
     //the end of the test should save their results without prompting to sign in
     if (isAuthenticated) {
         $("#saveResultsHeaderButton").click(() => saveStateToServer(false, true, state))
-        return;
+    } else {
+        setupSignUpModal(SIGNUPMODALID, "saveResultsHeaderButton", state)
     }
-
-    setupSignUpModal("signUpModal", "saveResultsHeaderButton", state)
-
-    return
-}
-
-//Counts the number of cards of each colour which were kept
-//calculates the users test result, displayes the results modal
-//and saves the results to localStorage
-function calculateResult(state) {
-    var max = 0;
-    var result = "";
-    var colors = ["red", "blue", "green", "yellow"];
-
-    //Loop throug each color and count how many cards of each
-    //color have been kept. Calculating the highest count at the same time
-    var colorCounts = {};
-    colors.forEach((color) => {
-        var count = state.test.cards.kept.filter((card) => card.color == color).length;
-        colorCounts[color] = count;
-        if (count > max) {
-            max = count;
-            result = color;
-        }
-    });
-    //Add the result to the cards variable
-    state.test.cards.colorCounts = colorCounts;
-
-    //Display the users results
-    generateResultsModal(result);
-    displayResultsModal(state);
-
-    state.test.complete = true;
-    state.test.result = result;
-    state.test.ts = Date.now();
-    state.test.timeComplete = Date.now();
-
-    if (window.isAuth) {
-        saveStateToServer(false, false, state);
-    } 
-    else {
-        //Store the updated cards data in localStorage
-        localStorage.setItem("test-local", JSON.stringify(state));
-    }
-}
-
-// ---------- Modal Handlers ------------
-
-//Generates the required html for results modal
-function generateResultsModal(color) {
-    $("#resultColor").empty()
-    $("#resultColor").append(resultsText[color].color);
-    $("#resultTitle").text(resultsText[color].title);
-    $("#resultsBlurb").text(resultsText[color].blurb);
-}
-
-//Adjusts all css and text for the appropriate results modal
-function displayResultsModal(state) {
-    swapModal("#resultsModalSection");
-    //Removing unneccessary dangling click handlers and icons
-    removeModalBackHandlers();
-
-    //If user is signed in save state to server rather than asking to sign up
-    if (window.isAuth == true) {
-        $("#saveResultsButton").click(() => saveStateToServer(true, false, state));
-        return;
-    }
-
-    //If user not signed in, add handler to prompt user sign up
-    $("#saveResultsButton").click(function () {
-        swapModal("#signUpModalSection");
-        $("#backAppModal")
-            .css('visibility', 'visible')
-            .click(function () {
-                displayResultsModal(state);
-            });
-    });
 }
 
 // ----------- Movie API -------------------------
