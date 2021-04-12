@@ -13,16 +13,16 @@ function setupResultsModal(id, openModalButtonId, state) {
     function setup() {
         calculateResult(state)
         generateResultsModal(state.test.result);
+
         //If user is signed in save state to server rather than asking to sign up
         if (window.isAuth == true) {
             $("#saveResultsButton").click(() => saveStateToServer(true, false, state));
-            return;
+        } else {
+            //If user not signed in, add handler to prompt user sign up
+            $("#saveResultsButton").click(() => {
+                swapModal('resultsModal', 'signUpModal', true)
+            });
         }
-
-        //If user not signed in, add handler to prompt user sign up
-        $("#saveResultsButton").click(() => {
-            swapModal('resultsModal', 'signUpModal', true)
-        });
 
         $("#randomPersonButton").click(() => {
             requestRandomPerson(state.test.result,

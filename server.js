@@ -7,7 +7,7 @@ const prepareMiddleware = require("./middleware/index");
 //Routes
 const home = require("./routes/home");
 const { testIndex, testSaveState, testGetState } = require("./routes/test");
-const handleGetCeleb = require("./routes/getPeople");
+const getPeople = require("./routes/getPeople");
 const profile = require("./routes/profile");
 const {
     signUpIndex,
@@ -35,7 +35,7 @@ app.post("/test/saveState", testSaveState);
 app.get("/test/getState", testGetState);
 
 //API endpoint to retreive random celeb
-app.post("/test/getpeople", handleGetCeleb);
+app.post("/test/getpeople", getPeople);
 
 //User profile page
 app.get("/profile", profile);
