@@ -64,7 +64,7 @@ $(async function () {
     });
     $("#undecidedDropZone").droppable({ drop: (_, ui) => handleUndecided(_, ui, state) });
 
-    $("#omdbButton").click(() => callMovieApi(state, displayResultsModal));
+    $("#omdbButton").click(() => callMovieApi(state, () => {openModal(RESULTSMODALID)}));
 
     var isResultsGenerated = false;
     $("#completeTest").click((_) => {
