@@ -24,6 +24,7 @@
     <body>
         <%- include('../components/loginModal')%>
         <%- include('../components/instructionsModal.ejs') %>
+        <%- include('../components/signUpModal', {header: "Sign up to save your progress!"})%>
         <div id="appModalContainer" class="modalContainer">
             <div id="appModal" class="modal">
                 <div id="modalSectionContainer"></div>
@@ -125,6 +126,5 @@
                 </button>
             </div>
         </div>
-        <%- include('../components/signUpModal', {header: "Sign up to save your progress!"})%>
     </div>
 </html>

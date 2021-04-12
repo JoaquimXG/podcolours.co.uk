@@ -7,12 +7,12 @@ import {
     removeModalBackHandlers,
     addModalCloseHandlers,
 } from "../modals/modalHelpers.js";
-import { addSignUpModalHandlers } from "../modals/signUpModal.js";
 
 //Generalised modal handlers
 import { openModal } from '../modals/generalModalHandlers.js'
 import setupLoginModal from "../modals/loginModal.js";
 import setupInstructionsModal from '../modals/instructionsModal.js'
+import setupSignUpModal from '../modals/signUpModal.js'
 
 
 //Dropzone Handler functions
@@ -36,6 +36,7 @@ const LOGINMODALID = 'loginModal'
 $(async function () {
     setupInstructionsModal(INSTRUCTIONMODALID)
     openModal(INSTRUCTIONMODALID)
+    setupLoginModal(LOGINMODALID, 'headerLoginButton');
 
     //TODO remove close handlers and replace with generics
     addModalCloseHandlers();
@@ -48,8 +49,6 @@ $(async function () {
     //Adjust header button action depending on if user is authenticated or not
     saveResultsButtonHandlers(isAuth, state)
 
-    //Add handlers for login
-    setupLoginModal(LOGINMODALID, 'headerLoginButton');
 
     //Add initial test app dropzone handlers for JQuery UI 
     $(".cardDropzone").each(function () {
@@ -75,20 +74,13 @@ function saveResultsButtonHandlers(isAuthenticated, state) {
     //If user is authenticated, the button to save results
     //the end of the test should save their results without prompting to sign in
     if (isAuthenticated) {
-        addSignUpModalHandlers("saveResultsHeaderButton",
-            isAuthenticated,
-            (passedState) => saveStateToServer(false, true, passedState),
-            state
-        );
+        $("#saveResultsHeaderButton").click(() => saveStateToServer(false, true, state))
         return;
     }
 
-    //If user is not logged in they should be prompted to sign up
-    addSignUpModalHandlers("saveResultsHeaderButton", false, null, state);
-    $("#saveResultsHeaderButton").click(function () {
-        swapModal("#signUpModalSection");
-        addModalCloseHandlers();
-    });
+    setupSignUpModal("signUpModal", "saveResultsHeaderButton", state)
+
+    return
 }
 
 //Counts the number of cards of each colour which were kept
