@@ -1,7 +1,5 @@
 # POD Colours
 
-[![Work in Repl.it](https://classroom.github.com/assets/work-in-replit-14baed9a392b3a25080506f3b7b6d57f295ec2978f6f33ec97e36a161684cbe9.svg)](https://classroom.github.com/online_ide?assignment_repo_id=301411&assignment_repo_type=GroupAssignmentRepo)
-
 POD Colours is a unique personality evaluation test.
 The POD Colours tool supports individuals and teams to appreciate differences in
 personality by en-hancing self-awareness, leading to a deeper understanding of
@@ -15,7 +13,6 @@ Two options for using the site.
 
 1. Locally with local MongoDB installation.
 2. Through a pair of docker containers. One running MongoDB and one for the webapp.
-
 
 ### Configuration
 
@@ -103,9 +100,3 @@ change automatically and display some brief information on their type of persona
 result. They will also have the option to 'suggest a movie'. This function will
 incorporate the use of the IMDB movie database to search for relative genres that
 are based on the personality result.
-
-## Contributors
-
-- Joaquim Gomez
-- Euan Doyle
-- Lewis Boyd
