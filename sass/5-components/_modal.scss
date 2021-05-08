@@ -1,0 +1,85 @@
+.modalContainer {
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.25s linear, opacity 0.2s linear;
+    background: rgba(131, 138, 150, 0.8);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalContainerShown {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal {
+    background: white;
+    border-radius: 7px;
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.2s linear;
+    max-width: 700px; 
+    width: 55%;
+    min-width: 500px;
+}
+
+.modalShown {
+    opacity: 1;
+}
+
+.modalNoTransition {
+    transition: unset !important;
+}
+
+.closeModalIcon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 28px;
+    width: 28px;
+}
+.closeModalIcon:hover {
+    fill:red;
+}
+
+.backModalIcon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    height: 28px;
+    width: 28px;
+    visibility: hidden;
+}
+
+.backModalIcon:hover {
+    fill: #2f9bff;
+}
+
+.modalSection {
+    padding: 50px 50px;
+}
+
+#modalHolding{
+    display: none;
+}
+
+.instructionNumber {
+    font-size: 50px;
+    margin: 0 30px;
+    font-weight: 700;
+}
+
+.instructionText {
+    text-align: left;
+}
+
+#loginButton {
+    margin: 30px auto 0px;
+}

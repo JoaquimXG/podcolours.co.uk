@@ -1,0 +1,40 @@
+#quoteAuthor {
+    padding-left: 10px;
+}
+
+#quoteAuthor:before {
+    background: #2f9bff;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    content: "";
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    right: 10px;
+}
+
+#teamPhotoDiv {
+    overflow: hidden;
+    height: 300px;
+    width: 300px;
+    background: white;
+    border-radius: 50%;
+    margin: auto;
+}
+
+#teamPhoto {
+    height: auto;
+    width: 100%;
+}
+
+#testimonialCircle {
+    background: #fbb52b;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

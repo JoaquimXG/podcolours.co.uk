@@ -1,0 +1,19 @@
+.toast {
+    z-index: 5000;
+    padding: 15px 40px;
+    border-radius: 7px;
+    color: white;
+    box-shadow: rgba(150, 150, 150, 0.8) 0px 1px 4px;
+    background-color: #52c41a;
+    font-weight: 900;
+    display: inline-block;
+    position: fixed;
+    top: -150px;
+    right: 15px;
+    opacity: 0;
+    transition: all 0.4s ease-out;
+}
+
+.toastError {
+    background-color: #ff5f61;
+}

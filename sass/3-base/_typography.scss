@@ -1,0 +1,49 @@
+
+h1 {
+    font-size: 50px;
+    font-weight: 100;
+}
+
+h2 {
+    font-size: 40px;
+    font-weight: 100;
+}
+
+h3 {
+    font-size: 30px;
+    font-weight: 100;
+}
+
+h4 {
+    font-size: 25px;
+    font-weight: 100;
+}
+
+h5 {
+    font-size: 16px;
+    font-weight: 100;
+}
+
+//TODO pick
+.bold {
+    font-weight: 700;
+}
+
+/* Font Styles */
+.bold {
+    font-weight: bold;
+}
+
+h1.underline {
+    border-bottom: 2.5px solid #aaa;
+    padding-bottom: 10px;
+}
+
+h2.underline {
+    border-bottom: 2px solid #aaa;
+    padding-bottom: 5px;
+}
+
+.textCenter {
+    text-align: center;
+}

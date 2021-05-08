@@ -1,0 +1,48 @@
+.dropzoneContainer {
+    position:absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    bottom: 0px;
+    left: 0px;
+    height: 30%;
+    width: 100vw;
+}
+
+.cardDropzone {
+    /*position: absolute;
+    top: 20px; 
+    height: calc(100% - 40px);*/
+    width: 30%;
+    max-width: 450px;
+    border: 2px solid;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-size: 1.5em;
+    font-weight: 700;
+    border-radius: 10px;
+}
+.cardDropzoneHover {
+    box-shadow: inset 0px 0px 4px 1px rgba(0,0,0,0.35);
+}
+
+.dropZoneText {
+    width: 100%;
+}
+
+#greenDropzone {
+    border-color: rgba(86, 189, 102, 1);
+    background: rgba(86, 189, 102, 0.5);
+}
+
+#redDropzone {
+    border-color: rgba(255, 77, 79, 1);
+    background: rgba(255, 77, 79, 0.5);
+}
+
+#undecidedDropZone {
+    flex-grow: 1;
+}

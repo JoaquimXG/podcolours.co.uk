@@ -1,0 +1,41 @@
+/* Styles for the cards that will be used during the test */
+.card {
+    padding: 15px;
+    position: absolute;
+    width: 180px;
+    height: 127px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background: linear-gradient(257.68deg, #F7F7F7 0%, #ECECEC 100%);
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    color: black;
+    font-weight: 700;
+    cursor: default;
+    z-index: 1;
+}
+
+.bigCard {
+    padding: 30px;
+    width: 360px;
+    height: 254px;
+    border-radius: 18px;
+    font-size: 30px;
+}
+
+.cardTrans {
+    transition: 0.4s;
+}
+
+.card:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+/* Style for when card is being clicked on */
+.cardFocused {
+    opacity: 0.5;
+    transition: 0.4;
+    background: linear-gradient(257.68deg, #ECECEC 0%, #E2E2E2 100%);
+}

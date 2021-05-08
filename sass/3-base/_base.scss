@@ -1,0 +1,65 @@
+//Should contain Basic styles for commonly used html elements, e.g. a tag
+@use '../1-abstracts/' as a;
+
+
+* {
+    font-family: Roboto;
+}
+
+body {
+    font-size: 16px;
+}
+
+body.loading {
+    cursor: progress !important;
+}
+
+$linkColor: a.$color-cerulean-blue; 
+a {
+    text-decoration: none;
+    color: $linkColor;
+}
+
+
+//TODO Remove, I think this is being used by javascript somewhere. 
+$blue: a.$color-dodger-blue;
+$green: a.$color-kelly-green;
+$red: a.$color-bittersweet;
+$yellow: a.$color-supernova;
+
+.blue {
+    color: $blue;
+}
+
+.green {
+    color: $green;
+}
+
+.red {
+    color: $red;
+}
+
+.yellow {
+    color: $yellow;
+}
+
+/* Color Schemes */
+//TODO I think these should be moved too
+.whiteOnBlack {
+    background: #333;
+    color: white;
+}
+.whiteOnPeach {
+    background: #ff5f61;
+    color: white;
+}
+
+.blackOnPaleBlue {
+    background: #e6ecf6;
+    color: black;
+}
+
+.error {
+    color: #ff5f61;
+    border-color: #ff5f61;
+}

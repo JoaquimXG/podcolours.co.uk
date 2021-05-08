@@ -1,0 +1,105 @@
+//TODO this formGroup container should be extracted into
+// a more generic container
+.formGroup {
+    position: relative;
+    padding: 15px 0 0;
+    margin: auto;
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* remove standard placeholder */
+.formField::placeholder {
+    color: transparent;
+    visibility: hidden;
+}
+
+.formField {
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid grey;
+    outline: 0;
+    font-size: 20px;
+    color: black;
+    padding: 12px 0 10px;
+    background: transparent;
+    transition: border-color 0.2s;
+    margin-bottom: 10px;
+}
+
+.formField:focus {
+    padding-bottom: 9px;
+    font-weight: 700;
+    border-width: 3px;
+    border-bottom: 3px solid #2f9bff;
+}
+
+/* Keep label in default position when placeholder is not showing */
+//TODO should label be here
+.formLabel {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.25s;
+    font-size: 20px;
+    color: grey;
+}
+
+/* If the form field is empty (placeholder would be shown)
+ * lower the label into formField
+ * */
+.formField:placeholder-shown ~ .formLabel {
+    font-size: 20px;
+    cursor: text;
+    top: 20px;
+}
+
+/* Highlight label and return to top posiition when form is focused */
+.formField:focus ~ .formLabel {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.25s;
+    font-size: 20px;
+    color: #2f9bff;
+    font-weight: 700;
+}
+
+/* reset input */
+.formField:required,
+.formField:invalid {
+    box-shadow: none;
+}
+
+.formFieldError {
+    color: #ff5f61;
+    border-color: #ff5f61;
+}
+
+.formFieldError:focus {
+    border-color: #ff5f61;
+}
+
+.formFieldError ~ .formLabel {
+    color: #ff5f61;
+}
+
+.formFieldError:focus ~ .formLabel {
+    color: #ff5f61;
+}
+
+//TODO where should this go
+.profileFieldHeader {
+    margin-bottom: 15px;
+    color: #888888;
+}
+
+.profileFieldText {
+    margin-bottom: 30px;
+}
+
+.profileInput {
+    margin-bottom: 29px;
+    padding-top: unset;
+}
+

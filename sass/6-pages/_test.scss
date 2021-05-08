@@ -1,0 +1,14 @@
+*{
+    margin: 0px;
+}
+.appBackground {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin:0px;
+    padding: 30px 30px;
+    background: linear-gradient(250deg, #D7DDE8 0%, #C9D0E1 100%);
+    height: calc(100vh - 100px);
+    width: 100vw;
+}
+

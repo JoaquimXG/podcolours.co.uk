@@ -1,0 +1,112 @@
+.buttonBaseline {
+    background: none;
+    color: black;
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 15px 40px;
+    margin: 0px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    cursor: pointer;
+    display: block;
+    box-shadow: rgba(119, 125, 132, 0.5) 0px 1px 4px;
+}
+
+.buttonBaseline:disabled {
+    background-color: grey
+}
+
+
+.buttonBaseline:hover {
+    color: #52c41a;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 1px 4px;
+    border-color: #52c41a;
+}
+
+.buttonBaseline:disabled:hover {
+    color: white;
+    box-shadow: unset;
+    background-color: grey;
+    cursor: unset;
+}
+
+.buttonBaseline:focus {
+    outline: none;
+}
+.buttonBaseline::-moz-focus-inner {
+    border: 0;
+}
+
+.buttonSuccess {
+    background: #52c41a;
+    padding: 15px 40px;
+    font-weight: 900;
+    color: white;
+}
+
+.buttonSuccess:hover {
+    color: #52c41a;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.buttonSuccess:focus {
+    color: #52c41a;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.buttonBlue {
+    background: #2f9bff;
+    padding: 15px 40px;
+    font-weight: 900;
+    color: white;
+}
+
+.buttonBlue:hover {
+    color: #2f9bff;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.buttonBlue:focus {
+    color: #2f9bff;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.buttonError {
+    background: #ff5f61;
+    padding: 15px 40px;
+    font-weight: 900;
+    color: white;
+}
+
+.buttonError:hover {
+    color: #ff5f61;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.buttonError:focus {
+    color: #ff5f61;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.noBorder {
+    border: none;
+}
+
+.buttonCenter { 
+    margin: auto;
+}
+
+#completeTest {
+    width: 140px;
+    position: absolute;
+    bottom: 10%;
+    left: calc(50% - 70px);
+}

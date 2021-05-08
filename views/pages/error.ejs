@@ -7,9 +7,7 @@
         <%- include('../partials/head')%>
 
         <!-- Internal stylesheets -->
-        <link rel="stylesheet" href="/css/index.css" />
-        <link rel="stylesheet" href="/css/indexMobile.css" />
-        <link rel="stylesheet" href="/css/app.css"/>
+        <link rel="stylesheet" href="/css/main.css"/>
     </head>
     <body class="overflowHidden">
         <main class="blackOnPaleBlue alignCenter flex justifyCenter screenHeight">
@@ -24,7 +22,7 @@
                             <h1 id="heroTitle" class="bold bottomMargin50"><%= error.title %></h1>
                             <h4 class="bottomMargin50"><%= error.text %></h4>
                             <button
-                                class="takeTheTest buttonBaseline buttonSuccess noBorder colCenter smallColCenter"
+                                class="takeTheTest buttonBaseline buttonSuccess noBorder buttonCenter "
                                 onclick="location.href='/'"
                             >
                             Return Home
