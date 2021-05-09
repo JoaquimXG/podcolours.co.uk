@@ -6,68 +6,59 @@
 
         <%- include('../partials/head')%>
 
-        <!-- Internal stylesheets -->
-        <link rel="stylesheet" href="/css/main.css"/>
-
         <!-- Internal javascript -->
         <script type="module" src="/js/index.js"></script>
     </head>
+
+
     <body>
         <%- include('../components/modals/loginModal')%>
         <%- include('../partials/header')%>
-        <main class="blackOnPaleBlue">
+
+
+        <main class="hero">
             <div
-                class="mainContainer tallBlock flex wrap alignCenter smallFlexReverse"
-            >
-                <div
-                    class="col col6 colPost1 smallCol10 smallColCenter smallMarginBottom smallTextCenter"
+                class="grid grid__column-reverse container tallBlock"
                 >
-                    <div>
-                        <h1 id="heroTitle" class="bold bottomMargin50"><%= content.hero.title %></h1>
-                        <h4 class="bottomMargin50"><%= content.hero.text %></h4>
-                        <button
-                            class="takeTheTest buttonBaseline buttonSuccess noBorder colCenter smallColCenter"
-                            onclick="location.href='/test'"
+                <div class="hero__content col">
+                    <h1 id="heroTitle" class="hero__title" ><%= content.hero.title %></h1>
+                    <p class="hero__blurb"><%= content.hero.text %></p>
+                    <button
+                        class="takeTheTest buttonBaseline buttonSuccess noBorder colCenter smallColCenter"
+                        onclick="location.href='/test'"
                         >
-                            Take the Test!
-                        </button>
-                    </div>
+                        Take the Test!
+                    </button>
                 </div>
-                <div
-                    id="heroContainerImageContainer"
-                    class="col col5 smallCol6 smallColCenter smallMarginBottom"
-                >
-                <img class="col12 smallCol12" src="<%= content.hero.image %>" />
+                <div class="hero__img col">
+                    <div>
+                        <img src="<%= content.hero.image %>" />
+                    </div>
                 </div>
             </div>
         </main>
-        <section id="explanation" class="pullUp150 mainContainer z100">
-            <div class="shortBlock whiteOnPeach textCenter smallTextLeft">
-                <div class="col10 colCenter smallCol10 smallColCenter">
-                    <h1 class="bold bottomMargin50"><%= content.redSection.title %></h1>
+
+
+        <section id="explanation" class="">
+            <div class="container shortBlock">
+                <div class="">
+                    <h1 class=""><%= content.redSection.title %></h1>
                 </div>
-                <div class="col10 colCenter smallCol10 smallColCenter">
-                    <h4 class="bottomMargin50"><%= content.redSection.text %></h4>
+                <div class="">
+                    <h4 class=""><%= content.redSection.text %></h4>
                 </div>
             </div>
         </section>
-        <section
-            id="teamQuoteContainer"
-            class="whiteOnBlack width95 pullUp150 topPadding150"
-        >
-            <div
-                class="mainContainer tallBlock flex wrap alignCenter smallFlexReverse"
-            >
-                <div
-                    class="col4 smallCol8 smallColCenter smallMarginBottom"
-                >
+
+
+        <section id="teamQuoteContainer">
+            <div class="grid container tallBlock">
+                <div class="TODO">
                     <div id="teamPhotoDiv">
                         <img id="teamPhoto" src="/img/b&w-woman.jpg">
                     </div>
                 </div>
-                <div
-                    class="col7 colPre1 smallCol10 smallColCenter smallTextRight smallMarginBottom"
-                >
+                <div class="">
                     <div id="teamQuote">
                         <h2 class="bold bottomMargin50"><%= content.teamPhotoSection.title %></h2>
                         <h3 class="bottomMargin50"><%= content.teamPhotoSection.textOne %></h3>
@@ -77,6 +68,12 @@
                 </div>
             </div>
         </section>
+
+
+
+
+
+
         <section id="testimonial">
             <div class="mainContainer shortBlock textCenter">
                 <div class="col10 smallCol10 smallColCenter colCenter overflowHidden">
@@ -92,7 +89,7 @@
                     <button
                         class="buttonBaseline buttonSuccess noBorder colCenter smallColCenter takeTheTest"
                         onclick="location.href='/test'"
-                    >
+                        >
                         Take the Test!
                     </button>
                 </div>

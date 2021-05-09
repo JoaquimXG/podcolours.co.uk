@@ -1,3 +1,12 @@
 .grid {
   display: flex;
+  flex-wrap: wrap;
+}
+
+.grid__column-reverse {
+  flex-wrap: wrap-reverse;
+}
+
+.col {
+  flex: 0 0 100%;
 }

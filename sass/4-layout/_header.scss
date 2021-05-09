@@ -2,14 +2,17 @@
 
 .header {
   position: sticky;
-  background: a.$color-white;
-  //TODO make shadows modular
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-
   z-index: a.$z-header;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 12vw;
   max-height: 6em;
   min-height: 4.5em;
+
+  background: a.$color-white;
+  //TODO make shadows modular
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 
   align-items: center;
   padding: 10px 25px;

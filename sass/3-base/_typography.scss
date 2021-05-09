@@ -1,0 +1,31 @@
+@use "../1-abstracts/" as a;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0.75em 0 0;
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child,
+p:first-child {
+  margin: 0;
+}
+
+//TODO, not sure how I feel about this one
+h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + *, p + *{
+  margin-top: 0.75em;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: a.$font-bold;
+}
