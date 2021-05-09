@@ -17,6 +17,11 @@ html {
     box-sizing: inherit;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 //TODO change to html tag, have to find all the instances where it is being used first
 body.loading {
     cursor: progress !important;
