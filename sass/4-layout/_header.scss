@@ -1,19 +1,27 @@
-header {
-    position: -webkit-sticky;
-    position: sticky;
-    background: white;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    top: -1px;
-    z-index: 1000;
-    height: 12vw;
-    max-height: 100px;
-    min-height: 85px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 20px 30px;
+@use '../1-abstracts/' as a;
+
+.header {
+  position: sticky;
+  background: a.$color-white;
+  //TODO make shadows modular
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+  z-index: a.$z-header;
+  height: 12vw;
+  max-height: 100px;
+  min-height: 85px;
+
+  align-items: center;
+  padding: 20px 30px;
 }
 
-#headerLogoImg {
+.header__button-group {
+  margin-left: auto;
+}
+
+.header__logo {
+  height: 100%;
+  > img {
     height: 100%;
+  }
 }

@@ -1,9 +1,9 @@
 <!-- Header, Templating used to adjust the usage for the second button -->
-<header id="header" class="flex">
-    <a style="height:100%;" href="/"
+<header id="header" class="header grid">
+    <a class=header__logo href="/"
         ><img id="headerLogoImg" src="<%= content.header.image %>"
     /></a>
-    <div class="flex flexPushRight ">
+    <div class="header__button-group grid">
         <%if (header.login) { %>
         <button
             id="headerLoginButton"
