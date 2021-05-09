@@ -6,15 +6,12 @@
 @use "3-base/reset";
 @use "3-base/base";
 @use "3-base/misc";
-@use "3-base/typography";
 
 //Layout
-//TODO remove paddingAndMargin, flex
 @use "4-layout/grid";
-@use "4-layout/flex";
+@use "4-layout/container";
 @use "4-layout/footer";
 @use "4-layout/header";
-@use "4-layout/paddingAndMargin";
 
 //Components
 @use "5-components/button";
