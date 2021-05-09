@@ -1,9 +1,23 @@
-footer {
+@use "../1-abstracts/" as a;
+.footer {
     padding: 30px 20px 30px;
-    background-color: #333333;
-    color: #DCE3F1;
+    background-color: a.$color-night-rider;
+    color: a.$color-dark-gray;
 }
 
-#footer{
-    color: rgb(177, 189, 189);
+.footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
+
+    a, h4 {
+        margin: 0;
+        color: a.$color-pattens-blue;
+    }
+}
+
+.footer__copyright {
+    margin-top: a.$spacing--xlarge;
 }

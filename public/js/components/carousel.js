@@ -19,11 +19,11 @@ function addCarouselHandlers(carouselId) {
     //Add on onclick handler for each carousel button
     //each button will move the carousel to the left 
     //the width of one item * its own index
-    $(".carouselBtn").each(function(i) {
+    $(".carousel__btn").each(function(i) {
         $(this).on("click", function() {
             carousel.css('transform',  `translateX(${i*-carouselItemWidth}px)`);
-            $(".carouselBtnWide").removeClass("carouselBtnWide")
-            $(this).addClass('carouselBtnWide')
+            $(".carousel__btn--wide").removeClass("carousel__btn--wide")
+            $(this).addClass('carousel__btn--wide')
             clearInterval(scrollInterval)
             carouselAutoScroll()
         })
@@ -36,10 +36,10 @@ function addCarouselHandlers(carouselId) {
 //and items within it so that only one item is shown at a time
 function resizeCarousel(carouselId) {
     var carousel = $(`#${carouselId}`);
-    var items = $(".carouselItem")
+    var items = $(".carousel__slider__item")
 
     carouselItemWidth = $(carousel).parent().width();
-    $(".carouselItem").outerWidth(carouselItemWidth)
+    $(".carousel__slider__item").outerWidth(carouselItemWidth)
     $(carousel).width(items.length * carouselItemWidth)
 }
 
@@ -49,8 +49,8 @@ function resizeCarousel(carouselId) {
 var scrollInterval;
 function carouselAutoScroll() {
     scrollInterval = setInterval(function() {
-        var currentIndex = $(".carouselBtnWide").index()
-        var buttons = $(".carouselBtn")
+        var currentIndex = $(".carousel__btn--wide").index()
+        var buttons = $(".carousel__btn")
         $(buttons[(currentIndex + 1) % buttons.length]).click()
     }, 5000)
 }
