@@ -6,8 +6,11 @@
 
 .hero__content {
   // flex: 1 0;
+  margin-top: a.$spacing--3xlarge;
 
-  margin-top: 3.5rem;
+  button {
+      margin-top: a.$spacing--2xlarge;
+  }
 }
 
 .hero__img {
@@ -16,52 +19,65 @@
   display: flex;
   margin: auto;
 
+  //This is all just to center the image
+  //The div keeps it centered vertically
+  //and text-align keeps it centered horizontally
   div {
     text-align: center;
-
     img {
       max-height: 100%;
     }
   }
 }
 
-#quoteAuthor {
+.explanation {
+  background-color: a.$color-red;
+  color: a.$color-text-inverse;
+}
+
+.team-quote {
+  background-color: a.$color-dark-background;
+  color: a.$color-text-inverse;
+}
+
+.team-quote__img {
+  margin-top: a.$spacing--4xlarge;
+  div {
+    overflow: hidden;
+    height: 300px;
+    width: 300px;
+    background: white;
+    border-radius: 50%;
+    margin: auto;
+
+    img {
+      height: auto;
+      width: 100%;
+    }
+  }
+}
+
+.team-quote__content__author {
   padding-left: 10px;
+
+  &:before {
+    background: #2f9bff;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    content: "";
+    display: inline-block;
+    position: relative;
+    top: 0px;
+    right: 10px;
+  }
 }
 
-#quoteAuthor:before {
-  background: #2f9bff;
-  border-radius: 50%;
-  width: 12px;
-  height: 12px;
-  content: "";
-  display: inline-block;
-  position: relative;
-  top: 2px;
-  right: 10px;
+.call-to-action {
+  background-color: a.$color-pattens-blue;
+
+  button {
+      margin-top: a.$spacing--large;
+  }
 }
 
-#teamPhotoDiv {
-  overflow: hidden;
-  height: 300px;
-  width: 300px;
-  background: white;
-  border-radius: 50%;
-  margin: auto;
-}
-
-#teamPhoto {
-  height: auto;
-  width: 100%;
-}
-
-#testimonialCircle {
-  background: #fbb52b;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  margin-bottom: 30px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}

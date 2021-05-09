@@ -18,17 +18,19 @@
 
         <main class="hero">
             <div
-                class="grid grid__column-reverse container tallBlock"
+                class="grid grid--column-reverse container tallBlock"
                 >
                 <div class="hero__content col">
                     <h1 id="heroTitle" class="hero__title" ><%= content.hero.title %></h1>
                     <p class="hero__blurb"><%= content.hero.text %></p>
-                    <button
-                        class="takeTheTest buttonBaseline buttonSuccess noBorder colCenter smallColCenter"
-                        onclick="location.href='/test'"
-                        >
-                        Take the Test!
-                    </button>
+                    <div class="center--horizontal">
+                        <button
+                            class="takeTheTest buttonBaseline buttonSuccess noBorder colCenter smallColCenter"
+                            onclick="location.href='/test'"
+                            >
+                            Take the Test!
+                        </button>
+                    </div>
                 </div>
                 <div class="hero__img col">
                     <div>
@@ -39,53 +41,43 @@
         </main>
 
 
-        <section id="explanation" class="">
+        <section class="explanation">
             <div class="container shortBlock">
-                <div class="">
-                    <h1 class=""><%= content.redSection.title %></h1>
-                </div>
-                <div class="">
-                    <h4 class=""><%= content.redSection.text %></h4>
-                </div>
+                <h1 class="explanation__title"><%= content.redSection.title %></h1>
+                <p class="explanation__blurb"><%= content.redSection.text %></p>
             </div>
         </section>
 
 
-        <section id="teamQuoteContainer">
-            <div class="grid container tallBlock">
-                <div class="TODO">
-                    <div id="teamPhotoDiv">
-                        <img id="teamPhoto" src="/img/b&w-woman.jpg">
+        <section class="team-quote">
+            <div class="grid grid--column-reverse container tallBlock">
+                <div class="team-quote__img col">
+                    <div>
+                        <img src="/img/b&w-woman.jpg">
                     </div>
                 </div>
-                <div class="">
-                    <div id="teamQuote">
-                        <h2 class="bold bottomMargin50"><%= content.teamPhotoSection.title %></h2>
-                        <h3 class="bottomMargin50"><%= content.teamPhotoSection.textOne %></h3>
-                        <h3 class="bottomMargin50"><%= content.teamPhotoSection.textTwo %></h3>
-                        <h5 id="quoteAuthor" class="bottomMargin50"><%= content.teamPhotoSection.quoteAuthor %></h5>
-                    </div>
+                <div class="team-quote__content col">
+                    <h2 class=""><%= content.teamPhotoSection.title %></h2>
+                    <p class=""><%= content.teamPhotoSection.textOne %></p>
+                    <p class=""><%= content.teamPhotoSection.textTwo %></p>
+                    <p class="team-quote__content__author"><%= content.teamPhotoSection.quoteAuthor %></p>
                 </div>
             </div>
         </section>
-
-
-
-
 
 
         <section id="testimonial">
-            <div class="mainContainer shortBlock textCenter">
-                <div class="col10 smallCol10 smallColCenter colCenter overflowHidden">
-                    <%- include('../components/carousel')%>
-                </div>
+            <div class="container shortBlock">
+                <%- include('../components/carousel')%>
             </div>
         </section>
-        <section id="callToAction" class="blackOnPaleBlue">
-            <div class="mainContainer shortBlock textCenter">
-                <div class="col10 smallCol10 colCenter smallColCenter">
-                    <h1 class="bold bottomMargin50"><%= content.callToAction.title %></h1>
-                    <h2 class="bottomMargin50"><%= content.callToAction.text %></h2>
+
+
+        <section class="call-to-action">
+            <div class="container shortBlock">
+                <h1 class=""><%= content.callToAction.title %></h1>
+                <h2 class=""><%= content.callToAction.text %></h2>
+                <div class="center--horizontal">
                     <button
                         class="buttonBaseline buttonSuccess noBorder colCenter smallColCenter takeTheTest"
                         onclick="location.href='/test'"
@@ -95,6 +87,8 @@
                 </div>
             </div>
         </section>
+
+
     </body>
     <%- include('../partials/footer')%>
 </html>

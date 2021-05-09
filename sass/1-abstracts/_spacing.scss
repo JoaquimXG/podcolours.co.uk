@@ -1,23 +1,22 @@
-@use "../1-abstracts/";
-
+@use "./type";
 /**
  * The scale based on `$g-font-size` being 16.
  *
  * Decrease: 12, 8, 4
  * Increase: 24, 32, 40, 48, 56, 72, 96
  */
-$g-spacing: a.$font-size !default;
+$g-spacing: type.$font-size !default;
 
 // Decrease
-$spacing-small: floor($g-spacing - 4) !default;
-$spacing-x-small: floor($g-spacing / 2) !default;
-$spacing-2x-small: floor($g-spacing / 4) !default;
+$spacing--small: floor($g-spacing - 4) !default;
+$spacing--xsmall: floor($g-spacing / 2) !default;
+$spacing--2xsmall: floor($g-spacing / 4) !default;
 
 // Increase
-$spacing-large: ceil($g-spacing / 2 * 3) !default;
-$spacing-x-large: ceil($g-spacing / 2 * 4) !default;
-$spacing-2x-large: ceil($g-spacing / 2 * 5) !default;
-$spacing-3x-large: ceil($g-spacing / 2 * 6) !default;
-$spacing-4x-large: ceil($g-spacing / 2 * 7) !default;
-$spacing-5x-large: ceil($g-spacing / 2 * 9) !default;
-$spacing-6x-large: ceil($g-spacing / 2 * 12) !default;
+$spacing--large: ceil($g-spacing / 2 * 3) !default;
+$spacing--xlarge: ceil($g-spacing / 2 * 4) !default;
+$spacing--2xlarge: ceil($g-spacing / 2 * 5) !default;
+$spacing--3xlarge: ceil($g-spacing / 2 * 6) !default;
+$spacing--4xlarge: ceil($g-spacing / 2 * 7) !default;
+$spacing--5xlarge: ceil($g-spacing / 2 * 9) !default;
+$spacing--6xlarge: ceil($g-spacing / 2 * 12) !default;

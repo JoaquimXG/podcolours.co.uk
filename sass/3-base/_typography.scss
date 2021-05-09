@@ -22,10 +22,14 @@ p:first-child {
 
 //TODO, not sure how I feel about this one
 h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + *, p + *{
-  margin-top: 0.75em;
+  margin-top: 1em;
 }
 
 h1 {
   font-size: 3rem;
   font-weight: a.$font-bold;
+}
+
+p {
+
 }
