@@ -1,6 +1,22 @@
 //Should contain Basic styles for commonly used html elements, e.g. a tag
 @use '../1-abstracts/' as a;
 
+html {
+  @include a.font(a.$font-normal);
+  font-size: 16px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
 //TODO change to html tag, have to find all the instances where it is being used first
 body.loading {
     cursor: progress !important;

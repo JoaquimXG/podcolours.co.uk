@@ -7,9 +7,6 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 html {
-  font-family: "Roboto" sans-serif;
-  font-weight: 400;
-  font-size: 16px;
   line-height: 1.15;
   /* 1 */
   -webkit-text-size-adjust: 100%;
@@ -342,6 +339,9 @@ template {
 }
 
 html {
+  font-family: "Roboto" sans-serif;
+  font-weight: 400;
+  font-size: 16px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -469,58 +469,6 @@ h2.underline {
 
 .textCenter {
   text-align: center;
-}
-
-/* Flex utility classes */
-.flexPushRight {
-  margin-left: auto;
-}
-
-.flex {
-  display: flex;
-}
-
-.flexColumn {
-  display: flex;
-  flex-direction: column;
-}
-
-.wrap {
-  flex-wrap: wrap;
-}
-
-.justifyCenter {
-  justify-content: center;
-}
-
-.spaceEvenly {
-  justify-content: space-evenly;
-}
-
-.spaceAround {
-  justify-content: space-around;
-}
-
-.spaceBetween {
-  justify-content: space-between;
-}
-
-.alignCenter {
-  align-items: center;
-}
-
-.alignEnd {
-  align-items: end;
-}
-
-footer {
-  padding: 30px 20px 30px;
-  background-color: #333333;
-  color: #DCE3F1;
-}
-
-#footer {
-  color: #b1bdbd;
 }
 
 /* Width of mainContainer */
@@ -909,6 +857,58 @@ footer {
     margin-right: 100%;
   }
 }
+/* Flex utility classes */
+.flexPushRight {
+  margin-left: auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.justifyCenter {
+  justify-content: center;
+}
+
+.spaceEvenly {
+  justify-content: space-evenly;
+}
+
+.spaceAround {
+  justify-content: space-around;
+}
+
+.spaceBetween {
+  justify-content: space-between;
+}
+
+.alignCenter {
+  align-items: center;
+}
+
+.alignEnd {
+  align-items: end;
+}
+
+footer {
+  padding: 30px 20px 30px;
+  background-color: #333333;
+  color: #DCE3F1;
+}
+
+#footer {
+  color: #b1bdbd;
+}
+
 header {
   position: -webkit-sticky;
   position: sticky;

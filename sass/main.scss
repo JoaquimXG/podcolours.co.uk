@@ -9,10 +9,10 @@
 @use "3-base/typography";
 
 //Layout
-//TODO remove grid, paddingAndMargin, flex
+//TODO remove paddingAndMargin, flex
+@use "4-layout/grid";
 @use "4-layout/flex";
 @use "4-layout/footer";
-@use "4-layout/grid";
 @use "4-layout/header";
 @use "4-layout/paddingAndMargin";
 
