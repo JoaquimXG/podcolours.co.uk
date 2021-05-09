@@ -8,3 +8,6 @@ data/
 
 *.env
 *.log
+
+main.css
+main.css.map
