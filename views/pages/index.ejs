@@ -25,7 +25,7 @@
                     <p class="hero__blurb"><%= content.hero.text %></p>
                     <div class="center--horizontal">
                         <button
-                            class="takeTheTest buttonBaseline buttonSuccess noBorder colCenter smallColCenter"
+                            class="btn btn--success"
                             onclick="location.href='/test'"
                             >
                             Take the Test!
@@ -57,10 +57,10 @@
                     </div>
                 </div>
                 <div class="team-quote__content col">
-                    <h2 class=""><%= content.teamPhotoSection.title %></h2>
-                    <p class=""><%= content.teamPhotoSection.textOne %></p>
-                    <p class=""><%= content.teamPhotoSection.textTwo %></p>
-                    <p class="team-quote__content__author"><%= content.teamPhotoSection.quoteAuthor %></p>
+                    <h2 ><%= content.teamPhotoSection.title %></h2>
+                    <p><%= content.teamPhotoSection.textOne %></p>
+                    <p><%= content.teamPhotoSection.textTwo %></p>
+                    <p><%= content.teamPhotoSection.quoteAuthor %></p>
                 </div>
             </div>
         </section>
@@ -68,15 +68,15 @@
 
         <section id="testimonial">
             <div class="container shortBlock">
-                <%- include('../components/carousel')%>
+                <%- include('../components/carousel', {id: "carouselSlider"})%>
             </div>
         </section>
 
 
         <section class="call-to-action">
-            <div class="shortBlock">
-                <h1 class=""><%= content.callToAction.title %></h1>
-                <h2 class=""><%= content.callToAction.text %></h2>
+            <div class="container shortBlock">
+                <h1><%= content.callToAction.title %></h1>
+                <h2><%= content.callToAction.text %></h2>
                 <div class="center--horizontal">
                     <button
                         class="buttonBaseline buttonSuccess noBorder colCenter smallColCenter takeTheTest"

@@ -7,14 +7,14 @@
         <%if (header.login) { %>
         <button
             id="headerLoginButton"
-            class="buttonBaseline noBorder"
+            class="btn"
         >
             Login
         </button>
         <% } else if ( header.profile ) { %>
         <button
             id="headerProfileButton"
-            class="buttonBaseline noBorder"
+            class="btn"
             onclick="location.href='/profile'"
         >
             Profile
@@ -23,7 +23,7 @@
         <script type="module" src="/js/logout.js"></script>
         <button
             id="headerLogoutButton"
-            class="buttonBaseline noBorder"
+            class="btn"
         >
             Logout
         </button>
@@ -32,7 +32,7 @@
             <button
                 id="<%= header.testButton.id %>"
                 onclick="<%= header.testButton.onClick %>"
-                class="buttonBaseline noBorder takeTheTest <%= header.testButton.class %>">
+                class="btn <%= header.testButton.class %>">
                 <%= header.testButton.text %>
             </button>
         <% } %>

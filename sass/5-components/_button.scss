@@ -1,8 +1,10 @@
-.buttonBaseline {
+@use "../1-abstracts/" as a;
+
+.btn {
     background: none;
-    color: black;
-    border: 1px solid black;
+    color: a.$color-black;
     border-radius: 7px;
+    border: none;
     padding: 15px 40px;
     text-align: center;
     text-decoration: none;
@@ -10,98 +12,64 @@
     font-size: 20px;
     cursor: pointer;
     display: block;
+    //TODO modularise shadows
     box-shadow: rgba(119, 125, 132, 0.5) 0px 1px 4px;
+
+    &:hover, &:focus {
+        outline:none;
+        color: a.$color-green;
+        //TODO modularise shadows
+        box-shadow: rgba(0, 0, 0, 0.45) 0px 1px 4px;
+        border-color: a.$color-green;
+    }
+
+    &:disabled {
+        color: a.$color-white;
+        background-color: a.$color-gray;
+        box-shadow: unset;
+        cursor: unset;
+    }
+
+    //Adds padding to any buttons which are preceded by another button
+    + .btn {
+        margin-left: a.$spacing--large;
+    }
 }
 
-.buttonBaseline:disabled {
-    background-color: grey
-}
-
-
-.buttonBaseline:hover {
-    color: #52c41a;
-    box-shadow: rgba(0, 0, 0, 0.45) 0px 1px 4px;
-    border-color: #52c41a;
-}
-
-.buttonBaseline:disabled:hover {
-    color: white;
-    box-shadow: unset;
-    background-color: grey;
-    cursor: unset;
-}
-
-.buttonBaseline:focus {
-    outline: none;
-}
-.buttonBaseline::-moz-focus-inner {
-    border: 0;
-}
-
-.buttonSuccess {
-    background: #52c41a;
-    padding: 15px 40px;
+.btn--success {
+    background: a.$color-green;
+    color: a.$color-white;
     font-weight: 900;
-    color: white;
+
+    &:hover, &:focus {
+        color: a.$color-green;
+        background: a.$color-white;
+    }
+
 }
 
-.buttonSuccess:hover {
-    color: #52c41a;
-    background: white;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
-}
-
-.buttonSuccess:focus {
-    color: #52c41a;
-    background: white;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
-}
-
-.buttonBlue {
-    background: #2f9bff;
-    padding: 15px 40px;
+.btn--blue {
+    background: a.$color-blue;
+    color: a.$color-white;
     font-weight: 900;
-    color: white;
+
+    &:hover, &:focus {
+        color: a.$color-blue;
+        background: a.$color-white;
+    }
 }
 
-.buttonBlue:hover {
-    color: #2f9bff;
-    background: white;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
-}
-
-.buttonBlue:focus {
-    color: #2f9bff;
-    background: white;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
-}
-
-.buttonError {
-    background: #ff5f61;
-    padding: 15px 40px;
+.btn--error {
+    background: a.$color-red;
+    color: a.$color-white;
     font-weight: 900;
-    color: white;
+
+    &:hover, &:focus {
+        color: a.$color-red;
+        background: a.$color-white;
+    }
 }
 
-.buttonError:hover {
-    color: #ff5f61;
-    background: white;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
-}
-
-.buttonError:focus {
-    color: #ff5f61;
-    background: white;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
-}
-
-.noBorder {
-    border: none;
-}
-
-#completeTest {
-    width: 140px;
-    position: absolute;
-    bottom: 10%;
-    left: calc(50% - 70px);
+.btn--border {
+    border: 1px solid a.$color-black;
 }

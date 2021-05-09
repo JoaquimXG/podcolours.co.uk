@@ -6,7 +6,7 @@ const testIndex = (req, res, next) => {
     res.locals.header = {
         login: true,
         testButton: {
-            class: "buttonBlue",
+            class: "button--blue",
             onClick: "this.blur()",
             text: "Save your Progress",
             id: "saveResultsHeaderButton",
