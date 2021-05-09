@@ -1,46 +1,31 @@
 //Should contain Basic styles for commonly used html elements, e.g. a tag
 @use '../1-abstracts/' as a;
 
-
-* {
-    font-family: Roboto;
-}
-
-body {
-    font-size: 16px;
-}
-
+//TODO change to html tag, have to find all the instances where it is being used first
 body.loading {
     cursor: progress !important;
 }
 
-$linkColor: a.$color-cerulean-blue; 
 a {
     text-decoration: none;
-    color: $linkColor;
+    color: a.$color-link;
 }
 
-
-//TODO Remove, I think this is being used by javascript somewhere. 
-$blue: a.$color-dodger-blue;
-$green: a.$color-kelly-green;
-$red: a.$color-bittersweet;
-$yellow: a.$color-supernova;
-
+//TODO Remove, I think this is being used by javascript somewhere.
 .blue {
-    color: $blue;
+    color: a.$color-blue;
 }
 
 .green {
-    color: $green;
+    color: a.$color-green;
 }
 
 .red {
-    color: $red;
+    color: a.$color-red;
 }
 
 .yellow {
-    color: $yellow;
+    color: a.$color-yellow;
 }
 
 /* Color Schemes */

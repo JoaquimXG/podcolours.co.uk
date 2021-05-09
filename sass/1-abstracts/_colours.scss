@@ -1,0 +1,33 @@
+// Grays
+$color-night-rider: hsl(0, 0%, 20%);
+$color-dark-gray: hsl(0, 0%, 67%);
+$color-pattens-blue: hsl(217, 47%, 93%);
+
+//Primaries
+$color-dodger-blue: hsl(209, 100%, 59%);
+$color-kelly-green: hsl(100, 77%, 44%);
+$color-bittersweet: hsl(359, 100%, 69%);
+$color-supernova: hsl(40, 96%, 58%);
+
+//Misc
+$color-cerulean-blue: hsl(234, 66%, 45%);
+
+
+
+// -- Functional colours --
+//Link
+$color-link: $color-cerulean-blue; 
+
+//Backgrounds
+$color-light-background: $color-dark-gray;
+$color-dark-background: $color-night-rider;
+
+//Primary colours
+$color-blue: $color-dodger-blue;
+$color-green: $color-kelly-green;
+$color-red: $color-bittersweet;
+$color-yellow: $color-supernova;
+
+//Text
+$color-text-base: hsl(0, 0%, 0%); 
+$color-text-inverse: hsl(0, 0%, 100%);
