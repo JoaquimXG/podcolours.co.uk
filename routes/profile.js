@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
     res.locals.header = {
         logout: true,
         testButton: {
-            class: "button--success",
+            class: "btn--success",
             onClick: "location.href='/test'",
             text: "Continue",
             id: "testButton",

@@ -56,7 +56,7 @@
                 <button
                     id="<%= header.testButton.id %>"
                     onclick="<%= header.testButton.onClick %>"
-                    class="buttonBaseline colCenter noBorder takeTheTest <%= header.testButton.class %>">
+                    class="btn <%= header.testButton.class %>">
                     <%= header.testButton.text %>
                 </button>
             <% } %>
@@ -67,14 +67,14 @@
                     <h1 class="bold">My Profile</h1>
                     <button
                         id="profileEditButton"
-                        class="buttonBaseline noBorder buttonBlue"
+                        class="btn btn--blue"
                         onclick="this.blur()"
                     >
                         Edit
                     </button>
                     <button
                         id="profileSaveButton"
-                        class="buttonBaseline noBorder buttonSuccess"
+                        class="btn btn--success"
                         onclick="this.blur()"
                     >
                         Save

@@ -32,7 +32,7 @@
 
     //Adds padding to any buttons which are preceded by another button
     + .btn {
-        margin-left: a.$spacing--large;
+        margin-left: a.$spacing--xlarge;
     }
 }
 
@@ -45,7 +45,6 @@
         color: a.$color-green;
         background: a.$color-white;
     }
-
 }
 
 .btn--blue {
