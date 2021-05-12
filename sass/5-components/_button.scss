@@ -32,7 +32,11 @@
 
     //Adds padding to any buttons which are preceded by another button
     + .btn {
-        margin-left: a.$spacing--xlarge;
+        margin-left: a.$spacing--large;
+    }
+
+    + .btn__sibling {
+        margin-left: a.$spacing--large;
     }
 }
 

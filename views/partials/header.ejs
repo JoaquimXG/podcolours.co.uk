@@ -29,12 +29,14 @@
         </button>
         <% } %>
         <%if (header.testButton != false) { %>
+        <div class="show--lg btn__sibling">
             <button
                 id="<%= header.testButton.id %>"
                 onclick="<%= header.testButton.onClick %>"
-                class="btn <%= header.testButton.class %>">
+                class="btn <%= header.testButton.class %> show--md">
                 <%= header.testButton.text %>
             </button>
+        </div>
         <% } %>
     </div>
 </header>
