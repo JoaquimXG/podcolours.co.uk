@@ -5,9 +5,9 @@
         <% content.testimonials.forEach((testimonial, i) => { %>
             <%# Loops through all testimonials in database, new testimonials can be easily added %>
                 <div class="carousel__slider__item">
-                    <h2><%= testimonial.text %></h2>
+                    <h4><%= testimonial.text %></h4>
                     <div class="carousel__slider__item__accent"></div>
-                    <h3><%= testimonial.name %></h3>
+                    <h5><%= testimonial.name %></h5>
                 </div>
         <% }); %>
     </div>
