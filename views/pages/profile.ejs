@@ -12,46 +12,59 @@
         <!-- Internal javascript -->
         <script type="module" src="/js/profile.js" ></script>
     </head>
+
+
     <%- include('../partials/header')%>
+
+
     <body>
-        <div class="mainContainer shortBlock">
+
+
+        <div class="container shortBlock">
             <% if (profile.test.complete === true) { %>
-            <div class="col10 smallCol10 colCenter smallColCenter">
-                    <%# %>
-                    <h1 class="bold bottomMargin100 underline">Your results</h1>
-                    <div class="flex spaceAround">
-                        <div>
-                            <h1 class="textCenter bold bottomMargin30" >Blue</h1>
-                            <h1 class="textCenter blue"><%= profile.test.cards.colorCounts.blue %></h1>
+            <div class="profile-complete-results">
+                    <h2 class="profile-complete-results__title">Results</h2>
+                    <div class="grid font--margin__unset">
+                        <div class="col profile-complete-results__group">
+                            <div class="profile-complete-results__count">
+                                <h3>Green</h3>
+                                <h3 class="profile-complete-results__value green"><%= profile.test.cards.colorCounts.green%></h3>
+                            </div>
+                            <div class="profile-complete-results__count">
+                                <h3>Red</h3>
+                                <h3 class="profile-complete-results__value red"><%= profile.test.cards.colorCounts.red%></h3>
+                            </div>
                         </div>
-                        <div>
-                            <h1 class="textCenter bold bottomMargin30" >Red</h1>
-                            <h1 class="textCenter red"><%= profile.test.cards.colorCounts.red%></h1>
-                        </div>
-                        <div>
-                            <h1 class="textCenter bold bottomMargin30" >Green</h1>
-                            <h1 class="textCenter green"><%= profile.test.cards.colorCounts.green%></h1>
-                        </div>
-                        <div>
-                            <h1 class="textCenter bold bottomMargin30">Yellow</h1>
-                            <h1 class="textCenter yellow"><%= profile.test.cards.colorCounts.yellow %></h1>
+                        <div class="col profile-complete-results__group">
+                            <div class="profile-complete-results__count">
+                                <h3>Yellow</h3>
+                                <h3 class="profile-complete-results__value yellow"><%= profile.test.cards.colorCounts.yellow %></h3>
+                            </div>
+                            <div class="profile-complete-results__count">
+                                <h3>Blue</h3>
+                                <h3 class="profile-complete-results__value blue"><%= profile.test.cards.colorCounts.blue %></h3>
+                            </div>
                         </div>
                     </div>
             <% } else { %>
-            <div class="col10 smallCol10 colCenter smallColCenter bottomMargin100">
-                    <h1 class="bold bottomMargin100 underline">Would you like to continue...</h1>
-                    <div class="flex spaceAround">
+
+
+            <div class="">
+                    <h2 TODO class="underline">Would you like to continue...</h2>
+                    <div class="">
                         <div>
-                            <h1 class="textCenter bold bottomMargin30" >Kept</h1>
-                            <h1 class="textCenter green"><%= profile.test.cards ? profile.test.cards.kept.length : 0 %>/20</h1>
+                            <h3 class="" >Kept</h3>
+                            <h3 class="green"><%= profile.test.cards ? profile.test.cards.kept.length : 0 %>/20</h3>
                         </div>
                         <div>
-                            <h1 class="textCenter bold bottomMargin30">Discarded</h1>
-                            <h1 class="textCenter red"><%= profile.test.cards ? profile.test.cards.discarded.length : 0 %>/60</h1>
+                            <h3 class="">Discarded</h3>
+                            <h3 class="red"><%= profile.test.cards ? profile.test.cards.discarded.length : 0 %>/60</h3>
                         </div>
                     </div>
             <% } %>
             </div>
+
+
             <% if (!profile.test.complete === true) { %>
                 <button
                     id="<%= header.testButton.id %>"
@@ -61,10 +74,12 @@
                 </button>
             <% } %>
         </div>
-        <div class="mainContainer shortBlock">
-            <div class="col10 smallCol10 colCenter smallColCenter ">
-                <div class="flex bottomMargin50 underline spaceBetween alignEnd">
-                    <h1 class="bold">My Profile</h1>
+
+
+        <div class="container shortBlock">
+            <div class="profile-info">
+                <div class="profile-info__header">
+                    <h2 class="">Profile</h2>
                     <button
                         id="profileEditButton"
                         class="btn btn--blue"
@@ -80,11 +95,13 @@
                         Save
                     </button>
                 </div>
-                <%- include('../components/profileField', {header: "Name", value: profile.name })%>
-                <%- include('../components/profileField', {header: "University", value: profile.university})%>
-                <%- include('../components/profileField', {header: "Department", value: profile.department})%>
-                <%- include('../components/profileField', {header: "Email", value: profile.email})%>
-                <%- include('../components/profileField', {header: "Password", value: "*".repeat(8), password: true})%>
+                <div class="profile-info__fields">
+                    <%- include('../components/profileField', {header: "Name", value: profile.name })%>
+                    <%- include('../components/profileField', {header: "University", value: profile.university})%>
+                    <%- include('../components/profileField', {header: "Department", value: profile.department})%>
+                    <%- include('../components/profileField', {header: "Email", value: profile.email})%>
+                    <%- include('../components/profileField', {header: "Password", value: "*".repeat(8), password: true})%>
+                </div>
             </div>
         </div>
     </body>
