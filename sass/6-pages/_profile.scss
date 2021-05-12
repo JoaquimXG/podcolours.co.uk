@@ -1,25 +1,32 @@
 @use "../1-abstracts/" as a;
 
-.profile-complete-results__title {
+.profile-results--complete {
+    margin-bottom: a.$spacing--large;
+}
+
+.profile-results__title {
     text-align: left;
     border-bottom: 2px solid a.$color-dark-gray;
     padding-bottom: 0.1em;
 }
 
-.profile-complete-results__group {
+.profile-results__group {
     display: flex;
     justify-content: space-around;
     margin-top: a.$spacing--xlarge;
 }
 
-.profile-complete-results__value {
+.profile-results__value {
     margin-top: a.$spacing--small;
+}
+
+.profile-results--progress__button {
+    margin: 2.5em auto 1.5em;
 }
 
 .profile-info__header {
     border-bottom: 2px solid a.$color-dark-gray;
     padding-bottom: 0.1em;
-
 
     display: flex;
     justify-content: space-between;

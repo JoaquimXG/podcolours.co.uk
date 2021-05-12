@@ -22,61 +22,59 @@
 
         <div class="container shortBlock">
             <% if (profile.test.complete === true) { %>
-            <div class="profile-complete-results">
-                    <h2 class="profile-complete-results__title">Results</h2>
+            <div class="profile-results--complete">
+                    <h2 class="profile-results__title">Results</h2>
                     <div class="grid font--margin__unset">
-                        <div class="col profile-complete-results__group">
-                            <div class="profile-complete-results__count">
+                        <div class="col profile-results__group">
+                            <div class="profile-results__count">
                                 <h3>Green</h3>
-                                <h3 class="profile-complete-results__value green"><%= profile.test.cards.colorCounts.green%></h3>
+                                <h3 class="profile-results__value green"><%= profile.test.cards.colorCounts.green%></h3>
                             </div>
-                            <div class="profile-complete-results__count">
+                            <div class="profile-results__count">
                                 <h3>Red</h3>
-                                <h3 class="profile-complete-results__value red"><%= profile.test.cards.colorCounts.red%></h3>
+                                <h3 class="profile-results__value red"><%= profile.test.cards.colorCounts.red%></h3>
                             </div>
                         </div>
-                        <div class="col profile-complete-results__group">
-                            <div class="profile-complete-results__count">
+                        <div class="col profile-results__group">
+                            <div class="profile-results__count">
                                 <h3>Yellow</h3>
-                                <h3 class="profile-complete-results__value yellow"><%= profile.test.cards.colorCounts.yellow %></h3>
+                                <h3 class="profile-results__value yellow"><%= profile.test.cards.colorCounts.yellow %></h3>
                             </div>
-                            <div class="profile-complete-results__count">
+                            <div class="profile-results__count">
                                 <h3>Blue</h3>
-                                <h3 class="profile-complete-results__value blue"><%= profile.test.cards.colorCounts.blue %></h3>
+                                <h3 class="profile-results__value blue"><%= profile.test.cards.colorCounts.blue %></h3>
                             </div>
                         </div>
                     </div>
             <% } else { %>
 
 
-            <div class="">
-                    <h2 TODO class="underline">Would you like to continue...</h2>
-                    <div class="">
-                        <div>
-                            <h3 class="" >Kept</h3>
-                            <h3 class="green"><%= profile.test.cards ? profile.test.cards.kept.length : 0 %>/20</h3>
+            <div class="profile-results--progress">
+                    <h2 TODO class="profile-results__title">Would you like to continue...</h2>
+                    <div class="profile-results__group">
+                        <div class="profile-results__count">
+                            <h3>Kept</h3>
+                            <h3 class="profile-results__value green"><%= profile.test.cards ? profile.test.cards.kept.length : 0 %>/20</h3>
                         </div>
-                        <div>
-                            <h3 class="">Discarded</h3>
-                            <h3 class="red"><%= profile.test.cards ? profile.test.cards.discarded.length : 0 %>/60</h3>
+                        <div class="profile-results__count">
+                            <h3>Discarded</h3>
+                            <h3 class="profile-results__value red"><%= profile.test.cards ? profile.test.cards.discarded.length : 0 %>/60</h3>
                         </div>
                     </div>
+                    <% if (!profile.test.complete === true) { %>
+                    <button
+                        id="<%= header.testButton.id %>"
+                        onclick="<%= header.testButton.onClick %>"
+                        class="btn profile-results--progress__button <%= header.testButton.class %>">
+                        <%= header.testButton.text %>
+                    </button>
+                    <% } %>
             <% } %>
             </div>
-
-
-            <% if (!profile.test.complete === true) { %>
-                <button
-                    id="<%= header.testButton.id %>"
-                    onclick="<%= header.testButton.onClick %>"
-                    class="btn <%= header.testButton.class %>">
-                    <%= header.testButton.text %>
-                </button>
-            <% } %>
         </div>
 
 
-        <div class="container shortBlock">
+        <div class="container">
             <div class="profile-info">
                 <div class="profile-info__header">
                     <h2 class="">Profile</h2>
