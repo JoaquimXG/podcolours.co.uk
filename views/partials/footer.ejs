@@ -4,15 +4,15 @@
             <%# Loops through all links for footer in database, new links can be easily added %>
             <% if (i === arr.length-1) { %>
                 <a href=<%= link.href %>>
-                    <h4><%= link.text %></h4>
+                    <h5><%= link.text %></h5>
                 </a>
             <% } else { %>
                 <a href=<%= link.href %>>
-                    <h4><%= link.text %></h4>
+                    <h5><%= link.text %></h5>
                 </a>
-                <h4>|</h4>
+                <h5>|</h5>
             <% } %>
         <% }); %>
     </div>
-    <h5 class="footer__copyright"><%= content.footer.copyright %></h5>
+    <p class="footer__copyright"><%= content.footer.copyright %></p>
 </footer>
