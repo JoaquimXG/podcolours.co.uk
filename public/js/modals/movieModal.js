@@ -28,7 +28,7 @@ function callMovieApi(cb) {
                         urlTwo
                     );
                     generateMovieModal(movieData, cb);
-                    $("body").removeClass("loading");
+                    $("html").removeClass("loading");
                     return;
                 } catch (e) {
                     console.log(e)
@@ -40,7 +40,7 @@ function callMovieApi(cb) {
     }
 
     var color = $("#resultColor > span").text().toLowerCase()
-    $("body").addClass("loading");
+    $("html").addClass("loading");
     test10Movies();
 }
 

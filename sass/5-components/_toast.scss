@@ -1,10 +1,11 @@
+@use "../1-abstracts/" as a;
 .toast {
     z-index: 5000;
     padding: 15px 40px;
     border-radius: 7px;
-    color: white;
+    color: a.$color-white;
     box-shadow: rgba(150, 150, 150, 0.8) 0px 1px 4px;
-    background-color: #52c41a;
+    background-color: a.$color-green;
     font-weight: 900;
     display: inline-block;
     position: fixed;
@@ -15,5 +16,5 @@
 }
 
 .toastError {
-    background-color: #ff5f61;
+    background-color: a.$color-red;
 }

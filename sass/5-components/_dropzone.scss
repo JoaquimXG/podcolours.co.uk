@@ -1,3 +1,4 @@
+//TODO turn these into BEM
 .dropzoneContainer {
     position:absolute;
     display: flex;
@@ -10,9 +11,6 @@
 }
 
 .cardDropzone {
-    /*position: absolute;
-    top: 20px; 
-    height: calc(100% - 40px);*/
     width: 30%;
     max-width: 450px;
     border: 2px solid;

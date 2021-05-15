@@ -26,8 +26,7 @@ img {
     height: auto;
 }
 
-//TODO change to html tag, have to find all the instances where it is being used first
-body.loading {
+html.loading {
     cursor: progress !important;
 }
 
@@ -40,7 +39,6 @@ input:required, input:invalid {
     box-shadow: none;
 }
 
-//TODO Remove, I think this is being used by javascript somewhere.
 .blue {
     color: a.$color-blue;
 }

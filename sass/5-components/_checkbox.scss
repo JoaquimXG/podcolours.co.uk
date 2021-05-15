@@ -12,14 +12,14 @@
 }
 
 .checkbox > input {
-    height: 20px;
-    width: 20px;
+    height: 1.25rem;
+    width: 1.25rem;
     -webkit-appearance: none;
     -moz-appearance: none;
     -o-appearance: none;
     appearance: none;
-    border-radius: 5px;
     outline: none;
+
     transition-duration: 0.5s;
     background-color: a.$color-red;
     cursor: pointer;
@@ -39,4 +39,3 @@
     color: a.$color-pattens-blue;
     position: relative;
 }
-
