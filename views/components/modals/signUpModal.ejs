@@ -1,94 +1,64 @@
 <!-- Sign up Modal -->
-<div id="signUpModalContainer" class="modal__container">
-    <div id="signUpModal" class="modal">
-        <div id="signUpModalSection" class="modal__section">
-            <h3 id="signUpModalTitle" class="textCenter bottomMargin50 topMargin20">
-                <%= header %>
-            </h3>
-            <div class="bottomMargin50">
-                <div class="formGroup field">
-                    <input
-                        name="signUpName"
-                        placeholder="Name"
-                        class="formField"
-                        id="signUpName"
-                    />
-                    <label for="signUpName" class="formLabel">Name</label>
-                </div>
-                <div class="formGroup field">
-                    <input
-                        name="signUpEmail"
-                        placeholder="Email Address"
-                        class="formField"
-                        type="email"
-                        id="signUpEmail"
-                        required
-                    />
-                    <label for="signUpEmail" class="formLabel">Email Address</label>
-                </div>
-                <div class="formGroup field">
-                    <input
-                        name="signUpPassword"
-                        placeholder="Password"
-                        class="formField"
-                        id="signUpPassword"
-                        type="password"
-                    />
-                    <label for="signUpPassword" class="formLabel">Password</label>
-                </div>
-                <div class="formGroup field">
-                    <input
-                        name="signUpUniversity"
-                        placeholder="University"
-                        class="formField"
-                        id="signUpUniversity"
-                    />
-                    <label for="signUpUniversity" class="formLabel">University</label>
-                </div>
-                <div class="formGroup field">
-                    <input
-                        name="signUpDepartment"
-                        placeholder="Department"
-                        class="formField"
-                        id="signUpDepartment"
-                    />
-                    <label for="signUpDepartment" class="formLabel">Department</label>
-                </div>
-            </div>
-            <div class="flex justifyCenter spaceEvenly">
-                <button
-                    id="signUpButton"
-                    class="btn btn--blue"
-                >
-                    Sign Up
-                </button>
-            </div>
-            <svg
-                id="signUpModalClose"
-                class="modal__close"
-                xmlns="http://www.w3.org/2000/svg"
-                height="24"
-                viewBox="0 0 24 24"
-                width="24"
-            >
-                <path
-                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                />
-                <path d="M0 0h24v24H0z" fill="none" />
-            </svg>
-            <svg
-                id="signUpModalBack"
-                class="modal__back"
-                xmlns="http://www.w3.org/2000/svg"
-                height="24"
-                viewBox="0 0 24 24"
-                width="24"
-            >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path
-                    d="M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"
-                />
-            </svg>
+<div id="signUpModalSection" class="modal__section">
+    <h3 id="signUpModalTitle" class="textCenter bottomMargin50 topMargin20">
+        <%= header %>
+    </h3>
+    <div class="bottomMargin50">
+        <div class="formGroup field">
+            <input
+                name="signUpName"
+                placeholder="Name"
+                class="formField"
+                id="signUpName"
+            />
+            <label for="signUpName" class="formLabel">Name</label>
         </div>
+        <div class="formGroup field">
+            <input
+                name="signUpEmail"
+                placeholder="Email Address"
+                class="formField"
+                type="email"
+                id="signUpEmail"
+                required
+            />
+            <label for="signUpEmail" class="formLabel">Email Address</label>
+        </div>
+        <div class="formGroup field">
+            <input
+                name="signUpPassword"
+                placeholder="Password"
+                class="formField"
+                id="signUpPassword"
+                type="password"
+            />
+            <label for="signUpPassword" class="formLabel">Password</label>
+        </div>
+        <div class="formGroup field">
+            <input
+                name="signUpUniversity"
+                placeholder="University"
+                class="formField"
+                id="signUpUniversity"
+            />
+            <label for="signUpUniversity" class="formLabel">University</label>
+        </div>
+        <div class="formGroup field">
+            <input
+                name="signUpDepartment"
+                placeholder="Department"
+                class="formField"
+                id="signUpDepartment"
+            />
+            <label for="signUpDepartment" class="formLabel">Department</label>
+        </div>
+    </div>
+    <div class="flex justifyCenter spaceEvenly">
+        <button
+            id="signUpButton"
+            class="btn btn--blue"
+        >
+            Sign Up
+        </button>
     </div>
 </div>
