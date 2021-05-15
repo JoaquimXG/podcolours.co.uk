@@ -28,17 +28,31 @@
     transition: opacity 0.2s linear;
 
     position: relative;
-    max-width: 700px; 
-    width: 55%;
-    min-width: 500px;
-
+    //TODO change size on large screens
+    width: 95%;
+    max-width: 550px; 
+    overflow: scroll;
 
     background: white;
     //TODO look at all border-radius across site and make consistent
-    border-radius: 7px;
 
     &--shown {
         opacity: 1;
+    }
+}
+
+.modal__title {
+    text-align: left;
+}
+
+.modal__divider {
+    height: 2px;
+    background: a.$color-gray;
+    width: 100%;
+    margin: 0 auto;
+
+    &--spacing {
+        margin-top: a.$spacing--small;
     }
 }
 
@@ -54,7 +68,23 @@
     width: 28px;
 
     &:hover {
-        fill:a.$color-red;
+        fill: a.$color-red;
+    }
+}
+
+.modal__test {
+    text-align: left;
+}
+
+//TODO play with this
+.modal__button-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.75em;
+
+    &--spread {
+        justify-content: space-between;
     }
 }
 
@@ -72,7 +102,12 @@
 }
 
 .modal__section {
-    padding: 50px 50px;
+    padding: 1.75em 7.5%;
+    
+    &--highlight {
+        background-color: a.$color-pattens-blue;
+        //color: white;
+    }
 }
 
 .instruction__number {

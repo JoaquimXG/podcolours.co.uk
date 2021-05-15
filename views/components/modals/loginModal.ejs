@@ -1,30 +1,36 @@
+<div class="modal__section modal__section--highlight">
+    <h2 class="modal__title">Login</h2>
+</div>
+<div class="modal__divider"></div>
+
 <form class="modal__section">
     <%- include("../formField.ejs",
     {id: "loginEmail", type: "email", required: true, placeholder: "Email Address"}) -%>
     <%- include("../formField.ejs",
     {id: "loginPassword", type: "password", placeholder: "Password"}) -%>
 
-    <button
-        id="loginButton"
-        class="btn btn--blue"
-    >
-        Login
-    </button>
-
-    <!-- Remember Me Button on login pop up-->
-    <label class="checkbox">
-        <input id="loginRememberMe" type="checkbox" />
-        <span>Remember Me</span>
-    </label>
-
+    <div class="modal__button-group modal__button-group--spread">
+        <div>
+            <label class="checkbox">
+                <input id="loginRememberMe" type="checkbox" />
+                <span>Remember Me</span>
+            </label>
+        </div>
+        <button id="loginButton"
+            class="btn btn--blue"
+        >
+            Login
+        </button>
+    </div>
 </form>
-<div class="divider"></div>
+<div class="modal__divider modal__divider--spacing-small"></div>
+
 <div class="modal__section">
-    <h4 class="textCenter bottomMargin50">
+    <h6>
         Don't have an account?<br />We will create one after
         your personality test.
-    </h4>
-    <div class="flex justifyCenter spaceEvenly">
+    </h6>
+    <div class="modal__button-group">
         <button
             class="btn btn--success"
             onclick="location.href='/test'"
