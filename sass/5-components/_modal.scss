@@ -31,7 +31,6 @@
     //TODO change size on large screens
     width: 95%;
     max-width: 550px; 
-    overflow: scroll;
 
     background: white;
     //TODO look at all border-radius across site and make consistent
@@ -108,6 +107,11 @@
         background-color: a.$color-pattens-blue;
         //color: white;
     }
+}
+
+.instruction {
+    display: flex;
+    text-align: center;
 }
 
 .instruction__number {
