@@ -2,16 +2,13 @@
 .form-field {
     position: relative;
     padding: 15px 0 0;
-    //margin-top: 10px;
+
+    & + .form-field {
+        margin-top: a.$spacing--2xsmall;
+    }
 }
 
-/* remove standard placeholder */
-.formField::placeholder {
-    color: transparent;
-    visibility: hidden;
-}
-
-.formField {
+.form-field__input {
     width: 100%;
     border: 0;
     border-bottom: 2px solid a.$color-gray;
@@ -23,65 +20,64 @@
     transition: border-color 0.2s;
     margin-bottom: 10px;
 
+    //If the form field is empty (placeholder would be shown)
+    //lower the label into form-field__input
+    &:placeholder-shown ~ .form-field__label {
+        font-size: 20px;
+        cursor: text;
+        top: 20px;
+    }
+
     &:focus {
         padding-bottom: 9px;
         font-weight: 700;
         border-width: 3px;
         border-bottom: 3px solid a.$color-blue;
+
+        //Highlight label and return to top posiition when form is focused
+        & ~ .form-field__label {
+            position: absolute;
+            top: 0;
+            display: block;
+            transition: 0.25s;
+            font-size: 16px;
+            color: a.$color-blue;
+            font-weight: 700;
+        }
     }
+
+    /* remove standard placeholder */
+    &::placeholder {
+        color: transparent;
+        visibility: hidden;
+    }
+
 }
 
-/* Keep label in default position when placeholder is not showing */
-//TODO should label be here
-.formLabel {
+// Keep label in default position when placeholder is not showing */
+.form-field__label {
     position: absolute;
     top: 0;
     display: block;
     transition: 0.25s;
-    font-size: 20px;
+    font-size: 16px;
     color: a.$color-gray;
 }
 
-/* If the form field is empty (placeholder would be shown)
- * lower the label into formField
- * */
-.formField:placeholder-shown ~ .formLabel {
-    font-size: 20px;
-    cursor: text;
-    top: 20px;
-}
-
-/* Highlight label and return to top posiition when form is focused */
-.formField:focus ~ .formLabel {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.25s;
-    font-size: 20px;
-    color: a.$color-blue;
-    font-weight: 700;
-}
-
-/* reset input */
-.formField:required,
-.formField:invalid {
-    box-shadow: none;
-}
 
 .form-field__input--error {
     color: a.$color-red;
     border-color: a.$color-red;
-}
 
-.form-field__input--error:focus {
-    border-color: a.$color-red;
-}
+    &:focus {
+        border-color: a.$color-red;
 
-.form-field__input--error ~ .formLabel {
-    color: a.$color-red;
-}
+        & ~ .form-field__label {
+            color: a.$color-red;
+        }
+    }
 
-.form-field__input--error:focus ~ .formLabel {
-    color: a.$color-red;
+    & ~ .form-field__label {
+        color: a.$color-red;
+    }
 }
-

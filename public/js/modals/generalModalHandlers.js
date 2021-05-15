@@ -28,7 +28,7 @@ function setupModal(id, openModalButtonId, cb) {
     $(`#${id}`).click((e) => e.stopPropagation());
 
     //Remove error class from fields when edited
-    $(".formField").on("input", function() {
+    $(".form-field__input").on("input", function() {
         $(this).removeClass("form-field__input--error")
     })
 
@@ -51,7 +51,7 @@ function openModal(id, cb) {
 function closeModal(id, cb) {
     $(`#${id}`).removeClass("modal--shown");
     $(`#${getModalContainerId(id)}`).removeClass("modal__container--shown");
-    $(".formField").removeClass("form-field__input--error")
+    $(".form-field__input").removeClass("form-field__input--error")
 
     if (cb) {
         cb()

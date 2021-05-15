@@ -36,6 +36,10 @@ a {
     color: a.$color-link;
 }
 
+input:required, input:invalid {
+    box-shadow: none;
+}
+
 //TODO Remove, I think this is being used by javascript somewhere.
 .blue {
     color: a.$color-blue;
