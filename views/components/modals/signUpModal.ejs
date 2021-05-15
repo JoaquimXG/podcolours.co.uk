@@ -4,54 +4,20 @@
         <%= header %>
     </h3>
     <div class="bottomMargin50">
-        <div class="form-field">
-            <input
-                name="signUpName"
-                placeholder="Name"
-                class="form-field__input"
-                id="signUpName"
-            />
-            <label for="signUpName" class="form-field__label">Name</label>
-        </div>
-        <div class="form-field">
-            <input
-                name="signUpEmail"
-                placeholder="Email Address"
-                class="form-field__input"
-                type="email"
-                id="signUpEmail"
-                required
-            />
-            <label for="signUpEmail" class="form-field__label">Email Address</label>
-        </div>
-        <div class="form-field">
-            <input
-                name="signUpPassword"
-                placeholder="Password"
-                class="form-field__input"
-                id="signUpPassword"
-                type="password"
-            />
-            <label for="signUpPassword" class="form-field__label">Password</label>
-        </div>
-        <div class="form-field">
-            <input
-                name="signUpUniversity"
-                placeholder="University"
-                class="form-field__input"
-                id="signUpUniversity"
-            />
-            <label for="signUpUniversity" class="form-field__label">University</label>
-        </div>
-        <div class="form-field">
-            <input
-                name="signUpDepartment"
-                placeholder="Department"
-                class="form-field__input"
-                id="signUpDepartment"
-            />
-            <label for="signUpDepartment" class="form-field__label">Department</label>
-        </div>
+        <%- include("../formField.ejs",
+        {id: "signUpName", placeholder: "Name"}) -%>
+
+        <%- include("../formField.ejs",
+        {id: "signUpEmail", type: "email", required: true, placeholder: "Email Address"}) -%>
+
+        <%- include("../formField.ejs",
+        {id: "signUpPassword", type: "password", placeholder: "Password"}) -%>
+
+        <%- include("../formField.ejs",
+        {id: "signUpUniversity", placeholder: "University"}) -%>
+
+        <%- include("../formField.ejs",
+        {id: "signUpDepartment", placeholder: "Department"}) -%>
     </div>
     <div class="flex justifyCenter spaceEvenly">
         <button

@@ -1,0 +1,17 @@
+<div class="form-field">
+    <input
+        name="<%= id %>"
+        id="<%= id %>"
+        placeholder="<%= placeholder %>"
+        <% if (locals.type) { %>
+            type="<%= type %>"
+        <% } %>
+        <% if (locals.required) { %>
+            required
+        <% } %>
+        class="form-field__input"
+    />
+    <label for="<%= id %>" class="form-field__label">
+        <%= placeholder %>
+    </label>
+</div>
