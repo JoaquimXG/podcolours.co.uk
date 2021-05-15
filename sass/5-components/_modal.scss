@@ -1,40 +1,76 @@
-.modalContainer {
-    display: flex;
+.modal__container {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0.25s linear, opacity 0.2s linear;
-    background: rgba(131, 138, 150, 0.8);
+
+    position: fixed;
     width: 100vw;
     height: 100vh;
-    position: fixed;
     top: 0;
     left: 0;
     z-index: 100000;
+
+    display: flex;
     align-items: center;
     justify-content: center;
+
+    background: rgba(131, 138, 150, 0.8);
+
+    &--shown {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
-.modalContainerShown {
-    visibility: visible;
-    opacity: 1;
-}
+// .modalContainer {
+//     visibility: hidden;
+//     opacity: 0;
+//     transition: visibility 0.25s linear, opacity 0.2s linear;
+//
+//     position: fixed;
+//     width: 100vw;
+//     height: 100vh;
+//     top: 0;
+//     left: 0;
+//     z-index: 100000;
+//
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//
+//     background: rgba(131, 138, 150, 0.8);
+//
+// }
+//
+// .modalContainerShown {
+//     visibility: visible;
+//     opacity: 1;
+// }
 
 .modal {
-    background: white;
-    border-radius: 7px;
-    position: relative;
     opacity: 0;
     transition: opacity 0.2s linear;
+
+    position: relative;
     max-width: 700px; 
     width: 55%;
     min-width: 500px;
+
+
+    background: white;
+    //TODO look at all border-radius across site and make consistent
+    border-radius: 7px;
+
+    &--shown {
+        opacity: 1;
+    }
 }
 
-.modalShown {
-    opacity: 1;
-}
+// .modalShown {
+//     opacity: 1;
+// }
 
-.modalNoTransition {
+.modal--no-transition {
     transition: unset !important;
 }
 
@@ -45,6 +81,7 @@
     height: 28px;
     width: 28px;
 }
+
 .closeModalIcon:hover {
     fill:red;
 }

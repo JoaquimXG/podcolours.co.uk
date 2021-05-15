@@ -12,7 +12,8 @@
 
 
     <body>
-        <%- include('../components/modals/loginModal')%>
+        <%- include('../components/modals/modalTemplate',
+        {prefix: "login", content: "loginModal"})%>
         <%- include('../partials/header')%>
 
 

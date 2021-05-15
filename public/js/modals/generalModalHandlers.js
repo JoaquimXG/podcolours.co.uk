@@ -39,8 +39,8 @@ function setupModal(id, openModalButtonId, cb) {
 
 //Adds css classes to show a modal
 function openModal(id, cb) {
-    $(`#${getModalContainerId(id)}`).addClass("modalContainerShown");
-    $(`#${id}`).addClass("modalShown");
+    $(`#${getModalContainerId(id)}`).addClass("modal__container--shown");
+    $(`#${id}`).addClass("modal--shown");
 
     if (cb) {
         cb()
@@ -49,8 +49,8 @@ function openModal(id, cb) {
 
 //Adds css classes to hide a modal
 function closeModal(id, cb) {
-    $(`#${id}`).removeClass("modalShown");
-    $(`#${getModalContainerId(id)}`).removeClass("modalContainerShown");
+    $(`#${id}`).removeClass("modal--shown");
+    $(`#${getModalContainerId(id)}`).removeClass("modal__container--shown");
     $(".formField").removeClass("formFieldError")
 
     if (cb) {
@@ -84,13 +84,13 @@ function swapModal(currentId, newId, showBack) {
 }
 
 function removeTransition(id) {
-    $(`#${id}`).addClass('modalNoTransition')
-    $(`#${getModalContainerId(id)}`).addClass('modalNoTransition')
+    $(`#${id}`).addClass('modal--no-transition')
+    $(`#${getModalContainerId(id)}`).addClass('modal--no-transition')
 }
 
 function addTransition(id) {
-    $(`#${id}`).removeClass('modalNoTransition')
-    $(`#${getModalContainerId(id)}`).removeClass('modalNoTransition')
+    $(`#${id}`).removeClass('modal--no-transition')
+    $(`#${getModalContainerId(id)}`).removeClass('modal--no-transition')
 }
 
 function addModalBackHandler(modalId, handler) {
