@@ -1,3 +1,4 @@
+@use "../1-abstracts/" as a;
 .modal__container {
     visibility: hidden;
     opacity: 0;
@@ -74,37 +75,33 @@
     transition: unset !important;
 }
 
-.closeModalIcon {
+.modal__close {
     position: absolute;
     top: 20px;
     right: 20px;
     height: 28px;
     width: 28px;
+
+    &:hover {
+        fill:a.$color-red;
+    }
 }
 
-.closeModalIcon:hover {
-    fill:red;
-}
-
-.backModalIcon {
+.modal__back {
     position: absolute;
     top: 20px;
     left: 20px;
     height: 28px;
     width: 28px;
     visibility: hidden;
+
+    &:hover {
+        fill: a.$color-blue;
+    }
 }
 
-.backModalIcon:hover {
-    fill: #2f9bff;
-}
-
-.modalSection {
+.modal__section {
     padding: 50px 50px;
-}
-
-#modalHolding{
-    display: none;
 }
 
 .instructionNumber {
@@ -117,6 +114,8 @@
     text-align: left;
 }
 
+
+//TODO remove 
 #loginButton {
     margin: 30px auto 0px;
 }
