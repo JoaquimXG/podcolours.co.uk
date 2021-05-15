@@ -1,8 +1,5 @@
 <!-- Sign up Modal -->
 <div id="signUpModalSection" class="modal__section">
-    <h3 id="signUpModalTitle" class="textCenter bottomMargin50 topMargin20">
-        <%= header %>
-    </h3>
     <div class="bottomMargin50">
         <%- include("../formField.ejs",
         {id: "signUpName", placeholder: "Name"}) -%>
@@ -19,7 +16,8 @@
         <%- include("../formField.ejs",
         {id: "signUpDepartment", placeholder: "Department"}) -%>
     </div>
-    <div class="flex justifyCenter spaceEvenly">
+
+    <div class="modal__button-group">
         <button
             id="signUpButton"
             class="btn btn--blue"
