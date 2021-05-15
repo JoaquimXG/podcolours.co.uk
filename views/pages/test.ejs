@@ -22,19 +22,20 @@
     <%- include('../partials/header')%>
     <body>
         <%- include('../components/modals/modalTemplate',
-        {prefix: "login", content: "loginModal"})%>
+        {prefix: "login", content: "loginModal", title: "Login"})%>
 
         <%- include('../components/modals/modalTemplate',
-        {prefix: "instructions", content: "instructionsModal"}) %>
+        {prefix: "instructions", content: "instructionsModal", title: "Instructions"}) %>
 
         <%- include('../components/modals/modalTemplate',
-        {header: "Sign up to save your progress!", prefix: "signUp", content: "signUpModal"})%>
+        {header: "Sign up to save your progress!", prefix: "signUp",
+        content: "signUpModal", title: "Sign Up"})%>
 
         <%- include('../components/modals/modalTemplate',
-        {prefix: "results", content: "resultsModal"}) %>
+        {prefix: "results", content: "resultsModal", title: "Results"}) %>
 
         <%- include('../components/modals/modalTemplate', 
-        {prefix: "randomPerson", content: "randomPersonModal"}) %>
+        {prefix: "randomPerson", content: "randomPersonModal", title: "Personality Match"}) %>
 
         <div id="appPrimaryContainer" class="appBackground">
             <div id="greenDropzone" dropId="kept" class="cardDropzone">

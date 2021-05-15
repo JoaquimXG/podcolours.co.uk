@@ -1,6 +1,10 @@
 <!-- Generic Modal for templating -->
 <div id="<%= prefix %>ModalContainer" class="modal__container">
     <div id="<%= prefix %>Modal" class="modal">
+        <div class="modal__section modal__section--highlight">
+            <h2 class="modal__title"><%= title %></h2>
+        </div>
+        <div class="modal__divider"></div>
         <%- include(content) -%>
         <svg
             id="<%= prefix %>ModalClose"
