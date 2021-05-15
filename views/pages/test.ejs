@@ -23,7 +23,8 @@
     <body>
         <%- include('../components/modals/modalTemplate',
         {prefix: "login", content: "loginModal"})%>
-        <%- include('../components/modals/instructionsModal.ejs') %>
+        <%- include('../components/modals/modalTemplate',
+        {prefix: "instructions", content: "instructionsModal"}) %>
         <%- include('../components/modals/signUpModal', {header: "Sign up to save your progress!"})%>
         <%- include('../components/modals/resultsModal.ejs') %>
         <%- include('../components/modals/randomPersonModal.ejs') %>
