@@ -7,6 +7,7 @@
     position: fixed;
     width: 100vw;
     height: 100vh;
+    max-height: 100vh;
     top: 0;
     left: 0;
     z-index: 100000;
@@ -31,6 +32,7 @@
     //TODO change size on large screens
     width: 95%;
     max-width: 550px; 
+    max-height: 100%;
 
     background: white;
     //TODO look at all border-radius across site and make consistent
@@ -105,21 +107,35 @@
     
     &--highlight {
         background-color: a.$color-pattens-blue;
-        //color: white;
+    }
+
+    &--overflow {
+        //TODO try to allow center section of modal to scrol
+        //on tiny screens
+        max-height: calc(100vh - 250px);
+        overflow: auto;
     }
 }
 
 .instruction {
     display: flex;
     text-align: center;
+    align-items: center;
+
+    & + .instruction {
+        margin-top: 1em;
+    }
 }
 
 .instruction__number {
-    font-size: 50px;
-    margin: 0 30px;
+    font-size: 3em;
+    margin: 0 0.5em 0 0.25em;
     font-weight: 700;
 }
 
 .instruction__text {
     text-align: left;
+    & > h5 {
+        font-weight: 100;
+    }
 }
