@@ -22,14 +22,14 @@ export default function validateForm(fields) {
         //Get fields input element
         var el = $(field.selector)
         el.on("input", function() {
-            $(this).removeClass("formFieldError")
+            $(this).removeClass("form-field__input--error")
         })
 
         var val = el.val()
         //Check if value is empty
         if (val === "") {
             if (!field.canBeEmpty) {
-                el.addClass("formFieldError")
+                el.addClass("form-field__input--error")
                 returnForm.isValid = false;
                 return;
             }
@@ -39,7 +39,7 @@ export default function validateForm(fields) {
         }
         else if (field.re) {
             if (field.reString.test(val) === false) {
-                el.addClass("formFieldError")
+                el.addClass("form-field__input--error")
                 returnForm.isValid = false;
                 return;
             }

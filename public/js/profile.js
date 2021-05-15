@@ -88,7 +88,7 @@ function handleSave(e) {
             //Show user toast notification if email is taken
             else if(data.errorCode === 1) {
                 toast()
-                $("#profileEmailInput").addClass("formFieldError")
+                $("#profileEmailInput").addClass("form-field__input--error")
             }
             //User has lost their session, redirect to homepage and prompt login
             else if (data.errorCode === 2){

@@ -30,15 +30,15 @@ function handleLogin(e) {
     //If both fields are empty don't send the form
     //and add css error class
     if (email === "" && password === ""){
-        $("#loginEmail").addClass("formFieldError")
-        $("#loginPassword").addClass("formFieldError")
+        $("#loginEmail").addClass("form-field__input--error")
+        $("#loginPassword").addClass("form-field__input--error")
         return;
     }
 
     //If only password is empty, add error class for password
     //Still send email data in order to check if email is valid
     if (password === ""){
-        $("#loginPassword").addClass("formFieldError")
+        $("#loginPassword").addClass("form-field__input--error")
     } 
     $.post({
         type: "POST",
@@ -53,11 +53,11 @@ function handleLogin(e) {
             }
             //Wrong email, notify user
             else if (data.bademail === true){
-                $("#loginEmail").addClass("formFieldError")
+                $("#loginEmail").addClass("form-field__input--error")
             }
             //Wrong password notify user
             else {
-                $("#loginPassword").addClass("formFieldError")
+                $("#loginPassword").addClass("form-field__input--error")
             }
         })
         .fail(() => {

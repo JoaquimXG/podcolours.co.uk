@@ -68,20 +68,20 @@
     box-shadow: none;
 }
 
-.formFieldError {
+.form-field__input--error {
     color: a.$color-red;
     border-color: a.$color-red;
 }
 
-.formFieldError:focus {
+.form-field__input--error:focus {
     border-color: a.$color-red;
 }
 
-.formFieldError ~ .formLabel {
+.form-field__input--error ~ .formLabel {
     color: a.$color-red;
 }
 
-.formFieldError:focus ~ .formLabel {
+.form-field__input--error:focus ~ .formLabel {
     color: a.$color-red;
 }
 

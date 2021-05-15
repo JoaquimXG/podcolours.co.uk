@@ -66,7 +66,7 @@ function handleSignUp(e, state) {
             else if(data.errorCode === 1) {
                 $("#signUpModalTitle")
                     .text("Sorry, this email is taken")
-                $("#signUpEmail").addClass("formFieldError")
+                $("#signUpEmail").addClass("form-field__input--error")
             }
         })
         .fail(() => {
