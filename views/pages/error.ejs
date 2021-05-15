@@ -1,42 +1,33 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="description" content="POD Colours Home Page" />
+        <meta name="description" content="POD Colours 404" />
         <title>POD Colours</title>
 
         <%- include('../partials/head')%>
 
-        <!-- Internal stylesheets -->
-        <link rel="stylesheet" href="/css/main.css"/>
     </head>
-    <body class="overflowHidden">
-        <main class="blackOnPaleBlue alignCenter flex justifyCenter screenHeight">
-            <div>
-                <div
-                    class="mainContainer tallBlock flex wrap alignCenter smallFlexReverse"
-                >
-                    <div
-                        class="col col6 colPost1 smallCol10 smallColCenter smallMarginBottom smallTextCenter"
-                    >
-                        <div>
-                            <h1 id="heroTitle" class="bold bottomMargin50"><%= error.title %></h1>
-                            <h4 class="bottomMargin50"><%= error.text %></h4>
-                            <button
-                                class="btn btn--success"
-                                onclick="location.href='/'"
-                            >
-                            Return Home
-                            </button>
-                        </div>
-                    </div>
-                    <div
-                        id="heroContainerImageContainer"
-                        class="col col5 smallCol6 smallColCenter smallMarginBottom"
-                    >
-                    <img class="col12 smallCol12" src="<%= error.img %>" />
-                    </div>
+    <body class="error-container">
+
+        <div class="grid grid--column-reverse container">
+            <div class="hero__content col">
+                <h1 class="hero__title"><%= error.title %></h1>
+                <p class="hero__blurb"><%= error.text %></p>
+                <div class="center--horizontal">
+                    <button
+                        class="btn btn--success"
+                        onclick="location.href='/'"
+                        >
+                        Return Home
+                    </button>
                 </div>
             </div>
-        </main>
+
+            <div class="hero__img col">
+                <div>
+                    <img class="col12 smallCol12" src="<%= error.img %>" />
+                </div>
+            </div>
+        </div>
     </body>
 </html>
