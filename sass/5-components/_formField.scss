@@ -1,11 +1,8 @@
-//TODO this formGroup container should be extracted into
-// a more generic container
-.formGroup {
+@use "../1-abstracts/" as a;
+.form-field {
     position: relative;
     padding: 15px 0 0;
-    margin: auto;
-    margin-top: 10px;
-    width: 100%;
+    //margin-top: 10px;
 }
 
 /* remove standard placeholder */
@@ -17,7 +14,7 @@
 .formField {
     width: 100%;
     border: 0;
-    border-bottom: 2px solid grey;
+    border-bottom: 2px solid a.$color-gray;
     outline: 0;
     font-size: 20px;
     color: black;
@@ -25,13 +22,13 @@
     background: transparent;
     transition: border-color 0.2s;
     margin-bottom: 10px;
-}
 
-.formField:focus {
-    padding-bottom: 9px;
-    font-weight: 700;
-    border-width: 3px;
-    border-bottom: 3px solid #2f9bff;
+    &:focus {
+        padding-bottom: 9px;
+        font-weight: 700;
+        border-width: 3px;
+        border-bottom: 3px solid a.$color-blue;
+    }
 }
 
 /* Keep label in default position when placeholder is not showing */
@@ -42,7 +39,7 @@
     display: block;
     transition: 0.25s;
     font-size: 20px;
-    color: grey;
+    color: a.$color-gray;
 }
 
 /* If the form field is empty (placeholder would be shown)
@@ -61,7 +58,7 @@
     display: block;
     transition: 0.25s;
     font-size: 20px;
-    color: #2f9bff;
+    color: a.$color-blue;
     font-weight: 700;
 }
 
@@ -72,19 +69,19 @@
 }
 
 .formFieldError {
-    color: #ff5f61;
-    border-color: #ff5f61;
+    color: a.$color-red;
+    border-color: a.$color-red;
 }
 
 .formFieldError:focus {
-    border-color: #ff5f61;
+    border-color: a.$color-red;
 }
 
 .formFieldError ~ .formLabel {
-    color: #ff5f61;
+    color: a.$color-red;
 }
 
 .formFieldError:focus ~ .formLabel {
-    color: #ff5f61;
+    color: a.$color-red;
 }
 
