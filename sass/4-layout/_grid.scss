@@ -13,10 +13,25 @@
 }
 
 @media (min-width: a.$screen-md) {
-    .col--md--2 {
+    .col--md--6 {
         flex-basis: 50%;
     }
 
+    .col--md--5 {
+        flex-basis: 41.666%;
+    }
+
+    .col--md--4 {
+        flex-basis: 33.333%;
+    }
+
+    .col--md--7 {
+        flex-basis: 58.333%;
+    }
+
+    .col--md--8 {
+        flex-basis: 66.666%
+    }
 }
 
 .show--md {

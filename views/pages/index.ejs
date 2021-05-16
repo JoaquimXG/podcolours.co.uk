@@ -18,10 +18,8 @@
 
 
         <main class="hero">
-            <div
-                class="grid grid--column-reverse container container--tall"
-                >
-                <div class="hero__content font--md--left col col--md--2">
+            <div class="grid grid--column-reverse container">
+                <div class="hero__content font--md--left col col--md--6">
                     <h1 id="heroTitle" class="hero__title" ><%= content.hero.title %></h1>
                     <p class="hero__blurb"><%= content.hero.text %></p>
                     <div class="center--horizontal">
@@ -33,31 +31,29 @@
                         </button>
                     </div>
                 </div>
-                <div class="hero__img col col--md--2">
+                <div class="hero__img col col--md--6">
                     <div>
                         <img src="<%= content.hero.image %>" />
                     </div>
                 </div>
             </div>
+            <section class="explanation container container--short">
+                <h2 class="explanation__title"><%= content.redSection.title %></h2>
+                <p class="explanation__blurb"><%= content.redSection.text %></p>
+            </section>
         </main>
 
 
-        <section class="explanation">
-            <div class="container container--short">
-                <h1 class="explanation__title"><%= content.redSection.title %></h1>
-                <p class="explanation__blurb"><%= content.redSection.text %></p>
-            </div>
-        </section>
 
 
         <section class="team-quote">
-            <div class="grid grid--column-reverse container container--tall">
-                <div class="team-quote__img col col--md--2">
+            <div class="team-quote__container grid grid--column-reverse container">
+                <div class="team-quote__img col col--md--5">
                     <div>
                         <img src="/img/b&w-woman.jpg">
                     </div>
                 </div>
-                <div class="team-quote__content font--left col col--md--2">
+                <div class="team-quote__content font--left col col--md--7">
                     <h2 ><%= content.teamPhotoSection.title %></h2>
                     <p><%= content.teamPhotoSection.textOne %></p>
                     <p><%= content.teamPhotoSection.textTwo %></p>
