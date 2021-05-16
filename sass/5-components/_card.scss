@@ -15,6 +15,9 @@
     font-weight: 700;
     cursor: default;
     z-index: 1;
+
+    background-image: url(/../img/cardSmallLogo.png);
+    background-repeat: repeat;
 }
 
 .bigCard {
@@ -23,6 +26,7 @@
     height: 254px;
     border-radius: 18px;
     font-size: 30px;
+    background-image: url(/../img/cardLogo.png);
 }
 
 .cardTrans {
@@ -37,5 +41,5 @@
 .cardFocused {
     opacity: 0.5;
     transition: 0.4;
-    background: linear-gradient(257.68deg, #ECECEC 0%, #E2E2E2 100%);
+    //background: linear-gradient(257.68deg, #ECECEC 0%, #E2E2E2 100%);
 }
