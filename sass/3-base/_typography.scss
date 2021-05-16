@@ -7,7 +7,7 @@ h4,
 h5,
 h6,
 p {
-  margin: 0.75em 0 0;
+    margin: 1rem 0 0;
 }
 
 h1:first-child,
@@ -17,39 +17,54 @@ h4:first-child,
 h5:first-child,
 h6:first-child,
 p:first-child {
-  margin: 0;
+    margin: 0;
 }
 
 //TODO, not sure how I feel about this one
-h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + *, p + *{
-  margin-top: 1em;
+h1 + *,
+h2 + *,
+h3 + *,
+h4 + *,
+h5 + *,
+h6 + *,
+p + * {
+    margin-top: 1rem;
 }
 
 .font--margin__unset {
-    margin-top:unset;
+    margin-top: unset;
 }
 
 h1 {
-  font-size: 3rem;
-  font-weight: a.$font-bold;
+    font-size: 2.4rem;
 }
-
 h2 {
-    font-size: 2.5rem;
-}
-
-h3 {
     font-size: 2rem;
 }
-
-h4 {
-    font-size: 1.5rem;
+h3 {
+    font-size: 1.6rem;
 }
-
-h5 {
+h4 {
     font-size: 1.2rem;
 }
-
-h6 {
+h5 {
     font-size: 1rem;
+}
+
+@media (min-width: a.$screen-sm) {
+    h1 {
+        font-size: 3rem;
+    }
+    h2 {
+        font-size: 2.5rem;
+    }
+    h3 {
+        font-size: 2rem;
+    }
+    h4 {
+        font-size: 1.5rem;
+    }
+    h5 {
+        font-size: 1rem;
+    }
 }

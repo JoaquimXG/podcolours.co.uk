@@ -2,11 +2,15 @@
 @use '../1-abstracts/' as a;
 
 html {
-  @include a.font(a.$font-normal);
-  font-size: a.$font-size;
+    @include a.font(a.$font-normal);
+    font-size: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+
+    @media (min-width: a.$screen-md) {
+        font-size: 112.5%;
+    }
 }
 
 *,
@@ -35,7 +39,8 @@ a {
     color: a.$color-link;
 }
 
-input:required, input:invalid {
+input:required,
+input:invalid {
     box-shadow: none;
 }
 

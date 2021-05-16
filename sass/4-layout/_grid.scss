@@ -1,3 +1,4 @@
+@use '../1-abstracts/' as a;
 .grid {
   display: flex;
   flex-wrap: wrap;
@@ -13,4 +14,25 @@
 
 .col2 {
     flex: 0 0 50%;
+}
+
+.show--md {
+    display: none;
+    @media(min-width: a.$screen-sm) {
+        display: initial;
+    }
+}
+
+.show--lg {
+    display: none;
+    @media(min-width: a.$screen-lg) {
+        display: initial;
+    }
+}
+
+.show--xl {
+    display: none;
+    @media(min-width: a.$screen-xl) {
+        display: initial;
+    }
 }

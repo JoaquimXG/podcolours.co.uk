@@ -8,13 +8,12 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    //TODO - for larger screens
-    // padding: 15px 40px;
-    // font-size: 20px;
-    padding: 12px 32px;
-    font-size: 18px;
+
+    padding: 0.75rem 2rem;
+    font-size: 1.125rem;
     cursor: pointer;
     display: block;
+
     //TODO modularise shadows
     box-shadow: rgba(119, 125, 132, 0.5) 0px 1px 4px;
 
