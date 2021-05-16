@@ -11,20 +11,20 @@
 function setupModal(id, openModalButtonId, cb) {
     var cb = cb || {};
 
-    //If user is logged in the button won't exist
+    //If button doesn't exist then don't add click handler
     if ($(`#${openModalButtonId}`).length !== 0) {
-        //Add click event for login button in the header to open the login modal
+        //Add click event for element to open the modal
         $(`#${openModalButtonId}`).click(() => openModal(id, cb.open));
     }
 
     const internalClose = () => closeModal(id, cb.close);
-    //Add click event for close button in the login modal to close the modal
+    //Add click event for close button in the modal to close the modal
     $(`#${getModalCloseId(id)}`).click(internalClose);
 
-    //Add click event for outside of the login modal to close the modal
+    //Add click event for outside of the modal to close the modal
     $(`#${getModalContainerId(id)}`).click(internalClose);
 
-    //Stop click events on the login modal from propogating to is parent and closing the modal
+    //Stop click events on the modal from propogating to is parent and closing the modal
     $(`#${id}`).click((e) => e.stopPropagation());
 
     //Remove error class from fields when edited

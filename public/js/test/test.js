@@ -31,7 +31,7 @@ const RANDOMPERSONMODALID = 'randomPersonModal'
 //On first load, display instructions, display a card
 //and add event handlers for dropzones and modals
 $(async function () {
-    setupInstructionsModal(INSTRUCTIONMODALID)
+    setupInstructionsModal(INSTRUCTIONMODALID, 'openInstructionModal')
     openModal(INSTRUCTIONMODALID)
     setupLoginModal(LOGINMODALID, 'headerLoginButton');
     setupRandomPersonModal(RANDOMPERSONMODALID);
