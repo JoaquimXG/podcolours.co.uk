@@ -13,7 +13,7 @@
 .profile-results__group {
     display: flex;
     justify-content: space-around;
-    margin-top: a.$spacing--xlarge;
+    margin-top: a.$spacing--4xlarge;
 }
 
 .profile-results__value {
@@ -39,7 +39,7 @@
 }
 
 .profile-info__fields {
-    padding-top: 1.5em;
+    padding: 1.5em 0 1em;
     text-align: left;
 }
 
