@@ -49,6 +49,17 @@
     margin-top: 2em;
 }
 
+.modal__link--small {
+    margin-top: 0.5rem;
+    text-align: left;
+    font-size: 0.75rem;
+    color: a.$color-blue;
+
+    & > a:visited {
+        color: a.$color-blue;
+    }
+}
+
 .modal__divider {
     height: 2px;
     background: a.$color-gray;
