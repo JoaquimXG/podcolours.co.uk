@@ -39,21 +39,21 @@
 }
 
 .profile-info__fields {
-    padding-top: 2rem;
+    padding-top: 1.5em;
     text-align: left;
 }
 
 .profileFieldHeader {
-    margin-bottom: 15px;
+    margin-bottom: 0.9375em;
     color: a.$color-dark-gray;
-    font-size: 16px;
+    font-size: 1rem;
 
 }
 
 .profileFieldText {
-    margin-top: 10px;
-    margin-bottom: 30px;
-    font-size:20px;
+    margin-top: 0.625em;
+    margin-bottom: 1.5em;
+    font-size: 1.25rem;
     overflow-wrap: break-word;
 
     + input {
@@ -62,7 +62,7 @@
 }
 
 .profileInput {
-    padding-top: 10px;
-    margin-bottom: 18px;
+    padding-top: 0.625em;
+    margin-bottom: 0.75em;
 }
 
