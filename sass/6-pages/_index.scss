@@ -2,6 +2,7 @@
 
 .hero {
   background-color: a.$color-pattens-blue;
+  min-height: 70vh;
 }
 
 .hero__content {
@@ -14,7 +15,7 @@
 }
 
 .hero__img {
-  max-height: 250px;
+  max-height: 19rem;
   // flex: 1 0;
   display: flex;
   margin: auto;
@@ -32,30 +33,36 @@
 }
 
 .explanation {
-  background-color: a.$color-red;
-  color: a.$color-text-inverse;
+    background-color: a.$color-red;
+    color: a.$color-text-inverse;
 }
 
 .team-quote {
-  background-color: a.$color-dark-background;
-  color: a.$color-text-inverse;
+    background-color: a.$color-dark-background;
+    color: a.$color-text-inverse;
 }
 
 .team-quote__img {
-  margin-top: a.$spacing--4xlarge;
-  div {
-    overflow: hidden;
-    height: 300px;
-    width: 300px;
-    background: white;
-    border-radius: 50%;
-    margin: auto;
+    display: flex;
+    margin-top: a.$spacing--4xlarge;
 
-    img {
-      height: auto;
-      width: 100%;
+    @media (min-width: a.$screen-md) {
+        margin-top: unset;
     }
-  }
+
+    div {
+        overflow: hidden;
+        height: 16rem;
+        width: 16rem;
+        background: white;
+        border-radius: 50%;
+        margin: auto;
+
+        img {
+            height: auto;
+            width: 100%;
+        }
+    }
 }
 
 .team-quote__content__author {
@@ -79,6 +86,11 @@
 
   button {
       margin-top: a.$spacing--large;
+  }
+
+  &__text {
+      margin-top: a.$spacing--large;
+      font-weight: normal;
   }
 }
 

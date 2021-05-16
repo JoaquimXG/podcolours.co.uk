@@ -1,26 +1,40 @@
+@use '../1-abstracts/' as a;
+
 .container {
-  max-width: 90%;
-  margin-right: auto;
-  margin-left: auto;
+    max-width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+
+    &--short {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    &--tall {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
 }
 
-//TODO change these into BEM naming styles
-.shortBlock {
-  padding-top: 50px;
-  padding-bottom: 50px;
+@media (min-width: a.$screen-lg) {
+    .container {
+        &--short {
+            padding-top: 3.5rem;
+            padding-bottom: 3.5rem;
+        }
+
+        &--tall {
+            padding-top: 4.5rem;
+            padding-bottom: 4.5rem;
+        }
+    }
 }
 
-.tallBlock {
-  padding-top: 60px;
-  padding-bottom: 60px;
+@media (min-width: a.$screen-xl) {
+    .container {
+        max-width: 1100px;
+    }
 }
-
-
-// .container {
-//   max-width: 1020px;
-//   margin-right: auto;
-//   margin-left: auto;
-// }
 
 .center--horizontal {
     display: flex;

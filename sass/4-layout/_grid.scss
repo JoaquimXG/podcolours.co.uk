@@ -12,8 +12,11 @@
   flex: 0 0 100%;
 }
 
-.col2 {
-    flex: 0 0 50%;
+@media (min-width: a.$screen-md) {
+    .col--md--2 {
+        flex-basis: 50%;
+    }
+
 }
 
 .show--md {

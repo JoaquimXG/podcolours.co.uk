@@ -20,12 +20,12 @@
     <body>
 
 
-        <div class="container shortBlock">
+        <div class="container container--short">
             <% if (profile.test.complete === true) { %>
             <div class="profile-results--complete">
                     <h2 class="profile-results__title">Results</h2>
-                    <div class="grid font--margin__unset">
-                        <div class="col profile-results__group">
+                    <div class="grid font--margin-unset">
+                        <div class="col col--md--2 profile-results__group">
                             <div class="profile-results__count">
                                 <h3>Green</h3>
                                 <h3 class="profile-results__value green"><%= profile.test.cards.colorCounts.green%></h3>
@@ -35,7 +35,7 @@
                                 <h3 class="profile-results__value red"><%= profile.test.cards.colorCounts.red%></h3>
                             </div>
                         </div>
-                        <div class="col profile-results__group">
+                        <div class="col col--md--2 profile-results__group">
                             <div class="profile-results__count">
                                 <h3>Yellow</h3>
                                 <h3 class="profile-results__value yellow"><%= profile.test.cards.colorCounts.yellow %></h3>

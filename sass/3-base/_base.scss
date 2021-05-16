@@ -11,6 +11,10 @@ html {
     @media (min-width: a.$screen-md) {
         font-size: 112.5%;
     }
+
+    @media (min-width: a.$screen-lg) {
+        font-size: 125%;
+    }
 }
 
 *,

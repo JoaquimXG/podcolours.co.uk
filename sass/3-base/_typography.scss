@@ -1,5 +1,15 @@
 @use "../1-abstracts/" as a;
 
+@media(min-width: a.$screen-md){
+    .font--md--left {
+        text-align: left;
+    }
+}
+
+.font--left {
+    text-align: left;
+}
+
 h1,
 h2,
 h3,
@@ -31,7 +41,7 @@ p + * {
     margin-top: 1rem;
 }
 
-.font--margin__unset {
+.font--margin-unset {
     margin-top: unset;
 }
 
@@ -49,6 +59,11 @@ h4 {
 }
 h5 {
     font-size: 1rem;
+}
+h6 {
+    font-size: 1rem;
+    font-weight: normal;
+    color: a.$color-gray;
 }
 
 @media (min-width: a.$screen-sm) {

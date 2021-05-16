@@ -19,9 +19,9 @@
 
         <main class="hero">
             <div
-                class="grid grid--column-reverse container tallBlock"
+                class="grid grid--column-reverse container container--tall"
                 >
-                <div class="hero__content col">
+                <div class="hero__content font--md--left col col--md--2">
                     <h1 id="heroTitle" class="hero__title" ><%= content.hero.title %></h1>
                     <p class="hero__blurb"><%= content.hero.text %></p>
                     <div class="center--horizontal">
@@ -33,7 +33,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="hero__img col">
+                <div class="hero__img col col--md--2">
                     <div>
                         <img src="<%= content.hero.image %>" />
                     </div>
@@ -43,7 +43,7 @@
 
 
         <section class="explanation">
-            <div class="container shortBlock">
+            <div class="container container--short">
                 <h1 class="explanation__title"><%= content.redSection.title %></h1>
                 <p class="explanation__blurb"><%= content.redSection.text %></p>
             </div>
@@ -51,34 +51,34 @@
 
 
         <section class="team-quote">
-            <div class="grid grid--column-reverse container tallBlock">
-                <div class="team-quote__img col">
+            <div class="grid grid--column-reverse container container--tall">
+                <div class="team-quote__img col col--md--2">
                     <div>
                         <img src="/img/b&w-woman.jpg">
                     </div>
                 </div>
-                <div class="team-quote__content col">
+                <div class="team-quote__content font--left col col--md--2">
                     <h2 ><%= content.teamPhotoSection.title %></h2>
                     <p><%= content.teamPhotoSection.textOne %></p>
                     <p><%= content.teamPhotoSection.textTwo %></p>
-                    <p><%= content.teamPhotoSection.quoteAuthor %></p>
+                    <p class="team-quote__content__author"><%= content.teamPhotoSection.quoteAuthor %></p>
                 </div>
             </div>
         </section>
 
 
         <section id="testimonial">
-            <div class="container shortBlock">
+            <div class="container container--short">
                 <%- include('../components/carousel', {id: "carouselSlider"})%>
             </div>
         </section>
 
 
         <section class="call-to-action">
-            <div class="container shortBlock">
+            <div class="container container--short">
                 <h2><%= content.callToAction.title %></h2>
-                <h4><%= content.callToAction.text %></h4>
-                <div class="center--horizontal">
+                <h4 class="call-to-action__text"><%= content.callToAction.text %></h4>
+                <div class="center--horizontal font--margin-unset">
                     <button
                         class="btn btn--success"
                         onclick="location.href='/test'"
