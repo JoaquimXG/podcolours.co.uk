@@ -1,5 +1,5 @@
 import requestUserSignIn from '../utilities/requestUserSignIn.js'
-import {setupModal} from './generalModalHandlers.js'
+import {setupModal, swapModal} from './generalModalHandlers.js'
 
 //Setups up additional click handlers required for login modal
 function setupLoginModal(id, openModalButtonId) {
@@ -13,6 +13,11 @@ function setupLoginModal(id, openModalButtonId) {
             var email = $("#loginEmail")
             email.val(store);
         }
+
+        $("#initiateResetPassword").click(() => {
+            $("#initiatePasswordResetModalClose").hide()
+            swapModal('loginModal', 'initiatePasswordResetModal', true)
+        });
     }
     setupModal(id, openModalButtonId, {setup: setup})
 }
