@@ -19,8 +19,11 @@ const fourZeroFour = require('./routes/404')
 const errorHandler = require('./routes/error')
 const logout = require('./routes/logout')
 const {parseUpdateUserRequest, updateUserIndex} = require('./routes/updateuser')
+const passwordResetRouter = require('./routes/passwordReset');
 
 const app = prepareMiddleware();
+
+app.use("/passwordreset", passwordResetRouter);
 
 //Home Page
 app.get("/", home);

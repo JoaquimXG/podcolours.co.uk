@@ -62,7 +62,7 @@ const updateUserIndex = (req, res, next) => {
         req.user.email = res.locals.user.email
         res.json({userUpdated: true});
         log.info(`Successful User update - User: ${res.locals.user.email}`,
-            {route: "updateuser", action: "failure"})
+            {route: "updateuser", action: "success"})
     });
 }
 

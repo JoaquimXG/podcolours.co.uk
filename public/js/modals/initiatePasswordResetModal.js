@@ -28,10 +28,8 @@ function initiatePasswordReset(e) {
         return;
     }
     $.post({
-        type: "POST",
         url: "/passwordreset/initiate",
         data: {email:email},
-        dataType: "json"
     })
         .done(() => {
             toast();
@@ -42,7 +40,6 @@ function initiatePasswordReset(e) {
         .fail(() => {
             toastError();
         })
-
 }
 
 export default setupInitiatePasswordResetModal;
