@@ -1,6 +1,10 @@
 var router = require('express').Router();
 const initiatePasswordReset = require('./initiatePasswordReset');
+const resetPasswordForm = require('./resetPasswordForm');
+const completePasswordReset = require('./completePasswordReset');
 
-router.use('/initiate', initiatePasswordReset);
+router.post('/initiate', initiatePasswordReset);
+router.get('/reset/:token', resetPasswordForm);
+router.post('/complete', completePasswordReset);
 
 module.exports = router;

@@ -1,32 +1,49 @@
-const log = require('../../logs/logger')
-const crypto = require('crypto');
-const bcrypt = require('bcrypt')
+const log = require("../../logs/logger");
+const crypto = require("crypto");
+const bcrypt = require("bcrypt");
+const sendPasswordResetEmail = require('./sendPasswordResetEmail')
 
 //Sets loggedin value to false if the user was loggedin
 module.exports = async (req, res) => {
-    var user = await req.db.collection("users").findOne({ email: req.body.email })
+    var user = await req.db
+        .collection("users")
+        .findOne({ email: req.body.email });
 
     if (user === null) {
         //TODO send empty reponse
-        res.json({email: req.body.email, message: "No email found"})
-        log.info(`Password Reset failed to initiate. User not found : ${req.body.email}`,
-            {route: "passwordreset/initiate", action: "failure"})
-        return
+        res.json({ resetInitiated: false });
+        log.info(
+            `Password Reset failed to initiate. User not found : ${req.body.email}`,
+            { route: "passwordreset/initiate", action: "failure" }
+        );
+        return;
     }
 
-    var token = crypto.randomBytes(20).toString('hex');
+    var token = crypto.randomBytes(20).toString("hex");
     var tokenHash = await bcrypt.hash(token, 2);
 
     //Object to update values in database
-    var updateObj = {$set: {
-        resetTokenHash: tokenHash,
-        resetTokenExpires: Date.now() + (1000 * 60 * 30)
-    }}
+    var updateObj = {
+        $set: {
+            resetTokenHash: tokenHash,
+            resetTokenExpires: Date.now() + 1000 * 60 * 30,
+        },
+    };
 
-    req.db.collection("users").update({email: req.body.email}, updateObj, (err, _) => {
-        if (err) next(err)
-        //TODO send email with token and send empty response
-        res.json({link: `http://localhost:8080/${token}`, email: req.body.email, message: "Token added to user"})
-        log.info(`Password reset initiated for ${req.body.email}`, {route: "passwordreset/initiate", action: "success"})
-    });
-}
+    req.db
+        .collection("users")
+        .update({ email: req.body.email }, updateObj, (err, _) => {
+            if (err) next(err);
+            sendPasswordResetEmail(req.body.email, token)
+            res.json({
+                resetInitiated: true,
+                link: `http://localhost:8080/passwordreset/reset/${token}?email=${req.body.email}`,
+                email: req.body.email,
+                message: "Token added to user",
+            });
+            log.info(`Password reset initiated for ${req.body.email}`, {
+                route: "passwordreset/initiate",
+                action: "success",
+            });
+        });
+};
