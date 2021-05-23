@@ -27,6 +27,7 @@ function initiatePasswordReset(e) {
         $("#initiateResetEmail").addClass("form-field__input--error")
         return;
     }
+
     $.post({
         url: "/passwordreset/initiate",
         data: {email:email},

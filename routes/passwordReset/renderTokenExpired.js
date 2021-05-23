@@ -1,3 +1,4 @@
+//Renders the error page with a message showing token has expired
 module.exports = (res) => {
     var error = {
         title: "Password Reset Token Expired",

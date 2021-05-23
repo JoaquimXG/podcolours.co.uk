@@ -50,6 +50,28 @@ db.users.insert({
 });
 
 db.users.insert({
+    name: "Test Started",
+    department: "Computing",
+    university: "Robert Gordon University",
+    email: "joaquim.q.gomez@gmail.com",
+    hash:  "$2b$10$U8hq/OxyYLSTSfIAeqAWJOGXtEMi6oiIGChstAj4BVyT1Xj2QY3zm",
+    isAdmin: true,
+    test: {
+        ts: 1618153344550,
+        cards: {
+            kept: [{ id: "Persuasive", color: "yellow" }],
+            discarded: [{ id: "Inquisitive", color: "red" }],
+            undecided: [{ id: "Stubborn", color: "green" }],
+            next: { id: "Big picture", color: "yellow" },
+            complete: false,
+        },
+        complete: false,
+        result: null,
+        timeComplete: null,
+    },
+});
+
+db.users.insert({
     name: "Test In Progress",
     department: "Computing",
     university: "Robert Gordon University",
@@ -440,6 +462,10 @@ db.content.insert({
                 {
                     text: "Profile",
                     href: "/profile",
+                },
+                {
+                    text: "Admin",
+                    href: "/admin",
                 },
             ],
         },

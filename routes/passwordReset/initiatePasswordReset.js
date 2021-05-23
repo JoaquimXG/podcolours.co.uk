@@ -9,6 +9,7 @@ module.exports = async (req, res) => {
         .collection("users")
         .findOne({ email: req.body.email });
 
+    //Check if user exists
     if (user === null) {
         res.sendStatus(200);
         log.info(
@@ -18,10 +19,10 @@ module.exports = async (req, res) => {
         return;
     }
 
+    //Generate random hashed token
     var token = crypto.randomBytes(20).toString("hex");
     var tokenHash = await bcrypt.hash(token, 2);
 
-    //Object to update values in database
     var updateObj = {
         $set: {
             resetTokenHash: tokenHash,
@@ -29,6 +30,7 @@ module.exports = async (req, res) => {
         },
     };
 
+    //Store token in DB and send user email
     req.db
         .collection("users")
         .update({ email: req.body.email }, updateObj, (err, _) => {

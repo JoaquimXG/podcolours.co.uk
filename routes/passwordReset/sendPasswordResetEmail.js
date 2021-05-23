@@ -2,6 +2,8 @@ require('dotenv').config();
 const nodemailer = require("nodemailer");
 let ejs = require("ejs");
 
+//SendInBlue connection details for sending email
+//Password kept in .env file
 const transporter = nodemailer.createTransport({
     host: "smtp-relay.sendinblue.com",
     port: 465,

@@ -31,6 +31,7 @@ module.exports = async (req, res) => {
         return;
     }
 
+    //Render reset page if all checks have passed
     res.render("pages/passwordReset");
     log.info(`Reset Password page rendered: ${req.body.email}`,
         {route: "passwordreset/reset", action: "success"})
