@@ -17,7 +17,7 @@ const messageTemplate = {
 };
 
 module.exports = (emailRecipient, token, name) => {
-    var link = `http://localhost:8080/passwordreset/reset/${token}?email=${emailRecipient}`;
+    var link = `http://localhost:8080/passwordreset/reset?token=${token}&email=${emailRecipient}`;
 
     var emailData = messageTemplate;
     emailData.to = emailRecipient;

@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
 
     //Check if email was found
     if (user === null) {
-        res.json({passwordReset: false, message: "Token Expired"})
+        res.sendStatus(403)
         log.info(`Can't complete reset, wrong email: ${req.body.email}`,
             {route: "passwordreset/reset", action: "failure"})
         return
@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
 
     //Check if token has expired
     if (user.resetTokenExpires < Date.now()) {
-        res.json({passwordReset: false, message: "Token Expired"})
+        res.sendStatus(403)
         log.info(`Reset password token expired: ${req.body.email}`,
             {route: "passwordreset/reset", action: "failure"})
         return;
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     //Check if token is a match
     var isMatch = await bcrypt.compare(req.body.token, user.resetTokenHash) 
     if (!isMatch) {
-        res.send({passwordReset: false, message: "Token Expired"});
+        res.sendStatus(403)
         return;
     }
 
@@ -36,7 +36,6 @@ module.exports = async (req, res) => {
 
     req.db.collection("users").update({email: req.body.email}, updateObj, (err, _) => { 
         if (err) next(err)
-        //TODO Render success page and redirect to login
-        res.json({passwordReset: true});
+        res.sendStatus(200);
     })
 }

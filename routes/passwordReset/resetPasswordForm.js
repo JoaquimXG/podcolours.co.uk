@@ -1,14 +1,6 @@
 const log = require('../../logs/logger')
 const bcrypt = require('bcrypt')
-
-const renderTokenExpired = (res) => {
-    var error = {
-        title: "Password Reset Token Expired",
-        text: "Please request a new reset token before resetting your password.",
-        img: "/img/logo.png",
-    };
-    res.render("pages/error", { error: error });
-}
+const renderTokenExpired = require('./renderTokenExpired');
 
 //Sets loggedin value to false if the user was loggedin
 module.exports = async (req, res) => {
@@ -31,7 +23,7 @@ module.exports = async (req, res) => {
     }
 
     //Check if token is a match
-    var isMatch = await bcrypt.compare(req.params.token, user.resetTokenHash) 
+    var isMatch = await bcrypt.compare(req.query.token, user.resetTokenHash) 
     if (!isMatch) {
         renderTokenExpired(res);
         log.info(`Reset Password token doesn't match: ${req.body.email}`,

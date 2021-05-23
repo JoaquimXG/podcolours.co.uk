@@ -4,7 +4,7 @@ const resetPasswordForm = require('./resetPasswordForm');
 const completePasswordReset = require('./completePasswordReset');
 
 router.post('/initiate', initiatePasswordReset);
-router.get('/reset/:token', resetPasswordForm);
+router.get('/reset', resetPasswordForm);
 router.post('/complete', completePasswordReset);
 
 module.exports = router;
