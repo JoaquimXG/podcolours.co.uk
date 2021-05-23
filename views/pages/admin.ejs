@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="description" content="POD Colours Admin Page" />
+        <title>POD Colours Admin</title>
+
+        <%- include('../partials/head')%>
+    </head>
+
+    <body>
+        <%- include('../partials/header')%>
+
+
+        <div class="container container--tall">
+            <div class="admin-results">
+                <h2 class="profile-results__title">User's Results</h2>
+                <table class="admin-results__table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Kept</th>
+                            <th>Discarded</th>
+                            <th>Results</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% users.forEach((user, i) => { %>
+                    <tr>
+                        <td><%= user.name %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.test.cards.kept.length %></td>
+                        <td><%= user.test.cards.discarded.length %></td>
+                        <% if (user.test.result) { %>
+                            <td><%= user.test.result %></td>
+                        <% } else { %>
+                            <td>N/A</td>
+                        <% } %> 
+                    </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </body>
+
+    <%- include('../partials/footer')%>
+
+</html>
