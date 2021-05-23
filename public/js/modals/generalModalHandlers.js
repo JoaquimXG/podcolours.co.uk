@@ -49,13 +49,16 @@ function openModal(id, cb) {
 
 //Adds css classes to hide a modal
 function closeModal(id, cb) {
+    if (cb) {
+        var cbReturn = cb();
+        if (cbReturn === false) {
+            return;
+        }
+    }
+
     $(`#${id}`).removeClass("modal--shown");
     $(`#${getModalContainerId(id)}`).removeClass("modal__container--shown");
     $(".form-field__input").removeClass("form-field__input--error")
-
-    if (cb) {
-        cb()
-    }
 }
 
 //two modals without them fading in and out
