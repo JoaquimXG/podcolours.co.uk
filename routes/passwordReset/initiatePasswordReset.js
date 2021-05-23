@@ -1,7 +1,7 @@
 const log = require("../../logs/logger");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
-const sendPasswordResetEmail = require('./sendPasswordResetEmail')
+const sendPasswordResetEmail = require("./sendPasswordResetEmail");
 
 //Sets loggedin value to false if the user was loggedin
 module.exports = async (req, res) => {
@@ -10,8 +10,7 @@ module.exports = async (req, res) => {
         .findOne({ email: req.body.email });
 
     if (user === null) {
-        //TODO send empty reponse
-        res.json({ resetInitiated: false });
+        res.sendStatus(200);
         log.info(
             `Password Reset failed to initiate. User not found : ${req.body.email}`,
             { route: "passwordreset/initiate", action: "failure" }
@@ -34,13 +33,8 @@ module.exports = async (req, res) => {
         .collection("users")
         .update({ email: req.body.email }, updateObj, (err, _) => {
             if (err) next(err);
-            sendPasswordResetEmail(req.body.email, token)
-            res.json({
-                resetInitiated: true,
-                link: `http://localhost:8080/passwordreset/reset/${token}?email=${req.body.email}`,
-                email: req.body.email,
-                message: "Token added to user",
-            });
+            sendPasswordResetEmail(req.body.email, token, user.name);
+            res.sendStatus(200);
             log.info(`Password reset initiated for ${req.body.email}`, {
                 route: "passwordreset/initiate",
                 action: "success",
