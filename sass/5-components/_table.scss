@@ -1,0 +1,61 @@
+@use "../1-abstracts/" as a;
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th,
+td {
+    padding: 1rem;
+    background-color: rgba(000,000,000,0.025);
+    color: a.$color-black;
+    text-align: left;
+
+}
+
+.table-data--center {
+    text-align: center
+}
+
+th {
+    background-color: a.$color-dark-background;
+    color: a.$color-white;
+    cursor: pointer;
+
+    &.ascend::after {
+        color: inherit;
+        content: ' \025B4';
+    }
+
+    &.descend::after {
+        color: inherit;
+        content: ' \025BE';
+    }
+}
+
+tbody {
+    tr {
+        &:hover {
+            background-color: rgba(0,0,0,0.15);
+        }
+    }
+
+    td {
+        position: relative;
+        &:hover {
+            &:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: -9999px;
+                bottom: -9999px;
+                background-color: rgba(0,0,0,0.15);
+                z-index: -1;
+            }
+        }
+    }
+}

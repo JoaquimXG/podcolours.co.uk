@@ -19,9 +19,8 @@
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Kept</th>
-                            <th>Discarded</th>
-                            <th>Results</th>
+                            <th>Result</th>
+                            <th>Date Complete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,10 +28,13 @@
                     <tr>
                         <td><%= user.name %></td>
                         <td><%= user.email %></td>
-                        <td><%= user.test.cards.kept.length %></td>
-                        <td><%= user.test.cards.discarded.length %></td>
                         <% if (user.test.result) { %>
-                            <td><%= user.test.result %></td>
+                        <td class="font--title <%= user.test.result %>"><%= user.test.result %></td>
+                        <% } else { %>
+                            <td>N/A</td>
+                        <% } %> 
+                        <% if (user.test.result) { %>
+                            <td><%= new Date(user.test.timeComplete).toDateString() %></td>
                         <% } else { %>
                             <td>N/A</td>
                         <% } %> 

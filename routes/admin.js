@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
     queryPromiseArray.push(
         req.db
             .collection("users")
-        .find({}, {name: 1, email: 1, test: {cards: {kept: 1, discarded: 1}, complete: 1, result: 1}})
+        .find({}, {name: 1, email: 1, test: {result: 1, timeComplete: 1}})
     )
 
     //Wait for both promises to resolve without error
