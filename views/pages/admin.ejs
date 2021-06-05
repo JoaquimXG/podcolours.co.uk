@@ -5,6 +5,8 @@
         <title>POD Colours Admin</title>
 
         <%- include('../partials/head')%>
+        <script src="/js/components/sortable.min.js"></script>
+        <script src="/js/admin.js"></script>
     </head>
 
     <body class="admin__body">
@@ -14,7 +16,7 @@
         <div class="admin__main-container container container--short">
             <div class="admin-results">
                 <h2 class="profile-results__title">User's Results</h2>
-                <table class="admin-results__table">
+                <table class="admin-results__table sortable">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -27,14 +29,14 @@
                     <% users.forEach((user, i) => { %>
                     <tr>
                         <td><%= user.name %></td>
-                        <td><%= user.email %></td>
+                        <td data-id="username"><%= user.email %></td>
                         <% if (user.test.result) { %>
                         <td class="font--title <%= user.test.result %>"><%= user.test.result %></td>
                         <% } else { %>
                             <td>N/A</td>
                         <% } %> 
                         <% if (user.test.result) { %>
-                            <td><%= new Date(user.test.timeComplete).toDateString() %></td>
+                        <td data-sort=<%= user.test.timeComplete%>><%= new Date(user.test.timeComplete).toDateString() %></td>
                         <% } else { %>
                             <td>N/A</td>
                         <% } %> 

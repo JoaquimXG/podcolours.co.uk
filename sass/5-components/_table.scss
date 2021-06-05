@@ -24,7 +24,7 @@ td {
     background-color: rgba(000,000,000,0.025);
     color: a.$color-black;
     text-align: left;
-
+    cursor: pointer;
 }
 
 .table-data--center {
@@ -34,14 +34,18 @@ td {
 th {
     background-color: a.$color-dark-background;
     color: a.$color-white;
-    cursor: pointer;
 
-    &.ascend::after {
+    &::after {
+        color: a.$color-dark-background;
+        content: ' \025B4';
+    }
+
+    &.dir-u::after {
         color: inherit;
         content: ' \025B4';
     }
 
-    &.descend::after {
+    &.dir-d::after {
         color: inherit;
         content: ' \025BE';
     }
