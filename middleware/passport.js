@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 
 //Serialises user object in preparation for storing in the sessions database
 passport.serializeUser(function(user, done) {
-    done(null, {_id: user._id, email: user.email});
+    done(null, {_id: user._id, email: user.email, isAdmin: user.isAdmin ? true : false});
 });
 
 //Function is intended to converted the serialised from the stored session 

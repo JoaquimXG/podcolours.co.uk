@@ -3,6 +3,10 @@
     padding: 30px 20px 30px;
     background-color: a.$color-night-rider;
     color: a.$color-dark-gray;
+
+    @media print {
+        display: none;
+    }
 }
 
 .footer__nav {
@@ -11,6 +15,8 @@
     justify-content: center;
     justify-content: space-around;
     align-items: center;
+    max-width: 600px;
+    margin: auto;
 
     a, h5 {
         margin: 0;

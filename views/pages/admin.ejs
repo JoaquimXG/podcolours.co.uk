@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="description" content="POD Colours Admin Page" />
+        <title>POD Colours Admin</title>
+
+        <%- include('../partials/head')%>
+        <script src="/js/components/sortable.min.js"></script>
+        <script src="/js/admin.js"></script>
+    </head>
+
+    <body class="admin__body">
+        <%- include('../partials/header')%>
+
+
+        <div class="admin__main-container container container--short">
+            <div class="admin-results">
+                <div class="admin__title">
+                    <h2>User's Results</h2>
+                    <div class="admin__search-group">
+                        <input id="admin__search" placeholder="Filter by Name" class="font--margin-unset admin__search">
+                    </div>
+                </div>
+                <table class="admin-results__table sortable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Result</th>
+                            <th>Date Complete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% users.forEach((user, i) => { %>
+                    <tr>
+                        <td><%= user.name %></td>
+                        <td data-id="username"><%= user.email %></td>
+                        <% if (user.test.result) { %>
+                        <td class="font--title <%= user.test.result %>"><%= user.test.result %></td>
+                        <% } else { %>
+                            <td>N/A</td>
+                        <% } %> 
+                        <% if (user.test.result) { %>
+                        <td data-sort=<%= user.test.timeComplete%>><%= new Date(user.test.timeComplete).toDateString() %></td>
+                        <% } else { %>
+                            <td>N/A</td>
+                        <% } %> 
+                    </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </body>
+
+    <%- include('../partials/footer')%>
+
+</html>

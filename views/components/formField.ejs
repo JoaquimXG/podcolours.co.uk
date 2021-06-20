@@ -1,4 +1,4 @@
-<div class="form-field">
+<div class="form-field <%= locals.divClass %>">
     <input
         name="<%= id %>"
         id="<%= id %>"
@@ -9,7 +9,7 @@
         <% if (locals.required) { %>
             required
         <% } %>
-        class="form-field__input"
+        class="form-field__input <%= locals.fieldClass %>"
     />
     <label for="<%= id %>" class="form-field__label">
         <%= placeholder %>

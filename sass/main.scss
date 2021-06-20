@@ -23,11 +23,13 @@
 @use "5-components/modal";
 @use "5-components/toast";
 @use "5-components/floatingActionButton";
+@use "5-components/table";
 
 //Pages
 @use "6-pages/index";
 @use "6-pages/test";
 @use "6-pages/profile";
 @use "6-pages/error";
+@use "6-pages/adminUserResults";
 
 //Themes

@@ -5,6 +5,31 @@ db.dropDatabase();
 print(`Created ${databaseName} database`);
 
 db.users.insert({
+    name: "admin",
+    isAdmin: true,
+    department: "IT",
+    university: "Robert Gordon University",
+    email: "admin",
+    hash: "$2b$10$mVT9ji2q0beP.Ut6CFoYg.aLD4JSztmc5jJ.VZXHEumRoTC4idmJO",
+    test: {
+        ts: 1618153071222,
+        cards: {
+            kept: [],
+            discarded: [],
+            undecided: [],
+            next: {
+                id: "Accommodating",
+                color: "green",
+            },
+            complete: false,
+        },
+        complete: false,
+        result: null,
+        timeComplete: null,
+    },
+})
+
+db.users.insert({
     name: "Test Not Started",
     department: "Computing",
     university: "Robert Gordon University",
@@ -34,6 +59,28 @@ db.users.insert({
     university: "Robert Gordon University",
     email: "test@started.com",
     hash: "$2b$10$/lJpDONcxv27fYjvkH8ENO8o3JwF481j8TO/B3G1UCr8wGlKTW7fu",
+    test: {
+        ts: 1618153344550,
+        cards: {
+            kept: [{ id: "Persuasive", color: "yellow" }],
+            discarded: [{ id: "Inquisitive", color: "red" }],
+            undecided: [{ id: "Stubborn", color: "green" }],
+            next: { id: "Big picture", color: "yellow" },
+            complete: false,
+        },
+        complete: false,
+        result: null,
+        timeComplete: null,
+    },
+});
+
+db.users.insert({
+    name: "Test Started",
+    department: "Computing",
+    university: "Robert Gordon University",
+    email: "joaquim.q.gomez@gmail.com",
+    hash:  "$2b$10$U8hq/OxyYLSTSfIAeqAWJOGXtEMi6oiIGChstAj4BVyT1Xj2QY3zm",
+    isAdmin: true,
     test: {
         ts: 1618153344550,
         cards: {
@@ -440,6 +487,10 @@ db.content.insert({
                 {
                     text: "Profile",
                     href: "/profile",
+                },
+                {
+                    text: "Admin",
+                    href: "/admin",
                 },
             ],
         },
