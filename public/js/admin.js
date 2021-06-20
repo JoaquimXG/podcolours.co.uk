@@ -1,12 +1,10 @@
 $(function () {
     $("tr td").click(handleRowClick);
-
-    console.log("test");
     $("#admin__search").on("input", handleSearchInput);
 });
 
 var searchInputTimer;
-function handleSearchInput(e) {
+function handleSearchInput() {
     clearTimeout(searchInputTimer);
 
     searchInputTimer = setTimeout(function () {

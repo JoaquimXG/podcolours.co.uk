@@ -60,7 +60,6 @@ module.exports = (req, res, next) => {
 function parseResultsArray(_, res, resultsArray) {
     var content = resultsArray[0].content;
     var profile = resultsArray[1];
-    console.log(profile.test.cards.kept)
 
     return {
         header: res.locals.header,

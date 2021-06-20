@@ -54,8 +54,6 @@ async function parseAdminResultsArray(resultsArray) {
     var content = resultsArray[0].content;
     var users = await resultsArray[1].toArray()
     
-    users.forEach(user => console.log(user))
-
     var header = {
         logout: true,
         testButton: false
