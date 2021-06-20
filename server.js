@@ -16,6 +16,7 @@ const {
 } = require("./routes/signup");
 const login = require('./routes/login');
 const admin = require("./routes/admin");
+const adminUserResults = require('./routes/adminUserResults');
 const fourZeroFour = require('./routes/404');
 const errorHandler = require('./routes/error');
 const logout = require('./routes/logout');
@@ -46,6 +47,9 @@ app.get("/profile", profile);
 
 //Admin page for user results
 app.get("/admin", admin);
+
+//Individual results to be viewed by admins
+app.get("/admin/:email", adminUserResults)
 
 //Parse ajax signup request and add user to database if email available
 app.post("/signup", parseSignUpRequest, checkIfUserExists, signUpIndex);

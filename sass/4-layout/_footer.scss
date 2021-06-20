@@ -3,6 +3,10 @@
     padding: 30px 20px 30px;
     background-color: a.$color-night-rider;
     color: a.$color-dark-gray;
+
+    @media print {
+        display: none;
+    }
 }
 
 .footer__nav {

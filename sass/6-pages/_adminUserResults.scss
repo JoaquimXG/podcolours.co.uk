@@ -1,0 +1,47 @@
+.adminUserResults__profile {
+    padding-bottom: 0;
+    padding-top: 4rem;
+}
+
+.adminUserResults__field-group {
+    display: flex;
+}
+
+.adminUserResults__field {
+    width: 50%;
+}
+
+.adminUserResults__detailed-results {
+    display: flex;
+    padding-top: 1rem;
+}
+
+.adminUserResults__detailed-results__container {
+    padding-top: 3rem;
+}
+
+.adminUserResults__detailed-results__color {
+    width: 25%;
+    text-align: left;
+
+    &__header {
+        font-size: 1.25rem;
+        padding-bottom: 0.2rem;
+    }
+}
+
+.print-header {
+    display: none;
+    position: relative;
+
+    @media print {
+        display: block;
+    }
+
+    &__img {
+        position: absolute;
+        width: 75px;
+        top: 30px;
+        right: 60px;
+    }
+}

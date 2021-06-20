@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="description" content="POD Colours User Profile Page" />
+        <title>POD Colours</title>
+
+        <%- include('../partials/head')%>
+
+        <!-- Internal stylesheets -->
+        <link rel="stylesheet" href="/css/main.css"/>
+
+        <!-- Internal javascript -->
+        <script type="module" src="/js/adminUserResults.js" ></script>
+    </head>
+
+
+    <%- include('../partials/header')%>
+    <div class="print-header">
+        <img class="print-header__img" id="headerLogoImg" src="/img/logoBig.png" />
+    </div>
+
+    <body>
+
+        <div class="container container--tall adminUserResults__profile">
+            <div class="profile-info">
+                <div class="profile-info__header">
+                    <h2 class="">Profile</h2>
+                </div>
+                <div class="profile-info__fields">
+                    <div class="adminUserResults__field-group">
+                        <%- include('../components/adminUserResultsField', {header: "Name", value: profile.name })%>
+                        <%- include('../components/adminUserResultsField', {header: "Email", value: profile.email})%>
+                    </div>
+                    <div class="adminUserResults__field-group">
+                        <%- include('../components/adminUserResultsField', {header: "University", value: profile.university})%>
+                        <%- include('../components/adminUserResultsField', {header: "Department", value: profile.department})%>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <% if (profile.test.complete === true) { %>
+            <div class="profile-results--complete">
+                    <h2 class="profile-results__title">Results</h2>
+                    <div class="grid font--margin-unset adminUserResults__results-grid">
+                        <div class="col col--md--2 profile-results__group">
+                            <div class="profile-results__count">
+                                <h3>Green</h3>
+                                <h3 class="profile-results__value green"><%= profile.test.cards.colorCounts.green%></h3>
+                            </div>
+                            <div class="profile-results__count">
+                                <h3>Red</h3>
+                                <h3 class="profile-results__value red"><%= profile.test.cards.colorCounts.red%></h3>
+                            </div>
+                        </div>
+                        <div class="col col--md--2 profile-results__group">
+                            <div class="profile-results__count">
+                                <h3>Yellow</h3>
+                                <h3 class="profile-results__value yellow"><%= profile.test.cards.colorCounts.yellow %></h3>
+                            </div>
+                            <div class="profile-results__count">
+                                <h3>Blue</h3>
+                                <h3 class="profile-results__value blue"><%= profile.test.cards.colorCounts.blue %></h3>
+                            </div>
+                        </div>
+                    </div>
+            <% } else { %>
+
+
+            <div class="profile-results--progress">
+                    <h2 TODO class="profile-results__title">Would you like to continue...</h2>
+                    <div class="profile-results__group">
+                        <div class="profile-results__count">
+                            <h3>Kept</h3>
+                            <h3 class="profile-results__value green"><%= profile.test.cards ? profile.test.cards.kept.length : 0 %>/20</h3>
+                        </div>
+                        <div class="profile-results__count">
+                            <h3>Discarded</h3>
+                            <h3 class="profile-results__value red"><%= profile.test.cards ? profile.test.cards.discarded.length : 0 %>/60</h3>
+                        </div>
+                    </div>
+            <% } %>
+            </div>
+        </div>
+
+        <div class="adminUserResults__detailed-results__container container container--tall">
+            <h2 class="profile-results__title">Detailed Results</h2>
+            <div class="adminUserResults__detailed-results">
+                <div class="adminUserResults__detailed-results__color">
+                    <h4 class="adminUserResults__detailed-results__color__header green">Green</h4>
+                    <% profile.test.cards.kept.filter(card => card.color === 'green').forEach(card => { %>
+                    <div class="font--margin-unset">
+                        <%= card.id %>
+                    </div>
+                    <% }) %>
+                </div>
+                <div class="adminUserResults__detailed-results__color">
+                    <h4 class="adminUserResults__detailed-results__color__header red">Red</h4>
+                    <% profile.test.cards.kept.filter(card => card.color === 'red').forEach(card => { %>
+                    <div class="font--margin-unset">
+                        <%= card.id %>
+                    </div>
+                    <% }) %>
+                </div>
+                <div class="adminUserResults__detailed-results__color">
+                    <h4 class="adminUserResults__detailed-results__color__header yellow">Yellow</h4>
+                    <% profile.test.cards.kept.filter(card => card.color === 'yellow').forEach(card => { %>
+                    <div class="font--margin-unset">
+                        <%= card.id %>
+                    </div>
+                    <% }) %>
+                </div>
+                <div class="adminUserResults__detailed-results__color">
+                    <h4 class="adminUserResults__detailed-results__color__header blue">Blue</h4>
+                    <% profile.test.cards.kept.filter(card => card.color === 'blue').forEach(card => { %>
+                    <div class="font--margin-unset">
+                        <%= card.id %>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+    <%- include('../partials/footer')%>
+</html>
