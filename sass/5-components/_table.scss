@@ -7,7 +7,6 @@
 }
 
 .admin__main-container {
-    flex: 2 1 auto;
     width: 100%;
 }
 
@@ -35,7 +34,6 @@
 
         z-index: 5;
         font-size: 1.5rem;
-        //content: '\025B4';
         content: '\1F50D';
         color: a.$color-dark-background;
     }
