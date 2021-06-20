@@ -27,7 +27,7 @@ function filterTable() {
 function handleRowClick(e) {
     var row = $(e.target.parentElement);
     var username = row.find("[data-id='username']").text();
-    var link = `/admin/${username}`;
+    var link = `/adminUserResults/${username}`;
 
     if (e.ctrlKey) {
         window.open(link);

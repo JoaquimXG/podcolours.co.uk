@@ -11,6 +11,8 @@
 }
 
 .profile-results__group {
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
     justify-content: space-around;
     margin-top: a.$spacing--4xlarge;
@@ -28,6 +30,8 @@
     border-bottom: 2px solid a.$color-dark-gray;
     padding-bottom: 0.1em;
 
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
     justify-content: space-between;
     align-items: center;
