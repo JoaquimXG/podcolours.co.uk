@@ -5,6 +5,31 @@ db.dropDatabase();
 print(`Created ${databaseName} database`);
 
 db.users.insert({
+    name: "admin",
+    isAdmin: true,
+    department: "IT",
+    university: "Robert Gordon University",
+    email: "admin",
+    hash: "$2b$10$mVT9ji2q0beP.Ut6CFoYg.aLD4JSztmc5jJ.VZXHEumRoTC4idmJO",
+    test: {
+        ts: 1618153071222,
+        cards: {
+            kept: [],
+            discarded: [],
+            undecided: [],
+            next: {
+                id: "Accommodating",
+                color: "green",
+            },
+            complete: false,
+        },
+        complete: false,
+        result: null,
+        timeComplete: null,
+    },
+})
+
+db.users.insert({
     name: "Test Not Started",
     department: "Computing",
     university: "Robert Gordon University",

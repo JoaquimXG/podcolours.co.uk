@@ -6,10 +6,19 @@ module.exports = (req, res, next) => {
     //Redirect user to homepage if they are not signed in
     if (!req.user) {
         res.redirect("/?loginModal=1");
-        log.warn("Access Denied- User not logged in", {
+        log.warn("Access Denied - User not logged in", {
             route: "admin/:email",
             action: "failure",
         });
+        return;
+    }
+
+    if (!req.user.isAdmin) {
+        log.warn("Access Denied - User not admin", {
+            route: "admin/:email",
+            action: "failure",
+        });
+        next("Error 403: Access Denied")
         return;
     }
 

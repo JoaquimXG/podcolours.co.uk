@@ -1,7 +1,24 @@
 const log = require("../logs/logger");
 
 module.exports = (req, res, next) => {
-    //TODO check if user is logged in and is an admin
+    //Redirect user to homepage if they are not signed in
+    if (!req.user) {
+        res.redirect("/?loginModal=1");
+        log.warn("Access Denied - User not logged in", {
+            route: "admin",
+            action: "failure",
+        });
+        return;
+    }
+
+    if (!req.user.isAdmin) {
+        log.warn("Access Denied - User not admin", {
+            route: "admin",
+            action: "failure",
+        });
+        next("Error 403: Access Denied")
+        return;
+    }
 
     //Add two query promises to array to be resolved in parallel
     queryPromiseArray = [];
