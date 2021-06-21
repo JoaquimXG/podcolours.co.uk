@@ -31,7 +31,13 @@ function adminUserResults(req, res, next) {
 
     res.locals.header = {
         logout: true,
-        testButton: false,
+        testButton: {
+            class: "btn--blue",
+            //onClick: `location.href='/adminUserResults/${email}?asPdf=1'`,
+            onClick: `window.open('/adminUserResults/${email}?asPdf=1','_blank')`,
+            text: "Get Report",
+            id: "pdfButton",
+        },
     };
 
     //Add two query promises to array to be resolved in parallel
