@@ -7,7 +7,7 @@
     "devel": "npm-run-all -p hotReload sass",
     "docker": "docker-compose --env-file docker.env up",
     "setupDb": "mongo podcolours setupDb.js",
-    "start": "node server.js",
+    "start": "sass sass/:public/css; node server.js",
     "sass": "sass -w sass/:public/css/",
     "hotReload": "nodemon --inspect -e js,mjs,json,ejs,css"
   },
