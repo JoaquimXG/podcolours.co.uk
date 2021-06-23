@@ -3,12 +3,13 @@ const ejs = require("ejs");
 var puppeteer = require('puppeteer');
 
 module.exports = {
+    verifyIsAdmin,
     adminUserResults,
     resultsAsPdfOrHtml,
 };
 
-function adminUserResults(req, res, next) {
-    var email = req.params.email;
+function verifyIsAdmin(req, res, next) {
+    res.locals.email = req.params.email;
 
     //Redirect user to homepage if they are not signed in
     if (!req.user) {
@@ -28,13 +29,16 @@ function adminUserResults(req, res, next) {
         next("Error 403: Access Denied");
         return;
     }
+    next()
+}
 
+function adminUserResults(req, res, next) {
     res.locals.header = {
         logout: true,
         testButton: {
             class: "btn--blue",
-            //onClick: `location.href='/adminUserResults/${email}?asPdf=1'`,
-            onClick: `window.open('/adminUserResults/${email}?asPdf=1','_blank')`,
+            //onClick: `location.href='/adminUserResults/${res.locals.email}?asPdf=1'`,
+            onClick: `window.open('/adminUserResults/${res.locals.email}?asPdf=1','_blank')`,
             text: "Get Report",
             id: "pdfButton",
         },
@@ -50,7 +54,7 @@ function adminUserResults(req, res, next) {
     );
     //Query for user content
     res.locals.queryPromiseArray.push(
-        req.db.collection("users").findOne({ email: email })
+        req.db.collection("users").findOne({ email: res.locals.email })
     );
 
     next();
@@ -64,7 +68,9 @@ function resultsAsPdfOrHtml(req, res, next) {
         .then(async (resultsArray) => {
             var content = parseResultsArray(req, res, resultsArray);
             if (req.query.asPdf === "1") {
-                await renderHtmlAndGeneratePdf(content, res);
+                var pdf = await renderHtmlAndGeneratePdf(content);
+                res.contentType("application/pdf")
+                res.send(pdf)
                 return;
             }
             res.render("pages/adminUserResults", content);
@@ -75,7 +81,7 @@ function resultsAsPdfOrHtml(req, res, next) {
         });
 }
 
-async function renderHtmlAndGeneratePdf(content, res) {
+async function renderHtmlAndGeneratePdf(content) {
     var html = await ejs.renderFile(
         __dirname + "/../views/pages/adminUserResults.ejs",
         content
@@ -85,10 +91,8 @@ async function renderHtmlAndGeneratePdf(content, res) {
     const page = await browser.newPage();
     await page.setContent(`${html}`, {waitUntil: 'networkidle0'});
     const pdf = await page.pdf({ format: 'A4' });
-
     await browser.close();
-    res.contentType("application/pdf")
-    res.send(pdf)
+    return pdf;
 }
 
 //Parses results of Promises from Database queries ready for input
