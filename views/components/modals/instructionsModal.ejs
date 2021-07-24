@@ -1,12 +1,16 @@
 <div id="instructModalSection" class="modal__section">
     <%- include('./instructionLine.ejs', {number: "1",
-    text: "Read the card and decide if the word describes you."})%>
+    text: "The aim of the exercise is to select the 20 words which best describe you from a work perspective."})%>
     <%- include('./instructionLine.ejs', {number: "2",
-    text: "If you believe it does, you can keep it, if not, you can discard it."})%>
+    text: "If you think a card describes how you are at work, drag it into the ‘Most Like Me’ box."})%>
     <%- include('./instructionLine.ejs', {number: "3",
-    text: "You are free to and encouraged to change your mind as the test goes on."})%>
+    text: "If you think a card does not describe how you are at work, drag it into the ‘Least Like Me’ box."})%>
     <%- include('./instructionLine.ejs', {number: "4",
-    text: "When 20 cards are kept and 60 are discarded, you can finish and your results will be decided."})%>
+    text: "You are free to move cards from one box to another until you are left with the 20 cards in the ‘Most Like Me’ box which best describe you from a work perspective."})%>
+    <%- include('./instructionLine.ejs', {number: "5",
+    text: "Don’t overthink it but simply go with the words you are naturally drawn towards."})%>
+    <%- include('./instructionLine.ejs', {number: "6",
+    text: "When you are finished, press ‘Submit’ and your result will be decided."})%>
     <div class="modal__button-group">
         <button
             class="btn btn--success"
