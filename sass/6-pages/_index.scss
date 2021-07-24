@@ -63,6 +63,7 @@
 
 .team-quote__img {
     display: flex;
+    align-items: center;
     margin-top: a.$spacing--2xlarge;
 
     @media (min-width: a.$screen-md) {
@@ -71,9 +72,10 @@
 
     div {
         overflow: hidden;
-        height: 15rem;
-        width: 15rem;
-        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        height: 12rem;
+        width: 18rem;
         margin: auto;
 
         img {

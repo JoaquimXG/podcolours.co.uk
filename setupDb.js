@@ -511,7 +511,7 @@ db.content.insert({
                 "Understanding the key personality differences between ourselves and the people we interact with helps us to realise how they see us; why they act the way they do; the impact that we have on them and how to get the most out of our interactions by capitalising on strengths.",
             textTwo:
                 "The POD Colours tool is based on psychological research, and provide genuine insight into your key areas of strength and potential barriers to success.",
-            quoteAuthor: " Tina McGregor, Leadership Development Specialist",
+            quoteAuthor: "RGU Leadership Development Team",
         },
         testimonials: [
             {
