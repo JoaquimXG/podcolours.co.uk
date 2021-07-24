@@ -1,6 +1,6 @@
 @use "../1-abstracts/" as a;
 .toast {
-    z-index: 5000;
+    z-index: 500000;
     padding: 15px 40px;
     border-radius: 7px;
     color: a.$color-white;

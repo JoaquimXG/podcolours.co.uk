@@ -1,3 +1,4 @@
+import toastBuilder from '../components/toast.js';
 import requestUserSignIn from '../utilities/requestUserSignIn.js'
 import validateForm from '../utilities/validateForm.js'
 import {setupModal} from './generalModalHandlers.js'
@@ -14,6 +15,13 @@ function setupSignUpModal(id, openModalButtonId, state) {
 //Validates values and posts data to server
 function handleSignUp(e, state) {
     e.preventDefault()
+
+    const toast = toastBuilder({
+        target: "body",
+        topOffset: 100,
+        defaultText: "Email address taken",
+        classes: "toastError"
+    })
 
     //Array for fields in form to be validated
     var fields = [
@@ -39,12 +47,22 @@ function handleSignUp(e, state) {
             selector: "#signUpPassword",
             id: "password",
         },
+        {
+            selector: "#signUpConfirmPassword",
+            id: "confirmPassword",
+        },
     ]
 
     var data = validateForm(fields)
     
     //If form was not valid, don't send data
     if (!data.isValid) {
+        return;
+    }
+
+    if (data.confirmPassword != data.password) {
+        $("#signUpConfirmPassword").addClass("form-field__input--error")
+        toast("Passwords do not match")
         return;
     }
 
@@ -66,6 +84,7 @@ function handleSignUp(e, state) {
             else if(data.errorCode === 1) {
                 $("#signUpModalTitle")
                     .text("Sorry, this email is taken")
+                toast()
                 $("#signUpEmail").addClass("form-field__input--error")
             }
         })
