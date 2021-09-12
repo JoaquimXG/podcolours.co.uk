@@ -53,16 +53,15 @@ const signUpIndex = (req, res, next) => {
     //Add user to database and redirect to profile page
     req.db.collection("users").insertOne(res.locals.user, (err, result) => {
         if (err) next(err);
-        var newUserId = result.ops[0]._id;
-        var newUserEmail = result.ops[0].email;
-        req.login({_id: newUserId, email: newUserEmail}, (err) => {
+        var newUserId = result.insertedId;
+        req.login({_id: newUserId, email: res.locals.user.email}, (err) => {
             if (err) {
                 next(err)
                 return
             }
             var formResponse = { userCreated: true };
             res.json(formResponse);
-            log.info(`Successful User Sign-up - User: ${newUserEmail}`, {route: "signup", action: "success"})
+            log.info(`Successful User Sign-up - User: ${res.locals.user.email}`, {route: "signup", action: "success"})
             return;
         })
     });

@@ -14,10 +14,10 @@ const logger = require('./logger')
 const app = express();
 
 module.exports = () => {
-    var mongoUrl = generateMongoUrl()
-    log.debug(`=== Connection: ${mongoUrl} ===`);
+    var urlDict = generateMongoUrl()
+    log.debug(`=== Connection: ${urlDict.url} ===`);
     //Include MongoDB as express middleware
-    app.use(mongo(mongoUrl))
+    app.use(mongo(urlDict.host, urlDict.db))
 
     //Public folder for images, css and js files
     app.use(express.static("public"));
@@ -35,7 +35,7 @@ module.exports = () => {
             resave: true,
             saveUninitialized: true,
             cookie: {maxAge: false},
-            store: MongoStore.create({mongoUrl: mongoUrl, crypto: {secret: false}})
+            store: MongoStore.create({mongoUrl: urlDict.url, crypto: {secret: false}})
         })
     );
 
@@ -62,6 +62,7 @@ function generateMongoUrl() {
     var host = process.env.MONGOHOST ? process.env.MONGOHOST : "localhost"
     var port = process.env.MONGOPORT ? process.env.MONGOPORT : 27017
     var database = process.env.MONGODATABASE ? process.env.MONGODATABASE : "podcolours"
+    var url = `mongodb://${host}:${port}/${database}`
 
-    return `mongodb://${host}:${port}/${database}`
+    return {url: url, host: `mongodb://${host}:${port}/`, db: database}
 }

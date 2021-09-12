@@ -2,7 +2,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 //Custom middleware allows MongoDB client to be accessable
 //in all routes in any file through the request object
-module.exports = (mongoUrl) => {
+module.exports = (mongoUrl, databaseName) => {
     var link;
 
     //Returns a function to be used as middleware for express
@@ -12,7 +12,7 @@ module.exports = (mongoUrl) => {
         }
         link
             .then((db) => {
-                req.db = db;
+                req.db = db.db(databaseName);
                 next();
             })
             .catch((err) => {
