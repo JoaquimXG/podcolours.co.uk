@@ -34,14 +34,15 @@
         {prefix: "randomPerson", content: "randomPersonModal", title: "Personality Match"}) %>
 
         <div id="appPrimaryContainer" class="appBackground">
-            <div id="greenDropzone" dropId="kept" class="cardDropzone">
-                <div class="dropZoneText">Keep</div>
-                <div id="keepCounter" class="dropZoneText">0/20</div>
+            <div id="lightGreyDropzone" dropId="kept" class="cardDropzone">
+                <div class="dropZoneText">Most Like Me</div>
             </div>
-            <div id="undecidedDropZone" dropId="undecided"></div>
-            <div id="redDropzone" dropId="discarded" class="cardDropzone">
-                <div class="dropZoneText">Discard</div>
-                <div id="discardCounter" class="dropZoneText">0/60</div>
+            <div id="undecidedDropZone" dropId="undecided">
+                <div id="keepCounter" class="dropZoneText dropZoneCounter left">0/20</div>
+                <div id="discardCounter" class="dropZoneText dropZoneCounter right">0/60</div>
+            </div>
+            <div id="darkGreyDropzone" dropId="discarded" class="cardDropzone">
+                <div class="dropZoneText light">Least Like Me</div>
             </div>
             <%- include("../components/floatingActionButton", {id: "openInstructionModal"}) -%>
         </div>
