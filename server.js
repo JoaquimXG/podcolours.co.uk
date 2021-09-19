@@ -6,7 +6,7 @@ const prepareMiddleware = require("./middleware/index");
 
 //Routes
 const home = require("./routes/home");
-const { testIndex, testSaveState, testGetState } = require("./routes/test");
+const { testIndex, testSaveState, testGetState, emailResultsPdf } = require("./routes/test");
 const getPeople = require("./routes/getPeople");
 const profile = require("./routes/profile");
 const {
@@ -16,7 +16,7 @@ const {
 } = require("./routes/signup");
 const login = require('./routes/login');
 const admin = require("./routes/admin");
-const {adminUserResults, resultsAsPdfOrHtml} = require('./routes/adminUserResults');
+const {verifyIsAdmin, adminUserResults, resultsAsPdfOrHtml} = require('./routes/adminUserResults');
 const legal = require("./routes/legal");
 const fourZeroFour = require('./routes/404');
 const errorHandler = require('./routes/error');
@@ -35,7 +35,7 @@ app.get("/", home);
 app.get("/test", testIndex);
 
 //API endpoint to save current test state
-app.post("/test/saveState", testSaveState);
+app.post("/test/saveState", testSaveState, adminUserResults, emailResultsPdf);
 
 //API endpoint to retrieve current test state from database
 app.get("/test/getState", testGetState);
@@ -50,7 +50,7 @@ app.get("/profile", profile);
 app.get("/admin", admin);
 
 //Individual results to be viewed by admins
-app.get("/adminUserResults/:email", adminUserResults, resultsAsPdfOrHtml)
+app.get("/adminUserResults/:email", verifyIsAdmin, adminUserResults, resultsAsPdfOrHtml)
 
 //Parse ajax signup request and add user to database if email available
 app.post("/signup", parseSignUpRequest, checkIfUserExists, signUpIndex);

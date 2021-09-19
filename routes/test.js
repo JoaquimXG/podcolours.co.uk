@@ -1,4 +1,5 @@
 const log = require('../logs/logger')
+const fs = require('fs')
 
 //Checks if user is logged in to edit header buttons
 //Pulls content from the database to display on the page
@@ -46,8 +47,9 @@ const testSaveState = (req, res, next) => {
     }
 
     //Object for database update
+    testJson = JSON.parse(req.body.test);
     var updateObj = {$set: {
-        test: JSON.parse(req.body.test),
+        test: testJson,
     }}
 
     //Update user test state information
@@ -57,6 +59,25 @@ const testSaveState = (req, res, next) => {
         log.info(`Test save success - User: ${req.user.email}`, 
             {route: "test/saveState", action: "success"})
     });
+
+    //If test is complete then send email with report
+    if (testJson.complete) {
+        next()
+    }
+}
+
+function emailResultsPdf(req, res, next) {
+    Promise.all(res.locals.queryPromiseArray)
+        .then(async (resultsArray) => {
+            var content = parseResultsArray(req, res, resultsArray);
+            var pdf = await renderHtmlAndGeneratePdf(content);
+            //TODO write file to a meaningful place and delete every now again
+            fs.writeFile("test.pdf", pdf);
+            //TODO email the pdf
+        })
+        .catch((err) => {
+            next(err);
+        });
 }
 
 //Parses get requests for test state information
@@ -90,6 +111,7 @@ const testGetState = (req, res, next) => {
 module.exports = {
     testIndex,
     testSaveState,
-    testGetState
+    testGetState,
+    emailResultsPdf
 }
 
