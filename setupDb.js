@@ -492,6 +492,10 @@ db.content.insert({
                     text: "Admin",
                     href: "/admin",
                 },
+                {
+                    text: "Legal",
+                    href: "/legal",
+                },
             ],
         },
         hero: {
