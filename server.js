@@ -17,6 +17,7 @@ const {
 const login = require('./routes/login');
 const admin = require("./routes/admin");
 const {adminUserResults, resultsAsPdfOrHtml} = require('./routes/adminUserResults');
+const legal = require("./routes/legal");
 const fourZeroFour = require('./routes/404');
 const errorHandler = require('./routes/error');
 const logout = require('./routes/logout');
@@ -68,6 +69,9 @@ app.get("/isauthenticated", (req, res) => {
 
 //Handles user logging out
 app.get("/logout", logout)
+
+//Legal details page, disclaimer and policies
+app.get("/legal", legal)
 
 //404 Page for all other routes
 app.get("*", fourZeroFour);

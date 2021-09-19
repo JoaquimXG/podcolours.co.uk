@@ -14,6 +14,17 @@
     text-transform: capitalize;
 }
 
+.font--normal {
+    font-weight: normal;
+}
+
+.font--link {
+    color: a.$color-dodger-blue;
+    text-decoration: underline;
+    cursor: pointer;
+
+}
+
 h1,
 h2,
 h3,
