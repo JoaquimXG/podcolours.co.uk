@@ -15,15 +15,33 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-module.exports = (emailData, ejsTemplate, templateQueries) => {
+function sendHtmlEmail(emailData, ejsTemplate, templateQueries, attachments) {
     ejs.renderFile(
         ejsTemplate,
         templateQueries,
         {},
         (_, str) => {
             emailData.html = str;
+            if (attachments) {
+                emailData.attachments = attachments
+            }
             transporter.sendMail(emailData)
                 .then((info) => log.info(info.response))
         }
     );
 };
+
+function sendTextEmail(emailData, text, attachments) {
+    emailData.text = text;
+    if (attachments) {
+        emailData.attachments = attachments
+    }
+    transporter.sendMail(emailData)
+        .then((info) => log.info(info.response))
+}
+
+
+module.exports = {
+    sendTextEmail,
+    sendHtmlEmail
+}

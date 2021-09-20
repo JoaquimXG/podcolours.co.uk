@@ -1,5 +1,5 @@
 require('dotenv').config();
-const sendEmail = require("../functions/sendEmail")
+const {sendHtmlEmail} = require("../functions/sendEmail")
 
 module.exports = (emailRecipient, token, name) => {
     const emailData = {
@@ -9,5 +9,5 @@ module.exports = (emailRecipient, token, name) => {
     };
     var link = `http://localhost:8080/passwordreset/reset?token=${token}&email=${emailRecipient}`;
 
-    sendEmail(emailData,  __dirname + "/passwordResetEmail.ejs", { link: link, name: name }, )
+    sendHtmlEmail(emailData,  __dirname + "/passwordResetEmail.ejs", { link: link, name: name }, )
 };
