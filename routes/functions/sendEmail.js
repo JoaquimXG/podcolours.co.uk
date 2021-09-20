@@ -15,28 +15,28 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-function sendHtmlEmail(emailData, ejsTemplate, templateQueries, attachments) {
-    ejs.renderFile(
+async function sendHtmlEmail(emailData, ejsTemplate, templateQueries, attachments) {
+    await ejs.renderFile(
         ejsTemplate,
         templateQueries,
         {},
-        (_, str) => {
+        async (_, str) => {
             emailData.html = str;
             if (attachments) {
                 emailData.attachments = attachments
             }
-            transporter.sendMail(emailData)
+            await transporter.sendMail(emailData)
                 .then((info) => log.info(info.response))
         }
     );
 };
 
-function sendTextEmail(emailData, text, attachments) {
+async function sendTextEmail(emailData, text, attachments) {
     emailData.text = text;
     if (attachments) {
         emailData.attachments = attachments
     }
-    transporter.sendMail(emailData)
+    await transporter.sendMail(emailData)
         .then((info) => log.info(info.response))
 }
 

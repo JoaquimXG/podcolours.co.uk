@@ -2,6 +2,7 @@ const log = require('../logs/logger')
 const fs = require('fs')
 const {generateReportPdf} = require("./adminUserResults")
 const uuid = require("uuid")
+const {sendTextEmail} = require("./functions/sendEmail")
 
 //Checks if user is logged in to edit header buttons
 //Pulls content from the database to display on the page
@@ -71,17 +72,33 @@ const testSaveState = (req, res, next) => {
 
 async function emailResultsPdf(_, res) {
     pdf = await generateReportPdf(res.locals.reportHtml)
+
     res.locals.pdfFilename = `${uuid.v4()}.pdf` 
-    fs.writeFile(`tmp/${res.locals.pdfFilename}`, pdf, (err) => {
+    res.locals.pdfPath = `tmp/${res.locals.pdfFilename}`
+
+    fs.writeFile(res.locals.pdfPath, pdf, (err) => {
         if (err) {
             log.error("Unable to write file", err)
         } else {
-            log.info(`Pdf saved to tmp/${res.locals.pdfFilename}`)
+            log.info(`Pdf saved to ${res.locals.pdfPath}`)
         }
     });
 
-    //TODO email the pdf
-    //TODO delete pdf
+    const emailData = {
+        from: "info@podcolours.co.uk",
+        subject: `Pod Colours Report: ${res.locals.email}`,
+        //TODO change admin contact email address
+        to: "joaquim.q.gomez@gmail.com"
+    };
+    await sendTextEmail(emailData, `Pod Colours report for ${res.locals.email}`, [{filename: "report.pdf", path: res.locals.pdfPath}])
+
+    fs.unlink(res.locals.pdfPath, (err) => {
+        if (err){
+            log.error("Unable to delete file", err)
+        }else {
+            log.info(`Pdf ${res.locals.pdfPath} deleted`)
+        }
+    })
 }
 
 //Parses get requests for test state information
