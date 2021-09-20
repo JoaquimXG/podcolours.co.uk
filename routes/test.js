@@ -1,4 +1,8 @@
 const log = require('../logs/logger')
+const fs = require('fs')
+const {generateReportPdf} = require("./adminUserResults")
+const uuid = require("uuid")
+const {sendTextEmail} = require("./functions/sendEmail")
 
 //Checks if user is logged in to edit header buttons
 //Pulls content from the database to display on the page
@@ -46,8 +50,9 @@ const testSaveState = (req, res, next) => {
     }
 
     //Object for database update
+    testJson = JSON.parse(req.body.test);
     var updateObj = {$set: {
-        test: JSON.parse(req.body.test),
+        test: testJson,
     }}
 
     //Update user test state information
@@ -57,6 +62,43 @@ const testSaveState = (req, res, next) => {
         log.info(`Test save success - User: ${req.user.email}`, 
             {route: "test/saveState", action: "success"})
     });
+
+    //If test is complete then send email with report
+    if (testJson.complete) {
+        res.locals.email = req.user.email
+        next()
+    }
+}
+
+async function emailResultsPdf(_, res) {
+    pdf = await generateReportPdf(res.locals.reportHtml)
+
+    res.locals.pdfFilename = `${uuid.v4()}.pdf` 
+    res.locals.pdfPath = `tmp/${res.locals.pdfFilename}`
+
+    fs.writeFile(res.locals.pdfPath, pdf, (err) => {
+        if (err) {
+            log.error("Unable to write file", err)
+        } else {
+            log.info(`Pdf saved to ${res.locals.pdfPath}`)
+        }
+    });
+
+    const emailData = {
+        from: "info@podcolours.co.uk",
+        subject: `Pod Colours Report: ${res.locals.email}`,
+        //TODO change admin contact email address
+        to: "joaquim.q.gomez@gmail.com"
+    };
+    await sendTextEmail(emailData, `Pod Colours report for ${res.locals.email}`, [{filename: "report.pdf", path: res.locals.pdfPath}])
+
+    fs.unlink(res.locals.pdfPath, (err) => {
+        if (err){
+            log.error("Unable to delete file", err)
+        }else {
+            log.info(`Pdf ${res.locals.pdfPath} deleted`)
+        }
+    })
 }
 
 //Parses get requests for test state information
@@ -90,6 +132,7 @@ const testGetState = (req, res, next) => {
 module.exports = {
     testIndex,
     testSaveState,
-    testGetState
+    testGetState,
+    emailResultsPdf
 }
 
