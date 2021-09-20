@@ -16,7 +16,7 @@ function setupResultsModal(id, openModalButtonId, state) {
 
         //If user is signed in save state to server rather than asking to sign up
         if (window.isAuth == true) {
-            $("#saveResultsButton").click(() => saveStateToServer(true, false, state));
+            $("#saveResultsButton").click(() => window.location.href = "/profile");
         } else {
             //If user not signed in, add handler to prompt user sign up
             $("#saveResultsButton").click(() => {
