@@ -1,5 +1,7 @@
 const log = require('../logs/logger')
 const fs = require('fs')
+const {generateReportPdf} = require("./adminUserResults")
+const uuid = require("uuid")
 
 //Checks if user is logged in to edit header buttons
 //Pulls content from the database to display on the page
@@ -62,22 +64,24 @@ const testSaveState = (req, res, next) => {
 
     //If test is complete then send email with report
     if (testJson.complete) {
+        res.locals.email = req.user.email
         next()
     }
 }
 
-function emailResultsPdf(req, res, next) {
-    Promise.all(res.locals.queryPromiseArray)
-        .then(async (resultsArray) => {
-            var content = parseResultsArray(req, res, resultsArray);
-            var pdf = await renderHtmlAndGeneratePdf(content);
-            //TODO write file to a meaningful place and delete every now again
-            fs.writeFile("test.pdf", pdf);
-            //TODO email the pdf
-        })
-        .catch((err) => {
-            next(err);
-        });
+async function emailResultsPdf(_, res) {
+    pdf = await generateReportPdf(res.locals.reportHtml)
+    res.locals.pdfFilename = `${uuid.v4()}.pdf` 
+    fs.writeFile(`tmp/${res.locals.pdfFilename}`, pdf, (err) => {
+        if (err) {
+            log.error("Unable to write file", err)
+        } else {
+            log.info(`Pdf saved to tmp/${res.locals.pdfFilename}`)
+        }
+    });
+
+    //TODO email the pdf
+    //TODO delete pdf
 }
 
 //Parses get requests for test state information

@@ -6,6 +6,7 @@ module.exports = {
     verifyIsAdmin,
     adminUserResults,
     resultsAsPdfOrHtml,
+    generateReportPdf
 };
 
 function verifyIsAdmin(req, res, next) {
