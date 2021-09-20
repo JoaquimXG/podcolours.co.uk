@@ -11,8 +11,6 @@ module.exports = (req, res, next) => {
             sessionId: req.sessionId,
             originalUrl: req.originalUrl,
             query: req.query,
-            user: req.user
-
         }
     })
     next()
