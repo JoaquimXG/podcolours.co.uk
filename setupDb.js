@@ -14,7 +14,7 @@ result = db.users.insert({
     department: "IT",
     university: "Robert Gordon University",
     email: "admin",
-    hash: "$2b$10$mVT9ji2q0beP.Ut6CFoYg.aLD4JSztmc5jJ.VZXHEumRoTC4idmJO",
+    hash: "$2b$10$qbSxOL7dI0E2gnRByM5wZOY/L/bMfewsEOpZh6PKiJcaRzyjYjiE6",
     test: {
         ts: 1618153071222,
         cards: {
