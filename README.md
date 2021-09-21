@@ -49,10 +49,10 @@ included below.
 
 This method should be utilised for development.
 
-Requires:
-    - Node
-    - npm
-    - MongoDB @3.2+
+Dependancies:
+    - node @15.6.0
+    - npm @7.8.0
+    - MongoDB @4.4.3
 
 Website backend is built with express, ejs and MongoDB and npm has been configured
 with a selection of setup scripts to ease development.
