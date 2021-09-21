@@ -1,11 +1,11 @@
 version: '3.1'
 services:
   mongo:
-    container_name: ${MONGOHOST}
+    container_name: ${MONGOHOST:-podMongo}
     image: mongo
     restart: always
     ports:
-      - "${MONGOPORT}:27017"
+      - "${MONGOPORT:-27017}:27017"
     volumes:
       - ./data:/data/db
       - ./setupDb.js:/docker-entrypoint-initdb.d/setupDb.js:ro
@@ -13,8 +13,8 @@ services:
       - podcoloursApp
     environment:
       MONGO_INITDB_DATABASE: podcolours
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_ROOT_USERNAME: "${MONGOUSER}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGOPASSWORD}"
   app:
     build: .
     container_name: podApp
@@ -22,15 +22,19 @@ services:
     depends_on:
       - mongo
     ports:
-      - "80:${APPPORT}"
+      - "80:${APPPORT:-80}"
     networks:
       - podcoloursApp
     environment:
-        - APPPORT=${APPPORT}
-        - MONGOHOST=${MONGOHOST}
-        - MONGOPORT=${MONGOPORT}
-        - MONGODATABASE=${MONGODATABASE}
-        - SESSIONSECRET=${SESSIONSECRET}
+      - APPPORT=${APPPORT:-80}
+      - MONGOHOST=${MONGOHOST:-podMongo}
+      - MONGOPORT=${MONGOPORT:-27017}
+      - MONGODATABASE=${MONGODATABASE:-podcolours}
+      - SESSIONSECRET=${SESSIONSECRET}
+      - MONGOUSER=${MONGOUSER}
+      - MONGOPASSWORD=${MONGOPASSWORD}
+      - AUTHSOURCE=${AUTHSOURCE}
+      - SMTPSECRET=${SMTPSECRET}
 networks:
   podcoloursApp:
     driver: bridge
