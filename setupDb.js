@@ -1,10 +1,14 @@
 print("==== Setting up Database ====");
+
+//db = db.getSiblingDB("podcolours")
 databaseName = db;
 
-db.dropDatabase();
+result = db.dropDatabase();
+printjson(result)
+
 print(`Created ${databaseName} database`);
 
-db.users.insert({
+result = db.users.insert({
     name: "admin",
     isAdmin: true,
     department: "IT",
@@ -29,6 +33,7 @@ db.users.insert({
     },
 })
 
+printjson(result)
 db.users.insert({
     name: "Test Not Started",
     department: "Computing",

@@ -15,9 +15,9 @@ const app = express();
 
 module.exports = () => {
     var urlDict = generateMongoUrl()
-    log.debug(`=== Connection: ${urlDict.url} ===`);
+    log.debug(`=== Connection: ${urlDict.urlWithDatabase} ===`);
     //Include MongoDB as express middleware
-    app.use(mongo(urlDict.host, urlDict.db))
+    app.use(mongo(urlDict.urlWithPassword, urlDict.database))
 
     //Public folder for images, css and js files
     app.use(express.static("public"));
@@ -29,13 +29,14 @@ module.exports = () => {
     app.set("view engine", "ejs");
 
     //Express sessions for managing user logins
+    var secret = process.env.SESSIONSECRET ? process.env.SESSIONSECRET : "secret"
     app.use(
         session({
-            secret: process.env.SESSIONSECRET ? process.env.SESSIONSECRET : "secret",
+            secret: secret,
             resave: true,
             saveUninitialized: true,
             cookie: {maxAge: false},
-            store: MongoStore.create({mongoUrl: urlDict.url, crypto: {secret: false}})
+            store: MongoStore.create({mongoUrl: urlDict.urlWithPasswordAndDatabase, crypto: {secret: secret}})
         })
     );
 
@@ -62,7 +63,30 @@ function generateMongoUrl() {
     var host = process.env.MONGOHOST ? process.env.MONGOHOST : "localhost"
     var port = process.env.MONGOPORT ? process.env.MONGOPORT : 27017
     var database = process.env.MONGODATABASE ? process.env.MONGODATABASE : "podcolours"
-    var url = `mongodb://${host}:${port}/${database}`
 
-    return {url: url, host: `mongodb://${host}:${port}/`, db: database}
+    var user = process.env.MONGOUSER
+    var password = process.env.MONGOPASSWORD
+    var authSource = process.env.AUTHSOURCE
+
+    if (!user || !password || !authSource) {
+        log.warn("Missing Environment variables for Mongo Authentication - Attempting to connect without authentication")
+        var mongoHostUrl = `mongodb://${host}:${port}/`
+        var urlWithDatabase = `mongodb://${host}:${port}/${database}`
+        var urlWithPassword = mongoHostUrl
+        var urlWithPasswordAndDatabase = urlWithDatabase
+    } else {
+        log.debug(`All variables provided for authenticated mongodb connection - Attempting connection with user ${user}`)
+        var mongoHostUrl = `mongodb://${host}:${port}/?authSource=${authSource}`
+        var urlWithDatabase = `mongodb://${host}:${port}/${database}?authSource=${authSource}`
+        var urlWithPassword = `mongodb://${user}:${password}@${host}:${port}/?authSource=${authSource}`
+        var urlWithPasswordAndDatabase = `mongodb://${user}:${password}@${host}:${port}/${database}?authSource=${authSource}`
+    }
+
+    return {
+        urlWithPassword: urlWithPassword,
+        urlWithDatabase: urlWithDatabase,
+        urlWithPasswordAndDatabase: urlWithPasswordAndDatabase,
+        host: mongoHostUrl,
+        database: database
+    }
 }

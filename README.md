@@ -21,6 +21,8 @@ dotenv.
 If using dotenv, fill in the appropriate variables in a .env file. Variables
 included below.
 
+#### Mongo and App Configuration
+
 - APPPORT
   - Port for connecting to website
 - MONGOHOST
@@ -29,8 +31,19 @@ included below.
   - Port to connect to MongoDB server
 - MONGODATABASE
   - MongoDB database name
+
+#### Secrets
+
 - SESSIONSECRET
   - Secret for encryption sessions
+- SMTPSECRET (REQUIRED)
+  - Password for relay SMTP server
+- MONGOUSER
+  - Username for authenticating to mongodb
+- MONGOPASSWORD
+  - Password for authenticating to mongodb
+- AUTHSOURCE
+  - MongoDB database where authenticating user is based
 
 ### Option 1 - Local MongoDB
 
@@ -57,10 +70,18 @@ ease development.
 
 run `npm run devel` to run the site with hot reload for development.
 
-### Option 2 - Docker
+#### Mongo Security
 
-This will be the way to deploy when we actually deploy to production, unfortunately
-the codio virtual machines don't allow docker to be installed and run.
+If the local mongo installation has been set up with access controls then a
+user has to be created with the appropriate permissions for the database which
+is to be used.
+
+Permissions required are, `readWrite` and `dbAdmin`.
+
+The details for the user should then be added to the .env file under MONGOUSER,
+MONGOPASSWORD and AUTHSOURCE.
+
+### Option 2 - Docker
 
 Allows for automated and reliable deployment of the site for CI/CD purposes.
 Requires:
@@ -69,12 +90,17 @@ Requires:
 
 Simply run `npm run docker`.
 Both containers will be launched, database will be initialised and the site can
-be reached at localhost:8080.
+be reached at localhost.
 
 The database within the MongoDB container will only initalise when run for the
 first time. If setupDb.js is edited, the data/ folder should be deleted completely.
 This will force the MongoDB container to re-initialise the database using the updated
 setupDb.js script.
+
+If MONGOUSER, MONGOPASSWORD and AUTHSOURCE are included in docker.env then the
+mongo container will be configured with access controls. A user will be created
+with the provided credentials and the credentials will be passed to the application
+container.
 
 #### Issues
 
