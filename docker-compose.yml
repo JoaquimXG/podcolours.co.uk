@@ -22,7 +22,7 @@ services:
     depends_on:
       - mongo
     ports:
-      - "80:${APPPORT:-80}"
+      - "${APPPORT:-80}:${APPPORT:-80}"
     networks:
       - podcoloursApp
     environment:

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const log = require("../logs/logger");
 const ejs = require("ejs");
 var puppeteer = require("puppeteer");
@@ -66,9 +67,12 @@ async function adminUserResults(req, res, next) {
     await Promise.all(res.locals.queryPromiseArray)
         .then(async (resultsArray) => {
             var content = parseResultsArray(req, res, resultsArray);
+            //Renders the report into html, the domain (with host) is included 
+            //To ensure that relative links can be followed regardless of which
+            //port the app is being run on currently
             res.locals.reportHtml = await ejs.renderFile(
                 __dirname + "/../views/pages/adminUserResults.ejs",
-                content
+                {...content, domain:  `localhost:${process.env.APPPORT}`}
             );
             return;
         })
