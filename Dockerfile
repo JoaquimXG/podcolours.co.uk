@@ -14,6 +14,8 @@ WORKDIR /app
 
 COPY ["package.json", "package-lock.json*", "./"]
 
+COPY ["docker.env", "./.env"]
+
 RUN npm ci --production
 
 COPY . .
