@@ -1,8 +1,8 @@
-version: '3.1'
+version: '3.7'
 services:
   mongo:
     container_name: ${MONGOHOST:-podMongo}
-    image: mongo
+    image: mongo:4.4.9
     restart: always
     ports:
       - "${MONGOPORT:-27017}:27017"
@@ -17,12 +17,13 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: "${MONGOPASSWORD}"
   app:
     build: .
+    init: true
     container_name: podApp
     restart: always
     depends_on:
       - mongo
     ports:
-      - "80:${APPPORT:-80}"
+      - "${APPPORT:-80}:${APPPORT:-80}"
     networks:
       - podcoloursApp
     environment:
