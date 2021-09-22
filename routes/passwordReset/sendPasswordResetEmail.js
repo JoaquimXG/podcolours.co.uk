@@ -7,7 +7,8 @@ module.exports = (emailRecipient, token, name) => {
         subject: "Reset your Pod Colours password",
         to: emailRecipient
     };
-    var link = `http://localhost:8080/passwordreset/reset?token=${token}&email=${emailRecipient}`;
+    //TODO Remove hardcoded URL
+    var link = `http://podcolours.co.uk/passwordreset/reset?token=${token}&email=${emailRecipient}`;
 
     sendHtmlEmail(emailData,  __dirname + "/passwordResetEmail.ejs", { link: link, name: name }, )
 };
