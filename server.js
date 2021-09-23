@@ -1,5 +1,9 @@
 require('dotenv').config();
 const log = require('./logs/logger')
+const http = require('http')
+const https = require('https');
+const fs = require('fs');
+
 
 //All middleware is handled out of server.js
 const prepareMiddleware = require("./middleware/index");
@@ -79,5 +83,26 @@ app.get("*", fourZeroFour);
 //Custom server error 500 handler
 app.use(errorHandler);
 
-log.debug(`Listening on ${process.env.APPPORT ? process.env.APPPORT : 8080}`)
-app.listen(process.env.APPPORT ? process.env.APPPORT : 8080);
+var httpPort = process.env.APPPORT ? process.env.APPPORT : 80
+var httpsPort = process.env.APPPORTHTTPS ? process.env.APPPORTHTTPS : 443
+//app.listen(httpPort);
+
+
+if (process.env.HTTPS == "true") {
+    try {
+        const options = {
+              key: fs.readFileSync('certificates/privkey.pem'),
+              cert: fs.readFileSync('certificates/fullchain.pem')
+        };
+
+        log.info("Running with https")
+        log.debug(`Listening https on ${httpsPort}`)
+        https.createServer(options, app).listen(httpsPort)
+    } catch (e) {
+        log.error(e)
+        log.warn("Unable to start on HTTPS, please check file permissions")
+    }
+}
+
+log.debug(`Listening http on ${httpPort}`)
+http.createServer(app).listen(httpPort)

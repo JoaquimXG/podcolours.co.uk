@@ -2,6 +2,7 @@ syncthis
 scraps.html
 .DS_Store
 node_modules/
+certificates/*
 
 tmp/
 
