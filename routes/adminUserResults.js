@@ -61,6 +61,14 @@ async function adminUserResults(req, res, next) {
         req.db.collection("users").findOne({ email: res.locals.email })
     );
 
+    //Preparing protocol for url generation
+    var protocol = "http://"
+    var port = process.env.APPPORT
+    if (process.env.HTTPS = "true") {
+        protocol = 'https://'
+        port = process.env.APPPORTHTTPS
+    }
+
     //Wait for both promises to resolve without error
     //then render html for report page
     //Otherwise render 500 error page
@@ -72,7 +80,7 @@ async function adminUserResults(req, res, next) {
             //port the app is being run on currently
             res.locals.reportHtml = await ejs.renderFile(
                 __dirname + "/../views/pages/adminUserResults.ejs",
-                {...content, domain:  `localhost:${process.env.APPPORT}`}
+                {...content, domain: `${protocol}${req.hostname}:${port}`}
             );
             return;
         })
