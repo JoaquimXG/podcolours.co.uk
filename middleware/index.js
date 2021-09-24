@@ -10,6 +10,7 @@ const session = require("express-session");
 const MongoStore = require('connect-mongo')
 const passport = require('./passport')
 const logger = require('./logger')
+const forceHttps = require('./forceHttps')
 
 const app = express();
 
@@ -30,15 +31,18 @@ module.exports = () => {
 
     //Express sessions for managing user logins
     var secret = process.env.SESSIONSECRET ? process.env.SESSIONSECRET : "secret"
-    app.use(
-        session({
-            secret: secret,
-            resave: true,
-            saveUninitialized: true,
-            cookie: {maxAge: false},
-            store: MongoStore.create({mongoUrl: urlDict.urlWithPasswordAndDatabase, crypto: {secret: secret}})
-        })
-    );
+    var sess = {
+        secret: secret,
+        resave: true,
+        saveUninitialized: true,
+        cookie: {maxAge: false, },
+        store: MongoStore.create({mongoUrl: urlDict.urlWithPasswordAndDatabase, crypto: {secret: secret}})
+    }
+    if (process.env.HTTPS == "true") {
+        app.enable('trust proxy');
+        sess.cookie.secure = true;
+    }
+    app.use(session(sess));
 
     //Initialising passport js with sessions
     app.use(passport.initialize())
@@ -55,7 +59,12 @@ module.exports = () => {
     app.use(bodyParser.json());
     app.use(cookieParser())
 
+    //Automatic logging of HTTP requests
     app.use(logger)
+
+    //Force HTTPS, a check is contained to only force HTTPS when 
+    //HTTPS=true environment variable is set
+    app.use(forceHttps)
     return app;
 }
 
