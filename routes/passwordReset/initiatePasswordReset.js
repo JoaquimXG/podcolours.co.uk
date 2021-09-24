@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
         .collection("users")
         .update({ email: req.body.email }, updateObj, (err, _) => {
             if (err) next(err);
-            sendPasswordResetEmail(req.body.email, token, user.name);
+            sendPasswordResetEmail(req.body.email, token, user.name, req.hostname);
             res.sendStatus(200);
             log.info(`Password reset initiated for ${req.body.email}`, {
                 route: "passwordreset/initiate",

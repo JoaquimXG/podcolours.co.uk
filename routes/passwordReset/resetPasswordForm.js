@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
     //Check if token expired
     if (user.resetTokenExpires < Date.now()) {
         renderTokenExpired(res);
-        log.info(`Reset password token expired: ${req.body.email}`,
+        log.info(`Reset password token expired: ${req.query.email}`,
             {route: "passwordreset/reset", action: "failure"})
         return;
     }
@@ -26,13 +26,13 @@ module.exports = async (req, res) => {
     var isMatch = await bcrypt.compare(req.query.token, user.resetTokenHash) 
     if (!isMatch) {
         renderTokenExpired(res);
-        log.info(`Reset Password token doesn't match: ${req.body.email}`,
+        log.info(`Reset Password token doesn't match: ${req.query.email}`,
             {route: "passwordreset/reset", action: "failure"})
         return;
     }
 
     //Render reset page if all checks have passed
     res.render("pages/passwordReset");
-    log.info(`Reset Password page rendered: ${req.body.email}`,
+    log.info(`Reset Password page rendered: ${req.query.email}`,
         {route: "passwordreset/reset", action: "success"})
 }
