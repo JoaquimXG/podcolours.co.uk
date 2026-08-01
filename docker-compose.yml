@@ -1,43 +1,78 @@
 services:
   mongo:
-    container_name: ${MONGOHOST:-podMongo}
-    image: mongo:8.0
-    restart: always
-    ports:
-      - "${MONGOPORT:-27017}:27017"
+    # Held below 8.0 deliberately. MongoDB 8.0+ refuses to start on Linux
+    # kernel 6.19 and newer - its bundled tcmalloc violates the upstream rseq
+    # ABI, so it would otherwise crash a few seconds after startup. The fix
+    # landed in the kernel at 7.0.14, and MongoDB lifts the block for kernels
+    # at or above that from 8.0.30 onwards. Moving back to 8.x needs both an
+    # 8.0.30 image on Docker Hub and a kernel reporting 7.0.14 or higher.
+    # Note that Ubuntu's kernels report 7.0.0 regardless of what is backported
+    # into them, so they stay blocked. See SERVER-121912 and SERVER-125742.
+    image: mongo:7.0
+    restart: unless-stopped
     volumes:
       - mongoData:/data/db
       - ./setupDb.js:/docker-entrypoint-initdb.d/setupDb.js:ro
-    networks:
-      - podcoloursApp
     environment:
-      MONGO_INITDB_DATABASE: podcolours
-      MONGO_INITDB_ROOT_USERNAME: "${MONGOUSER}"
-      MONGO_INITDB_ROOT_PASSWORD: "${MONGOPASSWORD}"
+      MONGO_INITDB_DATABASE: ${MONGODATABASE:-podcolours}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGOUSER:?set MONGOUSER in .env}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGOPASSWORD:?set MONGOPASSWORD in .env}
+    # Checks that the seed data is present rather than only that mongod
+    # answers. The official image starts a temporary mongod to run the scripts
+    # in docker-entrypoint-initdb.d, and that instance replies to a plain ping
+    # - so a ping based check can report healthy before setupDb.js has run, and
+    # let the app start against a half seeded database.
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          mongosh --quiet
+          -u "$$MONGO_INITDB_ROOT_USERNAME"
+          -p "$$MONGO_INITDB_ROOT_PASSWORD"
+          --authenticationDatabase admin
+          "$${MONGO_INITDB_DATABASE:-podcolours}"
+          --eval 'quit(db.content.countDocuments() > 0 ? 0 : 1)'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
   app:
     build: .
+    image: podcolours-app:local
     init: true
-    container_name: podApp
-    restart: always
-    depends_on:
-      - mongo
+    restart: unless-stopped
     ports:
-      - "${APPPORT:-80}:${APPPORT:-80}"
-    networks:
-      - podcoloursApp
+      # Published on the loopback interface by default, so a deployment is not
+      # reachable from outside the host without a reverse proxy in front of it.
+      # Set BINDADDR=0.0.0.0 in .env for local development.
+      - "${BINDADDR:-127.0.0.1}:${HOSTPORT:-8060}:${APPPORT:-3000}"
+    depends_on:
+      mongo:
+        condition: service_healthy
     environment:
-      - APPPORT=${APPPORT:-80}
-      - MONGOHOST=${MONGOHOST:-podMongo}
-      - MONGOPORT=${MONGOPORT:-27017}
-      - MONGODATABASE=${MONGODATABASE:-podcolours}
-      - SESSIONSECRET=${SESSIONSECRET}
-      - MONGOUSER=${MONGOUSER}
-      - MONGOPASSWORD=${MONGOPASSWORD}
-      - AUTHSOURCE=${AUTHSOURCE}
-      - SMTPSECRET=${SMTPSECRET}
-      - ARCHIVEMODE=${ARCHIVEMODE:-true}
-networks:
-  podcoloursApp:
-    driver: bridge
+      APPPORT: ${APPPORT:-3000}
+      MONGOHOST: ${MONGOHOST:-mongo}
+      MONGOPORT: ${MONGOPORT:-27017}
+      MONGODATABASE: ${MONGODATABASE:-podcolours}
+      MONGOUSER: ${MONGOUSER:?set MONGOUSER in .env}
+      MONGOPASSWORD: ${MONGOPASSWORD:?set MONGOPASSWORD in .env}
+      AUTHSOURCE: ${AUTHSOURCE:-admin}
+      SESSIONSECRET: ${SESSIONSECRET:?set SESSIONSECRET in .env}
+      SMTPSECRET: ${SMTPSECRET:-}
+      ARCHIVEMODE: ${ARCHIVEMODE:-true}
+    # The image carries neither curl nor wget, so the request is made with node
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "require('http').get({host:'127.0.0.1',port:process.env.APPPORT||3000,path:'/'},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      # npm start compiles the stylesheets before the server listens
+      start_period: 40s
+
 volumes:
   mongoData:

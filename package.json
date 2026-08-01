@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "devel": "npm-run-all -p hotReload sass",
-    "docker": "docker-compose --env-file docker.env up",
+    "docker": "docker compose up",
     "setupDb": ". ./.env; mongosh mongodb://$MONGOUSER:$MONGOPASSWORD@$MONGOHOST:$MONGOPORT/$MONGODATABASE?authSource=$AUTHSOURCE setupDb.js",
     "start": "sass sass/:public/css; node server.js",
     "sass": "sass -w sass/:public/css/",
