@@ -45,8 +45,10 @@ WORKDIR /app
 
 COPY ["package.json", "package-lock.json*", "./"]
 
-COPY ["docker.env", "./.env"]
-
+# Configuration is passed in at runtime by docker compose rather than baked in.
+# This previously copied docker.env to /app/.env, which put the session secret
+# and the database credentials into an image layer, and made the build depend on
+# a gitignored file that a fresh clone does not have.
 RUN npm ci --production
 
 COPY . .

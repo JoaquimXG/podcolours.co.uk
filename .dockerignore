@@ -1,2 +1,7 @@
 **/node_modules
+
+# Keep every environment file out of the image - configuration is supplied at
+# runtime by docker compose. Without this "COPY . ." pulls docker.env, and the
+# credentials in it, into an image layer.
 .env
+*.env
