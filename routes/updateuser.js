@@ -57,13 +57,15 @@ const updateUserIndex = (req, res, next) => {
     var updateObj = {$set: res.locals.user}
 
     //Update user
-    req.db.collection("users").update({email: req.user.email}, updateObj, (err, _) => {
-        if (err) next(err)
-        req.user.email = res.locals.user.email
-        res.json({userUpdated: true});
-        log.info(`Successful User update - User: ${res.locals.user.email}`,
-            {route: "updateuser", action: "success"})
-    });
+    req.db.collection("users")
+        .updateOne({email: req.user.email}, updateObj)
+        .then(() => {
+            req.user.email = res.locals.user.email
+            res.json({userUpdated: true});
+            log.info(`Successful User update - User: ${res.locals.user.email}`,
+                {route: "updateuser", action: "success"})
+        })
+        .catch(next);
 }
 
 module.exports = {

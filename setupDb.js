@@ -1,14 +1,14 @@
 print("==== Setting up Database ====");
 
 //db = db.getSiblingDB("podcolours")
-databaseName = db;
+var databaseName = db.getName();
 
-result = db.dropDatabase();
+var result = db.dropDatabase();
 printjson(result)
 
 print(`Created ${databaseName} database`);
 
-result = db.users.insert({
+result = db.users.insertOne({
     name: "admin",
     isAdmin: true,
     department: "IT",
@@ -472,7 +472,7 @@ printjson(result)
 //    },
 //});
 
-db.content.insert({
+db.content.insertOne({
     _id: "/",
     content: {
         header: {
@@ -497,10 +497,6 @@ db.content.insert({
                     text: "Admin",
                     href: "/admin",
                 },
-                {
-                    text: "Legal",
-                    href: "/legal",
-                },
             ],
         },
         hero: {
@@ -520,30 +516,32 @@ db.content.insert({
                 "Understanding the key personality differences between ourselves and the people we interact with helps us to realise how they see us; why they act the way they do; the impact that we have on them and how to get the most out of our interactions by capitalising on strengths.",
             textTwo:
                 "The POD Colours tool is based on psychological research, and provide genuine insight into your key areas of strength and potential barriers to success.",
-            quoteAuthor: "RGU Leadership Development Team",
+            quoteAuthor: "Leadership Development Team",
         },
+        //Names here are invented placeholders - the original testimonials were
+        //attributed to real people and are not reproduced in the public archive
         testimonials: [
             {
                 text:
                     "My team have seen amazing results already. Needless to say we are extremely satisfied",
-                name: "Jody Heath",
+                name: "Marta Quennell",
             },
             {
                 text:
                     "I love how extensive the profile is! It will really help me understand myself better.",
-                name: "Ariya Sanders",
+                name: "Devan Ashcroft",
             },
             {
                 text: "Genuinely insightful and an interesting read.",
-                name: "Jim Millar",
+                name: "Ines Calderwood",
             },
             {
                 text: "A profound assessment of my personality.",
-                name: "Tony Crouch",
+                name: "Otto Brannigan",
             },
             {
                 text: "More accurate than I could have hoped for",
-                name: "Jana Holder",
+                name: "Sana Lindqvist",
             },
         ],
         callToAction: {

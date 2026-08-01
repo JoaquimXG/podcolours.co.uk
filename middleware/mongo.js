@@ -16,7 +16,9 @@ module.exports = (mongoUrl, databaseName) => {
                 next();
             })
             .catch((err) => {
-                connection = undefined;
+                //Clear the cached promise so the next request retries the
+                //connection rather than replaying the same rejection
+                link = undefined;
                 next(err);
             });
     };

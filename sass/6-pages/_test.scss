@@ -5,7 +5,9 @@
     margin:0px;
     padding: 30px 30px;
     background: linear-gradient(250deg, #D7DDE8 0%, #C9D0E1 100%);
-    height: calc(100vh - 100px);
+    //The archive banner sets --archive-banner-height when it renders;
+    //on a normal deployment it is absent and this falls back to 0px
+    height: calc(100vh - 100px - var(--archive-banner-height, 0px));
     width: 100vw;
 
     overflow: hidden;

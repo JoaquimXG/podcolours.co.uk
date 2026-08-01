@@ -1,0 +1,12 @@
+<%# Shown only when the site is running as a public archive (ARCHIVEMODE).
+    Sits above the sticky header so it stays out of the header's own layout.
+    The custom property lets the test page work out how much vertical space
+    the banner has taken; it falls back to 0px on a normal deployment where
+    this partial never renders. %>
+<style>:root { --archive-banner-height: 44px; }</style>
+<div id="archiveBanner" class="archive-banner" role="note">
+    <p class="archive-banner__text">
+        <strong>Public archive.</strong>
+        Cookies and login are disabled &mdash; this site is illustrative only.
+    </p>
+</div>

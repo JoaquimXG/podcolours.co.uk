@@ -25,17 +25,19 @@ passport.use(new LocalStrategy({
     usernameField: "email",
 },
     async function(req, email, password, done) {
-        req.db.collection("users").findOne({ email: email }, async (err, result) => {
-            if (err) return done(err)
+        try {
+            var result = await req.db.collection("users").findOne({ email: email })
             if (!result) {
                 return done(null, false, {errorCode: 1,  message: 'Incorrect username.' });
             }
-            var isMatch = await bcrypt.compare(password, result.hash) 
+            var isMatch = await bcrypt.compare(password, result.hash)
             if (!isMatch) {
                 return done(null, false, {errorCode: 2, message: 'Incorrect password.' });
             }
             return done(null, result)
-        })
+        } catch (err) {
+            return done(err)
+        }
     }
 ));
 

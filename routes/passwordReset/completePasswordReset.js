@@ -2,7 +2,7 @@ const log = require('../../logs/logger')
 const bcrypt = require('bcrypt')
 
 //Sets loggedin value to false if the user was loggedin
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
     var user = await req.db.collection("users").findOne({email: req.body.email})
 
     //Check if email was found
@@ -14,7 +14,10 @@ module.exports = async (req, res) => {
     }
 
     //Check if token has expired
-    if (user.resetTokenExpires < Date.now()) {
+    //A user who never requested a reset has no token at all, which counts
+    //as expired - without this bcrypt.compare below is handed an undefined
+    //hash and throws
+    if (!user.resetTokenHash || !(user.resetTokenExpires > Date.now())) {
         res.sendStatus(403)
         log.info(`Reset password token expired: ${req.body.email}`,
             {route: "passwordreset/reset", action: "failure"})
@@ -34,8 +37,8 @@ module.exports = async (req, res) => {
         resetTokenExpires: Date.now()
     }}
 
-    req.db.collection("users").update({email: req.body.email}, updateObj, (err, _) => { 
-        if (err) next(err)
-        res.sendStatus(200);
-    })
+    req.db.collection("users")
+        .updateOne({email: req.body.email}, updateObj)
+        .then(() => res.sendStatus(200))
+        .catch(next)
 }

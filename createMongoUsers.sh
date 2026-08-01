@@ -1,6 +1,6 @@
 source .env
-#mongo admin --port $MONGOPORT -u $MONGOUSER -p $MONGOPASSWORD --authenticationDatabase $AUTHSOURCE <<EOF
-mongo admin --port $MONGOPORT <<EOF
+#mongosh admin --port $MONGOPORT -u $MONGOUSER -p $MONGOPASSWORD --authenticationDatabase $AUTHSOURCE <<EOF
+mongosh admin --port $MONGOPORT <<EOF
 use admin;
 db.createUser({user: "$MONGOUSER", pwd: "$MONGOPASSWORD", roles: [
     {

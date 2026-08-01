@@ -32,7 +32,13 @@ function initiatePasswordReset(e) {
         url: "/passwordreset/initiate",
         data: {email:email},
     })
-        .done(() => {
+        .done((data) => {
+            //Server is running as a public archive and sends no email, so
+            //don't claim that one is on its way
+            if (data && data.archived === true) {
+                toastError("Password reset is disabled on this archived demo");
+                return;
+            }
             toast();
             setTimeout(() => {
                 window.location.href = "/"

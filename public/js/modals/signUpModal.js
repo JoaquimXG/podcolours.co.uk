@@ -75,7 +75,12 @@ function handleSignUp(e, state) {
         dataType: "json"
     })
         .done(data => {
-            //Redirect to profile page if user created 
+            //Server is running as a public archive with sign up switched off
+            if (data.archived === true) {
+                toast("Sign up is disabled on this archived demo")
+                return
+            }
+            //Redirect to profile page if user created
             if (data.userCreated === true) {
                 localStorage.removeItem("test-local")
                 window.location.href = "/profile"

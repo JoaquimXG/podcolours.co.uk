@@ -16,20 +16,14 @@ module.exports = (req, res, next) => {
         res.locals.header.profile = true;
     }
 
-    req.db.collection("content").findOne(
-        { _id: "/" },
-        { _id: 0, content: 1 },
-        (err, queryRes) => {
-            if (err) next(err);
-            try {
-                res.render("pages/index", {
-                    header: res.locals.header,
-                    content: queryRes.content,
-                });
-            }
-            catch (err){
-                next(err)
-            }
-        }
-    );
+    req.db
+        .collection("content")
+        .findOne({ _id: "/" }, { projection: { _id: 0, content: 1 } })
+        .then((queryRes) => {
+            res.render("pages/index", {
+                header: res.locals.header,
+                content: queryRes.content,
+            });
+        })
+        .catch(next);
 } 

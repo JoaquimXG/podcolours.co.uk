@@ -1,4 +1,5 @@
 import requestUserSignIn from '../utilities/requestUserSignIn.js'
+import toastBuilder from '../components/toast.js'
 import {setupModal, swapModal} from './generalModalHandlers.js'
 
 //Setups up additional click handlers required for login modal
@@ -52,6 +53,12 @@ function handleLogin(e) {
         dataType: "json"
     })
         .done(data => {
+            //Server is running as a public archive with logins switched off.
+            //Say so rather than marking the form as though it were mistyped
+            if (data.archived === true) {
+                archiveToast("Login is disabled on this archived demo")
+                return
+            }
             //Successful login redirect to profile
             if (data.loggedin === true) {
                 window.location.href = "/profile"
@@ -68,6 +75,17 @@ function handleLogin(e) {
         .fail(() => {
             requestUserSignIn()
         })
+}
+
+//Notification used when the server reports that a feature is switched off
+//because the site is being served as a public archive
+function archiveToast(text) {
+    toastBuilder({
+        target: "body",
+        topOffset: 100,
+        displayTime: 3500,
+        classes: "toastError"
+    })(text)
 }
 
 function handleRemembered(isChecked, email){

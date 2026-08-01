@@ -26,13 +26,13 @@ module.exports = (req, res, next) => {
     queryPromiseArray.push(
         req.db
             .collection("content")
-            .findOne({ _id: "/" }, { _id: 0, content: 1 })
+            .findOne({ _id: "/" }, { projection: { _id: 0, content: 1 } })
     );
 
     queryPromiseArray.push(
         req.db
             .collection("users")
-        .find({}, {name: 1, email: 1, test: {result: 1, timeComplete: 1}})
+            .find({}, {projection: {name: 1, email: 1, "test.result": 1, "test.timeComplete": 1}})
     )
 
     //Wait for both promises to resolve without error

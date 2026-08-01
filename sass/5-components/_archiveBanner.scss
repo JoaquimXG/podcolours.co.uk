@@ -1,0 +1,37 @@
+@use '../1-abstracts/' as a;
+
+//Banner shown across the top of every page when the site is served as a
+//public archive. It sits in normal flow above the sticky header, so it
+//scrolls away on long pages while the header stays put.
+.archive-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: var(--archive-banner-height, 44px);
+  padding: 6px 5%;
+
+  background: a.$color-night-rider;
+  color: a.$color-text-inverse;
+  text-align: center;
+
+  @media print {
+    display: none;
+  }
+}
+
+.archive-banner__text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.3;
+
+  //Keeps the banner to a single line on small screens so the height stays
+  //predictable for the test page's viewport calculations
+  @media (max-width: a.$screen-sm) {
+    font-size: 12px;
+  }
+
+  > strong {
+    color: a.$color-yellow;
+  }
+}

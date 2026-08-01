@@ -1,13 +1,12 @@
-version: '3.7'
 services:
   mongo:
     container_name: ${MONGOHOST:-podMongo}
-    image: mongo:4.4.9
+    image: mongo:8.0
     restart: always
     ports:
       - "${MONGOPORT:-27017}:27017"
     volumes:
-      - ./data:/data/db
+      - mongoData:/data/db
       - ./setupDb.js:/docker-entrypoint-initdb.d/setupDb.js:ro
     networks:
       - podcoloursApp
@@ -36,6 +35,9 @@ services:
       - MONGOPASSWORD=${MONGOPASSWORD}
       - AUTHSOURCE=${AUTHSOURCE}
       - SMTPSECRET=${SMTPSECRET}
+      - ARCHIVEMODE=${ARCHIVEMODE:-true}
 networks:
   podcoloursApp:
     driver: bridge
+volumes:
+  mongoData:

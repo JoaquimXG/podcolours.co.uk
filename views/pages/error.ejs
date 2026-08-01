@@ -8,6 +8,11 @@
 
     </head>
     <body class="error-container">
+        <%# This page has no site header, so the archive banner is included
+            directly - visitors reaching a removed page should still see why %>
+        <% if (typeof archiveMode !== "undefined" && archiveMode) { %>
+            <%- include('../partials/archiveBanner') %>
+        <% } %>
 
         <div class="grid grid--column-reverse container">
             <div class="hero__content col">
