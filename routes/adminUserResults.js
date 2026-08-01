@@ -54,7 +54,7 @@ async function adminUserResults(req, res, next) {
     res.locals.queryPromiseArray.push(
         req.db
             .collection("content")
-            .findOne({ _id: "/" }, { _id: 0, content: 1 })
+            .findOne({ _id: "/" }, { projection: { _id: 0, content: 1 } })
     );
     //Query for user content
     res.locals.queryPromiseArray.push(
@@ -64,7 +64,7 @@ async function adminUserResults(req, res, next) {
     //Preparing protocol for url generation
     var protocol = "http://"
     var port = process.env.APPPORT
-    if (process.env.HTTPS = "true") {
+    if (process.env.HTTPS === "true") {
         protocol = 'https://'
         port = process.env.APPPORTHTTPS
     }
@@ -78,9 +78,15 @@ async function adminUserResults(req, res, next) {
             //Renders the report into html, the domain (with host) is included 
             //To ensure that relative links can be followed regardless of which
             //port the app is being run on currently
+            //Rendered directly rather than through res.render, so anything the
+            //shared partials expect from app.locals has to be passed by hand
             res.locals.reportHtml = await ejs.renderFile(
                 __dirname + "/../views/pages/adminUserResults.ejs",
-                {...content, domain: `${protocol}${req.hostname}:${port}`}
+                {
+                    ...content,
+                    domain: `${protocol}${req.hostname}:${port}`,
+                    archiveMode: req.app.locals.archiveMode,
+                }
             );
             return;
         })
@@ -92,14 +98,20 @@ async function adminUserResults(req, res, next) {
 }
 
 //Selecs whether to display results as html report or as PDF
-async function resultsAsPdfOrHtml(req, res) {
-    if (req.query.asPdf === "1") {
-        pdf = await generateReportPdf(res.locals.reportHtml)
-        res.contentType("application/pdf")
-        res.send(pdf)
-    }
-    else {
-        res.send(res.locals.reportHtml)
+async function resultsAsPdfOrHtml(req, res, next) {
+    try {
+        if (req.query.asPdf === "1") {
+            pdf = await generateReportPdf(res.locals.reportHtml)
+            res.contentType("application/pdf")
+            res.send(pdf)
+        }
+        else {
+            res.send(res.locals.reportHtml)
+        }
+    } catch (err) {
+        //Chromium failing to launch would otherwise reject unhandled and
+        //take the process down
+        next(err)
     }
 }
 

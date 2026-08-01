@@ -32,6 +32,35 @@ included below.
 - MONGODATABASE
   - MongoDB database name
 
+#### Archive Mode
+
+This site is published as a read-only public archive of previous work, so it
+runs with `ARCHIVEMODE` enabled.
+
+- ARCHIVEMODE
+  - `true` (the default, including when the variable is unset) serves the site
+    as an archive. `false` restores the fully working site.
+
+With archive mode on:
+
+- No cookies are set at all. Express sessions, the connect-mongo session store,
+  cookie-parser and passport are simply not mounted, so `req.user` is always
+  undefined and every route treats the visitor as logged out.
+- Login, sign up and password reset answer with the "not signed in" response
+  their forms already understand, plus an `archived` flag the frontend uses to
+  explain that the feature is switched off. Nothing is written to the database
+  and no email is sent.
+- The legal page is not mounted and falls through to the 404 page, since the
+  archive collects no personal data for a privacy policy to describe.
+- A banner across the top of every page says the site is an archive.
+
+The homepage and the personality test are unaffected - the test has always kept
+its state in localStorage for signed-out visitors, so it works end to end.
+
+Reverting to a fully working deployment is a case of setting `ARCHIVEMODE=false`.
+The placeholder team photograph and the invented testimonial names are content
+changes rather than toggles, and would need reverting separately.
+
 #### Secrets
 
 - SESSIONSECRET
@@ -50,9 +79,9 @@ included below.
 This method should be utilised for development.
 
 Dependancies:
-    - node @15.6.0
-    - npm @7.8.0
-    - MongoDB @4.4.3
+    - node @18
+    - npm @9
+    - MongoDB @8.0 (and `mongosh`, which replaced the legacy `mongo` shell)
 
 Website backend is built with express, ejs and MongoDB and npm has been configured
 with a selection of setup scripts to ease development.
@@ -93,9 +122,10 @@ Both containers will be launched, database will be initialised and the site can
 be reached at localhost.
 
 The database within the MongoDB container will only initalise when run for the
-first time. If setupDb.js is edited, the data/ folder should be deleted completely.
-This will force the MongoDB container to re-initialise the database using the updated
-setupDb.js script.
+first time. Its data lives in the named docker volume `mongoData`. If setupDb.js
+is edited, that volume should be removed completely with
+`docker compose --env-file docker.env down -v`. This will force the MongoDB
+container to re-initialise the database using the updated setupDb.js script.
 
 If MONGOUSER, MONGOPASSWORD and AUTHSOURCE are included in docker.env then the
 mongo container will be configured with access controls. A user will be created

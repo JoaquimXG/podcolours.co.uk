@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const sendPasswordResetEmail = require("./sendPasswordResetEmail");
 
 //Sets loggedin value to false if the user was loggedin
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
     var user = await req.db
         .collection("users")
         .findOne({ email: req.body.email });
@@ -33,13 +33,14 @@ module.exports = async (req, res) => {
     //Store token in DB and send user email
     req.db
         .collection("users")
-        .update({ email: req.body.email }, updateObj, (err, _) => {
-            if (err) next(err);
+        .updateOne({ email: req.body.email }, updateObj)
+        .then(() => {
             sendPasswordResetEmail(req.body.email, token, user.name, req.hostname);
             res.sendStatus(200);
             log.info(`Password reset initiated for ${req.body.email}`, {
                 route: "passwordreset/initiate",
                 action: "success",
             });
-        });
+        })
+        .catch(next);
 };

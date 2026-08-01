@@ -8,9 +8,8 @@ module.exports=(req, res, next)=> {
 
     //Find array of people in database with matching colour
     log.debug("Searching for famous people with result", testResult)
-    req.db.collection("people").findOne({_id: testResult}, (err, result) => {
-        if (err) next(err)
-        log.debug("error: ", err, "result: ", result)
+    req.db.collection("people").findOne({_id: testResult}).then((result) => {
+        log.debug("result: ", result)
 
         if (result) {
             //Selects random famous person from the array pulled from database
@@ -24,5 +23,5 @@ module.exports=(req, res, next)=> {
                 {route: "/test/getPeople", action: "failure"})
             next("No famous people found")
         }
-    })
+    }).catch(next)
 }

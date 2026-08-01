@@ -21,21 +21,16 @@ const testIndex = (req, res, next) => {
         res.locals.header.profile = true;
     }
 
-    req.db.collection("content").findOne(
-        { _id: "/" },
-        { _id: 0, content: 1 },
-        (err, queryRes) => {
-            if (err) next(err);
-            try {
-                res.render("pages/test", {
-                    header: res.locals.header,
-                    content: queryRes.content,
-                });
-            } catch (err) {
-                next(err)
-            }
-        }
-    );
+    req.db
+        .collection("content")
+        .findOne({ _id: "/" }, { projection: { _id: 0, content: 1 } })
+        .then((queryRes) => {
+            res.render("pages/test", {
+                header: res.locals.header,
+                content: queryRes.content,
+            });
+        })
+        .catch(next);
 }
 
 //Handles POST requests with test data
@@ -56,12 +51,14 @@ const testSaveState = (req, res, next) => {
     }}
 
     //Update user test state information
-    req.db.collection("users").update({email: req.user.email}, updateObj, (err, _) => {
-        if (err) next(err)
-        res.json({success: true});
-        log.info(`Test save success - User: ${req.user.email}`, 
-            {route: "test/saveState", action: "success"})
-    });
+    req.db.collection("users")
+        .updateOne({email: req.user.email}, updateObj)
+        .then(() => {
+            res.json({success: true});
+            log.info(`Test save success - User: ${req.user.email}`,
+                {route: "test/saveState", action: "success"})
+        })
+        .catch(next);
 
     //If test is complete then send email with report
     if (testJson.complete) {
@@ -70,35 +67,42 @@ const testSaveState = (req, res, next) => {
     }
 }
 
+//The save response has already been sent by testSaveState by the time this
+//runs, so there is nothing left to report an error on - failures are logged
+//instead of being left to reject unhandled
 async function emailResultsPdf(_, res) {
-    pdf = await generateReportPdf(res.locals.reportHtml)
+    try {
+        pdf = await generateReportPdf(res.locals.reportHtml)
 
-    res.locals.pdfFilename = `${uuid.v4()}.pdf` 
-    res.locals.pdfPath = `tmp/${res.locals.pdfFilename}`
+        res.locals.pdfFilename = `${uuid.v4()}.pdf`
+        res.locals.pdfPath = `tmp/${res.locals.pdfFilename}`
 
-    fs.writeFile(res.locals.pdfPath, pdf, (err) => {
-        if (err) {
-            log.error("Unable to write file", err)
-        } else {
-            log.info(`Pdf saved to ${res.locals.pdfPath}`)
-        }
-    });
+        fs.writeFile(res.locals.pdfPath, pdf, (err) => {
+            if (err) {
+                log.error("Unable to write file", err)
+            } else {
+                log.info(`Pdf saved to ${res.locals.pdfPath}`)
+            }
+        });
 
-    const emailData = {
-        from: "info@podcolours.co.uk",
-        subject: `Pod Colours Report: ${res.locals.email}`,
-        //TODO change admin contact email address
-        to: "joaquim.q.gomez@gmail.com"
-    };
-    await sendTextEmail(emailData, `Pod Colours report for ${res.locals.email}`, [{filename: "report.pdf", path: res.locals.pdfPath}])
+        const emailData = {
+            from: "info@podcolours.co.uk",
+            subject: `Pod Colours Report: ${res.locals.email}`,
+            //TODO change admin contact email address
+            to: "joaquim.q.gomez@gmail.com"
+        };
+        await sendTextEmail(emailData, `Pod Colours report for ${res.locals.email}`, [{filename: "report.pdf", path: res.locals.pdfPath}])
 
-    fs.unlink(res.locals.pdfPath, (err) => {
-        if (err){
-            log.error("Unable to delete file", err)
-        }else {
-            log.info(`Pdf ${res.locals.pdfPath} deleted`)
-        }
-    })
+        fs.unlink(res.locals.pdfPath, (err) => {
+            if (err){
+                log.error("Unable to delete file", err)
+            }else {
+                log.info(`Pdf ${res.locals.pdfPath} deleted`)
+            }
+        })
+    } catch (err) {
+        log.error(`Unable to email results report for ${res.locals.email}`, err)
+    }
 }
 
 //Parses get requests for test state information
@@ -113,20 +117,18 @@ const testGetState = (req, res, next) => {
         return;
     }
     //Otherwise find the users teststate info and send to frontend
-    req.db.collection("users").findOne({email: req.user.email}, (err, result) => {
-        if (err) next(err)
-        try {
+    req.db.collection("users")
+        .findOne({email: req.user.email})
+        .then((result) => {
             res.json({
                 success: true,
                 test: result.test,
                 _id: result._id
             });
-            log.info(`Test load success - User: ${req.user.email}`, 
+            log.info(`Test load success - User: ${req.user.email}`,
                 {route: "test/getState", action: "success"})
-        } catch (err) {
-            next(err)
-        }
-    });
+        })
+        .catch(next);
 }
 
 module.exports = {

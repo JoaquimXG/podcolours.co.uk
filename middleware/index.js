@@ -11,6 +11,7 @@ const MongoStore = require("connect-mongo");
 const passport = require("./passport");
 const logger = require("./logger");
 const forceHttps = require("./forceHttps");
+const { isArchiveMode } = require("./archiveMode");
 
 const app = express();
 
@@ -29,29 +30,46 @@ module.exports = () => {
     //ejs for templating
     app.set("view engine", "ejs");
 
-    //Express sessions for managing user logins
-    var secret = process.env.SESSIONSECRET
-        ? process.env.SESSIONSECRET
-        : "secret";
-    var sess = {
-        secret: secret,
-        resave: true,
-        saveUninitialized: true,
-        cookie: { maxAge: false },
-        store: MongoStore.create({
-            mongoUrl: urlDict.urlWithPasswordAndDatabase,
-            crypto: { secret: secret },
-        }),
-    };
-    if (process.env.HTTPS == "true") {
-        app.enable("trust proxy");
-        sess.cookie.secure = true;
-    }
-    app.use(session(sess));
+    //Exposed to every template so the views can render the archive banner
+    //without each route handler having to pass the flag through
+    app.locals.archiveMode = isArchiveMode;
 
-    //Initialising passport js with sessions
-    app.use(passport.initialize());
-    app.use(passport.session());
+    if (isArchiveMode) {
+        //Nothing below this point is mounted in archive mode, so the site
+        //sets no cookies at all - no session cookie, and nothing for passport
+        //to deserialise. req.user is therefore always undefined, which every
+        //route already treats as "logged out".
+        log.warn(
+            "ARCHIVE MODE - sessions, cookies and logins are disabled. Set ARCHIVEMODE=false to restore them"
+        );
+        if (process.env.HTTPS == "true") {
+            app.enable("trust proxy");
+        }
+    } else {
+        //Express sessions for managing user logins
+        var secret = process.env.SESSIONSECRET
+            ? process.env.SESSIONSECRET
+            : "secret";
+        var sess = {
+            secret: secret,
+            resave: true,
+            saveUninitialized: true,
+            cookie: { maxAge: false },
+            store: MongoStore.create({
+                mongoUrl: urlDict.urlWithPasswordAndDatabase,
+                crypto: { secret: secret },
+            }),
+        };
+        if (process.env.HTTPS == "true") {
+            app.enable("trust proxy");
+            sess.cookie.secure = true;
+        }
+        app.use(session(sess));
+
+        //Initialising passport js with sessions
+        app.use(passport.initialize());
+        app.use(passport.session());
+    }
 
     //HTTP body parse for handling post requests
     app.use(
@@ -62,7 +80,11 @@ module.exports = () => {
 
     //HTTP body parser for json post requests
     app.use(bodyParser.json());
-    app.use(cookieParser());
+
+    //Nothing sets a cookie in archive mode, so nothing needs to read one back
+    if (!isArchiveMode) {
+        app.use(cookieParser());
+    }
 
     //Automatic logging of HTTP requests
     app.use(logger);

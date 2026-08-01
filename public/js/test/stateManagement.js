@@ -215,7 +215,9 @@ function redistributeCards(state) {
         //Get area where cards can be placed
         var containerHeight = $("#appPrimaryContainer").outerHeight();
         var containerWidth = $("#appPrimaryContainer").outerWidth();
-        var headerHeight = $("#header").outerHeight();
+        //The archive banner sits above the header when the site is served as
+        //a public archive, and is absent otherwise
+        var headerHeight = $("#header").outerHeight() + ($("#archiveBanner").outerHeight() || 0);
 
         //Fix size of application page as size of header changes
         $("#appPrimaryContainer").css({

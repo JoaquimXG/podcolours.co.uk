@@ -15,20 +15,17 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+//Rendering and sending are awaited directly rather than driven from a
+//renderFile callback. The callback form returned before the mail had actually
+//been sent, and any send failure rejected a promise nobody was holding - which
+//takes the whole process down on Node 15 and above.
 async function sendHtmlEmail(emailData, ejsTemplate, templateQueries, attachments) {
-    await ejs.renderFile(
-        ejsTemplate,
-        templateQueries,
-        {},
-        async (_, str) => {
-            emailData.html = str;
-            if (attachments) {
-                emailData.attachments = attachments
-            }
-            await transporter.sendMail(emailData)
-                .then((info) => log.info(info.response))
-        }
-    );
+    emailData.html = await ejs.renderFile(ejsTemplate, templateQueries, {});
+    if (attachments) {
+        emailData.attachments = attachments
+    }
+    const info = await transporter.sendMail(emailData)
+    log.info(info.response)
 };
 
 async function sendTextEmail(emailData, text, attachments) {

@@ -51,8 +51,7 @@ const signUpIndex = (req, res, next) => {
     }
 
     //Add user to database and redirect to profile page
-    req.db.collection("users").insertOne(res.locals.user, (err, result) => {
-        if (err) next(err);
+    req.db.collection("users").insertOne(res.locals.user).then((result) => {
         var newUserId = result.insertedId;
         req.login({_id: newUserId, email: res.locals.user.email}, (err) => {
             if (err) {
@@ -64,7 +63,7 @@ const signUpIndex = (req, res, next) => {
             log.info(`Successful User Sign-up - User: ${res.locals.user.email}`, {route: "signup", action: "success"})
             return;
         })
-    });
+    }).catch(next);
 }
 
 module.exports = {

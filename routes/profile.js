@@ -26,7 +26,7 @@ module.exports = (req, res, next) => {
     queryPromiseArray.push(
         req.db
             .collection("content")
-            .findOne({ _id: "/" }, { _id: 0, content: 1 })
+            .findOne({ _id: "/" }, { projection: { _id: 0, content: 1 } })
     );
     //Query for user content
     queryPromiseArray.push(

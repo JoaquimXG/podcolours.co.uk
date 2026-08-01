@@ -15,7 +15,10 @@ module.exports = async (req, res) => {
     }
 
     //Check if token expired
-    if (user.resetTokenExpires < Date.now()) {
+    //A user who never requested a reset has no token at all, which counts
+    //as expired - without this bcrypt.compare below is handed an undefined
+    //hash and throws
+    if (!user.resetTokenHash || !(user.resetTokenExpires > Date.now())) {
         renderTokenExpired(res);
         log.info(`Reset password token expired: ${req.query.email}`,
             {route: "passwordreset/reset", action: "failure"})

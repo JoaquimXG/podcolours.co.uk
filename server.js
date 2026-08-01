@@ -27,10 +27,17 @@ const errorHandler = require('./routes/error');
 const logout = require('./routes/logout');
 const {parseUpdateUserRequest, updateUserIndex} = require('./routes/updateuser');
 const passwordResetRouter = require('./routes/passwordReset');;
+const {isArchiveMode, archiveDisabled} = require('./middleware/archiveMode');
 
 const app = prepareMiddleware();
 
-app.use("/passwordreset", passwordResetRouter);
+//Password reset writes tokens to user records and sends real email, so the
+//whole router is switched off for the archive
+if (isArchiveMode) {
+    app.use("/passwordreset", archiveDisabled({}));
+} else {
+    app.use("/passwordreset", passwordResetRouter);
+}
 
 //Home Page
 app.get("/", home);
@@ -57,10 +64,18 @@ app.get("/admin", admin);
 app.get("/adminUserResults/:email", verifyIsAdmin, adminUserResults, resultsAsPdfOrHtml)
 
 //Parse ajax signup request and add user to database if email available
-app.post("/signup", parseSignUpRequest, checkIfUserExists, signUpIndex);
+//Both of these call req.login(), which needs the passport session middleware
+//that archive mode leaves unmounted - so they answer with the "not signed in"
+//shape the frontend already handles rather than being allowed to run
+if (isArchiveMode) {
+    app.post("/signup", archiveDisabled({userCreated: false}));
+    app.post("/postlogin", archiveDisabled({loggedin: false, bademail: false, badPassword: false}));
+} else {
+    app.post("/signup", parseSignUpRequest, checkIfUserExists, signUpIndex);
 
-//Login handler
-app.post("/postlogin", login);
+    //Login handler
+    app.post("/postlogin", login);
+}
 
 //Update user information in database
 app.post("/updateuser", parseUpdateUserRequest, checkIfUserExists, updateUserIndex);
@@ -75,7 +90,11 @@ app.get("/isauthenticated", (req, res) => {
 app.get("/logout", logout)
 
 //Legal details page, disclaimer and policies
-app.get("/legal", legal)
+//The archive collects no personal data, so the privacy policy would describe
+//processing that no longer happens - the page falls through to the 404 handler
+if (!isArchiveMode) {
+    app.get("/legal", legal)
+}
 
 //404 Page for all other routes
 app.get("*", fourZeroFour);
