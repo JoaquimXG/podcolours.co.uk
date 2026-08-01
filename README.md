@@ -18,19 +18,36 @@ Two options for using the site.
 
 Server is configured through environment variables, either manually set or through
 dotenv.
-If using dotenv, fill in the appropriate variables in a .env file. Variables
+Copy `.env.template` to `.env` and fill in the appropriate variables. Variables
 included below.
+
+The one `.env` serves both ways of running the site. Docker compose reads it
+automatically for the containerised run, and dotenv reads it when running the
+app directly on the host. Note that MONGOHOST and MONGOPORT differ between the
+two - see the comments in `.env.template`.
+
+`.env` is gitignored and nothing in it is built into the image, so the same
+image can be deployed against any environment by varying only the variables
+passed to it.
 
 #### Mongo and App Configuration
 
 - APPPORT
-  - Port for connecting to website
+  - Port the app listens on
 - MONGOHOST
-  - Hostname for MongoDB server
+  - Hostname for MongoDB server. Leave unset under docker compose, which
+    reaches the mongo container as `mongo`
 - MONGOPORT
-  - Port to connect to MongoDB server
+  - Port to connect to MongoDB server. Leave unset under docker compose
 - MONGODATABASE
   - MongoDB database name
+
+The following are read by docker compose only and are not passed to the app.
+
+- HOSTPORT
+  - Port the site is published on, on the host
+- BINDADDR
+  - Host interface to publish on, `127.0.0.1` by default
 
 #### Archive Mode
 
@@ -117,20 +134,44 @@ Requires:
     - Docker
     - Docker-compose
 
+Copy `.env.template` to `.env` and fill it in first. Compose picks `.env` up
+automatically, so no `--env-file` flag is needed. MONGOUSER, MONGOPASSWORD and
+SESSIONSECRET are required and compose will refuse to start without them.
+
 Simply run `npm run docker`.
 Both containers will be launched, database will be initialised and the site can
-be reached at localhost.
+be reached at <http://127.0.0.1:8060>.
+
+The app is published on the loopback interface by default so that a deployment
+is not reachable from outside the host without a reverse proxy in front of it.
+Set `BINDADDR=0.0.0.0` in `.env` if you need to reach it from another machine
+during development.
+
+The mongo container publishes no port at all. Use
+`docker compose exec mongo mongosh -u "$MONGOUSER" -p "$MONGOPASSWORD"
+--authenticationDatabase admin podcolours` to inspect the database.
 
 The database within the MongoDB container will only initalise when run for the
 first time. Its data lives in the named docker volume `mongoData`. If setupDb.js
 is edited, that volume should be removed completely with
-`docker compose --env-file docker.env down -v`. This will force the MongoDB
-container to re-initialise the database using the updated setupDb.js script.
+`docker compose down -v`. This will force the MongoDB container to
+re-initialise the database using the updated setupDb.js script.
 
-If MONGOUSER, MONGOPASSWORD and AUTHSOURCE are included in docker.env then the
-mongo container will be configured with access controls. A user will be created
-with the provided credentials and the credentials will be passed to the application
-container.
+The mongo container is configured with access controls using MONGOUSER and
+MONGOPASSWORD. A user is created with the provided credentials and the same
+credentials are passed to the application container.
+
+The app waits for mongo to report healthy before starting. Mongo's healthcheck
+tests that the seed data is present rather than only that the server answers,
+because the official image runs a temporary instance while executing
+setupDb.js which would otherwise answer a plain ping and let the app start
+against a half seeded database.
+
+#### MongoDB version
+
+The mongo image is pinned to 7.0 rather than 8.x. MongoDB 8.0+ refuses to start
+on Linux kernel 6.19 and newer. See the comment at the top of
+docker-compose.yml for what has to be true before moving back up.
 
 #### Issues
 
